@@ -24,22 +24,39 @@ public class KartPhysics : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        speed = 100f;
-        turnSpeed = .9f;
+        speed = 200f;
+        turnSpeed = 1f;
 	}
 
     void Update()
     {
-        power = Input.GetAxis("Vertical") * speed;
-        turnPower = Input.GetAxis("Horizontal") * turnSpeed;
+        power = Input.GetAxis("Vertical");
+        turnPower = Input.GetAxis("Horizontal");
     }
 
     // Update is called once per frame
     void FixedUpdate () {
         if (power != 0)
         {
-            body.AddRelativeForce(0f, 0f, power);
+            fLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
+            fRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
+
+            body.AddRelativeForce(0f, 0f, power * speed);
             gameObject.transform.Rotate(Vector3.up, turnPower);
+        }
+        if (turnPower < 0)
+        {
+
+        }
+        else if(turnPower > 0)
+        {
+
+        }
+        else
+        {
+
         }
     }
 }
