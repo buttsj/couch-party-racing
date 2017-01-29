@@ -36,6 +36,10 @@ public class KartPhysics : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            body.AddRelativeForce(0, 900, 0); // bump player kart up
+        }
         if (power != 0)
         {
             fLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
@@ -48,15 +52,18 @@ public class KartPhysics : MonoBehaviour {
         }
         if (turnPower < 0)
         {
-
+            // turn wheels left
+            //steering_wheel.transform.Rotate(Vector3.up, -1.0f); // turn handle left
         }
         else if(turnPower > 0)
         {
-
+            // turn wheels right
+            //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else
         {
-
+            // straighten wheels
+            // straighten handle
         }
     }
 }
