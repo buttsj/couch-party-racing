@@ -10,15 +10,19 @@ public class KartPhysics : MonoBehaviour {
     public GameObject rRightModel;
     public GameObject steering_wheel;
 
+    public GameObject fLParent;
+    public GameObject fRParent;
+    
     private Rigidbody body;
 
     private float speed;
-    private float turnSpeed;
     private float colliderFloor;
     private float power;
     private float turnPower;
     private float acceleration;
     private float decceleration;
+
+    private float angle = 0.0f;
 
     void Awake () {
         body = GetComponent<Rigidbody>();
@@ -27,7 +31,6 @@ public class KartPhysics : MonoBehaviour {
     // Use this for initialization
     void Start () {
         speed = 150f;
-        turnSpeed = 1f;
         colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
         acceleration = .25f;
 	}
@@ -38,7 +41,7 @@ public class KartPhysics : MonoBehaviour {
         turnPower = SimpleInput.GetAxis("Horizontal", 1);
         if (SimpleInput.GetButton("Reset Rotation", 1)) {
             ResetZRotation();
-    }
+        }
     }
 
     // Update is called once per frame
@@ -49,10 +52,11 @@ public class KartPhysics : MonoBehaviour {
         }
         if (power != 0)
         {
-            fLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            fRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            //fLeftModel.transform.Rotate(Vector3.left);
+            fLeftModel.transform.Rotate(Vector3.right * speed);
+            fRightModel.transform.Rotate(Vector3.right * speed);
+            rLeftModel.transform.Rotate(Vector3.right * speed);
+            rRightModel.transform.Rotate(Vector3.right * speed);
             if (speed < 250f && power > 0)
             {
                 speed += acceleration;
@@ -67,23 +71,43 @@ public class KartPhysics : MonoBehaviour {
             gameObject.transform.Rotate(Vector3.up, 2 * turnPower);
         }
         
-        if (turnPower < 0)
         if (turnPower < 0) // turning left
         {
-            //fLeftModel.transform.Rotate(Vector3.back * 2);
-            //fRightModel.transform.Rotate(Vector3.back * 2);
+            if (angle > -15.0f)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+            }
+            
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else if(turnPower > 0) // turnin right
         {
-            //fLeftModel.transform.Rotate(Vector3.forward * 2);
-            //fRightModel.transform.Rotate(Vector3.forward * 2);
+            if (angle < 15.0f)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else
+        else if (turnPower == 0)
         {
             // straighten wheels
             // straighten handle
+            if (angle < 0)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
+            else if (angle > 0)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+            }
         }
     }
 
