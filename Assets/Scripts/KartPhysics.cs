@@ -14,9 +14,11 @@ public class KartPhysics : MonoBehaviour {
 
     private float speed;
     private float turnSpeed;
-
+    private float colliderFloor;
     private float power;
     private float turnPower;
+    private float acceleration;
+    private float decceleration;
 
     void Awake () {
         body = GetComponent<Rigidbody>();
@@ -24,14 +26,19 @@ public class KartPhysics : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        speed = 200f;
+        speed = 150f;
         turnSpeed = 1f;
+        colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
+        acceleration = .25f;
 	}
 
     void Update()
     {
         power = Input.GetAxis("Vertical");
-        turnPower = Input.GetAxis("Horizontal");
+        turnPower = SimpleInput.GetAxis("Horizontal", 1);
+        if (SimpleInput.GetButton("Reset Rotation", 1)) {
+            ResetZRotation();
+    }
     }
 
     // Update is called once per frame
@@ -42,22 +49,35 @@ public class KartPhysics : MonoBehaviour {
         }
         if (power != 0)
         {
-            fLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            fRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-
-            body.AddRelativeForce(0f, 0f, power * speed);
-            gameObject.transform.Rotate(Vector3.up, turnPower);
+            fLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            fRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            if (speed < 250f && power > 0)
+            {
+                speed += acceleration;
+            }
+            else if (speed >= 150 && power <= 0) {
+                speed -= acceleration;
+            }
+            if (IsGrounded())
+            {
+                body.AddRelativeForce(0f, 0f, power * speed);
+            }
+            gameObject.transform.Rotate(Vector3.up, 2 * turnPower);
         }
+        
         if (turnPower < 0)
+        if (turnPower < 0) // turning left
         {
-            // turn wheels left
-            //steering_wheel.transform.Rotate(Vector3.up, -1.0f); // turn handle left
+            //fLeftModel.transform.Rotate(Vector3.back * 2);
+            //fRightModel.transform.Rotate(Vector3.back * 2);
+            //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else if(turnPower > 0)
+        else if(turnPower > 0) // turnin right
         {
-            // turn wheels right
+            //fLeftModel.transform.Rotate(Vector3.forward * 2);
+            //fRightModel.transform.Rotate(Vector3.forward * 2);
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else
@@ -65,5 +85,17 @@ public class KartPhysics : MonoBehaviour {
             // straighten wheels
             // straighten handle
         }
+    }
+
+    bool IsGrounded() {
+        return Physics.Raycast(transform.position, -transform.up, colliderFloor + 0.25f);
+    }
+
+    bool IsFlipped() {
+        return transform.eulerAngles.z > 90f;
+}
+
+    void ResetZRotation() {
+        transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
     }
 }

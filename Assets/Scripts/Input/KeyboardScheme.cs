@@ -21,6 +21,7 @@ public class KeyboardScheme : IControlScheme {
         bindings.Add("Accelerate", new KeyboardControl(KeyCode.W));
         bindings.Add("Reverse", new KeyboardControl(KeyCode.S));
         bindings.Add("Use PowerUp", new KeyboardControl(KeyCode.E));
+        bindings.Add("Reset Rotation", new KeyboardControl(KeyCode.B));
     }
 
     public float GetAxis(string axisName) {
