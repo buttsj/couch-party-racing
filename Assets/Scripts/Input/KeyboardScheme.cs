@@ -15,9 +15,12 @@ public class KeyboardScheme : IControlScheme {
 
     public void ResetBindingsToDefault() {
         bindings.Clear();
-        bindings.Add("HorizontalTest", new KeyboardControl(KeyCode.A, KeyCode.D));
-        bindings.Add("VerticalTest", new KeyboardControl("Mouse Y"));
-        bindings.Add("ColorTest", new KeyboardControl(KeyCode.C));
+
+        bindings.Add("Horizontal", new KeyboardControl(KeyCode.A, KeyCode.D));
+        bindings.Add("Vertical", new KeyboardControl(KeyCode.Z, KeyCode.Q));
+        bindings.Add("Accelerate", new KeyboardControl(KeyCode.W));
+        bindings.Add("Reverse", new KeyboardControl(KeyCode.S));
+        bindings.Add("Use PowerUp", new KeyboardControl(KeyCode.E));
     }
 
     public float GetAxis(string axisName) {

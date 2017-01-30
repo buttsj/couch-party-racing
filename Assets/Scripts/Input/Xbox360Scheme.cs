@@ -38,9 +38,12 @@ public class Xbox360Scheme : IControlScheme {
 
     public void ResetBindingsToDefault() {
         bindings.Clear();
-        bindings.Add("ColorTest", new JoystickControl(A, joystickNumber));
-        bindings.Add("HorizontalTest", new JoystickControl(LStickX, joystickNumber));
-        bindings.Add("VerticalTest", new JoystickControl(LStickY, joystickNumber));
+
+        bindings.Add("Horizontal", new JoystickControl(LStickX, joystickNumber));
+        bindings.Add("Vertical", new JoystickControl(LStickY, joystickNumber));
+        bindings.Add("Accelerate", new JoystickControl(A, joystickNumber));
+        bindings.Add("Reverse", new JoystickControl(X, joystickNumber));
+        bindings.Add("Use PowerUp", new JoystickControl(B, joystickNumber));
     }
 
     public float GetAxis(string axisName) {
