@@ -10,31 +10,34 @@ public class KartPhysics : MonoBehaviour {
     public GameObject rRightModel;
     public GameObject steering_wheel;
 
+    public GameObject fLParent;
+    public GameObject fRParent;
+    
     private Rigidbody body;
 
     private float speed;
-    private float turnSpeed;
     private float colliderFloor;
     private float power;
     private float turnPower;
     private float acceleration;
     private float decceleration;
 
-    void Awake() {
+    private float angle = 0.0f;
+
+    void Awake () {
         body = GetComponent<Rigidbody>();
     }
 
     // Use this for initialization
     void Start() {
         speed = 150f;
-        turnSpeed = 1f;
         colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
         acceleration = .25f;
-    }
+	}
 
     void Update() { 
         if (SimpleInput.GetButton("Accelerate", 1))
-            {
+    {
                 power = 1;
                 if(speed< 250f)
                     speed += acceleration;
@@ -65,11 +68,18 @@ public class KartPhysics : MonoBehaviour {
         }
         if (power != 0)
         {
-            fLeftModel.transform.Rotate(Vector3.right*speed);
+            //fLeftModel.transform.Rotate(Vector3.left);
+            fLeftModel.transform.Rotate(Vector3.right * speed);
             fRightModel.transform.Rotate(Vector3.right * speed);
             rLeftModel.transform.Rotate(Vector3.right * speed);
             rRightModel.transform.Rotate(Vector3.right * speed);
-
+            if (speed < 250f && power > 0)
+            {
+                speed += acceleration;
+            }
+            else if (speed >= 150 && power <= 0) {
+                speed -= acceleration;
+            }
             if (IsGrounded())
             {
                 body.AddRelativeForce(0f, 0f, power * speed);
@@ -84,20 +94,41 @@ public class KartPhysics : MonoBehaviour {
         
         if (turnPower < 0) // turning left
         {
-            //fLeftModel.transform.Rotate(Vector3.back * 2);
-            //fRightModel.transform.Rotate(Vector3.back * 2);
+            if (angle > -15.0f)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+            }
+            
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else if(turnPower > 0) // turnin right
         {
-            //fLeftModel.transform.Rotate(Vector3.forward * 2);
-            //fRightModel.transform.Rotate(Vector3.forward * 2);
+            if (angle < 15.0f)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else
+        else if (turnPower == 0)
         {
             // straighten wheels
             // straighten handle
+            if (angle < 0)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+        }
+            else if (angle > 0)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+    }
         }
     }
 
