@@ -25,7 +25,6 @@ public class KartPhysics : MonoBehaviour {
     // Use this for initialization
     void Start () {
         speed = 200f;
-        turnSpeed = 1f;
 	}
 
     void Update()
@@ -42,22 +41,24 @@ public class KartPhysics : MonoBehaviour {
         }
         if (power != 0)
         {
-            fLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            fRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
+            fLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            fRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
 
             body.AddRelativeForce(0f, 0f, power * speed);
             gameObject.transform.Rotate(Vector3.up, turnPower);
         }
-        if (turnPower < 0)
+        if (turnPower < 0) // turning left
         {
-            // turn wheels left
-            //steering_wheel.transform.Rotate(Vector3.up, -1.0f); // turn handle left
+            //fLeftModel.transform.Rotate(Vector3.back * 2);
+            //fRightModel.transform.Rotate(Vector3.back * 2);
+            //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else if(turnPower > 0)
+        else if(turnPower > 0) // turnin right
         {
-            // turn wheels right
+            //fLeftModel.transform.Rotate(Vector3.forward * 2);
+            //fRightModel.transform.Rotate(Vector3.forward * 2);
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else
