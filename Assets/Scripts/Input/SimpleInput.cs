@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class SimpleInput {
 
-    private static IControlScheme[] playerSchemes = new IControlScheme[11] { new KeyboardScheme(), new Xbox360Scheme(1), null, null, null, null, null, null, null, null , null};
+    private static IControlScheme[] playerSchemes = new IControlScheme[11] { new KeyboardScheme(), new Xbox360Scheme(1), new Xbox360Scheme(2), new Xbox360Scheme(3), null, null, null, null, null, null , null};
 
     /// <summary>
     /// Returns true while the virtual button identified by playerNumber's buttonName is held down.
