@@ -38,7 +38,7 @@ public class KartPhysics : MonoBehaviour {
         turnPower = SimpleInput.GetAxis("Horizontal", 1);
         if (SimpleInput.GetButton("Reset Rotation", 1)) {
             ResetZRotation();
-        }
+    }
     }
 
     // Update is called once per frame
@@ -49,10 +49,10 @@ public class KartPhysics : MonoBehaviour {
         }
         if (power != 0)
         {
-            fLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            fRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
+            fLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            fRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
+            rRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
             if (speed < 250f && power > 0)
             {
                 speed += acceleration;
@@ -68,13 +68,16 @@ public class KartPhysics : MonoBehaviour {
         }
         
         if (turnPower < 0)
+        if (turnPower < 0) // turning left
         {
-            // turn wheels left
-            //steering_wheel.transform.Rotate(Vector3.up, -1.0f); // turn handle left
+            //fLeftModel.transform.Rotate(Vector3.back * 2);
+            //fRightModel.transform.Rotate(Vector3.back * 2);
+            //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else if(turnPower > 0)
+        else if(turnPower > 0) // turnin right
         {
-            // turn wheels right
+            //fLeftModel.transform.Rotate(Vector3.forward * 2);
+            //fRightModel.transform.Rotate(Vector3.forward * 2);
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else
@@ -90,7 +93,7 @@ public class KartPhysics : MonoBehaviour {
 
     bool IsFlipped() {
         return transform.eulerAngles.z > 90f;
-    }
+}
 
     void ResetZRotation() {
         transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
