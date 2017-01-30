@@ -35,7 +35,10 @@ public class KartPhysics : MonoBehaviour {
     void Update()
     {
         power = Input.GetAxis("Vertical");
-        turnPower = Input.GetAxis("Horizontal");
+        turnPower = SimpleInput.GetAxis("Horizontal", 1);
+        if (SimpleInput.GetButton("Reset Rotation", 1)) {
+            ResetZRotation();
+        }
     }
 
     // Update is called once per frame
@@ -83,5 +86,13 @@ public class KartPhysics : MonoBehaviour {
 
     bool IsGrounded() {
         return Physics.Raycast(transform.position, -transform.up, colliderFloor + 0.25f);
+    }
+
+    bool IsFlipped() {
+        return transform.eulerAngles.z > 90f;
+    }
+
+    void ResetZRotation() {
+        transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
     }
 }
