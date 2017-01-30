@@ -20,21 +20,37 @@ public class KartPhysics : MonoBehaviour {
     private float acceleration;
     private float decceleration;
 
-    void Awake () {
+    void Awake() {
         body = GetComponent<Rigidbody>();
     }
 
     // Use this for initialization
-    void Start () {
-        speed = 150f;
+    void Start() {
+        speed = 125f;
         turnSpeed = 1f;
         colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
         acceleration = .25f;
-	}
+    }
 
-    void Update()
-    {
-        power = Input.GetAxis("Vertical");
+    void Update() { 
+        if (SimpleInput.GetButton("Accelerate", 1))
+            {
+                power = 1;
+                if(speed< 250f)
+                    speed += acceleration;
+            }
+            else if (SimpleInput.GetButton("Reverse", 1))
+            {
+                power = -1;
+                speed = 150f;
+            }
+            else
+            {
+                power = 0;
+            speed = 125f;
+
+            }
+    
         turnPower = SimpleInput.GetAxis("Horizontal", 1);
         if (SimpleInput.GetButton("Reset Rotation", 1)) {
             ResetZRotation();
@@ -49,25 +65,22 @@ public class KartPhysics : MonoBehaviour {
         }
         if (power != 0)
         {
-            fLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            fRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rLeftModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            rRightModel.transform.Rotate(Vector3.up * speed / 60 * 360 * Time.deltaTime, 0, 0);
-            if (speed < 250f && power > 0)
-            {
-                speed += acceleration;
-            }
-            else if (speed >= 150 && power <= 0) {
-                speed -= acceleration;
-            }
+            fLeftModel.transform.Rotate(Vector3.right*speed);
+            fRightModel.transform.Rotate(Vector3.right * speed);
+            rLeftModel.transform.Rotate(Vector3.right * speed);
+            rRightModel.transform.Rotate(Vector3.right * speed);
+
             if (IsGrounded())
             {
                 body.AddRelativeForce(0f, 0f, power * speed);
             }
+            
+        }
+
+        if (body.velocity.sqrMagnitude > 0) {
             gameObject.transform.Rotate(Vector3.up, 2 * turnPower);
         }
         
-        if (turnPower < 0)
         if (turnPower < 0) // turning left
         {
             //fLeftModel.transform.Rotate(Vector3.back * 2);
