@@ -14,9 +14,11 @@ public class KartPhysics : MonoBehaviour {
 
     private float speed;
     private float turnSpeed;
-
+    private float colliderFloor;
     private float power;
     private float turnPower;
+    private float acceleration;
+    private float decceleration;
 
     void Awake () {
         body = GetComponent<Rigidbody>();
@@ -24,8 +26,10 @@ public class KartPhysics : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        speed = 200f;
+        speed = 150f;
         turnSpeed = 1f;
+        colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
+        acceleration = .25f;
 	}
 
     void Update()
@@ -46,10 +50,20 @@ public class KartPhysics : MonoBehaviour {
             fRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
             rLeftModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
             rRightModel.transform.Rotate(speed / 60 * 360 * Time.deltaTime, 0, 0);
-
-            body.AddRelativeForce(0f, 0f, power * speed);
-            gameObject.transform.Rotate(Vector3.up, turnPower);
+            if (speed < 250f && power > 0)
+            {
+                speed += acceleration;
+            }
+            else if (speed >= 150 && power <= 0) {
+                speed -= acceleration;
+            }
+            if (IsGrounded())
+            {
+                body.AddRelativeForce(0f, 0f, power * speed);
+            }
+            gameObject.transform.Rotate(Vector3.up, 2 * turnPower);
         }
+        
         if (turnPower < 0)
         {
             // turn wheels left
@@ -65,5 +79,9 @@ public class KartPhysics : MonoBehaviour {
             // straighten wheels
             // straighten handle
         }
+    }
+
+    bool IsGrounded() {
+        return Physics.Raycast(transform.position, -transform.up, colliderFloor + 0.25f);
     }
 }
