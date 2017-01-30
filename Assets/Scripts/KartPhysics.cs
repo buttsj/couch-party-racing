@@ -26,7 +26,7 @@ public class KartPhysics : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        speed = 125f;
+        speed = 150f;
         turnSpeed = 1f;
         colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
         acceleration = .25f;
@@ -47,7 +47,7 @@ public class KartPhysics : MonoBehaviour {
             else
             {
                 power = 0;
-            speed = 125f;
+            speed = 150f;
 
             }
     
@@ -73,6 +73,7 @@ public class KartPhysics : MonoBehaviour {
             if (IsGrounded())
             {
                 body.AddRelativeForce(0f, 0f, power * speed);
+
             }
             
         }
@@ -101,7 +102,7 @@ public class KartPhysics : MonoBehaviour {
     }
 
     bool IsGrounded() {
-        return Physics.Raycast(transform.position, -transform.up, colliderFloor + 0.25f);
+        return Physics.Raycast(transform.position, -transform.up, colliderFloor + 1f);
     }
 
     bool IsFlipped() {
@@ -111,4 +112,5 @@ public class KartPhysics : MonoBehaviour {
     void ResetZRotation() {
         transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
     }
+
 }
