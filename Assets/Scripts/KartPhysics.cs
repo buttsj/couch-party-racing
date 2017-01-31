@@ -32,7 +32,8 @@ public class KartPhysics : MonoBehaviour {
     void Start() {
         speed = 150f;
         colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
-        acceleration = .25f;
+        acceleration = 1f;
+        body.centerOfMass = new Vector3(0, -1, 0);
 	}
 
     void Update() { 
@@ -56,15 +57,15 @@ public class KartPhysics : MonoBehaviour {
     
         turnPower = SimpleInput.GetAxis("Horizontal", 1);
         if (SimpleInput.GetButton("Reset Rotation", 1)) {
-            ResetZRotation();
+            ResetRotation();
     }
     }
 
     // Update is called once per frame
     void FixedUpdate () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            body.AddRelativeForce(0, 900, 0); // bump player kart up
+            body.AddRelativeForce(0, 1000, 0); // bump player kart up
         }
         if (power != 0)
         {
@@ -73,13 +74,7 @@ public class KartPhysics : MonoBehaviour {
             fRightModel.transform.Rotate(Vector3.right * speed);
             rLeftModel.transform.Rotate(Vector3.right * speed);
             rRightModel.transform.Rotate(Vector3.right * speed);
-            if (speed < 250f && power > 0)
-            {
-                speed += acceleration;
-            }
-            else if (speed >= 150 && power <= 0) {
-                speed -= acceleration;
-            }
+
             if (IsGrounded())
             {
                 body.AddRelativeForce(0f, 0f, power * speed);
@@ -94,22 +89,32 @@ public class KartPhysics : MonoBehaviour {
         
         if (turnPower < 0) // turning left
         {
-            if (angle > -15.0f)
+            if (angle > -15.0f && power > 0)
             {
                 fLParent.transform.Rotate(Vector3.back, 2.0f);
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
             }
+            else if (angle < 15f && power < 0) {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
             
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else if(turnPower > 0) // turnin right
+        else if(turnPower > 0) // turning right
         {
-            if (angle < 15.0f)
+            if (angle < 15.0f && power > 0 )
             {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
+            }
+            else if (angle > - 15f && power < 0) {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
             }
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
@@ -117,18 +122,19 @@ public class KartPhysics : MonoBehaviour {
         {
             // straighten wheels
             // straighten handle
-            if (angle < 0)
+
+            if (angle < 0 )
             {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
-        }
+           }
             else if (angle > 0)
             {
                 fLParent.transform.Rotate(Vector3.back, 2.0f);
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
-    }
+            }
         }
     }
 
@@ -140,8 +146,8 @@ public class KartPhysics : MonoBehaviour {
         return transform.eulerAngles.z > 90f;
 }
 
-    void ResetZRotation() {
-        transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+    void ResetRotation() {
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
 
 }
