@@ -44,6 +44,8 @@ public class Xbox360Scheme : IControlScheme {
         bindings.Add("Accelerate", new JoystickControl(A, joystickNumber));
         bindings.Add("Reverse", new JoystickControl(X, joystickNumber));
         bindings.Add("Use PowerUp", new JoystickControl(B, joystickNumber));
+        bindings.Add("Reset Rotation", new JoystickControl(Back, joystickNumber));
+        bindings.Add("Pause", new JoystickControl(Start, joystickNumber));
     }
 
     public float GetAxis(string axisName) {
