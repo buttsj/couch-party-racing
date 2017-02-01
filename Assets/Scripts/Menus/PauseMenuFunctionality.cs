@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseMenuFunctionality : MonoBehaviour {
 
@@ -32,6 +33,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             pauseMenu.enabled = true;
             Time.timeScale = 0;
+            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeText"));
         }
 
 	}
@@ -44,6 +46,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     public void quitPress()
     {
+        Time.timeScale = defaultTimeScale;
         SceneManager.LoadScene("MainMenu");
     }
 
