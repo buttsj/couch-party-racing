@@ -40,6 +40,15 @@ public class Tile {
     public Vector3Serializable Size { get; set; }
     public Vector3Serializable Rotation { get; set; }
 
+    public Tile() { }
+    public Tile(Transform transform) {
+        prefab = transform.gameObject;
+        Name = transform.name;
+        Position = (Vector3Serializable) transform.localPosition;
+        Size = (Vector3Serializable) transform.localScale;
+        Rotation = (Vector3Serializable) transform.localEulerAngles;
+    }
+
     public void Instantiate(string directory, Transform parent) {
         prefab = Object.Instantiate(Resources.Load<GameObject>(directory + Name), Position, Quaternion.Euler(Rotation), parent);
         prefab.name = Name;
