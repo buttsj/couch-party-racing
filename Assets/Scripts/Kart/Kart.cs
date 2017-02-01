@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KartPhysics : MonoBehaviour {
+public class Kart : MonoBehaviour {
 
     public GameObject fLeftModel;
     public GameObject fRightModel;
@@ -12,88 +12,71 @@ public class KartPhysics : MonoBehaviour {
 
     public GameObject fLParent;
     public GameObject fRParent;
-    
-    private Rigidbody body;
 
-    private float speed;
-    private float colliderFloor;
-    private float power;
+    private KartPhysics physics;
     private float turnPower;
-    private float acceleration;
     private float angle = 0.0f;
+    private int playerNumber;
+    public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
 
-    void Awake () {
-        body = GetComponent<Rigidbody>();
-    }
 
     // Use this for initialization
     void Start() {
-        speed = 150f;
-        colliderFloor = GetComponent<BoxCollider>().bounds.extents.y;
-        acceleration = 1f;
-        body.centerOfMass = new Vector3(0, -1, 0);
+        physics = new KartPhysics(gameObject, 150f, 250f);
+        playerNumber = 1;
 	}
 
     void Update() { 
-        if (SimpleInput.GetButton("Accelerate", 1))
-    {
-                power = 1;
-                if(speed< 250f)
-                    speed += acceleration;
-            }
-            else if (SimpleInput.GetButton("Reverse", 1))
+        if (SimpleInput.GetButton("Accelerate", playerNumber))
             {
-                power = -1;
-                speed = 150f;
+                physics.Accelerate();
+            }
+            else if (SimpleInput.GetButton("Reverse", playerNumber))
+            {
+                physics.Reverse();
             }
             else
             {
-                power = 0;
-            speed = 150f;
+                physics.Coast();
 
             }
     
-        turnPower = SimpleInput.GetAxis("Horizontal", 1);
-        if (SimpleInput.GetButton("Reset Rotation", 1)) {
+        turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
+        if (SimpleInput.GetButton("Reset Rotation", playerNumber)) {
             ResetRotation();
     }
     }
 
     // Update is called once per frame
     void FixedUpdate () {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
         {
-            body.AddRelativeForce(0, 1000, 0); // bump player kart up
+            physics.BumpKart();
         }
-        if (power != 0)
+        if (physics.Power != 0)
         {
-            //fLeftModel.transform.Rotate(Vector3.left);
-            fLeftModel.transform.Rotate(Vector3.right * speed);
-            fRightModel.transform.Rotate(Vector3.right * speed);
-            rLeftModel.transform.Rotate(Vector3.right * speed);
-            rRightModel.transform.Rotate(Vector3.right * speed);
+            fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
+            fRightModel.transform.Rotate(Vector3.right * physics.Speed);
+            rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
+            rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
             if (IsGrounded())
             {
-                body.AddRelativeForce(0f, 0f, power * speed);
-
-            }
-            
+                physics.ApplyForces();
+            }       
         }
 
-        if (body.velocity.sqrMagnitude > 0) {
-            gameObject.transform.Rotate(Vector3.up, 2 * turnPower);
-        }
+        physics.RotateKart(turnPower);
         
         if (turnPower < 0) // turning left
         {
-            if (angle > -15.0f && power > 0)
+            if (angle > -15.0f && physics.Power > 0)
             {
                 fLParent.transform.Rotate(Vector3.back, 2.0f);
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
             }
-            else if (angle < 15f && power < 0) {
+            else if (angle < 15f && physics.Power < 0) {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
@@ -103,13 +86,13 @@ public class KartPhysics : MonoBehaviour {
         }
         else if(turnPower > 0) // turning right
         {
-            if (angle < 15.0f && power > 0 )
+            if (angle < 15.0f && physics.Power > 0 )
             {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
             }
-            else if (angle > - 15f && power < 0) {
+            else if (angle > - 15f && physics.Power < 0) {
                 fLParent.transform.Rotate(Vector3.back, 2.0f);
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
@@ -136,20 +119,6 @@ public class KartPhysics : MonoBehaviour {
         }
     }
 
-    bool IsGrounded() {
-        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
-    }
-
-
-
-    bool IsFlipped() {
-        return transform.eulerAngles.z > 90f;
-}
-
-    void ResetRotation() {
-        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Power Up"))
@@ -159,6 +128,21 @@ public class KartPhysics : MonoBehaviour {
             other.gameObject.SetActive(false);
         }
     }
+
+    bool IsGrounded() {
+        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+    }
+
+    bool IsFlipped() {
+        return transform.eulerAngles.z > 90f;
+}
+
+    void ResetRotation() {
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+    }
+
+
+
 
    
 

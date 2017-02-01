@@ -23,6 +23,7 @@ public class KeyboardScheme : IControlScheme {
         bindings.Add("Use PowerUp", new KeyboardControl(KeyCode.E));
         bindings.Add("Reset Rotation", new KeyboardControl(KeyCode.B));
         bindings.Add("Pause", new KeyboardControl(KeyCode.Return));
+        bindings.Add("Bump Kart", new KeyboardControl(KeyCode.Space));
     }
 
     public float GetAxis(string axisName) {
