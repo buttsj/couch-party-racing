@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class MainMenuFunctionality : MonoBehaviour {
 
@@ -27,6 +28,8 @@ public class MainMenuFunctionality : MonoBehaviour {
         hotPotatoMode = hotPotatoMode.GetComponent<Button>();
         settings = settings.GetComponent<Button>();
         exit = exit.GetComponent<Button>();
+
+        EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("RaceMode"));
     }
 
     public void settingsPress()
@@ -45,6 +48,8 @@ public class MainMenuFunctionality : MonoBehaviour {
         hotPotatoMode.enabled = false;
         settings.enabled = false;
         exit.enabled = false;
+
+        EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("No"));
     }
 
     public void noQuitPress()
@@ -58,6 +63,8 @@ public class MainMenuFunctionality : MonoBehaviour {
         hotPotatoMode.enabled = true;
         settings.enabled = true;
         exit.enabled = true;
+
+        EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("Exit"));
     }
 
     public void yesQuitPress()
