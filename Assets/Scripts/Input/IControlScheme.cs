@@ -6,6 +6,8 @@ public interface IControlScheme {
 
     string Name { get; set; }
 
+    void ResetBindingsToDefault();
+
     bool GetButton(string buttonName);
 
     bool GetButtonDown(string buttonName);
@@ -18,5 +20,7 @@ public interface IControlScheme {
 
     IControl GetBinding(string bindingName);
 
-    void ResetBindingsToDefault();
+    List<IControl> GetAllInput();
+
+    bool GetAnyButton();
 }

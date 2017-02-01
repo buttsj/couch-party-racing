@@ -71,4 +71,29 @@ public class Xbox360Scheme : IControlScheme {
     public IControl GetBinding(string bindingName) {
         return bindings[bindingName];
     }
+
+    public List<IControl> GetAllInput() {
+        List<IControl> list = new List<IControl>();
+
+        foreach (var pair in bindings) {
+            if (pair.Value.IsDown()) {
+                list.Add(pair.Value);
+            }
+        }
+
+        return list;
+    }
+
+    public bool GetAnyButton() {
+        bool anyInput = false;
+
+        foreach (var pair in bindings) {
+            if (pair.Value.IsDown()) {
+                anyInput = true;
+                break;
+            }
+        }
+
+        return anyInput;
+    }
 }

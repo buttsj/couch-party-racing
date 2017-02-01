@@ -4,7 +4,22 @@ using UnityEngine;
 
 public static class SimpleInput {
 
-    private static IControlScheme[] playerSchemes = new IControlScheme[11] { new KeyboardScheme(), new Xbox360Scheme(1), new Xbox360Scheme(2), new Xbox360Scheme(3), null, null, null, null, null, null , null};
+    private static IControlScheme[] playerSchemes = new IControlScheme[4] { new KeyboardScheme(), new Xbox360Scheme(1), new Xbox360Scheme(2), new Xbox360Scheme(3) };
+
+    /// <summary>
+    /// Returns true while the virtual button identified by buttonName for any player is held down.
+    /// </summary>
+    /// <param name="buttonName"></param>
+    /// <returns></returns>
+    public static bool GetButton(string buttonName) {
+        bool isPressed = false;
+
+        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[1].GetButton(buttonName);
+        }
+
+        return isPressed;
+    }
 
     /// <summary>
     /// Returns true while the virtual button identified by playerNumber's buttonName is held down.
@@ -14,6 +29,21 @@ public static class SimpleInput {
     /// <returns></returns>
     public static bool GetButton(string buttonName, int playerNumber) {
         return playerSchemes[playerNumber - 1].GetButton(buttonName);
+    }
+
+    /// <summary>
+    /// Returns true during the frame any user pressed down the virtual button identified by buttonName.
+    /// </summary>
+    /// <param name="buttonName"></param>
+    /// <returns></returns>
+    public static bool GetButtonDown(string buttonName) {
+        bool isPressed = false;
+
+        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[1].GetButtonDown(buttonName);
+        }
+
+        return isPressed;
     }
 
     /// <summary>
@@ -27,6 +57,21 @@ public static class SimpleInput {
     }
 
     /// <summary>
+    /// Returns true the first frame any user releases the virtual button identified by buttonName.
+    /// </summary>
+    /// <param name="buttonName"></param>
+    /// <returns></returns>
+    public static bool GetButtonUp(string buttonName) {
+        bool isPressed = false;
+
+        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[1].GetButtonUp(buttonName);
+        }
+
+        return isPressed;
+    }
+
+    /// <summary>
     /// Returns true the first frame the user releases the virtual button identified by playerNumber's buttonName.
     /// </summary>
     /// <param name="buttonName"></param>
@@ -34,6 +79,21 @@ public static class SimpleInput {
     /// <returns></returns>
     public static bool GetButtonUp(string buttonName, int playerNumber) {
         return playerSchemes[playerNumber - 1].GetButtonUp(buttonName);
+    }
+
+    /// <summary>
+    /// Returns the value of any virtual axis identified by axisName.
+    /// </summary>
+    /// <param name="axisName"></param>
+    /// <returns></returns>
+    public static float GetAxis(string axisName) {
+        float isPressed = 0.0f;
+
+        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[1].GetAxis(axisName);
+        }
+
+        return isPressed;
     }
 
     /// <summary>
@@ -47,6 +107,21 @@ public static class SimpleInput {
     }
 
     /// <summary>
+    /// Returns the value of any virtual axis identified by axisName with no smoothing filtering applied.
+    /// </summary>
+    /// <param name="axisName"></param>
+    /// <returns></returns>
+    public static float GetAxisRaw(string axisName) {
+        float isPressed = 0.0f;
+
+        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[1].GetAxisRaw(axisName);
+        }
+
+        return isPressed;
+    }
+
+    /// <summary>
     /// Returns the value of the virtual axis identified by playerNumber's axisName with no smoothing filtering applied.
     /// </summary>
     /// <param name="axisName"></param>
@@ -56,43 +131,36 @@ public static class SimpleInput {
         return playerSchemes[playerNumber - 1].GetAxisRaw(axisName);
     }
 
-    public static bool ListenForPlayer(int playerNumber) {
-        bool listened = false;
+    /// <summary>
+    /// Returns true if any player is currently pressing any button.
+    /// </summary>
+    /// <returns></returns>
+    public static bool GetAnyButton() {
+        bool isPressed = false;
 
-        if(Input.anyKey) {
-            playerSchemes[playerNumber - 1] = new KeyboardScheme();
-            listened = true;
-        } else {
-            for (int joystickNumber = 1; joystickNumber < 5; joystickNumber++) {
-                for (int i = 0; i < 20; i++) {
-                    if (Input.GetKeyDown("joystick " + joystickNumber + " button " + i)) {
-                        if (playerSchemes[playerNumber - 1] == null) {
-                            playerSchemes[playerNumber - 1] = new Xbox360Scheme(joystickNumber);
-                            listened = true;
-                            break;
-                        }
-                    }
-                }
-            }
+        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[i].GetAnyButton();
         }
 
-        if(listened) {
-            Debug.Log("Listened " + playerNumber);
-        }
-
-        return listened;
+        return isPressed;
     }
 
-    public static bool GetAnyButton() {
-        bool anyJoystick = false;
+    /// <summary>
+    /// Returns true if playerNumber is currently pressing any button.
+    /// </summary>
+    /// <param name="playerNumber"></param>
+    /// <returns></returns>
+    public static bool GetAnyButton(int playerNumber) {
+        return playerSchemes[playerNumber - 1].GetAnyButton();
+    }
 
-        for (int i = 0; i < 20; i++) {
-            if (Input.GetKeyDown("joystick button " + i)) {
-                anyJoystick = true;
-                break;
-            }
-        }
-
-        return anyJoystick || Input.anyKey;
+    /// <summary>
+    /// Returns the system control name associated to the actionName.
+    /// </summary>
+    /// <param name="actionName"></param>
+    /// <param name="playerNumber"></param>
+    /// <returns></returns>
+    public static string GetControlName(string actionName, int playerNumber) {
+        return playerSchemes[playerNumber].GetBinding(actionName).ToString();
     }
 }
