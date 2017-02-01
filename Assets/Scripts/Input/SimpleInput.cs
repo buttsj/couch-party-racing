@@ -155,12 +155,36 @@ public static class SimpleInput {
     }
 
     /// <summary>
+    /// Returns true during the frame any player pressed down any button.
+    /// </summary>
+    /// <param name="playerNumber"></param>
+    /// <returns></returns>
+    public static bool GetAnyButtonDown() {
+        bool isPressed = false;
+
+        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+            isPressed = playerSchemes[i].GetAnyButtonDown();
+        }
+
+        return isPressed;
+    }
+
+    /// <summary>
+    /// Returns true during the frame playerNumber pressed down any button.
+    /// </summary>
+    /// <param name="playerNumber"></param>
+    /// <returns></returns>
+    public static bool GetAnyButtonDown(int playerNumber) {
+        return playerSchemes[playerNumber - 1].GetAnyButtonDown();
+    }
+
+    /// <summary>
     /// Returns the system control name associated to the actionName.
     /// </summary>
     /// <param name="actionName"></param>
     /// <param name="playerNumber"></param>
     /// <returns></returns>
     public static string GetControlName(string actionName, int playerNumber) {
-        return playerSchemes[playerNumber].GetBinding(actionName).ToString();
+        return playerSchemes[playerNumber - 1].GetBinding(actionName).ToString();
     }
 }

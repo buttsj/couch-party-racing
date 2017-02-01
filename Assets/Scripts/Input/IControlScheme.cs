@@ -23,4 +23,6 @@ public interface IControlScheme {
     List<IControl> GetAllInput();
 
     bool GetAnyButton();
+
+    bool GetAnyButtonDown();
 }

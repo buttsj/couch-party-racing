@@ -88,6 +88,19 @@ public class Xbox360Scheme : IControlScheme {
         bool anyInput = false;
 
         foreach (var pair in bindings) {
+            if (pair.Value.IsHeldDown()) {
+                anyInput = true;
+                break;
+            }
+        }
+
+        return anyInput;
+    }
+
+    public bool GetAnyButtonDown() {
+        bool anyInput = false;
+
+        foreach (var pair in bindings) {
             if (pair.Value.IsDown()) {
                 anyInput = true;
                 break;

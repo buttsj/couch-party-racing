@@ -66,7 +66,20 @@ public class KeyboardScheme : IControlScheme {
         bool anyInput = false;
 
         foreach(var pair in bindings) {
-            if(pair.Value.IsDown()) {
+            if(pair.Value.IsHeldDown()) {
+                anyInput = true;
+                break;
+            }
+        }
+
+        return anyInput;
+    }
+
+    public bool GetAnyButtonDown() {
+        bool anyInput = false;
+
+        foreach (var pair in bindings) {
+            if (pair.Value.IsDown()) {
                 anyInput = true;
                 break;
             }
