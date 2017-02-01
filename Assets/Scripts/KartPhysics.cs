@@ -150,4 +150,14 @@ public class KartPhysics : MonoBehaviour {
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Power Up"))
+        {
+            string powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
+            Debug.Log("PICKED UP: " + powerup);
+            other.gameObject.SetActive(false);
+        }
+    }
+
 }
