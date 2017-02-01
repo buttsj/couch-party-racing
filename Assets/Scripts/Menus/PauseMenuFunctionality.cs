@@ -29,7 +29,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 	
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !pauseMenu.enabled)
         {
             pauseMenu.enabled = true;
             Time.timeScale = 0;
@@ -46,6 +46,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     public void quitPress()
     {
+        pauseMenu.enabled = false;
         Time.timeScale = defaultTimeScale;
         SceneManager.LoadScene("MainMenu");
     }
