@@ -256,6 +256,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 1873887319889736, guid: d251d32411581ea4da1f4379774af7da, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d251d32411581ea4da1f4379774af7da, type: 2}
   m_IsPrefabParent: 0
@@ -577,6 +581,21 @@ GameObject:
   m_PrefabParentObject: {fileID: 1737764170648378, guid: b52cf38a93bd180469c5449207f19b3d,
     type: 2}
   m_PrefabInternal: {fileID: 1888352305}
+--- !u!54 &297407032
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 297407031}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.8
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1001 &371445832
 Prefab:
   m_ObjectHideFlags: 0
@@ -3705,7 +3724,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4259843080832542, guid: b52cf38a93bd180469c5449207f19b3d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 6.66
       objectReference: {fileID: 0}
     - target: {fileID: 4259843080832542, guid: b52cf38a93bd180469c5449207f19b3d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3730,6 +3749,26 @@ Prefab:
     - target: {fileID: 4259843080832542, guid: b52cf38a93bd180469c5449207f19b3d, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 65524385376014816, guid: b52cf38a93bd180469c5449207f19b3d,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65524385376014816, guid: b52cf38a93bd180469c5449207f19b3d,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 65524385376014816, guid: b52cf38a93bd180469c5449207f19b3d,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 65524385376014816, guid: b52cf38a93bd180469c5449207f19b3d,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b52cf38a93bd180469c5449207f19b3d, type: 2}

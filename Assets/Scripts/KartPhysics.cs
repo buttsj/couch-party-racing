@@ -20,8 +20,6 @@ public class KartPhysics : MonoBehaviour {
     private float power;
     private float turnPower;
     private float acceleration;
-    private float decceleration;
-
     private float angle = 0.0f;
 
     void Awake () {
@@ -139,8 +137,10 @@ public class KartPhysics : MonoBehaviour {
     }
 
     bool IsGrounded() {
-        return Physics.Raycast(transform.position, -transform.up, colliderFloor + 1f);
+        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
     }
+
+
 
     bool IsFlipped() {
         return transform.eulerAngles.z > 90f;
@@ -159,5 +159,8 @@ public class KartPhysics : MonoBehaviour {
             other.gameObject.SetActive(false);
         }
     }
+
+   
+
 
 }
