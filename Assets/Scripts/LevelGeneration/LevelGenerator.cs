@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-    private TileContainer tileCollection = new TileContainer();
+    private TileContainer tileCollection;
     private string levelName;
     
     public LevelGenerator(string levelName) {
@@ -14,7 +14,16 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     public void Start() {
-        GenerateLevel();
+
+    }
+
+    public void Update() {
+        if(Input.GetKey(KeyCode.M)) {
+            SaveLevel();
+        }
+        if(Input.GetKey(KeyCode.L)) {
+            GenerateLevel();
+        }
     }
 
     public void GenerateLevel() {
@@ -24,8 +33,21 @@ public class LevelGenerator : MonoBehaviour {
             Debug.Log(item.Size.X);
             Debug.Log(item.Size.Y);
             Debug.Log(item.Size.Z);
+            Debug.Log(item.Name);
+
+            item.Instantiate("Prefabs/Track/", transform);
         }
     }
 
+    public void SaveLevel() {
+        tileCollection = new TileContainer();
+        tileCollection.tileList.Clear();
+
+        foreach (Transform child in transform) {
+            tileCollection.tileList.Add(new Tile(child));
+        }
+
+        tileCollection.Save(Path.Combine(Application.dataPath, levelName));
+    }
 
 }
