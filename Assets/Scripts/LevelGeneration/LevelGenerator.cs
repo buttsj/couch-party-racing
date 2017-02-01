@@ -24,6 +24,9 @@ public class LevelGenerator : MonoBehaviour {
             Debug.Log(item.Size.X);
             Debug.Log(item.Size.Y);
             Debug.Log(item.Size.Z);
+            Debug.Log(item.Name);
+
+            item.Instantiate("Prefabs/Track/", transform);
         }
     }
 
