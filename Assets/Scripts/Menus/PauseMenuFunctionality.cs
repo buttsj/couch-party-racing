@@ -29,7 +29,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 	
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Return) && !pauseMenu.enabled)
+        if (SimpleInput.GetButtonDown("pause", 1) && !pauseMenu.enabled)
         {
             pauseMenu.enabled = true;
             Time.timeScale = 0;
