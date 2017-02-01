@@ -29,15 +29,15 @@ public class KeyboardControl : IControl {
 
 
     public bool IsHeldDown() {
-        return Input.GetKey(positiveKey);
+        return Input.GetKey(positiveKey) || Input.GetKey(negativeKey);
     }
 
     public bool IsDown() {
-        return Input.GetKeyDown(positiveKey);
+        return Input.GetKeyDown(positiveKey) || Input.GetKeyDown(negativeKey);
     }
 
     public bool IsUp() {
-        return Input.GetKeyUp(positiveKey);
+        return Input.GetKeyUp(positiveKey) || Input.GetKeyUp(negativeKey);
     }
 
     public float GetValue() {
