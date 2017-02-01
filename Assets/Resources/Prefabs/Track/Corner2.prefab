@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4748985051030250}
   - component: {fileID: 33122853475051148}
   - component: {fileID: 23865018902416400}
-  - component: {fileID: 64327314775990026}
   m_Layer: 0
   m_Name: Corner_2_PRE
   m_TagString: Untagged
@@ -52,7 +51,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1932494855659304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 231.15837, y: 0.27913556, z: -743.2673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4748985051030250}
@@ -109,20 +108,6 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1736244391042826}
-  m_Mesh: {fileID: 4300000, guid: 2f215b686d41a484aa4b52bb197e38e5, type: 3}
---- !u!64 &64327314775990026
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1736244391042826}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 2f215b686d41a484aa4b52bb197e38e5, type: 3}
 --- !u!65 &65423128525937786
 BoxCollider:

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4551021835509860}
   - component: {fileID: 33653067110014390}
   - component: {fileID: 23678976860097534}
-  - component: {fileID: 64181461007846442}
   m_Layer: 0
   m_Name: Curve_2_PRE
   m_TagString: Untagged
@@ -55,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1418585465567762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 262.0633, y: 0.18358678, z: -725.55225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4551021835509860}
@@ -112,20 +111,6 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1185826431996612}
-  m_Mesh: {fileID: 4300000, guid: b3f164ac73226ba42843b0854ff015f4, type: 3}
---- !u!64 &64181461007846442
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1185826431996612}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: b3f164ac73226ba42843b0854ff015f4, type: 3}
 --- !u!65 &65036761769858444
 BoxCollider:
