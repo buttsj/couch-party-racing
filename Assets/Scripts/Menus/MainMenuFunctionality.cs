@@ -74,8 +74,7 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     public void raceModePress()
     {
-        //SceneManager.LoadScene("RaceModeSelection");
-        SceneManager.LoadScene("Temp_Scene");
+        SceneManager.LoadScene("SelectionMenu");
     }
 
     public void trackBuilderModePress()
