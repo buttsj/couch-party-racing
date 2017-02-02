@@ -15,7 +15,7 @@ public static class SimpleInput {
         bool isPressed = false;
 
         for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
-            isPressed = playerSchemes[1].GetButton(buttonName);
+            isPressed = playerSchemes[i].GetButton(buttonName);
         }
 
         return isPressed;
@@ -40,7 +40,7 @@ public static class SimpleInput {
         bool isPressed = false;
 
         for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
-            isPressed = playerSchemes[1].GetButtonDown(buttonName);
+            isPressed = playerSchemes[i].GetButtonDown(buttonName);
         }
 
         return isPressed;
@@ -65,7 +65,7 @@ public static class SimpleInput {
         bool isPressed = false;
 
         for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
-            isPressed = playerSchemes[1].GetButtonUp(buttonName);
+            isPressed = playerSchemes[i].GetButtonUp(buttonName);
         }
 
         return isPressed;
@@ -90,7 +90,7 @@ public static class SimpleInput {
         float isPressed = 0.0f;
 
         for (int i = 0; isPressed != 0.0f && i < playerSchemes.Length; i++) {
-            isPressed = playerSchemes[1].GetAxis(axisName);
+            isPressed = playerSchemes[i].GetAxis(axisName);
         }
 
         return isPressed;
@@ -115,7 +115,7 @@ public static class SimpleInput {
         float isPressed = 0.0f;
 
         for (int i = 0; isPressed != 0.0f && i < playerSchemes.Length; i++) {
-            isPressed = playerSchemes[1].GetAxisRaw(axisName);
+            isPressed = playerSchemes[i].GetAxisRaw(axisName);
         }
 
         return isPressed;

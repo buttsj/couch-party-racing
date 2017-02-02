@@ -41,11 +41,12 @@ public class Xbox360Scheme : IControlScheme {
 
         bindings.Add("Horizontal", new JoystickControl(LStickX, joystickNumber));
         bindings.Add("Vertical", new JoystickControl(LStickY, joystickNumber));
-        bindings.Add("Accelerate", new JoystickControl(A, joystickNumber));
-        bindings.Add("Reverse", new JoystickControl(X, joystickNumber));
+        bindings.Add("Accelerate", new JoystickControl(RTrigger, joystickNumber));
+        bindings.Add("Reverse", new JoystickControl(LTrigger, joystickNumber));
         bindings.Add("Use PowerUp", new JoystickControl(B, joystickNumber));
         bindings.Add("Reset Rotation", new JoystickControl(Back, joystickNumber));
         bindings.Add("Pause", new JoystickControl(Start, joystickNumber));
+        bindings.Add("Bump Kart", new JoystickControl(X, joystickNumber));
     }
 
     public float GetAxis(string axisName) {
