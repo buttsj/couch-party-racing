@@ -14,12 +14,16 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text player3ReadyText;
     public Text player4ReadyText;
 
+    public Text startToContinueText;
+
 	void Start () {
 
         player1ReadyText.text = UNREADY;
         player2ReadyText.text = UNREADY;
         player3ReadyText.text = UNREADY;
         player4ReadyText.text = UNREADY;
+
+        startToContinueText.text = "";
     }
 	
 	void Update () {
@@ -38,10 +42,12 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY))
         {
             player1ReadyText.text = READY;
+            startToContinueText.text = "Press Start to Continue!";
         }
         else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
         {
             player1ReadyText.text = UNREADY;
+            startToContinueText.text = "";
         }
 
         if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY))
