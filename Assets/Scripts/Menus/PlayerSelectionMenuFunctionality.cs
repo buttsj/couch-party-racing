@@ -78,4 +78,26 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         }
     }
 
+    private int NumberOfReadyPlayers() {
+        int count = 0;
+
+        if (player1ReadyText.text == READY) {
+            count++;
+        }
+
+        if (player2ReadyText.text == READY) {
+            count++;
+        }
+
+        if (player3ReadyText.text == READY) {
+            count++;
+        }
+
+        if (player4ReadyText.text == READY) {
+            count++;
+        }
+
+        return count;
+    }
+
 }
