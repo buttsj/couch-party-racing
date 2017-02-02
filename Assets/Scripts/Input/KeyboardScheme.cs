@@ -24,6 +24,7 @@ public class KeyboardScheme : IControlScheme {
         bindings.Add("Reset Rotation", new KeyboardControl(KeyCode.B));
         bindings.Add("Pause", new KeyboardControl(KeyCode.Return));
         bindings.Add("Bump Kart", new KeyboardControl(KeyCode.Space));
+        bindings.Add("Boost", new KeyboardControl(KeyCode.LeftShift));
     }
 
     public float GetAxis(string axisName) {

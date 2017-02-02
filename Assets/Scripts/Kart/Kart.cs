@@ -16,14 +16,16 @@ public class Kart : MonoBehaviour {
     private KartPhysics physics;
     private float turnPower;
     private float angle = 0.0f;
+    private float boost;
     private int playerNumber;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
 
 
     // Use this for initialization
     void Start() {
-        physics = new KartPhysics(gameObject, 150f, 250f);
+        physics = new KartPhysics(gameObject);
         playerNumber = 1;
+        boost = 100.0f;
 	}
 
     void Update() { 
@@ -40,7 +42,24 @@ public class Kart : MonoBehaviour {
                 physics.Coast();
 
             }
-    
+
+        if (SimpleInput.GetButton("Boost", playerNumber))
+        {
+            if (boost > 0)
+            {
+                physics.StartBoost();
+                boost -= .5f;
+            }
+            else
+            {
+                physics.EndBoost();
+            }
+        }
+        else {
+            physics.EndBoost();
+        }
+        
+
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
         if (SimpleInput.GetButton("Reset Rotation", playerNumber)) {
             ResetRotation();
@@ -126,6 +145,9 @@ public class Kart : MonoBehaviour {
             string powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
             Debug.Log("PICKED UP: " + powerup);
             other.gameObject.SetActive(false);
+            if (powerup == "Boost") {
+                boost = 100;
+            }
         }
     }
 
