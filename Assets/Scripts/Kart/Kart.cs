@@ -19,6 +19,7 @@ public class Kart : MonoBehaviour {
     private float boost;
     private int playerNumber;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
+    public float Boost { get { return boost; } set { boost = value; } }
 
 
     // Use this for initialization
