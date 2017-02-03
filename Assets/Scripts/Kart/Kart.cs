@@ -17,14 +17,17 @@ public class Kart : MonoBehaviour {
     private float turnPower;
     private float angle = 0.0f;
     private float boost;
+    private int lapNumber;
     private int playerNumber;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
-
+    public int LapNumber { get { return lapNumber; } }
     void Start() {
-        physics = new KartPhysics(gameObject, 150f, 250f, 300f);
+
+        physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
         playerNumber = 1;
         boost = 100.0f;
+        lapNumber = 0;
 	}
 
     void Update() { 
@@ -147,6 +150,10 @@ public class Kart : MonoBehaviour {
                 boost = 100;
             }
         }
+
+        if (other.gameObject.name.Contains("Finish")) {
+            lapNumber++;
+    }
     }
 
     bool IsGrounded() {
