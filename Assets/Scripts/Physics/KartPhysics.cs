@@ -63,6 +63,19 @@ public class KartPhysics {
         body.AddRelativeForce(0, 1000, 0);
     }
 
+    public void Spin()
+    {
+        kart.transform.Rotate(Vector3.up, 20.0f);
+    }
+
+    public void SlowZone(GameObject other) {
+        body.AddForce(other.transform.forward * 150f);
+    }
+
+    public void FastZone(GameObject other) {
+        body.AddForce(other.transform.forward * -150f);
+    }
+
     public void StartBoost() {
         previousMax = maxSpeed;
         maxSpeed = boostMax;

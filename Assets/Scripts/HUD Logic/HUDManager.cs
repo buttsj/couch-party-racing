@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour {
 
     private float boost;
+    private string poweruptype;
     public GameObject kart;
     public Text boostText;
     public Text lapText;
     public Text timerText;
     float secondsCount;
     int minuteCount;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         
     }
 
@@ -21,6 +23,7 @@ public class HUDManager : MonoBehaviour {
     void Update() {
         boost = kart.GetComponent<Kart>().Boost;
         boostText.text = ((int)boost).ToString();
+        poweruptype = kart.GetComponent<Kart>().Powerup;
         if (kart.GetComponent<Kart>().LapNumber == 0)
         {
             lapText.text = "1 / 3";

@@ -8,6 +8,7 @@ public class LevelGenerator {
 
     private TileContainer tileCollection;
     private Transform transform;
+    private const string TRACK_DIR = "Prefabs/Track/";
 
     public LevelGenerator(Transform transform) {
         this.transform = transform;
@@ -17,7 +18,7 @@ public class LevelGenerator {
         tileCollection = TileContainer.Load(Path.Combine(Application.dataPath, levelName));
         
         foreach (var item in tileCollection.tileList) {
-            item.Instantiate("Prefabs/Track/", transform);
+            item.Instantiate(TRACK_DIR, transform);
         }
     }
 
