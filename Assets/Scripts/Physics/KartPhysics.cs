@@ -12,17 +12,27 @@ public class KartPhysics {
     private float acceleration = 1f;
     private int direction;
     private float speed;
+
+    private float previousMax;
+    private float boostMax;
+
     public float Speed { get { return speed; } }
     public float Power { get { return power; } }
     public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
-    public KartPhysics(GameObject gameObject) {
+
+    public float BoostMax { get { return boostMax; } set { BoostMax = value; } }
+
+    public KartPhysics(GameObject gameObject, float minSpeed, float maxSpeed, float boostMax) {
         kart = gameObject;
         body = kart.GetComponent<Rigidbody>();
-        minSpeed = 150f;
-        maxSpeed = 250f;
+        this.minSpeed = minSpeed;
+        this.maxSpeed = maxSpeed;
         colliderFloor = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
         body.centerOfMass = new Vector3(0, -1, 0);
         speed = minSpeed;
+
+        previousMax = maxSpeed;
+        this.boostMax = boostMax;
     }
 
     public void Accelerate() {
@@ -54,16 +64,17 @@ public class KartPhysics {
     }
 
     public void StartBoost() {
-        maxSpeed = 300;
+        previousMax = maxSpeed;
+        maxSpeed = boostMax;
         acceleration = 2f;
         kart.transform.Find("LeftExhaust").gameObject.SetActive(true);
         kart.transform.Find("RightExhaust").gameObject.SetActive(true);
     }
 
     public void EndBoost() {
-        maxSpeed = 250;
-        if (speed > 250)
-            speed = 250;
+        maxSpeed = previousMax;
+        if (speed > previousMax)
+            speed = previousMax;
         acceleration = 1f;
         kart.transform.Find("LeftExhaust").gameObject.SetActive(false);
         kart.transform.Find("RightExhaust").gameObject.SetActive(false);

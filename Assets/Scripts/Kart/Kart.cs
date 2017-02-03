@@ -21,10 +21,8 @@ public class Kart : MonoBehaviour {
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
 
-
-    // Use this for initialization
     void Start() {
-        physics = new KartPhysics(gameObject);
+        physics = new KartPhysics(gameObject, 150f, 250f, 300f);
         playerNumber = 1;
         boost = 100.0f;
 	}
@@ -67,7 +65,6 @@ public class Kart : MonoBehaviour {
     }
     }
 
-    // Update is called once per frame
     void FixedUpdate () {
         if (SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
         {
