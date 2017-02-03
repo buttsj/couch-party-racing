@@ -9,7 +9,7 @@ public class PlayerCamera : MonoBehaviour {
     private Vector3 offset;
 	// Use this for initialization
 	void Start() {
-        offset = new Vector3(0, 7, 0)
+        offset = new Vector3(0, 7, 0);
         transform.position = player.position - followDistance * player.forward + offset;
         transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
     }
