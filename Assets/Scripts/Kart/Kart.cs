@@ -17,11 +17,13 @@ public class Kart : MonoBehaviour {
     private float turnPower;
     private float angle = 0.0f;
     private float boost;
+    private string powerup;
     private int lapNumber;
     private int playerNumber;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
     public int LapNumber { get { return lapNumber; } }
+    public string Powerup { get { return powerup; } set { powerup = value; } }
     void Start() {
 
         physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
@@ -143,7 +145,7 @@ public class Kart : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Power Up"))
         {
-            string powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
+            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
             Debug.Log("PICKED UP: " + powerup);
             other.gameObject.SetActive(false);
             if (powerup == "Boost") {
