@@ -79,4 +79,5 @@ public class KartPhysics {
         kart.transform.Find("LeftExhaust").gameObject.SetActive(false);
         kart.transform.Find("RightExhaust").gameObject.SetActive(false);
     }
+
 }

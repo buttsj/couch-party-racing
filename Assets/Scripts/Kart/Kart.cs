@@ -19,11 +19,13 @@ public class Kart : MonoBehaviour {
     private float boost;
     private int lapNumber;
     private int playerNumber;
+    private string timeText;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
     public int LapNumber { get { return lapNumber; } }
-    void Start() {
+    public string TimeText { get { return timeText; } set { timeText = value; } }
 
+    void Start() {
         physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
         playerNumber = 1;
         boost = 100.0f;
@@ -83,7 +85,8 @@ public class Kart : MonoBehaviour {
             if (IsGrounded())
             {
                 physics.ApplyForces();
-            }       
+            }
+               
         }
 
         physics.RotateKart(turnPower);
