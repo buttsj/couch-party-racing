@@ -63,6 +63,19 @@ public class KartPhysics {
         body.AddRelativeForce(0, 1000, 0);
     }
 
+    public void DamageKart() {
+        // spin kart in circles a bit to show it is damaged
+        // do not allow player to move during this time
+    }
+
+    public void SlowZone(GameObject other) {
+        body.AddForce(other.transform.forward * 150f);
+    }
+
+    public void FastZone(GameObject other) {
+        body.AddForce(other.transform.forward * -150f);
+    }
+
     public void StartBoost() {
         previousMax = maxSpeed;
         maxSpeed = boostMax;

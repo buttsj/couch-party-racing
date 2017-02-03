@@ -25,9 +25,9 @@ public class WaypointAI : MonoBehaviour {
     {
         currentTargetWaypoint = 0;
 
-        numberofWaypoints = 10;
+        numberofWaypoints = 33;
 
-        physics = new KartPhysics(gameObject, 150, 200, 230);
+        physics = new KartPhysics(gameObject, 150, 250, 300);
 
         boost = 100.0f;
     }
@@ -68,18 +68,16 @@ public class WaypointAI : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter(Collider other)
+    public int NumberOfWaypoints
     {
+        get { return numberofWaypoints; }
+        set { numberofWaypoints = value; }
+    }
 
-        if(other.gameObject.name == currentTargetWaypoint.ToString())
-        {
-            currentTargetWaypoint++;
-            if(currentTargetWaypoint >= numberofWaypoints)
-            {
-                currentTargetWaypoint = 0;
-            }
-        }
-
+    public int CurrentTargetWaypoint
+    {
+        get { return currentTargetWaypoint; }
+        set { currentTargetWaypoint = value; }
     }
 
 }
