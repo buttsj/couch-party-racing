@@ -4,42 +4,24 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour {
+public class LevelGenerator {
 
     private TileContainer tileCollection;
-    private string levelName = "tiles.xml";
-    
-    public LevelGenerator(string levelName) {
-        this.levelName = levelName;
+    private Transform transform;
+
+    public LevelGenerator(Transform transform) {
+        this.transform = transform;
     }
 
-    public void Start() {
-
-    }
-
-    public void Update() {
-        if(Input.GetKey(KeyCode.M)) {
-            SaveLevel();
-        }
-        if(Input.GetKey(KeyCode.L)) {
-            GenerateLevel();
-        }
-    }
-
-    public void GenerateLevel() {
+    public void GenerateLevel(string levelName) {
         tileCollection = TileContainer.Load(Path.Combine(Application.dataPath, levelName));
         
         foreach (var item in tileCollection.tileList) {
-            Debug.Log(item.Size.X);
-            Debug.Log(item.Size.Y);
-            Debug.Log(item.Size.Z);
-            Debug.Log(item.Name);
-
             item.Instantiate("Prefabs/Track/", transform);
         }
     }
 
-    public void SaveLevel() {
+    public void SaveLevel(string levelName) {
         tileCollection = new TileContainer();
         tileCollection.tileList.Clear();
 

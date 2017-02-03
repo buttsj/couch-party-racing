@@ -16,6 +16,12 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     public Text startToContinueText;
 
+    private SceneGenerator sceneGenerator;
+
+    void Awake () {
+        sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+    }
+
 	void Start () {
 
         player1ReadyText.text = UNREADY;
@@ -37,17 +43,24 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     private void LoadScene() {
         // Configure Controls (Player Testing Order Matters)
         SimpleInput.ClearCurrentPlayerDevices();
+
         if (player1ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(1);
-        } else if (player2ReadyText.text == READY) {
+        }
+
+        if (player2ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(2);
-        } else if (player3ReadyText.text == READY) {
+        }
+
+        if (player3ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(3);
-        } else if (player3ReadyText.text == READY) {
+        }
+
+        if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
         }
 
-        SceneManager.LoadScene("Temp_Scene");
+        sceneGenerator.LoadLevel("tiles.xml");
     }
 
     private void checkForReadyPlayers()
