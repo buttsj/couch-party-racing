@@ -17,6 +17,7 @@ public class WaypointAI : MonoBehaviour {
     private int numberofWaypoints;
     private GameObject[] waypoints;
 
+    private float boost;
 
     KartPhysics physics;
 
@@ -24,9 +25,11 @@ public class WaypointAI : MonoBehaviour {
     {
         currentTargetWaypoint = 0;
 
-        numberofWaypoints = 12;
+        numberofWaypoints = 10;
 
-        physics = new KartPhysics(gameObject, 150f, 250f, 300f);
+        physics = new KartPhysics(gameObject, 150, 200, 230);
+
+        boost = 100.0f;
     }
 
 	void Start () {
@@ -43,23 +46,31 @@ public class WaypointAI : MonoBehaviour {
 	void FixedUpdate () {
 
         Quaternion rotationTowardTarget = Quaternion.LookRotation((waypoints[currentTargetWaypoint].transform.localPosition - transform.position).normalized);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTowardTarget, 1.0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTowardTarget, 0.18f);
 
         fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
         fRightModel.transform.Rotate(Vector3.right * physics.Speed);
         rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
         rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
-        if (IsGrounded())
+        if (boost > 0)
         {
-            physics.Accelerate();
-            physics.ApplyForces();
+            physics.StartBoost();
+            boost -= .5f;
         }
+        else
+        {
+            physics.EndBoost();
+        }
+
+        physics.Accelerate();
+        physics.ApplyForces();
 
     }
 
     void OnTriggerEnter(Collider other)
     {
+
         if(other.gameObject.name == currentTargetWaypoint.ToString())
         {
             currentTargetWaypoint++;
@@ -69,11 +80,6 @@ public class WaypointAI : MonoBehaviour {
             }
         }
 
-    }
-
-    bool IsGrounded()
-    {
-        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
     }
 
 }
