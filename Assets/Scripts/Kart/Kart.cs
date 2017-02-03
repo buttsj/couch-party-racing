@@ -27,7 +27,6 @@ public class Kart : MonoBehaviour {
     void Start() {
 
         physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
-        playerNumber = 1;
         boost = 100.0f;
         lapNumber = 0;
 	}
