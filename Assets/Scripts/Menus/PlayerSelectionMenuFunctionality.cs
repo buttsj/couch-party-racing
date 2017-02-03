@@ -25,15 +25,29 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
         startToContinueText.text = "";
     }
-	
-	void Update () {
 
-        if(SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY))
-        {
-            SceneManager.LoadScene("Temp_Scene");
+    void Update() {
+        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
+            LoadScene();
+        } else {
+            checkForReadyPlayers();
+        }
+    }
+
+    private void LoadScene() {
+        // Configure Controls (Player Testing Order Matters)
+        SimpleInput.ClearCurrentPlayerDevices();
+        if (player1ReadyText.text == READY) {
+            SimpleInput.MapPlayerToDevice(1);
+        } else if (player2ReadyText.text == READY) {
+            SimpleInput.MapPlayerToDevice(2);
+        } else if (player3ReadyText.text == READY) {
+            SimpleInput.MapPlayerToDevice(3);
+        } else if (player3ReadyText.text == READY) {
+            SimpleInput.MapPlayerToDevice(4);
         }
 
-        checkForReadyPlayers();
+        SceneManager.LoadScene("Temp_Scene");
     }
 
     private void checkForReadyPlayers()

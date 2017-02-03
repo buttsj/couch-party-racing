@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class SimpleInput {
+    // Temporary collection. Will be replaced with Unity PlayerPref lookup.
 
-    private static IControlScheme[] playerSchemes = new IControlScheme[4] { new KeyboardScheme(), new Xbox360Scheme(1), new Xbox360Scheme(2), new Xbox360Scheme(3) };
+
+    private static List<IControlScheme> playerSchemes = new List<IControlScheme>(storedPrefSchemes);
+
+    public static int NumberOfPlayers { get { return playerSchemes.Count; } }
 
     /// <summary>
     /// Returns true while the virtual button identified by buttonName for any player is held down.
@@ -14,7 +18,7 @@ public static class SimpleInput {
     public static bool GetButton(string buttonName) {
         bool isPressed = false;
 
-        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+        for (int i = 0; !isPressed && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetButton(buttonName);
         }
 
@@ -39,7 +43,7 @@ public static class SimpleInput {
     public static bool GetButtonDown(string buttonName) {
         bool isPressed = false;
 
-        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+        for (int i = 0; !isPressed && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetButtonDown(buttonName);
         }
 
@@ -64,7 +68,7 @@ public static class SimpleInput {
     public static bool GetButtonUp(string buttonName) {
         bool isPressed = false;
 
-        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+        for (int i = 0; !isPressed && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetButtonUp(buttonName);
         }
 
@@ -89,7 +93,7 @@ public static class SimpleInput {
     public static float GetAxis(string axisName) {
         float isPressed = 0.0f;
 
-        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Length; i++) {
+        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetAxis(axisName);
         }
 
@@ -114,7 +118,7 @@ public static class SimpleInput {
     public static float GetAxisRaw(string axisName) {
         float isPressed = 0.0f;
 
-        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Length; i++) {
+        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetAxisRaw(axisName);
         }
 
@@ -138,7 +142,7 @@ public static class SimpleInput {
     public static bool GetAnyButton() {
         bool isPressed = false;
 
-        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+        for (int i = 0; !isPressed && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetAnyButton();
         }
 
@@ -162,7 +166,7 @@ public static class SimpleInput {
     public static bool GetAnyButtonDown() {
         bool isPressed = false;
 
-        for (int i = 0; !isPressed && i < playerSchemes.Length; i++) {
+        for (int i = 0; !isPressed && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetAnyButtonDown();
         }
 
@@ -179,12 +183,27 @@ public static class SimpleInput {
     }
 
     /// <summary>
-    /// Returns the system control name associated to the actionName.
+    /// Returns the system control name associated to the playerNumber's actionName.
     /// </summary>
     /// <param name="actionName"></param>
     /// <param name="playerNumber"></param>
     /// <returns></returns>
     public static string GetControlName(string actionName, int playerNumber) {
         return playerSchemes[playerNumber - 1].GetBinding(actionName).ToString();
+    }
+
+    /// <summary>
+    /// Clears the current mapping between players and their devices.
+    /// </summary>
+    public static void ClearCurrentPlayerDevices() {
+        playerSchemes.Clear();
+    }
+
+    /// <summary>
+    /// Binds <paramref name="deviceNumber"/>'s device to the correct playerNumber.
+    /// </summary>
+    /// <param name="deviceNumber"></param>
+    public static void MapPlayerToDevice(int deviceNumber) {
+        playerSchemes.Add(storedPrefSchemes[deviceNumber - 1]);
     }
 }

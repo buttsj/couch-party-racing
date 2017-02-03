@@ -14,17 +14,8 @@ public class KeyboardScheme : IControlScheme {
     }
 
     public void ResetBindingsToDefault() {
-        bindings.Clear();
-
-        bindings.Add("Horizontal", new KeyboardControl(KeyCode.A, KeyCode.D));
-        bindings.Add("Vertical", new KeyboardControl(KeyCode.Z, KeyCode.Q));
-        bindings.Add("Accelerate", new KeyboardControl(KeyCode.W));
-        bindings.Add("Reverse", new KeyboardControl(KeyCode.S));
-        bindings.Add("Use PowerUp", new KeyboardControl(KeyCode.E));
-        bindings.Add("Reset Rotation", new KeyboardControl(KeyCode.B));
-        bindings.Add("Pause", new KeyboardControl(KeyCode.Return));
-        bindings.Add("Bump Kart", new KeyboardControl(KeyCode.Space));
-        bindings.Add("Boost", new KeyboardControl(KeyCode.LeftShift));
+        ControlBindings defaultControls = new ControlBindings();
+        bindings = defaultControls.Keyboard1;
     }
 
     public float GetAxis(string axisName) {

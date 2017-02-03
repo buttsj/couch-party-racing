@@ -3,21 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Xbox360Scheme : IControlScheme {
+public class KeyboardScheme2 : IControlScheme {
 
     private Dictionary<string, IControl> bindings = new Dictionary<string, IControl>();
-    private int joystickNumber;
 
     public string Name { get; set; }
 
-    public Xbox360Scheme(int joystickNumber) {
-        this.joystickNumber = joystickNumber;
+    public KeyboardScheme2() {
         ResetBindingsToDefault();
     }
 
     public void ResetBindingsToDefault() {
-        ControlBindings defaultControls = new ControlBindings(joystickNumber);
-        bindings = defaultControls.Xbox;
+        ControlBindings defaultControls = new ControlBindings();
+        bindings = defaultControls.Keyboard2;
     }
 
     public float GetAxis(string axisName) {
@@ -48,7 +46,7 @@ public class Xbox360Scheme : IControlScheme {
         List<IControl> list = new List<IControl>();
 
         foreach (var pair in bindings) {
-            if (pair.Value.IsDown()) {
+            if(pair.Value.IsDown()) {
                 list.Add(pair.Value);
             }
         }
@@ -59,8 +57,8 @@ public class Xbox360Scheme : IControlScheme {
     public bool GetAnyButton() {
         bool anyInput = false;
 
-        foreach (var pair in bindings) {
-            if (pair.Value.IsHeldDown()) {
+        foreach(var pair in bindings) {
+            if(pair.Value.IsHeldDown()) {
                 anyInput = true;
                 break;
             }

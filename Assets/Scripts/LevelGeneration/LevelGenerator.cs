@@ -7,7 +7,7 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour {
 
     private TileContainer tileCollection;
-    private string levelName;
+    private string levelName = "tiles.xml";
     
     public LevelGenerator(string levelName) {
         this.levelName = levelName;
@@ -27,7 +27,7 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     public void GenerateLevel() {
-        tileCollection = TileContainer.Load(Path.Combine(Application.dataPath, "tiles.xml"));
+        tileCollection = TileContainer.Load(Path.Combine(Application.dataPath, levelName));
         
         foreach (var item in tileCollection.tileList) {
             Debug.Log(item.Size.X);
