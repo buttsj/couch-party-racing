@@ -151,10 +151,20 @@ public class Kart : MonoBehaviour {
                 boost = 100;
             }
         }
-
         if (other.gameObject.name.Contains("Finish")) {
             lapNumber++;
+        }
     }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name.Contains("Conveyor"))
+        {
+            if (other.gameObject.GetComponent<ConveyorScript>().direction)
+                physics.SlowZone(other.gameObject);
+            else
+                physics.FastZone(other.gameObject);
+        }
     }
 
     bool IsGrounded() {
@@ -163,16 +173,9 @@ public class Kart : MonoBehaviour {
 
     bool IsFlipped() {
         return transform.eulerAngles.z > 90f;
-}
+    }
 
     void ResetRotation() {
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
-
-
-
-
-   
-
-
 }
