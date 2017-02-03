@@ -13,6 +13,10 @@ public class Kart : MonoBehaviour {
     public GameObject fLParent;
     public GameObject fRParent;
 
+    private bool damaged;
+    public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+    private float selfTimer;
+
     private KartPhysics physics;
     private float turnPower;
     private float angle = 0.0f;
@@ -24,15 +28,19 @@ public class Kart : MonoBehaviour {
     public float Boost { get { return boost; } set { boost = value; } }
     public int LapNumber { get { return lapNumber; } }
     public string Powerup { get { return powerup; } set { powerup = value; } }
+
     void Start() {
 
         physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
+        damaged = true;
         boost = 100.0f;
         lapNumber = 0;
 	}
 
-    void Update() { 
-        if (SimpleInput.GetButton("Accelerate", playerNumber))
+    void Update()
+    {
+        if (!damaged) {
+            if (SimpleInput.GetButton("Accelerate", playerNumber))
             {
                 physics.Accelerate();
             }
@@ -46,27 +54,37 @@ public class Kart : MonoBehaviour {
 
             }
 
-        if (SimpleInput.GetButton("Boost", playerNumber))
-        {
-            if (boost > 0)
+            if (SimpleInput.GetButton("Boost", playerNumber))
             {
-                physics.StartBoost();
-                boost -= .5f;
+                if (boost > 0)
+                {
+                    physics.StartBoost();
+                    boost -= .5f;
+                }
+                else
+                {
+                    physics.EndBoost();
+                }
             }
             else
             {
                 physics.EndBoost();
             }
+            turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
+            if (SimpleInput.GetButton("Reset Rotation", playerNumber))
+            {
+                ResetRotation();
+            }
         }
-        else {
-            physics.EndBoost();
+        else
+        {
+            physics.Spin();
+            selfTimer = selfTimer + Time.deltaTime;
+            if (selfTimer >= 4.0f)
+            {
+                damaged = false;
+            }
         }
-        
-
-        turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
-        if (SimpleInput.GetButton("Reset Rotation", playerNumber)) {
-            ResetRotation();
-    }
     }
 
     void FixedUpdate () {
@@ -160,6 +178,7 @@ public class Kart : MonoBehaviour {
     {
         if (other.gameObject.name.Contains("Conveyor"))
         {
+            // push the kart by the conveyor belt
             if (other.gameObject.GetComponent<ConveyorScript>().direction)
                 physics.SlowZone(other.gameObject);
             else

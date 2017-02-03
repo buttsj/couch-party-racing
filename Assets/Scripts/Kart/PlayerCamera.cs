@@ -16,8 +16,10 @@ public class PlayerCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        transform.position = player.position - followDistance*player.forward + offset;
-        transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
-        
+        if (!player.gameObject.GetComponent<Kart>().IsDamaged)
+        {
+            transform.position = player.position - followDistance * player.forward + offset;
+            transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
+        }
     }
 }
