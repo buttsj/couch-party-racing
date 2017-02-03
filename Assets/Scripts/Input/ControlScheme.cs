@@ -3,19 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyboardScheme2 : IControlScheme {
+public class ControlScheme {
 
     private Dictionary<string, IControl> bindings = new Dictionary<string, IControl>();
+    private string deviceName;
+    private int joystickNumber;
 
     public string Name { get; set; }
 
-    public KeyboardScheme2() {
+    public ControlScheme(string deviceName) {
+        this.deviceName = deviceName;
+        ResetBindingsToDefault();
+    }
+
+    public ControlScheme(string deviceName, int joystickNumber) {
+        this.deviceName = deviceName;
+        this.joystickNumber = joystickNumber;
         ResetBindingsToDefault();
     }
 
     public void ResetBindingsToDefault() {
-        ControlBindings defaultControls = new ControlBindings();
-        bindings = defaultControls.Keyboard2;
+        if (deviceName == "Xbox") {
+            bindings = new ControlBindings(joystickNumber).Xbox;
+        } else if (deviceName == "Keyboard1") {
+            bindings = new ControlBindings().Keyboard1;
+        } else if (deviceName == "Keyboard2") {
+            bindings = new ControlBindings().Keyboard2;
+        }
     }
 
     public float GetAxis(string axisName) {
@@ -46,7 +60,7 @@ public class KeyboardScheme2 : IControlScheme {
         List<IControl> list = new List<IControl>();
 
         foreach (var pair in bindings) {
-            if(pair.Value.IsDown()) {
+            if (pair.Value.IsDown()) {
                 list.Add(pair.Value);
             }
         }
@@ -57,8 +71,8 @@ public class KeyboardScheme2 : IControlScheme {
     public bool GetAnyButton() {
         bool anyInput = false;
 
-        foreach(var pair in bindings) {
-            if(pair.Value.IsHeldDown()) {
+        foreach (var pair in bindings) {
+            if (pair.Value.IsHeldDown()) {
                 anyInput = true;
                 break;
             }

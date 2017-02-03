@@ -4,10 +4,14 @@ using UnityEngine;
 
 public static class SimpleInput {
     // Temporary collection. Will be replaced with Unity PlayerPref lookup.
-    private static List<IControlScheme> storedPrefSchemes = new List<IControlScheme> { new KeyboardScheme(), new Xbox360Scheme(1), new Xbox360Scheme(2), new KeyboardScheme2() };
+    private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme> {
+        new ControlScheme("Keyboard1"),
+        new ControlScheme("Xbox", 1),
+        new ControlScheme("Xbox", 2),
+        new ControlScheme("Keyboard2")
+    };
 
-
-    private static List<IControlScheme> playerSchemes = new List<IControlScheme>(storedPrefSchemes);
+    private static List<ControlScheme> playerSchemes = new List<ControlScheme>(storedPrefSchemes);
 
     public static int NumberOfPlayers { get { return playerSchemes.Count; } }
 
