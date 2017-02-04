@@ -51,13 +51,20 @@ public class WaypointAI : MonoBehaviour {
 	
 	void FixedUpdate () {
 
+        AIPhysics();
+
+        fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
+        fRightModel.transform.Rotate(Vector3.right * physics.Speed);
+        rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
+        rRightModel.transform.Rotate(Vector3.right * physics.Speed);
+
+    }
+
+    private void AIPhysics()
+    {
         if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Turn"))
         {
             physics.MaxSpeed = 130;
-        }
-        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Ramp"))
-        {
-            physics.MaxSpeed = 200;
         }
         else
         {
@@ -66,21 +73,18 @@ public class WaypointAI : MonoBehaviour {
 
         if (IsGrounded())
         {
-            Vector3 temp = new Vector3(waypoints[currentTargetWaypoint].transform.position.x, 0.0f, waypoints[currentTargetWaypoint].transform.position.z);
-            Vector3 temp2 = new Vector3(transform.position.x, 0.0f, transform.position.z);
-            Quaternion rotationTowardTarget = Quaternion.LookRotation((temp - temp2).normalized);
 
-            transform.rotation = new Quaternion(transform.rotation.x, Quaternion.Slerp(transform.rotation, rotationTowardTarget, 0.2f).y, transform.rotation.z, transform.rotation.w);
+            Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.position.x, 0.0f, waypoints[currentTargetWaypoint].transform.position.z);
+            Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
+
+            Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
+            Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.2f);
+
+            transform.rotation = new Quaternion(transform.rotation.x, slerpQuaternion.y, transform.rotation.z, slerpQuaternion.w);
 
             physics.Accelerate();
             physics.ApplyForces();
         }
-
-        fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
-        fRightModel.transform.Rotate(Vector3.right * physics.Speed);
-        rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
-        rRightModel.transform.Rotate(Vector3.right * physics.Speed);
-
     }
 
     public int NumberOfWaypoints
