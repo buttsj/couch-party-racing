@@ -25,34 +25,41 @@ public class WaypointAI : MonoBehaviour {
     {
         currentTargetWaypoint = 0;
 
-        numberofWaypoints = 33;
-
-        physics = new KartPhysics(gameObject, 150, 250, 300);
+        physics = new KartPhysics(gameObject, 150, 200, 200);
 
         boost = 100.0f;
     }
 
 	void Start () {
 
-        waypoints = new GameObject[numberofWaypoints];
+        waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+        numberofWaypoints = waypoints.Length;
 
-        for(int i = 0; i < numberofWaypoints; i++)
+        for(int i = 1; i < numberofWaypoints; i++)
         {
-            waypoints[i] = GameObject.Find(i.ToString());
+            int j = i;
+            while (j > 0 && (waypoints[j-1].GetComponent<Waypoint>().waypointNumber > waypoints[j].GetComponent<Waypoint>().waypointNumber))
+            {
+                GameObject temp = waypoints[j - 1];
+                waypoints[j - 1] = waypoints[j];
+                waypoints[j] = temp;
+                j--;
+            }
         }
-        
+
     }
 	
 	void FixedUpdate () {
 
-        Quaternion rotationTowardTarget = Quaternion.LookRotation((waypoints[currentTargetWaypoint].transform.localPosition - transform.position).normalized);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTowardTarget, 0.18f);
+        Quaternion rotationTowardTarget = Quaternion.LookRotation((waypoints[currentTargetWaypoint].transform.position - transform.position).normalized);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTowardTarget, .6f);
 
         fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
         fRightModel.transform.Rotate(Vector3.right * physics.Speed);
         rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
         rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
+        /*
         if (boost > 0)
         {
             physics.StartBoost();
@@ -62,6 +69,9 @@ public class WaypointAI : MonoBehaviour {
         {
             physics.EndBoost();
         }
+        */
+
+        Debug.Log(currentTargetWaypoint);
 
         physics.Accelerate();
         physics.ApplyForces();

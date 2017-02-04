@@ -15,7 +15,6 @@ public class Waypoint : MonoBehaviour {
 
             if (waypointAI.CurrentTargetWaypoint == waypointNumber)
             {
-                Debug.Log(waypointAI.CurrentTargetWaypoint);
                 waypointAI.CurrentTargetWaypoint++;
                 if (waypointAI.CurrentTargetWaypoint >= waypointAI.NumberOfWaypoints)
                 {
