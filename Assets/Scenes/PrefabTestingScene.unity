@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641252, b: 0.574817, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -137,10 +137,10 @@ Prefab:
     - target: {fileID: 54282611236187346, guid: 13f8d2bca5f2ec8479af4b2080bfaec3,
         type: 2}
       propertyPath: m_Constraints
-      value: 80
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 65570540097213198, guid: 13f8d2bca5f2ec8479af4b2080bfaec3, type: 2}
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 13f8d2bca5f2ec8479af4b2080bfaec3, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &316296151
@@ -298,18 +298,6 @@ Prefab:
     - target: {fileID: 4785381070437090, guid: 6bfe001306d9b754793eefad65dce888, type: 2}
       propertyPath: m_RootOrder
       value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785381070437090, guid: 6bfe001306d9b754793eefad65dce888, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785381070437090, guid: 6bfe001306d9b754793eefad65dce888, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.0000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785381070437090, guid: 6bfe001306d9b754793eefad65dce888, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.0000005
       objectReference: {fileID: 0}
     - target: {fileID: 1380949462481642, guid: 6bfe001306d9b754793eefad65dce888, type: 2}
       propertyPath: m_Name
@@ -509,7 +497,6 @@ GameObject:
   - component: {fileID: 776418672}
   - component: {fileID: 776418671}
   - component: {fileID: 776418670}
-  - component: {fileID: 776418675}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -585,19 +572,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &776418675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 776418669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f15ed3cf6a056e44a898e97c8dd60da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1449883898}
-  followDistance: 20
 --- !u!1001 &801296939
 Prefab:
   m_ObjectHideFlags: 0
@@ -696,20 +670,6 @@ Prefab:
     - target: {fileID: 1782907313844514, guid: 16bfdd7687be94c4dbeceedde9813ee1, type: 2}
       propertyPath: m_Name
       value: TurnPrefab (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4324611997822720, guid: 16bfdd7687be94c4dbeceedde9813ee1, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 114638890906940566, guid: 16bfdd7687be94c4dbeceedde9813ee1,
-        type: 2}
-      propertyPath: waypointNumber
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114400391450553350, guid: 16bfdd7687be94c4dbeceedde9813ee1,
-        type: 2}
-      propertyPath: waypointNumber
-      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16bfdd7687be94c4dbeceedde9813ee1, type: 2}
@@ -981,11 +941,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1449883898 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4630306102098576, guid: 13f8d2bca5f2ec8479af4b2080bfaec3,
-    type: 2}
-  m_PrefabInternal: {fileID: 272016485}
 --- !u!1001 &1603725691
 Prefab:
   m_ObjectHideFlags: 0
