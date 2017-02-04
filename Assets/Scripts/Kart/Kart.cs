@@ -13,6 +13,10 @@ public class Kart : MonoBehaviour {
     public GameObject fLParent;
     public GameObject fRParent;
 
+    private bool damaged;
+    public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+    private float selfTimer;
+
     private KartPhysics physics;
     private float turnPower;
     private float angle = 0.0f;
@@ -20,18 +24,24 @@ public class Kart : MonoBehaviour {
     private string powerup;
     private int lapNumber;
     private int playerNumber;
+    private string timeText;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
     public int LapNumber { get { return lapNumber; } }
     public string Powerup { get { return powerup; } set { powerup = value; } }
-    void Start() {
 
+    public string TimeText { get { return timeText; } set { timeText = value; } }
+
+    void Start() {
         physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
+        damaged = true;
         boost = 100.0f;
         lapNumber = 0;
 	}
 
-    void Update() { 
+    void Update()
+    {
+        if (!damaged) {
         if (SimpleInput.GetButton("Accelerate", playerNumber))
             {
                 physics.Accelerate();
@@ -58,15 +68,25 @@ public class Kart : MonoBehaviour {
                 physics.EndBoost();
             }
         }
-        else {
+            else
+            {
             physics.EndBoost();
         }
-        
-
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
-        if (SimpleInput.GetButton("Reset Rotation", playerNumber)) {
+            if (SimpleInput.GetButton("Reset Rotation", playerNumber))
+            {
             ResetRotation();
     }
+    }
+        else
+        {
+            physics.Spin();
+            selfTimer = selfTimer + Time.deltaTime;
+            if (selfTimer >= 4.0f)
+            {
+                damaged = false;
+            }
+        }
     }
 
     void FixedUpdate () {
@@ -85,6 +105,7 @@ public class Kart : MonoBehaviour {
             {
                 physics.ApplyForces();
             }       
+               
         }
 
         physics.RotateKart(turnPower);
@@ -153,13 +174,14 @@ public class Kart : MonoBehaviour {
         }
         if (other.gameObject.name.Contains("Finish")) {
             lapNumber++;
-        }
+    }
     }
 
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.name.Contains("Conveyor"))
         {
+            // push the kart by the conveyor belt
             if (other.gameObject.GetComponent<ConveyorScript>().direction)
                 physics.SlowZone(other.gameObject);
             else
@@ -173,7 +195,7 @@ public class Kart : MonoBehaviour {
 
     bool IsFlipped() {
         return transform.eulerAngles.z > 90f;
-    }
+}
 
     void ResetRotation() {
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);

@@ -18,9 +18,9 @@ public class HUDManager : MonoBehaviour {
     void Start () {
         
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         boost = kart.GetComponent<Kart>().Boost;
         boostText.text = ((int)boost).ToString();
         poweruptype = kart.GetComponent<Kart>().Powerup;
@@ -28,11 +28,16 @@ public class HUDManager : MonoBehaviour {
         {
             lapText.text = "1 / 3";
         }
+        else if (kart.GetComponent<Kart>().LapNumber > 3) {
+            lapText.text = "3 / 3";
+        }
         else
         {
             lapText.text = kart.GetComponent<Kart>().LapNumber.ToString() + " / 3";
         }
-        UpdateTimerUI();
+
+        if(kart.GetComponent<Kart>().LapNumber < 4)
+            UpdateTimerUI();
     }
 
     public void UpdateTimerUI()
@@ -59,6 +64,7 @@ public class HUDManager : MonoBehaviour {
         }
 
         timerText.text = minuteText + ":" + secondsText;
+        kart.GetComponent<Kart>().TimeText = timerText.text;
         if (secondsCount >= 60)
         {
             minuteCount++;

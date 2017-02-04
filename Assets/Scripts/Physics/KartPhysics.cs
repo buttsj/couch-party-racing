@@ -63,9 +63,9 @@ public class KartPhysics {
         body.AddRelativeForce(0, 1000, 0);
     }
 
-    public void DamageKart() {
-        // spin kart in circles a bit to show it is damaged
-        // do not allow player to move during this time
+    public void Spin()
+    {
+        kart.transform.Rotate(Vector3.up, 20.0f);
     }
 
     public void SlowZone(GameObject other) {
@@ -92,4 +92,5 @@ public class KartPhysics {
         kart.transform.Find("LeftExhaust").gameObject.SetActive(false);
         kart.transform.Find("RightExhaust").gameObject.SetActive(false);
     }
+
 }
