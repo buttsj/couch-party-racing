@@ -47,7 +47,7 @@ public class SceneGenerator : MonoBehaviour {
 
     private void GenerateAI() {
         for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), new Vector3(-107, -112, -107), Quaternion.Euler(new Vector3(0, -90, 0))));
+            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), new Vector3(0, 2, 0), Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].name = "AI " + (i + 1);
             //kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
@@ -59,7 +59,7 @@ public class SceneGenerator : MonoBehaviour {
         kartList = new List<GameObject>();
 
         for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), new Vector3(-107,-112,-107), Quaternion.Euler(new Vector3(0, -90, 0))));
+            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), new Vector3(0,2,0), Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].name = "Player " + (i+1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
