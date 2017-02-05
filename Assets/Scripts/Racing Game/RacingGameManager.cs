@@ -23,11 +23,7 @@ public class RacingGameManager : MonoBehaviour {
         exit = exit.GetComponent<Button>();
         canvas.enabled = false;
         playerList = new List<GameObject>();
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            playerList.Add(player);
-        }
-
+        LoadPlayers();
         playerTexts.Add(player1Text);
         playerTexts.Add(player2Text);
         playerTexts.Add(player3Text);
@@ -36,7 +32,10 @@ public class RacingGameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (AllKartsFinishedRace()) {
+        if (playerList.Count == 0) {
+            LoadPlayers();
+        }
+        else if (AllKartsFinishedRace()) {
             canvas.enabled = true;
             for (int i = 0; i < playerList.Count; i++) {
                 playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;
@@ -60,5 +59,12 @@ public class RacingGameManager : MonoBehaviour {
     {
         canvas.enabled = false;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    void LoadPlayers() {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            playerList.Add(player);
+        }
     }
 }

@@ -37,6 +37,7 @@ public class Kart : MonoBehaviour {
         damaged = true;
         boost = 100.0f;
         lapNumber = 0;
+        playerNumber = 1;
 	}
 
     void Update()
