@@ -30,6 +30,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         player4ReadyText.text = UNREADY;
 
         startToContinueText.text = "";
+
+        SimpleInput.MapPlayersToDefaultPref();
     }
 
     void Update() {
