@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33620569306783322}
   - component: {fileID: 64671778913518828}
   - component: {fileID: 23658473680172718}
-  - component: {fileID: 114255981428497098}
   m_Layer: 8
   m_Name: MinimapColor
   m_TagString: Untagged
@@ -786,18 +785,6 @@ MonoBehaviour:
   steering_wheel: {fileID: 1099317533996410}
   fLParent: {fileID: 1246333295286958}
   fRParent: {fileID: 1956172654273972}
---- !u!114 &114255981428497098
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1087220740729830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 443822e97bd835f4ebfe9f8307d231af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kart: {fileID: 1737764170648378}
 --- !u!198 &198374157529510646
 ParticleSystem:
   m_ObjectHideFlags: 1

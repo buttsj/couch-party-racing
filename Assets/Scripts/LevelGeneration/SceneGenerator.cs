@@ -25,9 +25,9 @@ public class SceneGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (IsLoaded()) {
-            GameObject track = new GameObject(LevelName);
-            levelGenerator = new LevelGenerator(track.transform);
-            levelGenerator.GenerateLevel(LevelName);
+            //GameObject track = new GameObject(LevelName);
+            //levelGenerator = new LevelGenerator(track.transform);
+            //levelGenerator.GenerateLevel(LevelName);
             GeneratePlayers();
             GenerateCameras();
             DestroyGenerator();
