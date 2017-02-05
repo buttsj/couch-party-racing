@@ -47,6 +47,7 @@ public class SceneGenerator : MonoBehaviour {
             kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), Vector3.one, Quaternion.Euler(Vector3.zero)));
             kartList[i].name = "Player " + (i+1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
+            kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
         }
       
         return kartList;
