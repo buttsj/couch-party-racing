@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
-    private const string TRACK_SCENE_NAME = "Temp_Scene";
+    private const string TRACK_SCENE_NAME = "DemoScene";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
     private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
-    private const int MAX_PLAYERS = 1;
+    private const int MAX_PLAYERS = 4;
 
     public string LevelName { get; set; }
 
@@ -45,7 +45,7 @@ public class SceneGenerator : MonoBehaviour {
 
     private void GenerateAI() {
         for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), new Vector3(15, 15, 15 * i * 2), Quaternion.Euler(Vector3.zero)));
+            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), new Vector3(-107, -112, -107), Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].name = "AI " + (i + 1);
             //kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
@@ -57,7 +57,7 @@ public class SceneGenerator : MonoBehaviour {
         kartList = new List<GameObject>();
 
         for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), new Vector3(15,15,15 * i * 2), Quaternion.Euler(Vector3.zero)));
+            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), new Vector3(-107,-112,-107), Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].name = "Player " + (i+1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
