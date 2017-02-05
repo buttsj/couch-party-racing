@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneGenerator : MonoBehaviour {
     private const string TRACK_SCENE_NAME = "Temp_Scene";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
+    private const string HUD_PATH = "Prefabs/UI Prefabs/";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
 
     public string LevelName { get; set; }
@@ -30,6 +31,7 @@ public class SceneGenerator : MonoBehaviour {
             //levelGenerator.GenerateLevel(LevelName);
             GeneratePlayers();
             GenerateCameras();
+            GenerateHUD(SimpleInput.NumberOfPlayers);
             DestroyGenerator();
         }
 	}
@@ -88,6 +90,7 @@ public class SceneGenerator : MonoBehaviour {
         camera.AddComponent<Camera>().rect = rect;
         camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
         camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
+       
         return camera;
     }
 
@@ -98,4 +101,20 @@ public class SceneGenerator : MonoBehaviour {
     private void DestroyGenerator() {
         Destroy(gameObject);
     }
+
+    private void GenerateHUD(int numberOfPlayers) {
+        GameObject hud;
+        switch (numberOfPlayers) {
+            case 1:
+                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Single Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<HUDManager>().kart = kartList[0];
+                break;
+            case 2:
+                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<TwoPlayerHUDManager>().kart1 = kartList[0];
+                hud.GetComponent<TwoPlayerHUDManager>().kart2 = kartList[1];
+                break;
+        }
+    }
+    
 }
