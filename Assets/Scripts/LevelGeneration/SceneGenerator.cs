@@ -12,6 +12,7 @@ public class SceneGenerator : MonoBehaviour {
 
     private LevelGenerator levelGenerator;
     private List<GameObject> kartList;
+    private List<Color> kartColorList = new List<Color> { Color.red, Color.blue, Color.green, Color.yellow};
 
     void Awake () {
         DontDestroyOnLoad(this);
