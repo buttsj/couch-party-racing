@@ -4,15 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
-    private const string TRACK_SCENE_NAME = "Temp_Scene";
+    private const string TRACK_SCENE_NAME = "DemoScene";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
+    private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
     private const string HUD_PATH = "Prefabs/UI Prefabs/";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
+    private const int MAX_PLAYERS = 4;
 
     public string LevelName { get; set; }
 
     private LevelGenerator levelGenerator;
     private List<GameObject> kartList;
+    private List<Color> kartColorList = new List<Color> { Color.red, Color.blue, Color.green, Color.yellow};
 
     void Awake () {
         DontDestroyOnLoad(this);
@@ -31,6 +34,7 @@ public class SceneGenerator : MonoBehaviour {
             //levelGenerator.GenerateLevel(LevelName);
             GeneratePlayers();
             GenerateCameras();
+            GenerateAI();
             GenerateHUD(SimpleInput.NumberOfPlayers);
             DestroyGenerator();
         }
@@ -41,16 +45,26 @@ public class SceneGenerator : MonoBehaviour {
         SceneManager.LoadScene(TRACK_SCENE_NAME);
     }
 
-    private List<GameObject> GeneratePlayers() {
+    private void GenerateAI() {
+        for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
+            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), new Vector3(-107, -112, -107), Quaternion.Euler(new Vector3(0, -90, 0))));
+            kartList[i].name = "AI " + (i + 1);
+            //kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
+            kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
+            kartList[i].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[i];
+        }
+    }
+
+    private void GeneratePlayers() {
         kartList = new List<GameObject>();
 
         for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), Vector3.one, Quaternion.Euler(Vector3.zero)));
+            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), new Vector3(-107,-112,-107), Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].name = "Player " + (i+1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
+            kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
+            kartList[i].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[i];
         }
-      
-        return kartList;
     }
 
     private void GenerateCameras() {
@@ -87,9 +101,15 @@ public class SceneGenerator : MonoBehaviour {
 
     private GameObject CreateCamera(string cameraName, Rect rect, int playerNumber) {
         GameObject camera = new GameObject(cameraName);
+
+        camera.SetActive(false);
+
         camera.AddComponent<Camera>().rect = rect;
         camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
         camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
+
+        camera.SetActive(true);
+
        
         return camera;
     }
@@ -114,7 +134,7 @@ public class SceneGenerator : MonoBehaviour {
                 hud.GetComponent<TwoPlayerHUDManager>().kart1 = kartList[0];
                 hud.GetComponent<TwoPlayerHUDManager>().kart2 = kartList[1];
                 break;
-        }
+}
     }
     
 }
