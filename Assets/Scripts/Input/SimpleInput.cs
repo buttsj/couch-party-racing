@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class SimpleInput {
@@ -210,5 +211,12 @@ public static class SimpleInput {
     /// <param name="deviceNumber"></param>
     public static void MapPlayerToDevice(int deviceNumber) {
         playerSchemes.Add(storedPrefSchemes[deviceNumber - 1]);
+    }
+
+    /// <summary>
+    /// Binds the player preferenced devices to their default player.
+    /// </summary>
+    public static void MapPlayersToDefaultPref() {
+        playerSchemes = storedPrefSchemes.ToList();
     }
 }
