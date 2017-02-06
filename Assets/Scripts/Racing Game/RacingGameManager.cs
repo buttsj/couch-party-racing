@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class RacingGameManager : MonoBehaviour {
     List<GameObject> playerList;
@@ -39,6 +40,7 @@ public class RacingGameManager : MonoBehaviour {
         }
         else if (AllKartsFinishedRace()) {
             canvas.enabled = true;
+            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
             for (int i = 0; i < playerList.Count; i++) {
                     playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;        
                 }
