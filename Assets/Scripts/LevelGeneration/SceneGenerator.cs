@@ -16,7 +16,7 @@ public class SceneGenerator : MonoBehaviour {
     private LevelGenerator levelGenerator;
     private List<GameObject> kartList;
     private List<Vector3> kartPosList = new List<Vector3>() { new Vector3(30, 1, -10), new Vector3(30, 1, 10), new Vector3(10, 1, -10), new Vector3(10, 1, 10)};
-    private List<Color> kartColorList = new List<Color> { Color.red, Color.blue, Color.green, Color.yellow};
+    private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow};
 
     void Awake () {
         DontDestroyOnLoad(this);
