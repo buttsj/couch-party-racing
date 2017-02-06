@@ -25,6 +25,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
     {
         aiList = new List<GameObject>();
         seconds = new List<float>();
+        minutes = new List<int>();
         seconds.Add(0f);
         seconds.Add(0f);
         minutes.Add(0);
