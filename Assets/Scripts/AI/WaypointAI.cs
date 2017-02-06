@@ -78,6 +78,10 @@ public class WaypointAI : MonoBehaviour {
         {
             physics.MaxSpeed = 100;
         }
+        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Ramp"))
+        {
+            physics.MaxSpeed = 210;
+        }
         else
         {
             physics.MaxSpeed = 200;
