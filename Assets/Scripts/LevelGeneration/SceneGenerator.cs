@@ -15,6 +15,7 @@ public class SceneGenerator : MonoBehaviour {
 
     private LevelGenerator levelGenerator;
     private List<GameObject> kartList;
+    private List<Vector3> kartPosList = new List<Vector3>() { new Vector3(30, 1, -10), new Vector3(30, 1, 10), new Vector3(10, 1, -10), new Vector3(10, 1, 10)};
     private List<Color> kartColorList = new List<Color> { Color.red, Color.blue, Color.green, Color.yellow};
 
     void Awake () {
@@ -47,8 +48,8 @@ public class SceneGenerator : MonoBehaviour {
 
     private void GenerateAI() {
         for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), new Vector3(0, 2, 0), Quaternion.Euler(new Vector3(0, -90, 0))));
-            kartList[i].name = "AI " + (i + 1);
+            kartList.Add(Instantiate(Resources.Load<GameObject>(AI_KART_PATH), kartPosList[i], Quaternion.Euler(new Vector3(0, -90, 0))));
+            kartList[i].name = "AIKart";
             //kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
             kartList[i].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[i];
@@ -59,7 +60,7 @@ public class SceneGenerator : MonoBehaviour {
         kartList = new List<GameObject>();
 
         for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), new Vector3(0,2,0), Quaternion.Euler(new Vector3(0, -90, 0))));
+            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), kartPosList[i], Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].name = "Player " + (i+1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
