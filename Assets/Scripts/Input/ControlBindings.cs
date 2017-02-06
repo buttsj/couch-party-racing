@@ -31,11 +31,11 @@ public class ControlBindings {
             bindings["Vertical"] = new JoystickControl(XBOX.LStickY, joystickNumber);
             bindings["Accelerate"] = new JoystickControl(XBOX.RTrigger, joystickNumber);
             bindings["Reverse"] = new JoystickControl(XBOX.LTrigger, joystickNumber);
-            bindings["Use PowerUp"] = new JoystickControl(XBOX.B, joystickNumber);
+            bindings["Use PowerUp"] = new JoystickControl(XBOX.X, joystickNumber);
             bindings["Reset Rotation"] = new JoystickControl(XBOX.Back, joystickNumber);
             bindings["Pause"] = new JoystickControl(XBOX.Start, joystickNumber);
             bindings["Bump Kart"] = new JoystickControl(XBOX.A, joystickNumber);
-            bindings["Boost"] = new JoystickControl(XBOX.X, joystickNumber);
+            bindings["Boost"] = new JoystickControl(XBOX.B, joystickNumber);
 
             return bindings;
         }
