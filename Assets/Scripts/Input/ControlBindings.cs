@@ -34,7 +34,7 @@ public class ControlBindings {
             bindings["Use PowerUp"] = new JoystickControl(XBOX.B, joystickNumber);
             bindings["Reset Rotation"] = new JoystickControl(XBOX.Back, joystickNumber);
             bindings["Pause"] = new JoystickControl(XBOX.Start, joystickNumber);
-            bindings["Bump Kart"] = new JoystickControl(XBOX.X, joystickNumber);
+            bindings["Bump Kart"] = new JoystickControl(XBOX.A, joystickNumber);
             bindings["Boost"] = new JoystickControl(XBOX.X, joystickNumber);
 
             return bindings;
