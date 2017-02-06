@@ -105,6 +105,7 @@ public class SceneGenerator : MonoBehaviour {
         camera.SetActive(false);
 
         camera.AddComponent<Camera>().rect = rect;
+        camera.GetComponent<Camera>().farClipPlane = 5000;
         camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
         camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
 
