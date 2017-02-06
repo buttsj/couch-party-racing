@@ -25,7 +25,7 @@ public class WaypointAI : MonoBehaviour {
     {
         currentTargetWaypoint = 0;
 
-        physics = new KartPhysics(gameObject, 130, 200, 230);
+        physics = new KartPhysics(gameObject, 100, 200, 230);
 
         boost = 100.0f;
     }
@@ -65,6 +65,14 @@ public class WaypointAI : MonoBehaviour {
         if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Turn"))
         {
             physics.MaxSpeed = 130;
+        }
+        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Curvy"))
+        {
+            physics.MaxSpeed = 130;
+        }
+        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Corner"))
+        {
+            physics.MaxSpeed = 100;
         }
         else
         {
