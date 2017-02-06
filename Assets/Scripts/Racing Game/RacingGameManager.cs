@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class RacingGameManager : MonoBehaviour {
     List<GameObject> playerList;
+    List<GameObject> aiList;
     List<Text> playerTexts;
     public Canvas canvas;
     public Text player1Text;
@@ -23,6 +24,7 @@ public class RacingGameManager : MonoBehaviour {
         exit = exit.GetComponent<Button>();
         canvas.enabled = false;
         playerList = new List<GameObject>();
+        aiList = new List<GameObject>();
         LoadPlayers();
         playerTexts.Add(player1Text);
         playerTexts.Add(player2Text);
@@ -38,19 +40,32 @@ public class RacingGameManager : MonoBehaviour {
         else if (AllKartsFinishedRace()) {
             canvas.enabled = true;
             for (int i = 0; i < playerList.Count; i++) {
-                playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;
-
+                    playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;        
+                }
+            for (int i = playerList.Count; i < aiList.Count + playerList.Count; i++)
+            {
+                playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
             }
-        }
+       }
 	}
 
     bool AllKartsFinishedRace() {
         bool finished = true;
 
         foreach (GameObject player in playerList) {
-            if (player.GetComponent<Kart>().LapNumber < 4) {
-                finished = false;
+            if (player.GetComponent<Kart>() != null)
+            {
+                if (player.GetComponent<Kart>().LapNumber < 4)
+                {
+                    finished = false;
+                }
             }
+            else if (player.GetComponent<WaypointAI>() != null) {
+                if (player.GetComponent<WaypointAI>().LapNumber < 4) {
+                    finished = false;
+                }
+            }
+
         }
         return finished;
     }
@@ -65,6 +80,11 @@ public class RacingGameManager : MonoBehaviour {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             playerList.Add(player);
+        }
+
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("AI"))
+        {
+            aiList.Add(player);
         }
     }
 }

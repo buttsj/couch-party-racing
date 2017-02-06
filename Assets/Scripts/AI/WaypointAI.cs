@@ -16,6 +16,10 @@ public class WaypointAI : MonoBehaviour {
     private int currentTargetWaypoint;
     private int numberofWaypoints;
     private GameObject[] waypoints;
+    private int lapNumber;
+    private string timeText;
+    public int LapNumber { get { return lapNumber; } }
+    public string TimeText { get { return timeText; } set { timeText = value; } }
 
     private float boost;
 
@@ -110,6 +114,13 @@ public class WaypointAI : MonoBehaviour {
     bool IsGrounded()
     {
         return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+    }
+
+    void OnTriggerEnter (Collider other) {
+        if (other.gameObject.name.Contains("Finish"))
+        {
+            lapNumber++;
+        }
     }
 
 }
