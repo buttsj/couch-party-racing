@@ -15,10 +15,10 @@ public class RacingGameManager : MonoBehaviour {
     public Text player3Text;
     public Text player4Text;
     public Button exit;
+    public bool raceOver;
 
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         playerTexts = new List<Text>();
         playerList = new List<GameObject>();
         canvas = canvas.GetComponent<Canvas>();
@@ -39,6 +39,7 @@ public class RacingGameManager : MonoBehaviour {
             LoadPlayers();
         }
         else if (AllKartsFinishedRace()) {
+            raceOver = true;
             canvas.enabled = true;
             EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
             for (int i = 0; i < playerList.Count; i++) {

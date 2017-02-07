@@ -28,14 +28,15 @@ public class PauseMenuFunctionality : MonoBehaviour {
     }
 	
 	void Update () {
-
-        if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
+        if (!GameObject.Find("RacingEndMenu").GetComponent<RacingGameManager>().raceOver)
         {
-            pauseMenu.enabled = true;
-            Time.timeScale = 0;
-            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeText"));
+            if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
+            {
+                pauseMenu.enabled = true;
+                Time.timeScale = 0;
+                EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeText"));
+            }
         }
-
 	}
 
     public void resumePress()
