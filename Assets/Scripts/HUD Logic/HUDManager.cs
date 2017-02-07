@@ -47,12 +47,15 @@ public class HUDManager : MonoBehaviour {
             lapText.text = kart.GetComponent<Kart>().LapNumber.ToString() + " / 3";
         }
 
-        if(kart.GetComponent<Kart>().LapNumber < 4)
+        if (kart.GetComponent<Kart>().LapNumber < 4)
+        {
             UpdateTimerUI(kart, 0);
-
+        }
         for(int i = 0; i < aiList.Count; i++) {
             if (aiList[i].GetComponent<WaypointAI>().LapNumber < 4)
+            {
                 UpdateTimerUI(aiList[i], i + 1);
+            }
         }
     }
 
@@ -78,12 +81,17 @@ public class HUDManager : MonoBehaviour {
         {
             minuteText = minutes[kartNumber].ToString();
         }
-
-        timerText.text = minuteText + ":" + secondsText;
-        if (kart.GetComponent<Kart>() != null)
-            kart.GetComponent<Kart>().TimeText = timerText.text;
-        else if (kart.GetComponent<WaypointAI>() != null)
-            kart.GetComponent<WaypointAI>().TimeText = timerText.text;
+        string timeDisplay = minuteText + ":" + secondsText;
+        
+        if (kartNumber == 0)
+        {
+            kart.GetComponent<Kart>().TimeText = timeDisplay;
+            timerText.text = timeDisplay;
+        }
+        else
+        {
+            kart.GetComponent<WaypointAI>().TimeText = timeDisplay;
+        }
 
         if (seconds[kartNumber] >= 60)
         {
