@@ -37,6 +37,6 @@ public class PowerUp : MonoBehaviour {
 
     void FixedUpdate ()
     {
-        transform.Rotate(Vector3.right, 2.0f);
+        transform.Rotate(Vector3.up, 2.0f);
     }
 }

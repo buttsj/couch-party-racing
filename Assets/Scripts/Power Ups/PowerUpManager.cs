@@ -7,9 +7,13 @@ public class PowerUpManager : MonoBehaviour {
     public GameObject PowerUpOne;
     public GameObject PowerUpTwo;
     public GameObject PowerUpThree;
+    public GameObject PowerUpFour;
+    public GameObject PowerUpFive;
     private float respawnTimerOne = 0.0f;
     private float respawnTimerTwo = 0.0f;
     private float respawnTimerThree = 0.0f;
+    private float respawnTimerFour = 0.0f;
+    private float respawnTimerFive = 0.0f;
 
     // Use this for initialization
     void Start () {
@@ -32,6 +36,12 @@ public class PowerUpManager : MonoBehaviour {
         if (!PowerUpThree.activeSelf)
             respawnTimerThree = respawnTimerThree + Time.deltaTime;
 
+        if (!PowerUpThree.activeSelf)
+            respawnTimerFour = respawnTimerFour + Time.deltaTime;
+
+        if (!PowerUpThree.activeSelf)
+            respawnTimerFive = respawnTimerFive + Time.deltaTime;
+
         if (respawnTimerOne >= 15.0f)
         {
             PowerUpOne.SetActive(true);
@@ -48,6 +58,18 @@ public class PowerUpManager : MonoBehaviour {
         {
             PowerUpThree.SetActive(true);
             respawnTimerThree = 0.0f;
+        }
+
+        if (respawnTimerFour >= 15.0f)
+        {
+            PowerUpThree.SetActive(true);
+            respawnTimerFour = 0.0f;
+        }
+
+        if (respawnTimerFive >= 15.0f)
+        {
+            PowerUpThree.SetActive(true);
+            respawnTimerFive = 0.0f;
         }
     }
 }
