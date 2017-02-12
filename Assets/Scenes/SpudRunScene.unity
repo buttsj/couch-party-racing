@@ -380,7 +380,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 5000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -971,6 +971,48 @@ Transform:
   m_PrefabParentObject: {fileID: 4734849472523732, guid: 74125b1e565a5264d84dc54abe58cfdc,
     type: 2}
   m_PrefabInternal: {fileID: 789417533}
+--- !u!1001 &808053783
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492012884513062, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6f217e1616ae7ce408c3f8854a49f60e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &871786873
 Prefab:
   m_ObjectHideFlags: 0
@@ -1157,7 +1199,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1004672758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -9, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
