@@ -18,6 +18,9 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     private SceneGenerator sceneGenerator;
 
+    public string MapName = "";
+
+
     void Awake () {
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
     }
@@ -35,6 +38,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     void Update() {
+        // just to quick load to Spud Run
+        if (MapName == "SpudRunScene")
+        {
+            SceneManager.LoadScene(MapName);
+        }
         if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
             LoadScene();
         } else {
@@ -61,8 +69,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
         }
-
         sceneGenerator.LoadLevel("tiles.xml");
+        //sceneGenerator.LoadLevel("tiles.xml", MapName);
     }
 
     private void checkForReadyPlayers()

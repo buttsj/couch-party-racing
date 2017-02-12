@@ -94,7 +94,7 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     public void hotPotatoModePress()
     {
-        //SceneManager.LoadScene("HotPotatoSelection");
+        SceneManager.LoadScene("SelectionMenuSpud");
     }
 
 }
