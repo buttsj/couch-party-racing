@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerSelectionMenuFunctionality : MonoBehaviour {
+public class SpudPlayerSelectionMenu : MonoBehaviour {
 
     public const string READY = "Ready!";
     public const string UNREADY = "Unready";
@@ -16,13 +16,15 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     public Text startToContinueText;
 
-    private SceneGenerator sceneGenerator;
-
-    void Awake () {
-        sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+    //private SceneGenerator sceneGenerator;
+    
+    void Awake()
+    {
+        //sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
     }
 
-	void Start () {
+    void Start()
+    {
 
         player1ReadyText.text = UNREADY;
         player2ReadyText.text = UNREADY;
@@ -34,34 +36,43 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         SimpleInput.MapPlayersToDefaultPref();
     }
 
-    void Update() {
-        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
+    void Update()
+    {
+        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY))
+        {
             LoadScene();
-        } else {
+        }
+        else
+        {
             checkForReadyPlayers();
         }
     }
 
-    private void LoadScene() {
+    private void LoadScene()
+    {
         // Configure Controls (Player Testing Order Matters)
         SimpleInput.ClearCurrentPlayerDevices();
 
-        if (player1ReadyText.text == READY) {
+        if (player1ReadyText.text == READY)
+        {
             SimpleInput.MapPlayerToDevice(1);
         }
 
-        if (player2ReadyText.text == READY) {
+        if (player2ReadyText.text == READY)
+        {
             SimpleInput.MapPlayerToDevice(2);
         }
 
-        if (player3ReadyText.text == READY) {
+        if (player3ReadyText.text == READY)
+        {
             SimpleInput.MapPlayerToDevice(3);
         }
 
-        if (player4ReadyText.text == READY) {
+        if (player4ReadyText.text == READY)
+        {
             SimpleInput.MapPlayerToDevice(4);
         }
-        sceneGenerator.LoadLevel("tiles.xml");
+        SceneManager.LoadScene("SpudRunScene");
     }
 
     private void checkForReadyPlayers()
@@ -106,26 +117,30 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         }
     }
 
-    private int NumberOfReadyPlayers() {
+    private int NumberOfReadyPlayers()
+    {
         int count = 0;
 
-        if (player1ReadyText.text == READY) {
+        if (player1ReadyText.text == READY)
+        {
             count++;
         }
 
-        if (player2ReadyText.text == READY) {
+        if (player2ReadyText.text == READY)
+        {
             count++;
         }
 
-        if (player3ReadyText.text == READY) {
+        if (player3ReadyText.text == READY)
+        {
             count++;
         }
 
-        if (player4ReadyText.text == READY) {
+        if (player4ReadyText.text == READY)
+        {
             count++;
         }
 
         return count;
     }
-
 }

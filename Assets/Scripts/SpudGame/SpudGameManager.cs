@@ -7,19 +7,22 @@ using UnityEngine.EventSystems;
 public class SpudGameManager : MonoBehaviour {
     List<GameObject> playerList;
     public bool raceOver;
+    public GameObject kart; // overriding the player to be Player 1
+
 
     // Use this for initialization
     void Start () {
         playerList = new List<GameObject>();
         raceOver = false;
+        kart.GetComponent<Kart>().PlayerNumber = 1; // set player to Player 1 by default, this will change eventually
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (playerList.Count == 0)
+        /*if (playerList.Count == 0)
         {
             LoadPlayers();
-        }
+        }*/
     }
 
     void LoadPlayers()
