@@ -174,7 +174,13 @@ public class Kart : MonoBehaviour {
         }
         if (other.gameObject.name.Contains("Finish")) {
             lapNumber++;
-    }
+        }
+        if (other.gameObject.CompareTag("Potato"))
+        {
+            Debug.Log("hit potato");
+            other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
+            other.gameObject.GetComponent<SpudScript>().IsTagged = true;
+        }
     }
 
     void OnTriggerStay(Collider other)
