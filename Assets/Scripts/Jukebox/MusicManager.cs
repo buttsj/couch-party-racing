@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ public class MusicManager : MonoBehaviour
 
     public AudioSource source;
     public List<AudioClip> clips = new List<AudioClip>();
+    public Text playing;
 
     [SerializeField]
     [HideInInspector]
@@ -122,6 +124,6 @@ public class MusicManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		
+        playing.text = clips[currentIndex].name;
 	}
 }
