@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 95617996950732458}
   - component: {fileID: 65524385376014816}
   - component: {fileID: 114166910843221376}
+  - component: {fileID: 114861147007807448}
   - component: {fileID: 54061368933710030}
   m_Layer: 0
   m_Name: KartUpdated
@@ -294,7 +295,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1737764170648378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 4.5}
+  m_LocalPosition: {x: -501.79614, y: 116.97732, z: 563.852}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4249842894069342}
@@ -776,6 +777,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a30d7e3c4ef58e44860f82272b3d5ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fLeftModel: {fileID: 1500044329419490}
+  fRightModel: {fileID: 1866475301400012}
+  rLeftModel: {fileID: 1744042831265536}
+  rRightModel: {fileID: 1241404026508620}
+  steering_wheel: {fileID: 1099317533996410}
+  fLParent: {fileID: 1246333295286958}
+  fRParent: {fileID: 1956172654273972}
+--- !u!114 &114861147007807448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737764170648378}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd7fa9c4173786458b816b0ca077f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fLeftModel: {fileID: 1500044329419490}
