@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using UnityEditor;
 using UnityEngine;
 
 public class LevelGenerator {
 
     private TileContainer tileCollection;
     private Transform transform;
-    private const string TRACK_DIR = "Prefabs/";
+    private const string TRACK_DIR = "Prefabs/TrackPrefabs";
 
     public LevelGenerator(Transform transform) {
         this.transform = transform;
@@ -16,7 +17,7 @@ public class LevelGenerator {
 
     public void GenerateLevel(string levelName) {
         tileCollection = TileContainer.Load(Path.Combine(Application.dataPath, levelName));
-        
+
         foreach (var item in tileCollection.tileList) {
             item.Instantiate(TRACK_DIR, transform);
         }
