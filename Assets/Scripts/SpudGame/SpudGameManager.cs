@@ -8,7 +8,7 @@ public class SpudGameManager : MonoBehaviour {
     List<GameObject> playerList;
     public bool raceOver;
     public GameObject kart; // overriding the player to be Player 1
-
+    public GameObject potato;
 
     // Use this for initialization
     void Start () {
@@ -23,6 +23,11 @@ public class SpudGameManager : MonoBehaviour {
         {
             LoadPlayers();
         }*/
+        if (potato.GetComponent<SpudScript>().TimeRemaining <= 0)
+        {
+            // end game
+
+        }
     }
 
     void LoadPlayers()
