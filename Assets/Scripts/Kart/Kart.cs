@@ -25,6 +25,7 @@ public class Kart : MonoBehaviour {
     private int lapNumber;
     private int playerNumber;
     private string timeText;
+    private bool holdingPotato;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
     public int LapNumber { get { return lapNumber; } }
@@ -37,54 +38,69 @@ public class Kart : MonoBehaviour {
         damaged = false;
         boost = 100.0f;
         lapNumber = 0;
+        selfTimer = 0;
+        holdingPotato = false;
 	}
 
     void Update()
     {
-        if (!damaged) {
-        if (SimpleInput.GetButton("Accelerate", playerNumber))
-            {
-                physics.Accelerate();
-            }
-            else if (SimpleInput.GetButton("Reverse", playerNumber))
-            {
-                physics.Reverse();
-            }
-            else
-            {
-                physics.Coast();
-
-            }
-
-        if (SimpleInput.GetButton("Boost", playerNumber))
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            if (boost > 0)
+            damaged = true;
+        }
+        if (!damaged) {
+            if (SimpleInput.GetButton("Accelerate", playerNumber))
+                {
+                    physics.Accelerate();
+                }
+                else if (SimpleInput.GetButton("Reverse", playerNumber))
+                {
+                    physics.Reverse();
+                }
+                else
+                {
+                    physics.Coast();
+
+                }
+
+            if (SimpleInput.GetButton("Boost", playerNumber))
             {
-                physics.StartBoost();
-                boost -= .5f;
+                if (boost > 0)
+                {
+                    physics.StartBoost();
+                    boost -= .5f;
+                }
+                else
+                {
+                    physics.EndBoost();
+                }
             }
-            else
-            {
+                else
+                {
                 physics.EndBoost();
             }
-        }
-            else
-            {
-            physics.EndBoost();
-        }
-        turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
+            turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
             if (SimpleInput.GetButton("Reset Rotation", playerNumber))
             {
-            ResetRotation();
-    }
-    }
+                ResetRotation();
+            }
+        }
         else
         {
+            if (holdingPotato)
+            {
+                // drop potato
+                holdingPotato = false;
+                GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
+                GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
+            }
+
             physics.Spin();
             selfTimer = selfTimer + Time.deltaTime;
             if (selfTimer >= 4.0f)
             {
                 damaged = false;
+                selfTimer = 0;
             }
         }
     }
@@ -177,9 +193,16 @@ public class Kart : MonoBehaviour {
         }
         if (other.gameObject.CompareTag("Potato"))
         {
+            
             Debug.Log("hit potato");
-            other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
-            other.gameObject.GetComponent<SpudScript>().IsTagged = true;
+            if (other.gameObject.GetComponent<SpudScript>().CanIGrab())
+            {
+                other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
+                other.gameObject.GetComponent<SpudScript>().IsTagged = true;
+                holdingPotato = true;
+            }
+            else
+                Debug.Log("can't grab potato yet");
         }
     }
 
