@@ -12,6 +12,9 @@ public class SceneGenerator : MonoBehaviour {
     private const int MAX_PLAYERS = 4;
 
     public string LevelName { get; set; }
+    public string SceneName { get; set; }
+    public string GamemodeName { get; set; }
+
 
     private LevelGenerator levelGenerator;
     private List<GameObject> kartList;
@@ -30,20 +33,26 @@ public class SceneGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (IsLoaded()) {
-            //GameObject track = new GameObject(LevelName);
-            //levelGenerator = new LevelGenerator(track.transform);
-            //levelGenerator.GenerateLevel(LevelName);
+            GenerateLevel();
             GeneratePlayers();
             GenerateCameras();
             GenerateAI();
             GenerateHUD(SimpleInput.NumberOfPlayers);
+
             DestroyGenerator();
         }
 	}
 
-    public void LoadLevel(string levelName) {
-        LevelName = levelName;
-        SceneManager.LoadScene(TRACK_SCENE_NAME);
+    public void LoadScene() {
+        SceneManager.LoadScene(SceneName);
+    }
+
+    private void GenerateLevel() {
+        if (LevelName != null) {
+            GameObject track = new GameObject(LevelName);
+            levelGenerator = new LevelGenerator(track.transform);
+            levelGenerator.GenerateLevel(LevelName);
+        }
     }
 
     private void GenerateAI() {
@@ -118,7 +127,7 @@ public class SceneGenerator : MonoBehaviour {
     }
 
     private bool IsLoaded() {
-        return TRACK_SCENE_NAME == SceneManager.GetActiveScene().name;
+        return SceneName == SceneManager.GetActiveScene().name;
     }
 
     private void DestroyGenerator() {

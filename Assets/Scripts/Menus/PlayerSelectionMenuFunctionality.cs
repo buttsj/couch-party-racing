@@ -17,12 +17,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text startToContinueText;
 
     private SceneGenerator sceneGenerator;
+    private string gamemodeName;
 
-    void Awake () {
+    void Start() {
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-    }
-
-	void Start () {
+        gamemodeName = sceneGenerator.GamemodeName;
 
         player1ReadyText.text = UNREADY;
         player2ReadyText.text = UNREADY;
@@ -61,47 +60,35 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
         }
-        sceneGenerator.LoadLevel("tiles.xml");
+        
+        sceneGenerator.LoadScene();
     }
 
-    private void checkForReadyPlayers()
-    {
+    private void checkForReadyPlayers() {
 
-        if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY))
-        {
+        if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY)) {
             player1ReadyText.text = READY;
             startToContinueText.text = "Press Start to Continue!";
-        }
-        else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
-        {
+        } else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY)) {
             player1ReadyText.text = UNREADY;
             startToContinueText.text = "";
         }
 
-        if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY))
-        {
+        if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY)) {
             player2ReadyText.text = READY;
-        }
-        else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == READY))
-        {
+        } else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == READY)) {
             player2ReadyText.text = UNREADY;
         }
 
-        if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == UNREADY))
-        {
+        if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == UNREADY)) {
             player3ReadyText.text = READY;
-        }
-        else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == READY))
-        {
+        } else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == READY)) {
             player3ReadyText.text = UNREADY;
         }
 
-        if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY))
-        {
+        if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY)) {
             player4ReadyText.text = READY;
-        }
-        else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY))
-        {
+        } else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY)) {
             player4ReadyText.text = UNREADY;
         }
     }
