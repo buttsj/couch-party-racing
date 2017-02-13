@@ -48,7 +48,7 @@ public class Kart : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             damaged = true;
         }
