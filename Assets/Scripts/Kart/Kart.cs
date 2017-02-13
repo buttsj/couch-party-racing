@@ -15,6 +15,8 @@ public class Kart : MonoBehaviour {
 
     private bool damaged;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+    private bool isBoosting;
+    public bool IsBoosting { get { return isBoosting; } }
     private float selfTimer;
 
     private KartPhysics physics;
@@ -40,6 +42,7 @@ public class Kart : MonoBehaviour {
         minSpeed = 150f;
         physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
         damaged = false;
+        isBoosting = false;
         boost = 100.0f;
         lapNumber = 0;
         selfTimer = 0;
@@ -53,7 +56,7 @@ public class Kart : MonoBehaviour {
             damaged = true;
         }
         if (!damaged) {
-        if (SimpleInput.GetButton("Accelerate", playerNumber))
+            if (SimpleInput.GetButton("Accelerate", playerNumber))
             {
                 physics.Accelerate();
             }
@@ -66,22 +69,24 @@ public class Kart : MonoBehaviour {
                 physics.Coast();
 
             }
-            Debug.Log(physics.Speed);
         if (SimpleInput.GetButton("Boost", playerNumber))
         {
             if (boost > 0)
             {
+                isBoosting = true;
                 physics.StartBoost();
                 boost -= .5f;
             }
             else
             {
+                 
                 physics.EndBoost();
             }
         }
             else
             {
-            physics.EndBoost();
+                isBoosting = false;
+                physics.EndBoost();
         }
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
             if (SimpleInput.GetButton("Reset Rotation", playerNumber))

@@ -7,11 +7,13 @@ public class PlayerCamera : MonoBehaviour {
     public Transform player;
     public float followDistance;
     private Vector3 offset;
+    float fov;
 	// Use this for initialization
 	void Start() {
         offset = new Vector3(0, 7, 0);
         transform.position = player.position - followDistance * player.forward + offset;
         transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
+        fov = gameObject.GetComponent<Camera>().fieldOfView;
     }
 	
 
@@ -22,6 +24,19 @@ public class PlayerCamera : MonoBehaviour {
         {
             transform.position = player.position - followDistance * player.forward + offset;
             transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
+            if (player.gameObject.GetComponent<Kart>().IsBoosting)
+            {
+                Debug.Log("Boosting");
+                if (gameObject.GetComponent<Camera>().fieldOfView < 80) {
+                    gameObject.GetComponent<Camera>().fieldOfView++;
+                }
+
+            }
+            else {
+                if (gameObject.GetComponent<Camera>().fieldOfView > 60) {
+                    gameObject.GetComponent<Camera>().fieldOfView--;
+                }
+            }
         }
     }
 }
