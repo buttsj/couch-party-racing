@@ -11,7 +11,6 @@ public class HUDManager : MonoBehaviour {
     private List<GameObject> aiList;
     public Text boostText;
     public Text lapText;
-    public Text timerText;
     List<float> seconds;
     List<int> minutes;
 
@@ -86,7 +85,6 @@ public class HUDManager : MonoBehaviour {
         if (kartNumber == 0)
         {
             kart.GetComponent<Kart>().TimeText = timeDisplay;
-            timerText.text = timeDisplay;
         }
         else
         {

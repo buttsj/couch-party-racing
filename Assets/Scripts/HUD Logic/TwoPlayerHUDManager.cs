@@ -13,10 +13,8 @@ public class TwoPlayerHUDManager : MonoBehaviour
     public GameObject kart2;
     public Text boostText;
     public Text lapText;
-    public Text timerText;
     public Text boostText2;
     public Text lapText2;
-    public Text timerText2;
     List<float> seconds;
     List<int> minutes;
     private List<GameObject> aiList;
@@ -122,8 +120,8 @@ public class TwoPlayerHUDManager : MonoBehaviour
         }
         switch (playerNumber) {
             case 0:
-                timerText.text = minuteText + ":" + secondsText;
-                kart1.GetComponent<Kart>().TimeText = timerText.text;
+                string time = minuteText + ":" + secondsText;
+                kart1.GetComponent<Kart>().TimeText = time;
                 if (seconds[playerNumber] >= 60)
                 {
                     minutes[playerNumber]++;
@@ -132,8 +130,8 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 break;
 
             case 1:
-                timerText2.text = minuteText + ":" + secondsText;
-                kart2.GetComponent<Kart>().TimeText = timerText2.text;
+                time = minuteText + ":" + secondsText;
+                kart2.GetComponent<Kart>().TimeText = time;
                 if (seconds[playerNumber] >= 60)
                 {
                     minutes[playerNumber]++;
@@ -145,8 +143,8 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 int i = 2;
                 foreach (GameObject player in aiList)
                 {
-                    timerText2.text = minuteText + ":" + secondsText;
-                    player.GetComponent<WaypointAI>().TimeText = timerText2.text;
+                    time = minuteText + ":" + secondsText;
+                    player.GetComponent<WaypointAI>().TimeText = time;
                     if (seconds[i] >= 60)
                     {
                         minutes[i]++;
