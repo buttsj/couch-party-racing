@@ -10,7 +10,7 @@ public class Waypoint : MonoBehaviour {
     {
         if(other.gameObject.name == "AIKart")
         {
-            WaypointFollowerAI ai = other.GetComponent<WaypointFollowerAI>();
+            WaypointAI ai = other.GetComponent<WaypointAI>();
             ai.modifyTargetWaypoint(waypointNumber);
         }
     }

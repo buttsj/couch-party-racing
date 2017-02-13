@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class WaypointAI : MonoBehaviour {
 
+    private int currentTargetWaypoint;
+    private int numberofWaypoints;
+    private GameObject[] waypoints;
+
+    private float boost;
+
+    KartPhysics physics;
+
     public GameObject fLeftModel;
     public GameObject fRightModel;
     public GameObject rLeftModel;
@@ -13,28 +21,18 @@ public class WaypointAI : MonoBehaviour {
     public GameObject fLParent;
     public GameObject fRParent;
 
-    private int currentTargetWaypoint;
-    private int numberofWaypoints;
-    private GameObject[] waypoints;
     private int lapNumber;
     private string timeText;
     public int LapNumber { get { return lapNumber; } }
     public string TimeText { get { return timeText; } set { timeText = value; } }
 
-    private float boost;
+	void Start () {
 
-    KartPhysics physics;
-
-    void Awake()
-    {
         currentTargetWaypoint = 0;
 
         physics = new KartPhysics(gameObject, 100, 200, 230);
 
         boost = 100.0f;
-    }
-
-	void Start () {
 
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
         numberofWaypoints = waypoints.Length;
@@ -103,21 +101,16 @@ public class WaypointAI : MonoBehaviour {
         }
     }
 
-    public int NumberOfWaypoints
+    public void modifyTargetWaypoint(int waypointNumber)
     {
-        get { return numberofWaypoints; }
-        set { numberofWaypoints = value; }
-    }
-
-    public int CurrentTargetWaypoint
-    {
-        get { return currentTargetWaypoint; }
-        set { currentTargetWaypoint = value; }
-    }
-
-    bool IsGrounded()
-    {
-        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+        if (currentTargetWaypoint == waypointNumber)
+        {
+            currentTargetWaypoint++;
+            if (currentTargetWaypoint >= waypoints.Length)
+            {
+                currentTargetWaypoint = 0;
+            }
+        }
     }
 
     void OnTriggerEnter (Collider other) {
@@ -125,6 +118,17 @@ public class WaypointAI : MonoBehaviour {
         {
             lapNumber++;
         }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+    }
+
+    public int CurrentTargetWaypoint
+    {
+        get { return currentTargetWaypoint; }
+        set { currentTargetWaypoint = value; }
     }
 
 }
