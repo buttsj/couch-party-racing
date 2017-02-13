@@ -37,6 +37,7 @@ Connor Swick [Github](https://github.com/connor-swick)
 * Timebox #2
 	* Kart Physics
 	* Input Manager
+	* AI Karts
 	* Race Mode
 	* Power Ups (Boost)
 	* Traps (simple implementation)
