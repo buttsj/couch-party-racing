@@ -8,7 +8,7 @@ public class Waypoint : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "AIKart")
+        if(other.gameObject.name.Contains("AIPlayer"))
         {
             WaypointAI ai = other.GetComponent<WaypointAI>();
             ai.modifyTargetWaypoint(waypointNumber);
