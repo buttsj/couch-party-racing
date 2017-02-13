@@ -137,7 +137,13 @@ public class SceneGenerator : MonoBehaviour {
                 hud.GetComponent<TwoPlayerHUDManager>().kart1 = kartList[0];
                 hud.GetComponent<TwoPlayerHUDManager>().kart2 = kartList[1];
                 break;
-}
+            case 3:
+                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<ThreePlayerHUDManager>().kart1 = kartList[0];
+                hud.GetComponent<ThreePlayerHUDManager>().kart2 = kartList[1];
+                hud.GetComponent<ThreePlayerHUDManager>().kart3 = kartList[2];
+                break;
+        }
     }
     
 }
