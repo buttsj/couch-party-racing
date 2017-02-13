@@ -17,7 +17,11 @@ public class MainMenuFunctionality : MonoBehaviour {
     public Button settings;
     public Button exit;
 
-    void Start () {
+    private SceneGenerator sceneGenerator;
+
+    void Start() {
+        sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+
         quitMenu = quitMenu.GetComponent<Canvas>();
         quitMenu.enabled = false;
 
@@ -32,13 +36,11 @@ public class MainMenuFunctionality : MonoBehaviour {
         EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("RaceMode"));
     }
 
-    public void settingsPress()
-    {
+    public void settingsPress() {
         // Add Settings
     }
 
-    public void exitPress()
-    {
+    public void exitPress() {
         quitMenu.enabled = true;
 
         raceMode.enabled = false;
@@ -52,8 +54,7 @@ public class MainMenuFunctionality : MonoBehaviour {
         EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("No"));
     }
 
-    public void noQuitPress()
-    {
+    public void noQuitPress() {
         quitMenu.enabled = false;
 
         raceMode.enabled = true;
@@ -67,34 +68,37 @@ public class MainMenuFunctionality : MonoBehaviour {
         EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("Exit"));
     }
 
-    public void yesQuitPress()
-    {
+    public void yesQuitPress() {
         Application.Quit();
     }
 
-    public void raceModePress()
-    {
-        SceneManager.LoadScene("SelectionMenu");
+    public void raceModePress() {
+        sceneGenerator.GamemodeName = "RaceMode";
+        sceneGenerator.SceneName = "HomeScene";
+        //sceneGenerator.LevelName = "tiles.xml";
+        GoToPlayerSelectionMenu();
     }
 
-    public void trackBuilderModePress()
-    {
+    public void trackBuilderModePress() {
         //SceneManager.LoadScene("BuilderSelection");
     }
 
-    public void asymmetricModePress()
-    {
+    public void asymmetricModePress() {
         //SceneManager.LoadScene("AsymmetricSelection");
     }
 
-    public void playgroundModePress()
-    {
+    public void playgroundModePress() {
         //SceneManager.LoadScene("PlaygroundSelection");
     }
 
-    public void hotPotatoModePress()
-    {
-        SceneManager.LoadScene("SelectionMenuSpud");
+    public void hotPotatoModePress() {
+        sceneGenerator.GamemodeName = "SpudRun";
+        sceneGenerator.SceneName = "SpudRunScene";
+        GoToPlayerSelectionMenu();
+    }
+
+    private void GoToPlayerSelectionMenu() {
+        SceneManager.LoadScene("SelectionMenu");
     }
 
 }
