@@ -13,7 +13,7 @@ public class KartPhysics {
     private int direction;
     private float speed;
 
-    private float previousMax;
+    public float previousMax;
     private float boostMax;
 
     public float Speed { get { return speed; } }
@@ -48,7 +48,8 @@ public class KartPhysics {
 
     public void Coast() {
         power = 0;
-        speed = minSpeed;
+        if (speed > minSpeed)
+            speed--;
     }
 
     public void RotateKart(float turnDirection) {
@@ -77,7 +78,6 @@ public class KartPhysics {
     }
 
     public void StartBoost() {
-        previousMax = maxSpeed;
         maxSpeed = boostMax;
         acceleration = 2f;
         kart.transform.Find("LeftExhaust").gameObject.SetActive(true);
