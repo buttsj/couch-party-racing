@@ -32,5 +32,14 @@ Connor Swick [Github](https://github.com/connor-swick)
 
 ## Release History
 
-* 0.0.1
+* Timebox #3
 	* Work in progress
+* Timebox #2
+	* Kart Physics
+	* Input Manager
+	* AI Karts
+	* Race Mode
+	* Power Ups (Boost)
+	* Traps (simple implementation)
+	* Level Loading
+	* GUI Interface + Minimap
