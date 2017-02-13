@@ -206,10 +206,6 @@ public class Kart : MonoBehaviour {
             Debug.Log("hit potato");
             if (other.gameObject.GetComponent<SpudScript>().CanIGrab())
             {
-                if ()
-                {
-
-                }
                 other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
                 other.gameObject.GetComponent<SpudScript>().IsTagged = true;
                 holdingPotato = true;
