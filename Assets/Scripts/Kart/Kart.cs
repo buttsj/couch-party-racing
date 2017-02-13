@@ -92,8 +92,8 @@ public class Kart : MonoBehaviour {
             if (SimpleInput.GetButton("Reset Rotation", playerNumber))
             {
             ResetRotation();
-    }
-    }
+            }
+        }
         else
         {
             if (holdingPotato)
@@ -206,10 +206,10 @@ public class Kart : MonoBehaviour {
             Debug.Log("hit potato");
             if (other.gameObject.GetComponent<SpudScript>().CanIGrab())
             {
-            other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
-            other.gameObject.GetComponent<SpudScript>().IsTagged = true;
+                other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
+                other.gameObject.GetComponent<SpudScript>().IsTagged = true;
                 holdingPotato = true;
-        }
+            }
             else
                 Debug.Log("can't grab potato yet");
     }

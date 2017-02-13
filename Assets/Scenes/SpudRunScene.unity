@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -858,6 +858,17 @@ GameObject:
   m_PrefabParentObject: {fileID: 1371957054333224, guid: 0dc0a611a1e1d9d4d99bf2ff81eb3730,
     type: 2}
   m_PrefabInternal: {fileID: 1343701832}
+--- !u!122 &683196219
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 683196218}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278230783
+  m_Size: 5
 --- !u!1 &718773294 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1168491055722382, guid: ee55155836ba03e4d9caf37f1e6ffa7f,
@@ -877,7 +888,7 @@ MonoBehaviour:
   kart: {fileID: 218580676}
   potato: {fileID: 683196218}
   boostText: {fileID: 1728812472}
-  timerText: {fileID: 1249893539}
+  timerText: {fileID: 0}
   timeRemainingText: {fileID: 1378910908}
 --- !u!1001 &725865160
 Prefab:
@@ -1601,12 +1612,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4578347727446114, guid: 17b65788ad784404e9ea4f9985e0452d,
     type: 2}
   m_PrefabInternal: {fileID: 1199191042}
---- !u!114 &1249893539 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114414490901661628, guid: ee55155836ba03e4d9caf37f1e6ffa7f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1114645054}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1318864795
 Prefab:
   m_ObjectHideFlags: 0
@@ -1701,7 +1706,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 95012746066601138, guid: 0dc0a611a1e1d9d4d99bf2ff81eb3730, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0dc0a611a1e1d9d4d99bf2ff81eb3730, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1351139768
@@ -1858,7 +1864,7 @@ RectTransform:
   m_LocalScale: {x: 0.9999984, y: 0.9999984, z: 0.9999984}
   m_Children: []
   m_Father: {fileID: 1114645055}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2335,7 +2341,7 @@ RectTransform:
   m_LocalScale: {x: 0.9999984, y: 0.9999984, z: 0.9999984}
   m_Children: []
   m_Father: {fileID: 1114645055}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

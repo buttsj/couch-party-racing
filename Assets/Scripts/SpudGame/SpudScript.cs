@@ -15,7 +15,7 @@ public class SpudScript : MonoBehaviour {
 
     public bool CanIGrab()
     {
-        if (invulnTimer > 5.0f)
+        if (invulnTimer > 2.0f)
             return true;
         else
             return false;
