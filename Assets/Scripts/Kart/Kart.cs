@@ -21,6 +21,8 @@ public class Kart : MonoBehaviour {
     private float turnPower;
     private float angle = 0.0f;
     private float boost;
+    private float maxSpeed;
+    private float minSpeed;
     private string powerup;
     private int lapNumber;
     private int playerNumber;
@@ -33,7 +35,9 @@ public class Kart : MonoBehaviour {
     public string TimeText { get { return timeText; } set { timeText = value; } }
 
     void Start() {
-        physics = new KartPhysics(this.gameObject, 150f, 250f, 300f);
+        maxSpeed = 250f;
+        minSpeed = 150f;
+        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
         damaged = false;
         boost = 100.0f;
         lapNumber = 0;
@@ -55,7 +59,7 @@ public class Kart : MonoBehaviour {
                 physics.Coast();
 
             }
-
+            Debug.Log(physics.Speed);
         if (SimpleInput.GetButton("Boost", playerNumber))
         {
             if (boost > 0)
