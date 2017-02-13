@@ -41,8 +41,8 @@ public class SceneGenerator : MonoBehaviour {
         }
 	}
 
-    public void LoadLevel(string xml) {
-        LevelName = xml;
+    public void LoadLevel(string levelName) {
+        LevelName = levelName;
         SceneManager.LoadScene(TRACK_SCENE_NAME);
     }
 
