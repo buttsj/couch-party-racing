@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class SpudHUDManager : MonoBehaviour {
 
+    private bool GameOver;
+    public bool IsGameOver { get { return GameOver; } set { GameOver = value; } }
     private float boost;
     private string poweruptype;
     public GameObject kart;
@@ -38,7 +40,7 @@ public class SpudHUDManager : MonoBehaviour {
         boostText.text = ((int)boost).ToString();
         poweruptype = kart.GetComponent<Kart>().Powerup;
 
-        if (potato.GetComponent<SpudScript>().IsTagged)
+        if (potato.GetComponent<SpudScript>().IsTagged && !GameOver)
         {
             UpdateTimerUI(kart, 0);
         }
@@ -82,7 +84,7 @@ public class SpudHUDManager : MonoBehaviour {
         if (kartNumber == 0)
         {
             kart.GetComponent<Kart>().TimeText = timeDisplay;
-            potato.GetComponent<SpudScript>().TimeRemaining = timeRemainDisplay;
+            potato.GetComponent<SpudScript>().TimeRemaining = secondsRemain[0];
             timerText.text = timeDisplay;
             timeRemainingText.text = timeRemainDisplay;
         }

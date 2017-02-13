@@ -46,9 +46,6 @@ public class Kart : MonoBehaviour {
     public int NumberOfCheckpoints { get { return numberOfCheckpoints; } set { numberOfCheckpoints = value; } }
 
     void Start() {
-        maxSpeed = 250f;
-        minSpeed = 150f;
-        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
@@ -60,6 +57,12 @@ public class Kart : MonoBehaviour {
         previousCheckpointNumber = numberOfCheckpoints - 1;
         currentCheckpointNumber = 0;
 
+	}
+
+    void Awake() {
+        maxSpeed = 250f;
+        minSpeed = 150f;
+        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
     }
 
     void Update()

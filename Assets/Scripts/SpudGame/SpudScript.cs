@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SpudScript : MonoBehaviour {
 
-    private string timer;
+    private float timer;
     private bool tagged;
     private GameObject holder;
     private float invulnTimer;
 
-    public string TimeRemaining { get { return timer; } set { timer = value; } }
+    public float TimeRemaining { get { return timer; } set { timer = value; } }
     public bool IsTagged { get { return tagged; } set { tagged = value; } }
     public GameObject SpudHolder { get { return holder; } set { holder = value; } }
 
