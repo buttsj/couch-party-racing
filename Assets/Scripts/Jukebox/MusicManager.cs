@@ -32,7 +32,7 @@ public class MusicManager : MonoBehaviour
         ReloadSounds();
     }
 
-    void OnGUI()
+    /*void OnGUI()
     {
         if (GUILayout.Button("Back"))
         {
@@ -52,8 +52,20 @@ public class MusicManager : MonoBehaviour
         {
             ReloadSounds();
         }
+    }*/
+
+    public void Forward()
+    {
+        Seek(SeekDirection.Forward);
+        PlayCurrent();
     }
 
+    public void Backward()
+    {
+        Seek(SeekDirection.Backward);
+        PlayCurrent();
+    }
+    
     void Seek(SeekDirection d)
     {
         if (d == SeekDirection.Forward)
@@ -65,13 +77,13 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    void PlayCurrent()
+    public void PlayCurrent()
     {
         source.clip = clips[currentIndex];
         source.Play();
     }
 
-    void ReloadSounds()
+    public void ReloadSounds()
     {
         clips.Clear();
         // get all valid files
