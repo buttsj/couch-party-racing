@@ -59,7 +59,7 @@ public class SceneGenerator : MonoBehaviour {
             kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), kartPosList[i], Quaternion.Euler(new Vector3(0, -90, 0))));
             kartList[i].GetComponent<Kart>().enabled = false;
             kartList[i].GetComponent<WaypointAI>().enabled = true;
-            kartList[i].name = "AIPlayer" + (i + 1);
+            kartList[i].name = "AI" + (i + 1);
             kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
             kartList[i].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[i];
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ public class MusicManager : MonoBehaviour
 
     public AudioSource source;
     public List<AudioClip> clips = new List<AudioClip>();
+    public Text playing;
 
     [SerializeField]
     [HideInInspector]
@@ -32,7 +34,7 @@ public class MusicManager : MonoBehaviour
         ReloadSounds();
     }
 
-    void OnGUI()
+    /*void OnGUI()
     {
         if (GUILayout.Button("Back"))
         {
@@ -52,8 +54,20 @@ public class MusicManager : MonoBehaviour
         {
             ReloadSounds();
         }
+    }*/
+
+    public void Forward()
+    {
+        Seek(SeekDirection.Forward);
+        PlayCurrent();
     }
 
+    public void Backward()
+    {
+        Seek(SeekDirection.Backward);
+        PlayCurrent();
+    }
+    
     void Seek(SeekDirection d)
     {
         if (d == SeekDirection.Forward)
@@ -65,13 +79,13 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    void PlayCurrent()
+    public void PlayCurrent()
     {
         source.clip = clips[currentIndex];
         source.Play();
     }
 
-    void ReloadSounds()
+    public void ReloadSounds()
     {
         clips.Clear();
         // get all valid files
@@ -110,6 +124,6 @@ public class MusicManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		
+        playing.text = clips[currentIndex].name;
 	}
 }

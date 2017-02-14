@@ -32,18 +32,31 @@ public class Kart : MonoBehaviour {
     private bool holdingPotato;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
     public float Boost { get { return boost; } set { boost = value; } }
-    public int LapNumber { get { return lapNumber; } }
+    public int LapNumber { get { return lapNumber; } set { lapNumber = value; } }
     public string Powerup { get { return powerup; } set { powerup = value; } }
 
     public string TimeText { get { return timeText; } set { timeText = value; } }
 
-    void Start() { 
+    private int previousCheckpointNumber;
+    private int currentCheckpointNumber;
+    private int numberOfCheckpoints;
+
+    public int PreviousCheckpointNumber { get { return previousCheckpointNumber; } set { previousCheckpointNumber = value; } }
+    public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
+    public int NumberOfCheckpoints { get { return numberOfCheckpoints; } set { numberOfCheckpoints = value; } }
+
+    void Start() {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
         lapNumber = 0;
         selfTimer = 0;
         holdingPotato = false;
+
+        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        previousCheckpointNumber = numberOfCheckpoints - 1;
+        currentCheckpointNumber = 0;
+
 	}
 
     void Awake() {
@@ -204,9 +217,6 @@ public class Kart : MonoBehaviour {
                 boost = 100;
             }
         }
-        if (other.gameObject.name.Contains("Finish")) {
-            lapNumber++;
-        }
         if (other.gameObject.CompareTag("Potato"))
         {
             
@@ -231,6 +241,10 @@ public class Kart : MonoBehaviour {
                 physics.SlowZone(other.gameObject);
             else
                 physics.FastZone(other.gameObject);
+        }
+        if (other.gameObject.name.Contains("BoostPlate"))
+        {
+            physics.BoostPlate(other.gameObject);
         }
     }
 
