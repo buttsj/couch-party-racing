@@ -129,6 +129,10 @@ public class Kart : MonoBehaviour {
             rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
             rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
+            /*if (!IsOnTrack()) {
+                physics.ApplyCarpetFriction();
+            }*/
+
             if (IsGrounded())
             {
                 physics.ApplyForces();
@@ -232,6 +236,18 @@ public class Kart : MonoBehaviour {
 
     bool IsGrounded() {
         return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+    }
+
+    bool IsOnTrack() {
+        RaycastHit info;
+        bool onTrack = false;
+        if (Physics.Raycast(transform.position, -transform.up, out info, 5f))
+        {
+            onTrack = info.transform.gameObject.GetComponentInParent<Transform>().CompareTag("Track");
+
+        }
+
+        return onTrack;
     }
 
     bool IsFlipped() {
