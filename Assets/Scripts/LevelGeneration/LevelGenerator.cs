@@ -9,7 +9,7 @@ public class LevelGenerator {
 
     private TileContainer tileCollection;
     private Transform transform;
-    private const string TRACK_DIR = "Prefabs/TrackPrefabs";
+    private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
 
     public LevelGenerator(Transform transform) {
         this.transform = transform;
