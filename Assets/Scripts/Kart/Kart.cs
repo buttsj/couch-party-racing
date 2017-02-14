@@ -238,6 +238,10 @@ public class Kart : MonoBehaviour {
             else
                 physics.FastZone(other.gameObject);
         }
+        if (other.gameObject.name.Contains("BoostPlate"))
+        {
+            physics.BoostPlate(other.gameObject);
+        }
     }
 
     bool IsGrounded() {

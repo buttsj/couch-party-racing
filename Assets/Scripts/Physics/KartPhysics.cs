@@ -77,6 +77,11 @@ public class KartPhysics {
         body.AddForce(other.transform.forward * -150f);
     }
 
+    public void BoostPlate(GameObject other)
+    {
+        body.AddForce(other.transform.forward * -450f);
+    }
+
     public void StartBoost() {
         maxSpeed = boostMax;
         acceleration = 2f;
