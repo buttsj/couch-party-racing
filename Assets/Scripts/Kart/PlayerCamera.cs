@@ -26,7 +26,6 @@ public class PlayerCamera : MonoBehaviour {
             transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
             if (player.gameObject.GetComponent<Kart>().IsBoosting)
             {
-                Debug.Log("Boosting");
                 if (gameObject.GetComponent<Camera>().fieldOfView < 80) {
                     gameObject.GetComponent<Camera>().fieldOfView++;
                 }

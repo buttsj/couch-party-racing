@@ -148,9 +148,9 @@ public class Kart : MonoBehaviour
             rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
             rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
-            /*if (!IsOnTrack()) {
+            if (!IsOnTrack()) {
                 physics.ApplyCarpetFriction();
-            }*/
+            }
 
             if (IsGrounded())
             {
@@ -263,12 +263,12 @@ public class Kart : MonoBehaviour
     }
 
     bool IsOnTrack() {
-        RaycastHit info;
+        RaycastHit[] info = Physics.RaycastAll(transform.position - Vector3.up, -transform.up, 1f);
         bool onTrack = false;
-        if (Physics.Raycast(transform.position, -transform.up, out info, 5f))
-        {
-            onTrack = info.transform.gameObject.GetComponentInParent<Transform>().CompareTag("Track");
-
+        foreach (RaycastHit hit in info) {
+            if (hit.collider.gameObject.CompareTag("Track")){
+                onTrack = true;
+            }
         }
 
         return onTrack;
