@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kart : MonoBehaviour {
+public class Kart : MonoBehaviour
+{
 
     public GameObject fLeftModel;
     public GameObject fRightModel;
@@ -30,7 +31,7 @@ public class Kart : MonoBehaviour {
     private int playerNumber;
     private string timeText;
     private bool holdingPotato;
-    public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
+    public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; } }
     public float Boost { get { return boost; } set { boost = value; } }
     public int LapNumber { get { return lapNumber; } set { lapNumber = value; } }
     public string Powerup { get { return powerup; } set { powerup = value; } }
@@ -45,7 +46,8 @@ public class Kart : MonoBehaviour {
     public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
     public int NumberOfCheckpoints { get { return numberOfCheckpoints; } set { numberOfCheckpoints = value; } }
 
-    void Start() {
+    void Start()
+    {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
@@ -59,7 +61,8 @@ public class Kart : MonoBehaviour {
 
 	}
 
-    void Awake() {
+    void Awake()
+    {
         maxSpeed = 250f;
         minSpeed = 150f;
         physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
@@ -71,7 +74,8 @@ public class Kart : MonoBehaviour {
         {
             damaged = true;
         }
-        if (!damaged) {
+        if (!damaged)
+        {
             if (SimpleInput.GetButton("Accelerate", playerNumber))
             {
                 physics.Accelerate();
@@ -96,6 +100,7 @@ public class Kart : MonoBehaviour {
             else
             {
                  
+                    isBoosting = false;
                 physics.EndBoost();
             }
         }
@@ -130,7 +135,8 @@ public class Kart : MonoBehaviour {
         }
     }
 
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         if (SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
         {
             physics.BumpKart();
@@ -163,7 +169,8 @@ public class Kart : MonoBehaviour {
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
             }
-            else if (angle < 15f && physics.Power < 0) {
+            else if (angle < 15f && physics.Power < 0)
+            {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
@@ -171,15 +178,16 @@ public class Kart : MonoBehaviour {
             
             //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
-        else if(turnPower > 0) // turning right
+        else if (turnPower > 0) // turning right
         {
-            if (angle < 15.0f && physics.Power > 0 )
+            if (angle < 15.0f && physics.Power > 0)
             {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
             }
-            else if (angle > - 15f && physics.Power < 0) {
+            else if (angle > -15f && physics.Power < 0)
+            {
                 fLParent.transform.Rotate(Vector3.back, 2.0f);
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
@@ -191,7 +199,7 @@ public class Kart : MonoBehaviour {
             // straighten wheels
             // straighten handle
 
-            if (angle < 0 )
+            if (angle < 0)
             {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
@@ -213,7 +221,8 @@ public class Kart : MonoBehaviour {
             powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
             Debug.Log("PICKED UP: " + powerup);
             other.gameObject.SetActive(false);
-            if (powerup == "Boost") {
+            if (powerup == "Boost")
+            {
                 boost = 100;
             }
         }
@@ -248,7 +257,8 @@ public class Kart : MonoBehaviour {
         }
     }
 
-    bool IsGrounded() {
+    bool IsGrounded()
+    {
         return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
     }
 
@@ -268,7 +278,8 @@ public class Kart : MonoBehaviour {
         return transform.eulerAngles.z > 90f;
 }
 
-    void ResetRotation() {
+    void ResetRotation()
+    {
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
 }
