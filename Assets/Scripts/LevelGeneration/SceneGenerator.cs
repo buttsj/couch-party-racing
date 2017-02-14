@@ -16,9 +16,12 @@ public class SceneGenerator : MonoBehaviour {
 
 
     private LevelGenerator levelGenerator;
+    private GameObject startObj;
+
     private List<GameObject> kartList;
-    private List<Vector3> kartPosList = new List<Vector3>() { new Vector3(30, 1, -10), new Vector3(30, 1, 10), new Vector3(10, 1, -10), new Vector3(10, 1, 10)};
+    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(30, 1, -10), new Vector3(30, 1, 10), new Vector3(10, 1, -10), new Vector3(10, 1, 10) };
     private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow};
+    
 
     void Awake () {
         DontDestroyOnLoad(this);
@@ -50,18 +53,27 @@ public class SceneGenerator : MonoBehaviour {
         if (LevelName != null) {
             GameObject track = new GameObject(LevelName);
             levelGenerator = new LevelGenerator(track.transform);
-            levelGenerator.GenerateLevel(LevelName);
+            startObj = levelGenerator.GenerateLevel(LevelName);
+        } else {
+            startObj = new GameObject();
         }
+    }
+
+    private void GenerateKart(int kartNumber) {
+        Vector3 startPos = startObj.transform.position + kartStartAdjList[kartNumber];
+        Quaternion startAngel = startObj.transform.rotation;
+
+        kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), startPos, startAngel));
+        kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
+        kartList[kartNumber].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
 
     private void GenerateAI() {
         for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), kartPosList[i], Quaternion.Euler(new Vector3(0, -90, 0))));
+            GenerateKart(i);
             kartList[i].GetComponent<Kart>().enabled = false;
             kartList[i].GetComponent<WaypointAI>().enabled = true;
             kartList[i].name = "AI" + (i + 1);
-            kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
-            kartList[i].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[i];
         }
     }
 
@@ -69,13 +81,11 @@ public class SceneGenerator : MonoBehaviour {
         kartList = new List<GameObject>();
 
         for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-            kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), kartPosList[i], Quaternion.Euler(new Vector3(0, -90, 0))));
+            GenerateKart(i);
             kartList[i].GetComponent<Kart>().enabled = true;
             kartList[i].GetComponent<WaypointAI>().enabled = false;
             kartList[i].name = "Player " + (i + 1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
-            kartList[i].GetComponentInChildren<Renderer>().material.color = kartColorList[i];
-            kartList[i].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[i];
         }
     }
 
