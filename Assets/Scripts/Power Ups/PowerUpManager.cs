@@ -62,13 +62,13 @@ public class PowerUpManager : MonoBehaviour {
 
         if (respawnTimerFour >= 15.0f)
         {
-            PowerUpThree.SetActive(true);
+            PowerUpFour.SetActive(true);
             respawnTimerFour = 0.0f;
         }
 
         if (respawnTimerFive >= 15.0f)
         {
-            PowerUpThree.SetActive(true);
+            PowerUpFive.SetActive(true);
             respawnTimerFive = 0.0f;
         }
     }
