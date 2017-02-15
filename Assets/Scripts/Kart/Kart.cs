@@ -95,7 +95,7 @@ public class Kart : MonoBehaviour {
             }
             else
             {
-                 
+                    isBoosting = false;
                 physics.EndBoost();
             }
         }
@@ -112,6 +112,11 @@ public class Kart : MonoBehaviour {
         }
         else
         {
+            if (isBoosting)
+            {
+                isBoosting = false;
+                physics.EndBoost();
+            }
             if (holdingPotato)
             {
                 // drop potato
