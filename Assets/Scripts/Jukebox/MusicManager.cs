@@ -121,15 +121,6 @@ public class MusicManager : MonoBehaviour
         clip.name = Path.GetFileName(path);
         clips.Add(clip);
     }
-
-    void FixedUpdate ()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            Backward();
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            Forward();
-    }
 	
 	// Update is called once per frame
 	void Update () {
