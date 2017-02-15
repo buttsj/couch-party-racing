@@ -75,7 +75,7 @@ public class MainMenuFunctionality : MonoBehaviour {
     public void raceModePress() {
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
-        //sceneGenerator.LevelName = "tiles.xml";
+        sceneGenerator.LevelName = "NewTrack.xml";
         GoToPlayerSelectionMenu();
     }
 

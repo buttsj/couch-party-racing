@@ -7,6 +7,7 @@ public class WaypointAI : MonoBehaviour {
     private int currentTargetWaypoint;
     private int numberofWaypoints;
     private GameObject[] waypoints;
+    private int selectedTargetChild;
 
     private float boost;
 
@@ -29,8 +30,9 @@ public class WaypointAI : MonoBehaviour {
 	void Start () {
 
         currentTargetWaypoint = 0;
+        selectedTargetChild = 0;
 
-        physics = new KartPhysics(gameObject, 100, 200, 230);
+    physics = new KartPhysics(gameObject, 100, 200, 230);
 
         boost = 100.0f;
 
@@ -88,7 +90,7 @@ public class WaypointAI : MonoBehaviour {
         if (IsGrounded())
         {
 
-            Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.position.x, 0.0f, waypoints[currentTargetWaypoint].transform.position.z);
+            Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedTargetChild).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedTargetChild).position.z);
             Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
 
             Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
@@ -105,6 +107,7 @@ public class WaypointAI : MonoBehaviour {
     {
         if (currentTargetWaypoint == waypointNumber)
         {
+            selectedTargetChild = Random.Range(0, 3);
             currentTargetWaypoint++;
             if (currentTargetWaypoint >= waypoints.Length)
             {

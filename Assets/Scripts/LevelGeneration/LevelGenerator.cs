@@ -21,6 +21,7 @@ public class LevelGenerator {
         GameObject startingObj = new GameObject();
 
         foreach (var item in tileCollection.tileList) {
+            Debug.Log("Generating " + item.Name);
             item.Instantiate(TRACK_DIR, transform);
             if(item.Name == START_TRACK_NAME) {
                 startingObj = item.prefab;
