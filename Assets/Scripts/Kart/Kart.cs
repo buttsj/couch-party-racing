@@ -40,20 +40,22 @@ public class Kart : MonoBehaviour {
     private int previousCheckpointNumber;
     private int currentCheckpointNumber;
     private int numberOfCheckpoints;
+    private Vector3 originalOrientation;
 
     public int PreviousCheckpointNumber { get { return previousCheckpointNumber; } set { previousCheckpointNumber = value; } }
     public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
-    public int NumberOfCheckpoints { get { return numberOfCheckpoints; } set { numberOfCheckpoints = value; } }
+    public int NumberOfCheckpoints { get { return numberOfCheckpoints; } }
+
 
     void Start() {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
-        lapNumber = 0;
+        lapNumber = 1;
         selfTimer = 0;
         holdingPotato = false;
 
-        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        numberOfCheckpoints = GameObject.Find("RacingGameManager").GetComponent<RacingGameManager>().NumberOfCheckpoints;
         previousCheckpointNumber = numberOfCheckpoints - 1;
         currentCheckpointNumber = 0;
 
@@ -95,7 +97,7 @@ public class Kart : MonoBehaviour {
             }
             else
             {
-                 
+                    isBoosting = false;
                 physics.EndBoost();
             }
         }
@@ -112,6 +114,11 @@ public class Kart : MonoBehaviour {
         }
         else
         {
+            if (isBoosting)
+            {
+                isBoosting = false;
+                physics.EndBoost();
+            }
             if (holdingPotato)
             {
                 // drop potato
@@ -119,13 +126,14 @@ public class Kart : MonoBehaviour {
                 GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
                 GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
             }
-
+           
             physics.Spin();
             selfTimer = selfTimer + Time.deltaTime;
-            if (selfTimer >= 4.0f)
+            if (selfTimer >= 1.5f)
             {
                 damaged = false;
                 selfTimer = 0;
+                transform.localEulerAngles = originalOrientation;
             }
         }
     }
@@ -141,6 +149,13 @@ public class Kart : MonoBehaviour {
             fRightModel.transform.Rotate(Vector3.right * physics.Speed);
             rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
             rRightModel.transform.Rotate(Vector3.right * physics.Speed);
+            if (!IsOnTrack())
+            {
+                physics.ApplyCarpetFriction();
+            }
+            else {
+                physics.MaxSpeed = maxSpeed;
+            }
 
             if (IsGrounded())
             {
@@ -225,7 +240,12 @@ public class Kart : MonoBehaviour {
             }
             else
                 Debug.Log("can't grab potato yet");
-    }
+        }
+        if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
+        {
+            damaged = true;
+            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -238,11 +258,31 @@ public class Kart : MonoBehaviour {
             else
                 physics.FastZone(other.gameObject);
         }
+        if (other.gameObject.name.Contains("BoostPlate"))
+        {
+            physics.BoostPlate(other.gameObject);
+        }
     }
 
     bool IsGrounded() {
         return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
     }
+
+    bool IsOnTrack()
+    {
+        RaycastHit[] info = Physics.RaycastAll(transform.position - Vector3.up, -transform.up, 1f);
+        bool onTrack = false;
+        foreach (RaycastHit hit in info)
+        {
+            if (hit.collider.gameObject.CompareTag("Track"))
+            {
+                onTrack = true;
+            }
+        }
+
+        return onTrack;
+    }
+
 
     bool IsFlipped() {
         return transform.eulerAngles.z > 90f;

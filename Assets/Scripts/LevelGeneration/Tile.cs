@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -20,11 +21,11 @@ public class Tile {
             this.vector = vector;
         }
 
-        public static implicit operator Vector3 (Vector3Serializable arg) {
+        public static implicit operator Vector3(Vector3Serializable arg) {
             return new Vector3(arg.X, arg.Y, arg.Z);
         }
 
-        public static explicit operator Vector3Serializable (Vector3 arg) {
+        public static explicit operator Vector3Serializable(Vector3 arg) {
             return new Vector3Serializable(arg);
         }
     }
@@ -34,7 +35,18 @@ public class Tile {
     public GameObject prefab;
 
     [XmlAttribute("name")]
-    public string Name { get; set; }
+    public string Name {
+        get { return name; }
+        set {
+            int index = value.IndexOf('(');
+            if (index > 0) {
+                name = value.Remove(index).Trim();
+            } else {
+                name = value;
+            }
+        }
+    }
+    private string name;
 
     public Vector3Serializable Position { get; set; }
     public Vector3Serializable Size { get; set; }
@@ -44,9 +56,9 @@ public class Tile {
     public Tile(Transform transform) {
         prefab = transform.gameObject;
         Name = transform.name;
-        Position = (Vector3Serializable) transform.localPosition;
-        Size = (Vector3Serializable) transform.localScale;
-        Rotation = (Vector3Serializable) transform.localEulerAngles;
+        Position = (Vector3Serializable)transform.localPosition;
+        Size = (Vector3Serializable)transform.localScale;
+        Rotation = (Vector3Serializable)transform.localEulerAngles;
     }
 
     public void Instantiate(string directory, Transform parent) {

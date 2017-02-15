@@ -39,6 +39,8 @@ public class KartPhysics {
         power = 1;
         if (speed < maxSpeed)
             speed += acceleration;
+        else
+            speed = maxSpeed;
     }
 
     public void Reverse() {
@@ -64,6 +66,9 @@ public class KartPhysics {
         body.AddRelativeForce(0, 1000, 0);
     }
 
+    public void ApplyCarpetFriction() {
+        maxSpeed = 200;
+    }
     public void Spin()
     {
         kart.transform.Rotate(Vector3.up, 20.0f);
@@ -75,6 +80,11 @@ public class KartPhysics {
 
     public void FastZone(GameObject other) {
         body.AddForce(other.transform.forward * -150f);
+    }
+
+    public void BoostPlate(GameObject other)
+    {
+        body.AddForce(other.transform.forward * -450f);
     }
 
     public void StartBoost() {

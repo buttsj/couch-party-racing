@@ -28,21 +28,45 @@ public class FlameScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (!oneOn)
+        {
             flameTrapOne.GetComponent<ParticleSystem>().Stop();
+            flameTrapOne.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        }
         else
+        {
             flameTrapOne.GetComponent<ParticleSystem>().Play();
+            flameTrapOne.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        }
         if (!twoOn)
+        {
             flameTrapTwo.GetComponent<ParticleSystem>().Stop();
+            flameTrapTwo.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        }
         else
+        {
             flameTrapTwo.GetComponent<ParticleSystem>().Play();
+            flameTrapTwo.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        }
         if (!threeOn)
+        {
             flameTrapThree.GetComponent<ParticleSystem>().Stop();
+            flameTrapThree.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        }
         else
+        {
             flameTrapThree.GetComponent<ParticleSystem>().Play();
+            flameTrapThree.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        }
         if (!fourOn)
+        {
             flameTrapFour.GetComponent<ParticleSystem>().Stop();
+            flameTrapFour.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        }
         else
+        {
             flameTrapFour.GetComponent<ParticleSystem>().Play();
+            flameTrapFour.transform.parent.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        }
 
         timer = timer + Time.deltaTime;
         if (timer >= 10.0f)
