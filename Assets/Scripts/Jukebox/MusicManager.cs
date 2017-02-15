@@ -136,4 +136,15 @@ public class MusicManager : MonoBehaviour
         if (clips.Count > 0)
             playing.text = clips[currentIndex].name;
 	}
+
+    void FixedUpdate ()
+    {
+        if (clips.Count > 0)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Backward();
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Forward();
+        }
+    }
 }
