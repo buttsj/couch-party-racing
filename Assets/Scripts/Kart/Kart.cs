@@ -49,7 +49,7 @@ public class Kart : MonoBehaviour {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
-        lapNumber = 0;
+        lapNumber = 1;
         selfTimer = 0;
         holdingPotato = false;
 

@@ -10,10 +10,10 @@ public class Checkpoint : MonoBehaviour {
     {
         if (other.gameObject.name.Contains("Player"))
         {
-
+            
             Kart player = other.GetComponent<Kart>();
 
-            if(checkpointNumber == player.CurrentCheckpoint)
+            if (checkpointNumber == player.CurrentCheckpoint)
             {
                 player.PreviousCheckpointNumber = player.CurrentCheckpoint;
                 player.CurrentCheckpoint++;
