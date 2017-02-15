@@ -39,6 +39,8 @@ public class KartPhysics {
         power = 1;
         if (speed < maxSpeed)
             speed += acceleration;
+        else
+            speed = maxSpeed;
     }
 
     public void Reverse() {
@@ -65,7 +67,7 @@ public class KartPhysics {
     }
 
     public void ApplyCarpetFriction() {
-        speed = minSpeed;
+        maxSpeed = 200;
     }
     public void Spin()
     {
