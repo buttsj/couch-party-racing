@@ -165,8 +165,6 @@ public class Kart : MonoBehaviour {
                 fRParent.transform.Rotate(Vector3.forward, 2.0f);
                 angle = angle + 1.0f;
             }
-            
-            //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else if(turnPower > 0) // turning right
         {
@@ -181,13 +179,9 @@ public class Kart : MonoBehaviour {
                 fRParent.transform.Rotate(Vector3.back, 2.0f);
                 angle = angle - 1.0f;
             }
-            //steering_wheel.transform.Rotate(Vector3.up, 1.0f); // turn handle right
         }
         else if (turnPower == 0)
         {
-            // straighten wheels
-            // straighten handle
-
             if (angle < 0 )
             {
                 fLParent.transform.Rotate(Vector3.forward, 2.0f);
