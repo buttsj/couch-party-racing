@@ -75,6 +75,16 @@ public class SceneGenerator : MonoBehaviour {
             kartList[i].GetComponent<WaypointAI>().enabled = true;
             kartList[i].name = "AI" + (i + 1);
         }
+        switch (GamemodeName)
+        {
+            case "RaceMode":
+                for (int i = kartList.Count; i < MAX_PLAYERS; i++)
+                {
+                    kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
+                }
+
+                break;
+        }
     }
 
     private void GeneratePlayers() {
@@ -86,6 +96,17 @@ public class SceneGenerator : MonoBehaviour {
             kartList[i].GetComponent<WaypointAI>().enabled = false;
             kartList[i].name = "Player " + (i + 1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
+        }
+
+        switch (GamemodeName) {
+            case "RaceMode":
+                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
+                {
+                    kartList[i].GetComponent<Kart>().GameState = new RacingGameState(kartList[i]);
+                    Debug.Log("Setting game state");
+                }
+
+                break;
         }
     }
 
@@ -172,6 +193,8 @@ public class SceneGenerator : MonoBehaviour {
                 hud.GetComponent<FourPlayerHUDManager>().kart4 = kartList[3];
                 break;
         }
+        Instantiate(Resources.Load<GameObject>(HUD_PATH + "RacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        Instantiate(Resources.Load<GameObject>(HUD_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
     }
     
 }

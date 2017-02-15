@@ -34,24 +34,24 @@ public class HUDManager : MonoBehaviour {
         boost = kart.GetComponent<Kart>().Boost;
         boostText.text = ((int)boost).ToString();
         poweruptype = kart.GetComponent<Kart>().Powerup;
-        if (kart.GetComponent<Kart>().LapNumber == 0)
+        if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber == 0)
         {
             lapText.text = "1 / 3";
         }
-        else if (kart.GetComponent<Kart>().LapNumber > 3) {
+        else if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber > 3) {
             lapText.text = "3 / 3";
         }
         else
         {
-            lapText.text = kart.GetComponent<Kart>().LapNumber.ToString() + " / 3";
+            lapText.text = ((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber.ToString() + " / 3";
         }
 
-        if (kart.GetComponent<Kart>().LapNumber < 4)
+        if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber < 4)
         {
             UpdateTimerUI(kart, 0);
         }
         for(int i = 0; i < aiList.Count; i++) {
-            if (aiList[i].GetComponent<WaypointAI>().LapNumber < 4)
+            if (((RacingGameState)aiList[i].GetComponent<WaypointAI>().GameState).LapNumber < 4)
             {
                 UpdateTimerUI(aiList[i], i + 1);
             }
