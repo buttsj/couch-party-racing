@@ -26,42 +26,25 @@ public class Kart : MonoBehaviour {
     private float maxSpeed;
     private float minSpeed;
     private string powerup;
-    private int lapNumber;
-    private int playerNumber;
-    private string timeText;
-    private bool holdingPotato;
-    public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; }  }
-    public float Boost { get { return boost; } set { boost = value; } }
-    public int LapNumber { get { return lapNumber; } set { lapNumber = value; } }
-    public string Powerup { get { return powerup; } set { powerup = value; } }
-
-    public string TimeText { get { return timeText; } set { timeText = value; } }
-
-    private Vector3 playerCheckpointPosition;
-    private Vector3 playerCheckpointRotation;
-    private int currentCheckpointNumber;
-    private int numberOfCheckpoints;
     private Vector3 originalOrientation;
+    private int playerNumber;
+    public float Boost { get { return boost; } set { boost = value; } }
+    public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; } }
+    private string timeText;
+    public string TimeText { get { return timeText; } set { timeText = value; } }
+    public string Powerup { get { return powerup; } set { powerup = value; } }
+    private IGameState gameState;
+    public IGameState GameState { get { return gameState; } set { gameState = value; } }
+    
 
-    public Vector3 PlayerCheckpointPosition { get { return playerCheckpointPosition; } set { playerCheckpointPosition = value; } }
-    public Vector3 PlayerCheckpointRotation { get { return playerCheckpointRotation; } set { playerCheckpointRotation = value; } }
-    public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
-    public int NumberOfCheckpoints { get { return numberOfCheckpoints; } }
-
+    private bool holdingPotato;
 
     void Start() {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
-        lapNumber = 1;
         selfTimer = 0;
         holdingPotato = false;
-
-        numberOfCheckpoints = GameObject.Find("RacingGameManager").GetComponent<RacingGameManager>().NumberOfCheckpoints;
-        playerCheckpointPosition = transform.position;
-        playerCheckpointRotation = transform.localEulerAngles;
-        currentCheckpointNumber = 0;
-
 	}
 
     void Awake() {
@@ -112,7 +95,7 @@ public class Kart : MonoBehaviour {
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
             if (SimpleInput.GetButton("Reset Rotation", playerNumber))
             {
-            ResetKart();
+                ResetKart(gameState);
             }
         }
         else
@@ -291,8 +274,7 @@ public class Kart : MonoBehaviour {
         return transform.eulerAngles.z > 90f;
 }
 
-    void ResetKart() {
-        transform.localEulerAngles = playerCheckpointRotation;
-        transform.position = playerCheckpointPosition + 2*Vector3.up;
+    void ResetKart(IGameState gameState) {
+        gameState.ResetKart();
     }
 }

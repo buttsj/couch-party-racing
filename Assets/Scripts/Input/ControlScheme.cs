@@ -93,4 +93,12 @@ public class ControlScheme {
 
         return anyInput;
     }
+
+    public void SetButton(string buttonName) {
+        if(joystickNumber == 0 && Enum.GetValues(typeof(KeyCode)).Length > 0) {
+            bindings[buttonName] = new KeyboardControl((KeyCode) Enum.GetValues(typeof(KeyCode)).GetValue(0));
+        } else {
+            bindings[buttonName] = new JoystickControl("", joystickNumber);
+        }
+    }
 }

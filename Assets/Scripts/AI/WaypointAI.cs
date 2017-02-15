@@ -22,9 +22,9 @@ public class WaypointAI : MonoBehaviour {
     public GameObject fLParent;
     public GameObject fRParent;
 
-    private int lapNumber;
     private string timeText;
-    public int LapNumber { get { return lapNumber; } }
+    private IGameState gameState;
+    public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public string TimeText { get { return timeText; } set { timeText = value; } }
 
 	void Start () {
@@ -113,13 +113,6 @@ public class WaypointAI : MonoBehaviour {
             {
                 currentTargetWaypoint = 0;
             }
-        }
-    }
-
-    void OnTriggerEnter (Collider other) {
-        if (other.gameObject.name.Contains("Finish"))
-        {
-            lapNumber++;
         }
     }
 

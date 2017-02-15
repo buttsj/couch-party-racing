@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class RacingGameManager : MonoBehaviour {
+public class RacingEndGameMenu : MonoBehaviour {
     List<GameObject> playerList;
     List<GameObject> aiList;
     List<Text> playerTexts;
@@ -17,11 +17,9 @@ public class RacingGameManager : MonoBehaviour {
     public Button exit;
     private bool raceOver;
     public bool RaceOver { get { return raceOver; } }
-    private int numberOfCheckpoints;
-    public int NumberOfCheckpoints { get { return numberOfCheckpoints; }}
 
     // Use this for initialization
-    void Start () {
+    public void Start () {
         playerTexts = new List<Text>();
         playerList = new List<GameObject>();
         canvas = canvas.GetComponent<Canvas>();
@@ -34,11 +32,10 @@ public class RacingGameManager : MonoBehaviour {
         playerTexts.Add(player2Text);
         playerTexts.Add(player3Text);
         playerTexts.Add(player4Text);
-        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
         if (playerList.Count == 0) {
             LoadPlayers();
         }
@@ -62,13 +59,13 @@ public class RacingGameManager : MonoBehaviour {
         foreach (GameObject player in playerList) {
             if (player.GetComponent<Kart>() != null)
             {
-                if (player.GetComponent<Kart>().LapNumber < 4)
+                if (((RacingGameState)player.GetComponent<Kart>().GameState).LapNumber < 4)
                 {
                     finished = false;
                 }
             }
             else if (player.GetComponent<WaypointAI>() != null) {
-                if (player.GetComponent<WaypointAI>().LapNumber < 4) {
+                if (((RacingGameState)player.GetComponent<WaypointAI>().GameState).LapNumber < 4) {
                     finished = false;
                 }
             }
@@ -86,12 +83,10 @@ public class RacingGameManager : MonoBehaviour {
     void LoadPlayers() {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            playerList.Add(player);
-        }
-
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("AI"))
-        {
-            aiList.Add(player);
+            if (player.name.Contains("Player"))
+                playerList.Add(player);
+            else if (player.name.Contains("AI"))
+                aiList.Add(player);
         }
     }
 

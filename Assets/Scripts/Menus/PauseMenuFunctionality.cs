@@ -28,7 +28,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
     }
 	
 	void Update () {
-        if (!GameObject.Find("RacingGameManager").GetComponent<RacingGameManager>().RaceOver)
+        if (!GameObject.Find("RacingEndMenu(Clone)").GetComponent<RacingEndGameMenu>().RaceOver)
         {
             if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
             {

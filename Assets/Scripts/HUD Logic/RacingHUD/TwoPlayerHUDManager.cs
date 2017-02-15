@@ -50,40 +50,40 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 boost1 = kart1.GetComponent<Kart>().Boost;
                 boostText.text = ((int)boost1).ToString();
                 poweruptype = kart1.GetComponent<Kart>().Powerup;
-                if (kart1.GetComponent<Kart>().LapNumber == 0)
+                if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText.text = "1 / 3";
                 }
-                else if (kart1.GetComponent<Kart>().LapNumber > 3)
+                else if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber > 3)
                 {
                     lapText.text = "3 / 3";
                 }
                 else
                 {
-                    lapText.text = kart1.GetComponent<Kart>().LapNumber.ToString() + " / 3";
+                    lapText.text = ((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber.ToString() + " / 3";
                 }
 
-                if (kart1.GetComponent<Kart>().LapNumber < 4)
+                if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber < 4)
                     UpdateTimerUI(0);
                 break;
             case 1:
                 boost2 = kart2.GetComponent<Kart>().Boost;
                 boostText2.text = ((int)boost2).ToString();
                 poweruptype = kart2.GetComponent<Kart>().Powerup;
-                if (kart2.GetComponent<Kart>().LapNumber == 0)
+                if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText2.text = "1 / 3";
                 }
-                else if (kart2.GetComponent<Kart>().LapNumber > 3)
+                else if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber > 3)
                 {
                     lapText2.text = "3 / 3";
                 }
                 else
                 {
-                    lapText2.text = kart2.GetComponent<Kart>().LapNumber.ToString() + " / 3";
+                    lapText2.text = ((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber.ToString() + " / 3";
                 }
 
-                if (kart2.GetComponent<Kart>().LapNumber < 4)
+                if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber < 4)
                     UpdateTimerUI(1);
                 break;
 
