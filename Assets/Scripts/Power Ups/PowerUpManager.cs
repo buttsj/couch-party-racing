@@ -36,10 +36,10 @@ public class PowerUpManager : MonoBehaviour {
         if (!PowerUpThree.activeSelf)
             respawnTimerThree = respawnTimerThree + Time.deltaTime;
 
-        if (!PowerUpThree.activeSelf)
+        if (!PowerUpFour.activeSelf)
             respawnTimerFour = respawnTimerFour + Time.deltaTime;
 
-        if (!PowerUpThree.activeSelf)
+        if (!PowerUpFive.activeSelf)
             respawnTimerFive = respawnTimerFive + Time.deltaTime;
 
         if (respawnTimerOne >= 15.0f)
