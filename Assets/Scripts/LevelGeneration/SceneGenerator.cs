@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
-    private const string TRACK_SCENE_NAME = "DemoScene";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
     private const string HUD_PATH = "Prefabs/UI Prefabs/";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
