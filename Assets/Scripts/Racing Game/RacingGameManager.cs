@@ -15,7 +15,10 @@ public class RacingGameManager : MonoBehaviour {
     public Text player3Text;
     public Text player4Text;
     public Button exit;
-    public bool raceOver;
+    private bool raceOver;
+    public bool RaceOver { get { return raceOver; } }
+    private int numberOfCheckpoints;
+    public int NumberOfCheckpoints { get { return numberOfCheckpoints; }}
 
     // Use this for initialization
     void Start () {
@@ -31,6 +34,7 @@ public class RacingGameManager : MonoBehaviour {
         playerTexts.Add(player2Text);
         playerTexts.Add(player3Text);
         playerTexts.Add(player4Text);
+        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
     }
 	
 	// Update is called once per frame
@@ -90,4 +94,5 @@ public class RacingGameManager : MonoBehaviour {
             aiList.Add(player);
         }
     }
+
 }
