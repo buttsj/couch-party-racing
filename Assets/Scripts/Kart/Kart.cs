@@ -40,10 +40,12 @@ public class Kart : MonoBehaviour {
     private int previousCheckpointNumber;
     private int currentCheckpointNumber;
     private int numberOfCheckpoints;
+    private Vector3 originalOrientation;
 
     public int PreviousCheckpointNumber { get { return previousCheckpointNumber; } set { previousCheckpointNumber = value; } }
     public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
-    public int NumberOfCheckpoints { get { return numberOfCheckpoints; } set { numberOfCheckpoints = value; } }
+    public int NumberOfCheckpoints { get { return numberOfCheckpoints; } }
+
 
     void Start() {
         damaged = false;
@@ -53,7 +55,7 @@ public class Kart : MonoBehaviour {
         selfTimer = 0;
         holdingPotato = false;
 
-        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        numberOfCheckpoints = GameObject.Find("RacingGameManager").GetComponent<RacingGameManager>().NumberOfCheckpoints;
         previousCheckpointNumber = numberOfCheckpoints - 1;
         currentCheckpointNumber = 0;
 
@@ -124,13 +126,14 @@ public class Kart : MonoBehaviour {
                 GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
                 GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
             }
-
+           
             physics.Spin();
             selfTimer = selfTimer + Time.deltaTime;
-            if (selfTimer >= 4.0f)
+            if (selfTimer >= 1.5f)
             {
                 damaged = false;
                 selfTimer = 0;
+                transform.localEulerAngles = originalOrientation;
             }
         }
     }
@@ -241,6 +244,7 @@ public class Kart : MonoBehaviour {
         if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
         {
             damaged = true;
+            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
     }
 
