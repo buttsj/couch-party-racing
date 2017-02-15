@@ -37,12 +37,14 @@ public class Kart : MonoBehaviour {
 
     public string TimeText { get { return timeText; } set { timeText = value; } }
 
-    private int previousCheckpointNumber;
+    private Vector3 playerCheckpointPosition;
+    private Vector3 playerCheckpointRotation;
     private int currentCheckpointNumber;
     private int numberOfCheckpoints;
     private Vector3 originalOrientation;
 
-    public int PreviousCheckpointNumber { get { return previousCheckpointNumber; } set { previousCheckpointNumber = value; } }
+    public Vector3 PlayerCheckpointPosition { get { return playerCheckpointPosition; } set { playerCheckpointPosition = value; } }
+    public Vector3 PlayerCheckpointRotation { get { return playerCheckpointRotation; } set { playerCheckpointRotation = value; } }
     public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
     public int NumberOfCheckpoints { get { return numberOfCheckpoints; } }
 
@@ -56,7 +58,8 @@ public class Kart : MonoBehaviour {
         holdingPotato = false;
 
         numberOfCheckpoints = GameObject.Find("RacingGameManager").GetComponent<RacingGameManager>().NumberOfCheckpoints;
-        previousCheckpointNumber = numberOfCheckpoints - 1;
+        playerCheckpointPosition = transform.position;
+        playerCheckpointRotation = transform.localEulerAngles;
         currentCheckpointNumber = 0;
 
 	}
@@ -109,7 +112,7 @@ public class Kart : MonoBehaviour {
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
             if (SimpleInput.GetButton("Reset Rotation", playerNumber))
             {
-            ResetRotation();
+            ResetKart();
             }
         }
         else
@@ -288,7 +291,8 @@ public class Kart : MonoBehaviour {
         return transform.eulerAngles.z > 90f;
 }
 
-    void ResetRotation() {
-        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
+    void ResetKart() {
+        transform.localEulerAngles = playerCheckpointRotation;
+        transform.position = playerCheckpointPosition + 2*Vector3.up;
     }
 }

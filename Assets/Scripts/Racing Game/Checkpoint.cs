@@ -15,7 +15,8 @@ public class Checkpoint : MonoBehaviour {
 
             if (checkpointNumber == player.CurrentCheckpoint)
             {
-                player.PreviousCheckpointNumber = player.CurrentCheckpoint;
+                player.PlayerCheckpointPosition = transform.position;
+                player.PlayerCheckpointRotation = new Vector3(player.transform.localEulerAngles.x, player.transform.localEulerAngles.y, player.transform.localEulerAngles.z);
                 player.CurrentCheckpoint++;
                 if(player.CurrentCheckpoint >= player.NumberOfCheckpoints)
                 {
