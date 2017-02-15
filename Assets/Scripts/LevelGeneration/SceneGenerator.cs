@@ -73,16 +73,10 @@ public class SceneGenerator : MonoBehaviour {
             kartList[i].GetComponent<Kart>().enabled = false;
             kartList[i].GetComponent<WaypointAI>().enabled = true;
             kartList[i].name = "AI" + (i + 1);
-        }
-        switch (GamemodeName)
-        {
-            case "RaceMode":
-                for (int i = kartList.Count; i < MAX_PLAYERS; i++)
-                {
-                    kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
-                }
-
-                break;
+            if (GamemodeName == "RaceMode")
+            {
+                kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
+            }
         }
     }
 
