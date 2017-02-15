@@ -36,10 +36,10 @@ public class PowerUpManager : MonoBehaviour {
         if (!PowerUpThree.activeSelf)
             respawnTimerThree = respawnTimerThree + Time.deltaTime;
 
-        if (!PowerUpThree.activeSelf)
+        if (!PowerUpFour.activeSelf)
             respawnTimerFour = respawnTimerFour + Time.deltaTime;
 
-        if (!PowerUpThree.activeSelf)
+        if (!PowerUpFive.activeSelf)
             respawnTimerFive = respawnTimerFive + Time.deltaTime;
 
         if (respawnTimerOne >= 15.0f)
@@ -62,13 +62,13 @@ public class PowerUpManager : MonoBehaviour {
 
         if (respawnTimerFour >= 15.0f)
         {
-            PowerUpThree.SetActive(true);
+            PowerUpFour.SetActive(true);
             respawnTimerFour = 0.0f;
         }
 
         if (respawnTimerFive >= 15.0f)
         {
-            PowerUpThree.SetActive(true);
+            PowerUpFive.SetActive(true);
             respawnTimerFive = 0.0f;
         }
     }

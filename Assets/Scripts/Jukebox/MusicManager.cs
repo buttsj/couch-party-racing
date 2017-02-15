@@ -19,6 +19,11 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private int currentIndex = 0;
+    private float timer = 0.0f;
+    private int currChar = 0;
+    private string textUsing;
+    private string scrollBasis;
+    private string scrollText;
 
     private FileInfo[] soundFiles;
     private List<string> validExtensions = new List<string> { ".ogg", ".wav" }; // Don't forget the "." i.e. "ogg" won't work - cause Path.GetExtension(filePath) will return .ext, not just ext.
@@ -125,7 +130,24 @@ public class MusicManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
         if (clips.Count > 0)
+        {
             playing.text = clips[currentIndex].name;
+            if (textUsing != playing.text)
+            {
+                NewText();
+            }
+
+            float secondsPerCharacter = 1.0f / 3.0f;
+            if (timer > secondsPerCharacter)
+            {
+                int iT = Mathf.FloorToInt(timer / secondsPerCharacter);
+                currChar = (currChar + iT) % textUsing.Length;
+                timer -= iT * secondsPerCharacter;
+                scrollText = scrollBasis.Substring(currChar, textUsing.Length);
+            }
+            timer += Time.deltaTime;
+            playing.text = scrollText;
+        }
 	}
 
     void FixedUpdate ()
@@ -137,5 +159,14 @@ public class MusicManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.RightArrow))
                 Forward();
         }
+    }
+
+    void NewText()
+    {
+        textUsing = playing.text;
+        scrollBasis = textUsing + textUsing;
+        currChar = 0;
+        scrollText = scrollBasis.Substring(currChar, textUsing.Length);
+        timer = 0.0f;
     }
 }
