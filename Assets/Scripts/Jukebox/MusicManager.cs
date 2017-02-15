@@ -124,6 +124,18 @@ public class MusicManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        playing.text = clips[currentIndex].name;
+        if (clips.Count > 0)
+            playing.text = clips[currentIndex].name;
 	}
+
+    void FixedUpdate ()
+    {
+        if (clips.Count > 0)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Backward();
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Forward();
+        }
+    }
 }
