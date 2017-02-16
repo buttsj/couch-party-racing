@@ -40,6 +40,8 @@ public class SceneGenerator : MonoBehaviour {
             GenerateAI();
             GenerateHUD(SimpleInput.NumberOfPlayers);
 
+            WaypointSetter.SetWaypoints();
+
             DestroyGenerator();
         }
 	}
