@@ -8,6 +8,8 @@ public class HUDManager : MonoBehaviour {
     private float boost;
     private string poweruptype;
     public GameObject kart;
+    public Image spark;
+    public Image oil;
     private List<GameObject> aiList;
     public Text boostText;
     public Text lapText;
@@ -34,6 +36,21 @@ public class HUDManager : MonoBehaviour {
         boost = kart.GetComponent<Kart>().Boost;
         boostText.text = ((int)boost).ToString();
         poweruptype = kart.GetComponent<Kart>().Powerup;
+        switch (kart.GetComponent<Kart>().Ability.ToString())
+        {
+            case "Spark":
+                spark.enabled = true;
+                oil.enabled = false;
+                break;
+            case "Oil":
+                oil.enabled = true;
+                spark.enabled = false;
+                break;
+            case "Null":
+                oil.enabled = false;
+                spark.enabled = false;
+                break;
+        }
         if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber == 0)
         {
             lapText.text = "1 / 3";
