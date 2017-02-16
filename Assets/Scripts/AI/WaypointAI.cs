@@ -66,26 +66,6 @@ public class WaypointAI : MonoBehaviour {
 
     private void AIPhysics()
     {
-        if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Turn"))
-        {
-            physics.MaxSpeed = 130;
-        }
-        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Curvy"))
-        {
-            physics.MaxSpeed = 130;
-        }
-        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Corner"))
-        {
-            physics.MaxSpeed = 100;
-        }
-        else if (waypoints[currentTargetWaypoint].transform.parent.transform.parent.name.Contains("Ramp"))
-        {
-            physics.MaxSpeed = 210;
-        }
-        else
-        {
-            physics.MaxSpeed = 200;
-        }
 
         if (IsGrounded())
         {

@@ -24,10 +24,10 @@ public static class WaypointSetter {
         openList.Enqueue(GameObject.Find("StartWaypoint"));
         while(openList.ToArray().Length > 0)
         {
-
             GameObject front = openList.Dequeue();
             front.GetComponent<Waypoint>().waypointNumber = currentWaypointNumber;
             currentWaypointNumber++;
+            closedList.Add(front);
 
             float minDist = float.MaxValue;
             int indexOfMin = -1;
@@ -49,13 +49,19 @@ public static class WaypointSetter {
             {
                 openList.Enqueue(waypoints[indexOfMin]);
             }
-
         }
     }
 
     private static bool inClosedList(GameObject obj)
     {
         bool inList = false;
+        for (int i = 0; !inList && i < closedList.ToArray().Length; i++)
+        {
+            if(ReferenceEquals(closedList.ToArray()[i], obj))
+            {
+                inList = true;
+            }
+        }
 
         return inList;
     }
