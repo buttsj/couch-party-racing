@@ -2,4 +2,6 @@
 {
     void UseItem();
     string ToString();
+    void Update();
+    bool IsUsed();
 }

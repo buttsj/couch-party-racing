@@ -38,6 +38,10 @@ public class HUDManager : MonoBehaviour {
         poweruptype = kart.GetComponent<Kart>().Powerup;
         switch (kart.GetComponent<Kart>().Ability.ToString())
         {
+            case "Boost":
+                spark.enabled = false;
+                oil.enabled = false;
+                break;
             case "Spark":
                 spark.enabled = true;
                 oil.enabled = false;

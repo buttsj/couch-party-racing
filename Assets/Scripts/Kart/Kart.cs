@@ -19,17 +19,19 @@ public class Kart : MonoBehaviour {
     public bool IsBoosting { get { return isBoosting; } }
     private float selfTimer;
 
+    private float boost;
+    private float boostFiller;
+    public float Boost { get { return boost; } set { boost = value; } }
+    public float BoostFiller { get { return boostFiller; } set { boostFiller = value; } }
+
     private KartPhysics physics;
     private float turnPower;
     private float angle = 0.0f;
-    private float boost;
-    private float boostFiller;
     private float maxSpeed;
     private float minSpeed;
     private string powerup;
     private Vector3 originalOrientation;
     private int playerNumber;
-    public float Boost { get { return boost; } set { boost = value; } }
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; } }
     private string timeText;
     public string TimeText { get { return timeText; } set { timeText = value; } }
@@ -60,23 +62,19 @@ public class Kart : MonoBehaviour {
 
     void Update()
     {
-        if (boostFiller > 0)
-        {
-            boost += 1.0f;
-            boostFiller -= 1.0f;
-            if (boost == 100.0f)
-            {
-                boostFiller = 0.0f;
-            }
-        }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("Using " + ability.ToString());
             ability.UseItem();
-            ability = new NullItem(gameObject);
         }
+        if (ability.IsUsed())
+        {
+            ability = new NullItem(gameObject); // item is completely used
+        }
+        ability.Update();
         if (Input.GetKeyDown(KeyCode.V))
         {
-            damaged = true;
+            damaged = true; // debug command to damage kart
         }
         if (!damaged) {
             if (SimpleInput.GetButton("Accelerate", playerNumber))
@@ -222,8 +220,8 @@ public class Kart : MonoBehaviour {
         {
             powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
             other.gameObject.SetActive(false);
-            if (powerup == "Boost" && boost < 100.0f) {
-                boostFiller = 50;
+            if (powerup == "Boost") {
+                ability = new Boost(gameObject);
                 Debug.Log("Picked up Boost");
             }
             else if (powerup == "Oil")
@@ -239,7 +237,6 @@ public class Kart : MonoBehaviour {
         }
         if (other.gameObject.CompareTag("Potato"))
         {
-            
             Debug.Log("hit potato");
             if (other.gameObject.GetComponent<SpudScript>().CanIGrab())
             {
