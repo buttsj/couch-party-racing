@@ -35,7 +35,9 @@ public class Kart : MonoBehaviour {
     public string Powerup { get { return powerup; } set { powerup = value; } }
     private IGameState gameState;
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
-    
+
+    private IKartAbility ability;
+    public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
     private bool holdingPotato;
 
@@ -45,6 +47,7 @@ public class Kart : MonoBehaviour {
         boost = 100.0f;
         selfTimer = 0;
         holdingPotato = false;
+        ability = new NullItem(gameObject);
 	}
 
     void Awake() {
@@ -199,13 +202,23 @@ public class Kart : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Power Up"))
+        if (other.gameObject.CompareTag("Power Up") && ability.ToString() == "Null")
         {
             powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
-            Debug.Log("PICKED UP: " + powerup);
             other.gameObject.SetActive(false);
             if (powerup == "Boost") {
                 boost = 100;
+                Debug.Log("Picked up Boost");
+            }
+            else if (powerup == "Oil")
+            {
+                ability = new Oil(gameObject);
+                Debug.Log("Picked up Oil");
+            }
+            else if (powerup == "Spark")
+            {
+                ability = new Spark(gameObject);
+                Debug.Log("Picked up Spark");
             }
         }
         if (other.gameObject.CompareTag("Potato"))

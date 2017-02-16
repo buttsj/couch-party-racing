@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour {
     
-    public enum Type { Boost, Oil, Missile }
+    public enum Type { Boost, Oil, Spark }
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +24,7 @@ public class PowerUp : MonoBehaviour {
                 ret = Type.Oil;
                 break;
             default:
-                ret = Type.Missile;
+                ret = Type.Spark;
                 break;
         }
         return ret;

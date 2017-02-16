@@ -10,6 +10,8 @@ public class SpudHUDManager : MonoBehaviour {
     private string poweruptype;
     public GameObject kart;
     public GameObject potato;
+    public Image spark;
+    public Image oil;
     public Text boostText;
     public Text timerText;
     List<float> seconds;
@@ -44,6 +46,24 @@ public class SpudHUDManager : MonoBehaviour {
         {
             UpdateTimerUI(kart, 0);
         }
+
+        switch (kart.GetComponent<Kart>().Ability.ToString())
+        {
+            case "Spark":
+                spark.enabled = true;
+                oil.enabled = false;
+                break;
+            case "Oil":
+                oil.enabled = true;
+                spark.enabled = false;
+                break;
+            case "Null":
+                oil.enabled = false;
+                spark.enabled = false;
+                break;
+        }
+        
+
         
     }
 
