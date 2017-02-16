@@ -103,23 +103,6 @@
         <Z>0</Z>
       </Rotation>
     </Tile>
-    <Tile name="FireTrapCrossTrack">
-      <Position>
-        <X>-1047</X>
-        <Y>0</Y>
-        <Z>608</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
     <Tile name="StraightTrack">
       <Position>
         <X>-567</X>
@@ -175,7 +158,7 @@
       <Position>
         <X>-1407</X>
         <Y>0</Y>
-        <Z>548</Z>
+        <Z>608</Z>
       </Position>
       <Size>
         <X>1</X>
@@ -185,6 +168,23 @@
       <Rotation>
         <X>0</X>
         <Y>90</Y>
+        <Z>0</Z>
+      </Rotation>
+    </Tile>
+    <Tile name="StraightTrack">
+      <Position>
+        <X>-1347</X>
+        <Y>0</Y>
+        <Z>548</Z>
+      </Position>
+      <Size>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Size>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
         <Z>0</Z>
       </Rotation>
     </Tile>
@@ -576,74 +576,6 @@
       <Rotation>
         <X>0</X>
         <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
-    <Tile name="StraightTrack">
-      <Position>
-        <X>-27</X>
-        <Y>300</Y>
-        <Z>848</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
-    <Tile name="StraightTrack">
-      <Position>
-        <X>-27</X>
-        <Y>300</Y>
-        <Z>908</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
-    <Tile name="StraightTrack">
-      <Position>
-        <X>-27</X>
-        <Y>300</Y>
-        <Z>1028</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
-    <Tile name="RightTurnTrack">
-      <Position>
-        <X>-87</X>
-        <Y>300</Y>
-        <Z>1208</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>90</Y>
         <Z>0</Z>
       </Rotation>
     </Tile>
@@ -1212,7 +1144,7 @@
       <Position>
         <X>-1167</X>
         <Y>0</Y>
-        <Z>728</Z>
+        <Z>788</Z>
       </Position>
       <Size>
         <X>1</X>
@@ -1222,6 +1154,23 @@
       <Rotation>
         <X>0</X>
         <Y>90</Y>
+        <Z>0</Z>
+      </Rotation>
+    </Tile>
+    <Tile name="LeftTurnTrack">
+      <Position>
+        <X>-1227</X>
+        <Y>0</Y>
+        <Z>728</Z>
+      </Position>
+      <Size>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Size>
+      <Rotation>
+        <X>0</X>
+        <Y>180</Y>
         <Z>0</Z>
       </Rotation>
     </Tile>
@@ -1431,23 +1380,6 @@
     </Tile>
     <Tile name="EmptyTrack">
       <Position>
-        <X>-27</X>
-        <Y>300</Y>
-        <Z>968</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
-    <Tile name="EmptyTrack">
-      <Position>
         <X>33</X>
         <Y>300</Y>
         <Z>968</Z>
@@ -1466,23 +1398,6 @@
     <Tile name="EmptyTrack">
       <Position>
         <X>33</X>
-        <Y>300</Y>
-        <Z>1088</Z>
-      </Position>
-      <Size>
-        <X>1</X>
-        <Y>1</Y>
-        <Z>1</Z>
-      </Size>
-      <Rotation>
-        <X>0</X>
-        <Y>0</Y>
-        <Z>0</Z>
-      </Rotation>
-    </Tile>
-    <Tile name="EmptyTrack">
-      <Position>
-        <X>-27</X>
         <Y>300</Y>
         <Z>1088</Z>
       </Position>
@@ -1637,7 +1552,7 @@
       <Position>
         <X>-1227</X>
         <Y>0</Y>
-        <Z>608</Z>
+        <Z>668</Z>
       </Position>
       <Size>
         <X>1</X>
@@ -1667,20 +1582,37 @@
         <Z>0</Z>
       </Rotation>
     </Tile>
-    <Tile name="PowerupStraightTrack">
+    <Tile name="RightTurnTrack">
       <Position>
-        <X>-87</X>
-        <Y>300</Y>
-        <Z>1148</Z>
+        <X>-1167</X>
+        <Y>0</Y>
+        <Z>548</Z>
       </Position>
       <Size>
-        <X>1.00000048</X>
+        <X>1</X>
         <Y>1</Y>
-        <Z>1.00000048</Z>
+        <Z>1</Z>
       </Size>
       <Rotation>
         <X>0</X>
         <Y>90</Y>
+        <Z>0</Z>
+      </Rotation>
+    </Tile>
+    <Tile name="StraightTrack">
+      <Position>
+        <X>33</X>
+        <Y>300</Y>
+        <Z>1268</Z>
+      </Position>
+      <Size>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Size>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
         <Z>0</Z>
       </Rotation>
     </Tile>
