@@ -58,6 +58,11 @@ public class Kart : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ability.UseItem();
+            ability = new NullItem(gameObject);
+        }
         if (Input.GetKeyDown(KeyCode.V))
         {
             damaged = true;

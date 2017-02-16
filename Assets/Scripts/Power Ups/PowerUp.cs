@@ -14,7 +14,7 @@ public class PowerUp : MonoBehaviour {
     public Type DeterminePowerup()
     {
         Type ret;
-        int num = Random.Range(1, 3);
+        int num = Random.Range(1, 4);
         switch (num)
         {
             case 1:
@@ -23,8 +23,11 @@ public class PowerUp : MonoBehaviour {
             case 2:
                 ret = Type.Oil;
                 break;
-            default:
+            case 3:
                 ret = Type.Spark;
+                break;
+            default:
+                ret = Type.Boost; // this won't happen
                 break;
         }
         return ret;

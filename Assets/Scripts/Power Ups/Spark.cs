@@ -11,7 +11,7 @@ public class Spark : IKartAbility {
 
     public void UseItem()
     {
-
+        // use Spark
     }
     
     public override string ToString()

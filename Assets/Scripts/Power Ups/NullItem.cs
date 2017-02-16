@@ -11,7 +11,7 @@ public class NullItem : IKartAbility {
 
     public void UseItem()
     {
-
+        // does nothing
     }
 
     public override string ToString()
