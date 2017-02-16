@@ -11,6 +11,7 @@ public static class WaypointSetter {
     public static void SetWaypoints()
     {
         int currentWaypointNumber = 0;
+        int currentCheckpointNumber = 0;
 
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 
@@ -27,6 +28,14 @@ public static class WaypointSetter {
             GameObject front = openList.Dequeue();
             front.GetComponent<Waypoint>().waypointNumber = currentWaypointNumber;
             currentWaypointNumber++;
+
+            //Set checkpoint value if checkpoint.
+            if(front.GetComponent<Checkpoint>() != null)
+            {
+                front.GetComponent<Checkpoint>().checkpointNumber = currentCheckpointNumber;
+                currentCheckpointNumber++;
+            }
+
             closedList.Add(front);
 
             float minDist = float.MaxValue;
@@ -50,6 +59,9 @@ public static class WaypointSetter {
                 openList.Enqueue(waypoints[indexOfMin]);
             }
         }
+
+        endWaypoint.GetComponent<Checkpoint>().checkpointNumber = currentCheckpointNumber;
+
     }
 
     private static bool inClosedList(GameObject obj)
