@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour {
     public GameObject kart;
     public Image spark;
     public Image oil;
+    public Image boostImg;
     private List<GameObject> aiList;
     public Text boostText;
     public Text lapText;
@@ -41,18 +42,22 @@ public class HUDManager : MonoBehaviour {
             case "Boost":
                 spark.enabled = false;
                 oil.enabled = false;
+                boostImg.enabled = true;
                 break;
             case "Spark":
                 spark.enabled = true;
                 oil.enabled = false;
+                boostImg.enabled = false;
                 break;
             case "Oil":
                 oil.enabled = true;
                 spark.enabled = false;
+                boostImg.enabled = false;
                 break;
             case "Null":
                 oil.enabled = false;
                 spark.enabled = false;
+                boostImg.enabled = false;
                 break;
         }
         if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber == 0)
