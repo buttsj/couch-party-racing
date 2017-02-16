@@ -272,6 +272,15 @@ public class Kart : MonoBehaviour {
         }
     }
 
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
+        {
+            //other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            // damage the other kart
+        }
+    }
+
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.name.Contains("Conveyor"))

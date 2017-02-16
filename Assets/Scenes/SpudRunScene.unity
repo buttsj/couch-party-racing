@@ -1202,6 +1202,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 65524385376014816, guid: b52cf38a93bd180469c5449207f19b3d,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b52cf38a93bd180469c5449207f19b3d, type: 2}
   m_IsPrefabParent: 0
@@ -2333,8 +2338,6 @@ MonoBehaviour:
   oil: {fileID: 1669903865}
   boostImg: {fileID: 1669903864}
   boostText: {fileID: 1669903863}
-  timerText: {fileID: 0}
-  timeRemainingText: {fileID: 0}
 --- !u!114 &1669903863 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114637671984694390, guid: ee55155836ba03e4d9caf37f1e6ffa7f,
