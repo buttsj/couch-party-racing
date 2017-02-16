@@ -17,7 +17,10 @@ public class Boost : IKartAbility {
 
     public void UseItem()
     {
-        used = true;
+        if (used == false)
+        {
+            used = true;
+        }
     }
 
     public override string ToString()

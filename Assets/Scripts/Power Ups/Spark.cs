@@ -18,8 +18,11 @@ public class Spark : IKartAbility {
     public void UseItem()
     {
         // use Spark
-        owner.transform.Find("electricity").gameObject.SetActive(true);
-        used = true;
+        if (used == false)
+        {
+            owner.transform.Find("electricity").gameObject.SetActive(true);
+            used = true;
+        }
     }
     
     public override string ToString()
