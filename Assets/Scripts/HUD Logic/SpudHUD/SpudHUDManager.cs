@@ -14,11 +14,11 @@ public class SpudHUDManager : MonoBehaviour {
     public Image oil;
     public Image boostImg;
     public Text boostText;
-    public Text timerText;
+    //public Text timerText;
     List<float> seconds;
     List<int> minutes;
 
-    public Text timeRemainingText;
+    //public Text timeRemainingText;
     List<float> secondsRemain;
     List<int> minutesRemain;
 
@@ -112,8 +112,8 @@ public class SpudHUDManager : MonoBehaviour {
         {
             kart.GetComponent<Kart>().TimeText = timeDisplay;
             potato.GetComponent<SpudScript>().TimeRemaining = secondsRemain[0];
-            timerText.text = timeDisplay;
-            timeRemainingText.text = timeRemainDisplay;
+            //timerText.text = timeDisplay;
+            //timeRemainingText.text = timeRemainDisplay;
         }
         else
         {
