@@ -23,6 +23,7 @@ public class Kart : MonoBehaviour {
     private float turnPower;
     private float angle = 0.0f;
     private float boost;
+    private float boostFiller;
     private float maxSpeed;
     private float minSpeed;
     private string powerup;
@@ -45,6 +46,7 @@ public class Kart : MonoBehaviour {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
+        boostFiller = 0.0f;
         selfTimer = 0;
         holdingPotato = false;
         ability = new NullItem(gameObject);
@@ -58,6 +60,15 @@ public class Kart : MonoBehaviour {
 
     void Update()
     {
+        if (boostFiller > 0)
+        {
+            boost += 1.0f;
+            boostFiller -= 1.0f;
+            if (boost == 100.0f)
+            {
+                boostFiller = 0.0f;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             ability.UseItem();
@@ -211,8 +222,8 @@ public class Kart : MonoBehaviour {
         {
             powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
             other.gameObject.SetActive(false);
-            if (powerup == "Boost") {
-                boost = 100;
+            if (powerup == "Boost" && boost < 100.0f) {
+                boostFiller = 50;
                 Debug.Log("Picked up Boost");
             }
             else if (powerup == "Oil")
