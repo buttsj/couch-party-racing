@@ -60,11 +60,31 @@ public class Kart : MonoBehaviour {
         physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
     }
 
+    void DebugMenu()
+    {
+        // our debug commands
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ability = new Boost(gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ability = new Oil(gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ability = new Spark(gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            damaged = true;
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Using " + ability.ToString());
             ability.UseItem();
         }
         if (ability.IsUsed())
@@ -72,10 +92,8 @@ public class Kart : MonoBehaviour {
             ability = new NullItem(gameObject); // item is completely used
         }
         ability.Update();
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            damaged = true; // debug command to damage kart
-        }
+        DebugMenu(); // check for Debug Commands
+        
         if (!damaged) {
             if (SimpleInput.GetButton("Accelerate", playerNumber))
             {
