@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class RacingEndGameMenu : MonoBehaviour {
     List<GameObject> playerList;
@@ -17,6 +18,7 @@ public class RacingEndGameMenu : MonoBehaviour {
     public Button exit;
     private bool raceOver;
     public bool RaceOver { get { return raceOver; } }
+    List<GameObject> kartList;
 
     // Use this for initialization
     public void Start () {
@@ -27,7 +29,11 @@ public class RacingEndGameMenu : MonoBehaviour {
         canvas.enabled = false;
         playerList = new List<GameObject>();
         aiList = new List<GameObject>();
+        kartList = new List<GameObject>();
         LoadPlayers();
+        kartList.AddRange(playerList);
+        kartList.AddRange(aiList);
+
         playerTexts.Add(player1Text);
         playerTexts.Add(player2Text);
         playerTexts.Add(player3Text);
@@ -36,21 +42,28 @@ public class RacingEndGameMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	public void Update () {
-        if (playerList.Count == 0) {
+        if (playerList.Count == 0)
+        {
             LoadPlayers();
         }
-        else if (AllKartsFinishedRace()) {
+        else if (AllKartsFinishedRace())
+        {
+            DetermineRacePositions();
             raceOver = true;
             canvas.enabled = true;
             EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
-            for (int i = 0; i < playerList.Count; i++) {
-                    playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;        
-                }
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;
+            }
             for (int i = playerList.Count; i < aiList.Count + playerList.Count; i++)
             {
                 playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
             }
-       }
+        }
+        else {
+            DetermineRacePositions();
+        }
 	}
 
     bool AllKartsFinishedRace() {
@@ -90,4 +103,22 @@ public class RacingEndGameMenu : MonoBehaviour {
         }
     }
 
+    void DetermineRacePositions() {
+        for (int i = 0; i < kartList.Count; i++) {
+            int position = 1;
+            float distance = ((RacingGameState)kartList[i].GetComponent<Kart>().GameState).GetDistance();
+            foreach (GameObject kart in kartList) {
+                if (((RacingGameState)kart.GetComponent<Kart>().GameState).GetDistance() > distance) {
+                    position++;
+                }
+            }
+            ((RacingGameState)kartList[i].GetComponent<Kart>().GameState).Place = position;
+        }
+
+    }
+
+    void SortByLap() {
+        List<GameObject> temp = kartList.OrderBy(o => ((RacingGameState)o.GetComponent<Kart>().GameState).LapNumber).ToList<GameObject>();
+            
+    }
 }
