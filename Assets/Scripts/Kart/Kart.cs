@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kart : MonoBehaviour {
+public class Kart : MonoBehaviour
+{
 
     public GameObject fLeftModel;
     public GameObject fRightModel;
@@ -13,6 +14,8 @@ public class Kart : MonoBehaviour {
     public GameObject fLParent;
     public GameObject fRParent;
 
+    public GameObject green_arrow;
+
     private bool damaged;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     private bool isBoosting;
@@ -20,9 +23,7 @@ public class Kart : MonoBehaviour {
     private float selfTimer;
 
     private float boost;
-    private float boostFiller;
     public float Boost { get { return boost; } set { boost = value; } }
-    public float BoostFiller { get { return boostFiller; } set { boostFiller = value; } }
 
     private KartPhysics physics;
     private float turnPower;
@@ -36,6 +37,7 @@ public class Kart : MonoBehaviour {
     private string timeText;
     public string TimeText { get { return timeText; } set { timeText = value; } }
     public string Powerup { get { return powerup; } set { powerup = value; } }
+
     private IGameState gameState;
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
 
@@ -43,18 +45,20 @@ public class Kart : MonoBehaviour {
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
     private bool holdingPotato;
+    public bool HoldingPotato { get { return holdingPotato; } set { holdingPotato = value; } }
 
-    void Start() {
+    void Start()
+    {
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
-        boostFiller = 0.0f;
         selfTimer = 0;
         holdingPotato = false;
         ability = new NullItem(gameObject);
-	}
+    }
 
-    void Awake() {
+    void Awake()
+    {
         maxSpeed = 250f;
         minSpeed = 150f;
         physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
@@ -93,143 +97,49 @@ public class Kart : MonoBehaviour {
         }
         ability.Update();
         DebugMenu(); // check for Debug Commands
-        
-        if (!damaged) {
-            if (SimpleInput.GetButton("Accelerate", playerNumber))
-            {
-                physics.Accelerate();
-            }
-            else if (SimpleInput.GetButton("Reverse", playerNumber))
-            {
-                physics.Reverse();
-            }
-            else
-            {
-                physics.Coast();
 
-            }
-        if (SimpleInput.GetButton("Boost", playerNumber))
+        if (!damaged)
         {
-            if (boost > 0)
-            {
-                isBoosting = true;
-                physics.StartBoost();
-                boost -= .5f;
-            }
-            else
-            {
-                    isBoosting = false;
-                physics.EndBoost();
-            }
-        }
-            else
-            {
-                isBoosting = false;
-                physics.EndBoost();
-        }
-        turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
-            if (SimpleInput.GetButton("Reset Rotation", playerNumber))
-            {
-                ResetKart(gameState);
-            }
+            NonDamagedUpdate();
         }
         else
         {
-            if (isBoosting)
-            {
-                isBoosting = false;
-                physics.EndBoost();
-            }
-            if (holdingPotato)
-            {
-                // drop potato
-                holdingPotato = false;
-                GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
-                GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
-            }
-           
-            physics.Spin();
-            selfTimer = selfTimer + Time.deltaTime;
-            if (selfTimer >= 1.5f)
-            {
-                damaged = false;
-                selfTimer = 0;
-                transform.localEulerAngles = originalOrientation;
-            }
+            DamagedUpdate();
         }
     }
 
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         if (SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
         {
             physics.BumpKart();
         }
+
         if (physics.Power != 0)
         {
             fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
             fRightModel.transform.Rotate(Vector3.right * physics.Speed);
             rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
             rRightModel.transform.Rotate(Vector3.right * physics.Speed);
+
             if (!IsOnTrack())
             {
                 physics.ApplyCarpetFriction();
             }
-            else {
+            else
+            {
                 physics.MaxSpeed = maxSpeed;
             }
 
             if (IsGrounded())
             {
                 physics.ApplyForces();
-            }       
-               
+            }
+
         }
 
         physics.RotateKart(turnPower);
-        
-        if (turnPower < 0) // turning left
-        {
-            if (angle > -15.0f && physics.Power > 0)
-            {
-                fLParent.transform.Rotate(Vector3.back, 2.0f);
-                fRParent.transform.Rotate(Vector3.back, 2.0f);
-                angle = angle - 1.0f;
-            }
-            else if (angle < 15f && physics.Power < 0) {
-                fLParent.transform.Rotate(Vector3.forward, 2.0f);
-                fRParent.transform.Rotate(Vector3.forward, 2.0f);
-                angle = angle + 1.0f;
-            }
-        }
-        else if(turnPower > 0) // turning right
-        {
-            if (angle < 15.0f && physics.Power > 0 )
-            {
-                fLParent.transform.Rotate(Vector3.forward, 2.0f);
-                fRParent.transform.Rotate(Vector3.forward, 2.0f);
-                angle = angle + 1.0f;
-            }
-            else if (angle > - 15f && physics.Power < 0) {
-                fLParent.transform.Rotate(Vector3.back, 2.0f);
-                fRParent.transform.Rotate(Vector3.back, 2.0f);
-                angle = angle - 1.0f;
-            }
-        }
-        else if (turnPower == 0)
-        {
-            if (angle < 0 )
-            {
-                fLParent.transform.Rotate(Vector3.forward, 2.0f);
-                fRParent.transform.Rotate(Vector3.forward, 2.0f);
-                angle = angle + 1.0f;
-           }
-            else if (angle > 0)
-            {
-                fLParent.transform.Rotate(Vector3.back, 2.0f);
-                fRParent.transform.Rotate(Vector3.back, 2.0f);
-                angle = angle - 1.0f;
-            }
-        }
+        RotateTires();
     }
 
     void OnTriggerEnter(Collider other)
@@ -238,7 +148,8 @@ public class Kart : MonoBehaviour {
         {
             powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
             other.gameObject.SetActive(false);
-            if (powerup == "Boost") {
+            if (powerup == "Boost")
+            {
                 ability = new Boost(gameObject);
                 Debug.Log("Picked up Boost");
             }
@@ -270,13 +181,22 @@ public class Kart : MonoBehaviour {
             damaged = true;
             originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
+        if (other.gameObject.name.Contains("Oil") && damaged == false)
+        {
+            if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
+            {
+                damaged = true;
+                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                Destroy(other.gameObject);
+            }
+        }
     }
 
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
         {
-            //other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            other.gameObject.GetComponent<WaypointAI>().Damage();
             // damage the other kart
         }
     }
@@ -297,7 +217,8 @@ public class Kart : MonoBehaviour {
         }
     }
 
-    bool IsGrounded() {
+    bool IsGrounded()
+    {
         return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
     }
 
@@ -317,11 +238,136 @@ public class Kart : MonoBehaviour {
     }
 
 
-    bool IsFlipped() {
+    bool IsFlipped()
+    {
         return transform.eulerAngles.z > 90f;
-}
+    }
 
-    void ResetKart(IGameState gameState) {
+    void ResetKart(IGameState gameState)
+    {
         gameState.ResetKart();
+    }
+
+    void RotateTires()
+    {
+        if (turnPower < 0) // turning left
+        {
+            if (angle > -15.0f && physics.Power > 0)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+            }
+            else if (angle < 15f && physics.Power < 0)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
+        }
+        else if (turnPower > 0) // turning right
+        {
+            if (angle < 15.0f && physics.Power > 0)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
+            else if (angle > -15f && physics.Power < 0)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+            }
+        }
+        else if (turnPower == 0)
+        {
+            if (angle < 0)
+            {
+                fLParent.transform.Rotate(Vector3.forward, 2.0f);
+                fRParent.transform.Rotate(Vector3.forward, 2.0f);
+                angle = angle + 1.0f;
+            }
+            else if (angle > 0)
+            {
+                fLParent.transform.Rotate(Vector3.back, 2.0f);
+                fRParent.transform.Rotate(Vector3.back, 2.0f);
+                angle = angle - 1.0f;
+            }
+        }
+    }
+
+    void NonDamagedUpdate()
+    {
+        UpdateMovement();
+        UpdateBoost();
+
+        turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
+        if (SimpleInput.GetButton("Reset Rotation", playerNumber))
+        {
+            ResetKart(gameState);
+        }
+    }
+
+    void DamagedUpdate() {
+        if (isBoosting)
+        {
+            isBoosting = false;
+            physics.EndBoost();
+        }
+        if (holdingPotato)
+        {
+            // drop potato
+            holdingPotato = false;
+            GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
+            GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
+        }
+
+        physics.Spin();
+        selfTimer = selfTimer + Time.deltaTime;
+        if (selfTimer >= 1.5f)
+        {
+            damaged = false;
+            selfTimer = 0;
+            transform.localEulerAngles = originalOrientation;
+        }
+    }
+
+    void UpdateMovement() {
+        if (SimpleInput.GetButton("Accelerate", playerNumber))
+        {
+            physics.Accelerate();
+        }
+        else if (SimpleInput.GetButton("Reverse", playerNumber))
+        {
+            physics.Reverse();
+        }
+        else
+        {
+            physics.Coast();
+
+        }
+    }
+
+    void UpdateBoost() {
+        if (SimpleInput.GetButton("Boost", playerNumber))
+        {
+            if (boost > 0)
+            {
+                isBoosting = true;
+                physics.StartBoost();
+                boost -= .5f;
+            }
+            else
+            {
+                isBoosting = false;
+                physics.EndBoost();
+            }
+        }
+        else
+        {
+            isBoosting = false;
+            physics.EndBoost();
+        }
     }
 }

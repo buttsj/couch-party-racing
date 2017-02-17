@@ -14,6 +14,7 @@ public class HUDManager : MonoBehaviour {
     private List<GameObject> aiList;
     public Text boostText;
     public Text lapText;
+    public Text placeText;
     List<float> seconds;
     List<int> minutes;
 
@@ -37,6 +38,7 @@ public class HUDManager : MonoBehaviour {
         boost = kart.GetComponent<Kart>().Boost;
         boostText.text = ((int)boost).ToString();
         poweruptype = kart.GetComponent<Kart>().Powerup;
+        UpdatePlace();
         switch (kart.GetComponent<Kart>().Ability.ToString())
         {
             case "Boost":
@@ -121,6 +123,25 @@ public class HUDManager : MonoBehaviour {
         {
             minutes[kartNumber]++;
             seconds[kartNumber] = 0;
+        }
+    }
+
+    void UpdatePlace() {
+        int place = ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+
+        switch (place) {
+            case 1:
+                placeText.text = "1st";
+                break;
+            case 2:
+                placeText.text = "2nd";
+                break;
+            case 3:
+                placeText.text = "3rd";
+                break;
+            case 4:
+                placeText.text = "4th";
+                break;
         }
     }
 }

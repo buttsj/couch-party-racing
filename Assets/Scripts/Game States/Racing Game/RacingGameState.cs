@@ -13,6 +13,8 @@ public class RacingGameState : IGameState {
     public Vector3 PlayerCheckpointRotation { get { return playerCheckpointRotation; } set { playerCheckpointRotation = value; } }
     public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
     public int NumberOfCheckpoints { get { return numberOfCheckpoints; } }
+    public Vector2 LapAndCheckpoint { get { return new Vector2(lapNumber, currentCheckpointNumber); } }
+    public int Place { get; set; }
     private GameObject player;
 
     public RacingGameState(GameObject kart) {
@@ -36,5 +38,9 @@ public class RacingGameState : IGameState {
     public void ResetKart() {
         player.transform.localEulerAngles = playerCheckpointRotation;
         player.transform.position = playerCheckpointPosition + 2 * Vector3.up;
+    }
+
+    public float GetDistance() {
+        return (player.transform.position - playerCheckpointPosition).magnitude + currentCheckpointNumber * 1000 + lapNumber * 10000; 
     }
 }

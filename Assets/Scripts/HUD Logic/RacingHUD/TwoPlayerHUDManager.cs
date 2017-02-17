@@ -15,6 +15,8 @@ public class TwoPlayerHUDManager : MonoBehaviour
     public Text lapText;
     public Text boostText2;
     public Text lapText2;
+    public Text placeText1;
+    public Text placeText2;
     List<float> seconds;
     List<int> minutes;
     private List<GameObject> aiList;
@@ -50,6 +52,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 boost1 = kart1.GetComponent<Kart>().Boost;
                 boostText.text = ((int)boost1).ToString();
                 poweruptype = kart1.GetComponent<Kart>().Powerup;
+                UpdatePlace(kart1, 1);
                 if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText.text = "1 / 3";
@@ -70,6 +73,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 boost2 = kart2.GetComponent<Kart>().Boost;
                 boostText2.text = ((int)boost2).ToString();
                 poweruptype = kart2.GetComponent<Kart>().Powerup;
+                UpdatePlace(kart2, 2);
                 if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText2.text = "1 / 3";
@@ -152,6 +156,39 @@ public class TwoPlayerHUDManager : MonoBehaviour
                     }
                     i++;
                 }
+                break;
+        }
+    }
+
+    void UpdatePlace(GameObject kart, int playerNumber)
+    {
+        int place = ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+
+        switch (place)
+        {
+            case 1:
+                if(playerNumber == 1)
+                    placeText1.text = "1st";
+                else
+                    placeText2.text = "1st";
+                break;
+            case 2:
+                if (playerNumber == 1)
+                    placeText1.text = "2nd";
+                else
+                    placeText2.text = "2nd";
+                break;
+            case 3:
+                if (playerNumber == 1)
+                    placeText1.text = "3rd";
+                else
+                    placeText2.text = "3rd";
+                break;
+            case 4:
+                if (playerNumber == 1)
+                    placeText1.text = "4th";
+                else
+                    placeText2.text = "4th";
                 break;
         }
     }

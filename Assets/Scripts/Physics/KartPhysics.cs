@@ -67,7 +67,7 @@ public class KartPhysics {
     }
 
     public void ApplyCarpetFriction() {
-        maxSpeed = 200;
+        maxSpeed = 175;
     }
     public void Spin()
     {
