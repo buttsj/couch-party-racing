@@ -41,8 +41,6 @@ public class SceneGenerator : MonoBehaviour {
             GenerateAI();
             GenerateHUD(SimpleInput.NumberOfPlayers);
 
-            WaypointSetter.SetWaypoints();
-
             DestroyGenerator();
         }
 	}
@@ -97,12 +95,16 @@ public class SceneGenerator : MonoBehaviour {
     }*/
 
     private void GenerateAI() {
-        for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
-            GenerateKart(i, AI_KART_PATH);
-            kartList[i].name = "AI" + (i + 1);
-            if (GamemodeName == "RaceMode") {
-                kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
+        if (GamemodeName == "RaceMode") {
+            for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
+                GenerateKart(i, AI_KART_PATH);
+                kartList[i].name = "AI" + (i + 1);
+                if (GamemodeName == "RaceMode") {
+                    kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
+                }
             }
+
+            WaypointSetter.SetWaypoints(); 
         }
     }
 
