@@ -6,13 +6,13 @@ public class WaypointAI : MonoBehaviour {
     private const float NORMALMAXSPEED = 200f;
     private const float STRAIGHTOFFSPEED = 230f;
     private const float TURNINGMAXSPEED = 140f;
-    private const float BOOSTSPEED = 260f;
+    private const float BOOSTSPEED = 270f;
 
     private int currentTargetWaypoint;
     private int numberofWaypoints;
     private GameObject[] waypoints;
     private int selectedLane;
-    private int laneTimer;
+    private int laneCounter;
     private int laneTimerMax;
 
     private KartPhysics physics;
@@ -45,7 +45,7 @@ public class WaypointAI : MonoBehaviour {
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
         selectedLane = 0;
-        laneTimer = 0;
+        laneCounter = 0;
         laneTimerMax = Random.Range(2, 9);
 
         physics = new KartPhysics(gameObject, MINSPEED, NORMALMAXSPEED, BOOSTSPEED);
@@ -81,6 +81,11 @@ public class WaypointAI : MonoBehaviour {
         else
         {
             handleDamage();
+        }
+
+        if (isBoosting && boost > 0.0f)
+        {
+            boost -= 0.5f;
         }
 
         handleWheelAnimation();
@@ -156,7 +161,7 @@ public class WaypointAI : MonoBehaviour {
             physics.EndBoost();
             isBoosting = false;
         }
-        else if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget))
+        else if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && IsStraightTrackType(onTarget) && IsStraightTrackType(previousTarget))
         {
             physics.MaxSpeed = STRAIGHTOFFSPEED;
             physics.EndBoost();
@@ -167,11 +172,6 @@ public class WaypointAI : MonoBehaviour {
             physics.MaxSpeed = NORMALMAXSPEED;
             physics.EndBoost();
             isBoosting = false;
-        }
-
-        if (isBoosting && boost > 0.0f)
-        {
-            boost -= 0.5f;
         }
     }
 
@@ -191,11 +191,11 @@ public class WaypointAI : MonoBehaviour {
     {
         if (currentTargetWaypoint == waypointNumber)
         {
-            laneTimer++;
-            if(laneTimer >= laneTimerMax)
+            laneCounter++;
+            if(laneCounter >= laneTimerMax)
             {
                 selectedLane = Random.Range(0, 3);
-                laneTimer = 0;
+                laneCounter = 0;
             }
             
             currentTargetWaypoint++;
