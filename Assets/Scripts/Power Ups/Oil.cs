@@ -26,6 +26,7 @@ public class Oil : IKartAbility {
             oil = Resources.Load("Prefabs/Powerups/Oil");
             Vector3 oilPos = new Vector3(owner.transform.position.x, owner.transform.position.y - 1, owner.transform.position.z);
             oilObj = (GameObject)Object.Instantiate(oil, oilPos, Quaternion.Euler(new Vector3(-90, 0, 0)));
+            destroy = true;
         }
     }
 
@@ -36,7 +37,7 @@ public class Oil : IKartAbility {
 
     public void Update()
     {
-        if (timer < 10.0f && used)
+        /*if (timer < 10.0f && used)
         {
             timer += Time.deltaTime;
 
@@ -45,7 +46,7 @@ public class Oil : IKartAbility {
         {
             Object.Destroy(oilObj);
             destroy = true;
-        }
+        }*/
     }
 
     public bool IsUsed()

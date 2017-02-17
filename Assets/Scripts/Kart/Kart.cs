@@ -23,9 +23,7 @@ public class Kart : MonoBehaviour
     private float selfTimer;
 
     private float boost;
-    private float boostFiller;
     public float Boost { get { return boost; } set { boost = value; } }
-    public float BoostFiller { get { return boostFiller; } set { boostFiller = value; } }
 
     private KartPhysics physics;
     private float turnPower;
@@ -39,6 +37,7 @@ public class Kart : MonoBehaviour
     private string timeText;
     public string TimeText { get { return timeText; } set { timeText = value; } }
     public string Powerup { get { return powerup; } set { powerup = value; } }
+
     private IGameState gameState;
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
 
@@ -52,7 +51,6 @@ public class Kart : MonoBehaviour
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
-        boostFiller = 0.0f;
         selfTimer = 0;
         holdingPotato = false;
         ability = new NullItem(gameObject);
