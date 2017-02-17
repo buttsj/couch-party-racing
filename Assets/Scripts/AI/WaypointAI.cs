@@ -2,11 +2,11 @@
 
 public class WaypointAI : MonoBehaviour {
 
-    private const float MINSPEED = 100f;
-    private const float NORMALMAXSPEED = 200f;
-    private const float STRAIGHTOFFSPEED = 230f;
-    private const float TURNINGMAXSPEED = 140f;
-    private const float BOOSTSPEED = 270f;
+    private const float MINSPEED = 150f;
+    private const float NORMALMAXSPEED = 220f;
+    private const float STRAIGHTOFFSPEED = 250f;
+    private const float TURNINGMAXSPEED = 160f;
+    private const float BOOSTSPEED = 300f;
 
     private int currentTargetWaypoint;
     private int numberofWaypoints;
@@ -105,6 +105,23 @@ public class WaypointAI : MonoBehaviour {
         handleWheelAnimation();
     }
 
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name.Contains("Conveyor"))
+        {
+            if (other.gameObject.GetComponent<ConveyorScript>().direction)
+                physics.SlowZone(other.gameObject);
+            else
+                physics.FastZone(other.gameObject);
+        }
+
+        if (other.gameObject.name.Contains("BoostPlate"))
+        {
+            physics.BoostPlate(other.gameObject);
+        }
+    }
+
     private void handleWheelAnimation()
     {
         fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
@@ -115,17 +132,17 @@ public class WaypointAI : MonoBehaviour {
 
     private void handleAIPhysics()
     {
+        Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.z);
+        Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
+
+        Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
+        Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.3f);
+
+        transform.rotation = new Quaternion(transform.rotation.x, slerpQuaternion.y, transform.rotation.z, slerpQuaternion.w);
+
         if (IsGrounded())
         {
             handleMovementModifications();
-
-            Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.z);
-            Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
-
-            Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
-            Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.3f);
-
-            transform.rotation = new Quaternion(transform.rotation.x, slerpQuaternion.y, transform.rotation.z, slerpQuaternion.w);
 
             physics.Accelerate();
             physics.ApplyForces();
