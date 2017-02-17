@@ -70,12 +70,37 @@ public class SceneGenerator : MonoBehaviour {
         kartList[kartNumber].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
 
+    /*private Vector3 KartStartPos(int kartNumber) {
+        const float AWAY_FROM_FLAG = 25;
+        const float AWAY_FROM_SIDE = 15;
+        const float AWAY_FROM_OTHERS = 30;
+        const float HEIGHT = 1; 
+
+        Vector3 trackPos = startObj.transform.position;
+        var trackAngle = Mathf.RoundToInt(startObj.transform.rotation.eulerAngles.y);
+
+        Vector3 kartPos = new Vector3();
+
+        switch (trackAngle) {
+            case 90:
+                break;
+            case 180:
+                break;
+            case 270:
+                break;
+            default:
+                kartPos = trackPos + new Vector3(AWAY_FROM_FLAG, HEIGHT, AWAY_FROM_SIDE);
+                break;
+        }
+             
+        return kartPos;
+    }*/
+
     private void GenerateAI() {
         for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
             GenerateKart(i, AI_KART_PATH);
             kartList[i].name = "AI" + (i + 1);
-            if (GamemodeName == "RaceMode")
-            {
+            if (GamemodeName == "RaceMode") {
                 kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
             }
         }
