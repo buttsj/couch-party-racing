@@ -135,7 +135,6 @@ public class Kart : MonoBehaviour
             }
 
         }
-
         physics.RotateKart(turnPower);
         RotateTires();
     }

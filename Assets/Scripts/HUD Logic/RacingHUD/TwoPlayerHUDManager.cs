@@ -30,11 +30,14 @@ public class TwoPlayerHUDManager : MonoBehaviour
         seconds.Add(0f);
         minutes.Add(0);
         minutes.Add(0);
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("AI"))
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            aiList.Add(player);
-            seconds.Add(0f);
-            minutes.Add(0);
+            if (player.name.Contains("AI"))
+            {
+                aiList.Add(player);
+                seconds.Add(0f);
+                minutes.Add(0);
+            }
         }
     }
 

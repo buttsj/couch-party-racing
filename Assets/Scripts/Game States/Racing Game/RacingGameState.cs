@@ -44,6 +44,6 @@ public class RacingGameState : IGameState {
     }
 
     public float GetDistance() {
-        return (player.transform.position - playerCheckpointPosition).magnitude + currentCheckpointNumber * 1000 + lapNumber * 10000; 
+        return (player.transform.position - playerCheckpointPosition).magnitude + currentCheckpointNumber * 1000 + lapNumber * 100000; 
     }
 }

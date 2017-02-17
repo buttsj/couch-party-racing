@@ -30,7 +30,6 @@ public class Checkpoint : MonoBehaviour {
         {
 
             RacingGameState racingGameState = (RacingGameState)other.GetComponent<WaypointAI>().GameState;
-
             if (checkpointNumber == racingGameState.CurrentCheckpoint)
             {
                 racingGameState.PlayerCheckpointPosition = transform.position;

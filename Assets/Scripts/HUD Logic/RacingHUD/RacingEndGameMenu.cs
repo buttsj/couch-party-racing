@@ -59,6 +59,7 @@ public class RacingEndGameMenu : MonoBehaviour {
             for (int i = playerList.Count; i < aiList.Count + playerList.Count; i++)
             {
                 playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
+                Debug.Log(aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText);
             }
         }
         else {
@@ -138,8 +139,4 @@ public class RacingEndGameMenu : MonoBehaviour {
 
     }
 
-    void SortByLap() {
-        List<GameObject> temp = kartList.OrderBy(o => ((RacingGameState)o.GetComponent<Kart>().GameState).LapNumber).ToList<GameObject>();
-            
-    }
 }
