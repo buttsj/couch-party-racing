@@ -87,7 +87,19 @@ public class Kart : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            ability.UseItem();
+            switch (ability.ToString())
+            {
+                case "Oil":
+                    if (IsGrounded())
+                        ability.UseItem();
+                    break;
+                case "Spark":
+                    ability.UseItem();
+                    break;
+                case "Boost":
+                    ability.UseItem();
+                    break;
+            }
         }
         if (ability.IsUsed())
         {
