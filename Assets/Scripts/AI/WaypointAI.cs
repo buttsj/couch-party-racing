@@ -7,7 +7,7 @@ public class WaypointAI : MonoBehaviour {
     private GameObject[] waypoints;
     private int selectedTargetChild;
 
-    KartPhysics physics;
+    private KartPhysics physics;
     private float boost;
 
     public GameObject fLeftModel;
@@ -22,12 +22,14 @@ public class WaypointAI : MonoBehaviour {
     private IGameState gameState;
 
     private bool damaged;
-    
+
     private float selfTimer;
     private Vector3 originalOrientation;
 
-    void Start () {
-        
+    private bool isBoosting;
+
+    void Start() {
+
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
         selectedTargetChild = 0;
@@ -39,10 +41,10 @@ public class WaypointAI : MonoBehaviour {
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
         numberofWaypoints = waypoints.Length;
 
-        for(int i = 1; i < numberofWaypoints; i++)
+        for (int i = 1; i < numberofWaypoints; i++)
         {
             int j = i;
-            while (j > 0 && (waypoints[j-1].GetComponent<Waypoint>().waypointNumber > waypoints[j].GetComponent<Waypoint>().waypointNumber))
+            while (j > 0 && (waypoints[j - 1].GetComponent<Waypoint>().waypointNumber > waypoints[j].GetComponent<Waypoint>().waypointNumber))
             {
                 GameObject temp = waypoints[j - 1];
                 waypoints[j - 1] = waypoints[j];
@@ -52,9 +54,11 @@ public class WaypointAI : MonoBehaviour {
         }
 
         damaged = false;
+
+        isBoosting = false;
     }
-	
-	void FixedUpdate () {
+
+    void FixedUpdate() {
 
         if (!damaged)
         {
@@ -113,15 +117,21 @@ public class WaypointAI : MonoBehaviour {
         string secondTarget = waypoints[secondTargetIndex].transform.parent.transform.parent.name;
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
 
-        if (firstTarget.Contains("Straight") && secondTarget.Contains("Straight") && thirdTarget.Contains("Straight") && boost > 0.0f)
+        if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && boost > 0.0f)
         {
             physics.StartBoost();
+            isBoosting = true;
         }
-        else if(firstTarget.Contains("Straight") && secondTarget.Contains("Straight") && thirdTarget.Contains("Ramp") && boost > 0.0f)
+        else
         {
-            physics.StartBoost();
+            physics.EndBoost();
+            isBoosting = false;
         }
 
+        if (isBoosting && boost > 0.0f)
+        {
+            boost -= 0.5f;
+        }
     }
 
     private void handleDamage()
@@ -152,6 +162,17 @@ public class WaypointAI : MonoBehaviour {
     private bool IsGrounded()
     {
         return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+    }
+
+    private bool IsStraightTrackType(string name)
+    {
+        bool isStraight = false;
+
+        if (name.Contains("Straight") || name.Contains("Ramp")){
+            isStraight = true;
+        }
+
+        return isStraight;
     }
 
     public void Damage()
