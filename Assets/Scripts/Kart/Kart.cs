@@ -86,6 +86,11 @@ public class Kart : MonoBehaviour
         {
             damaged = true;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            // increase lap count
+            ((RacingGameState)gameState).LapNumber++;
+        }
     }
 
     void Update()
