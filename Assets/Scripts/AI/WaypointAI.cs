@@ -13,7 +13,7 @@ public class WaypointAI : MonoBehaviour {
     private GameObject[] waypoints;
     private int selectedLane;
     private int laneCounter;
-    private int laneTimerMax;
+    private int laneCounterMax;
 
     private KartPhysics physics;
     private float boost;
@@ -35,18 +35,23 @@ public class WaypointAI : MonoBehaviour {
 
     private bool isBoosting;
 
+    private float resetTimer;
+    private int resetWaypoint;
+
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public string TimeText { get { return timeText; } set { timeText = value; } }
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+    public int ResetWaypoint { get { return resetWaypoint; } set { resetWaypoint = value; } }
 
     void Start() {
 
+        resetTimer = 0.0f;
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
         selectedLane = 0;
         laneCounter = 0;
-        laneTimerMax = Random.Range(2, 9);
+        laneCounterMax = Random.Range(2, 9);
 
         physics = new KartPhysics(gameObject, MINSPEED, NORMALMAXSPEED, BOOSTSPEED);
 
@@ -74,6 +79,8 @@ public class WaypointAI : MonoBehaviour {
 
     void FixedUpdate() {
 
+        resetTimer = resetTimer + Time.deltaTime;
+
         if (!damaged)
         {
             handleAIPhysics();
@@ -86,6 +93,13 @@ public class WaypointAI : MonoBehaviour {
         if (isBoosting && boost > 0.0f)
         {
             boost -= 0.5f;
+        }
+
+        if(resetTimer >= 8.0f)
+        {
+            gameState.ResetKart();
+            currentTargetWaypoint = resetWaypoint;
+            resetTimer = 0.0f;
         }
 
         handleWheelAnimation();
@@ -191,8 +205,9 @@ public class WaypointAI : MonoBehaviour {
     {
         if (currentTargetWaypoint == waypointNumber)
         {
+            resetTimer = 0.0f;
             laneCounter++;
-            if(laneCounter >= laneTimerMax)
+            if(laneCounter >= laneCounterMax)
             {
                 selectedLane = Random.Range(0, 3);
                 laneCounter = 0;

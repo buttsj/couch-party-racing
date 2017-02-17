@@ -32,6 +32,7 @@ public class Checkpoint : MonoBehaviour {
             RacingGameState racingGameState = (RacingGameState)other.GetComponent<WaypointAI>().GameState;
             if (checkpointNumber == racingGameState.CurrentCheckpoint)
             {
+                other.GetComponent<WaypointAI>().ResetWaypoint = gameObject.GetComponent<Waypoint>().waypointNumber;
                 racingGameState.PlayerCheckpointPosition = transform.position;
                 racingGameState.PlayerCheckpointRotation = new Vector3(other.GetComponent<WaypointAI>().transform.localEulerAngles.x, other.GetComponent<WaypointAI>().transform.localEulerAngles.y, other.GetComponent<WaypointAI>().transform.localEulerAngles.z);
                 racingGameState.CurrentCheckpoint++;
