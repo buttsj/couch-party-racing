@@ -4,8 +4,9 @@ public class WaypointAI : MonoBehaviour {
 
     private const float MINSPEED = 100f;
     private const float NORMALMAXSPEED = 200f;
-    private const float TURNINGMAXSPEED = 160f;
-    private const float BOOSTSPEED = 250f;
+    private const float STRAIGHTOFFSPEED = 230f;
+    private const float TURNINGMAXSPEED = 140f;
+    private const float BOOSTSPEED = 260f;
 
     private int currentTargetWaypoint;
     private int numberofWaypoints;
@@ -103,7 +104,7 @@ public class WaypointAI : MonoBehaviour {
             Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
 
             Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
-            Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.2f);
+            Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.3f);
 
             transform.rotation = new Quaternion(transform.rotation.x, slerpQuaternion.y, transform.rotation.z, slerpQuaternion.w);
 
@@ -114,6 +115,18 @@ public class WaypointAI : MonoBehaviour {
 
     private void handleMovementModifications()
     {
+        int onTargetIndex = currentTargetWaypoint - 1;
+        int previousTargetIndex = currentTargetWaypoint - 2;
+        if (onTargetIndex < 0)
+        {
+            onTargetIndex = numberofWaypoints - 1;
+            previousTargetIndex = numberofWaypoints - 2;
+        }
+        else if (previousTargetIndex < 0)
+        {
+            previousTargetIndex = numberofWaypoints - 1;
+        }
+
         int secondTargetIndex = currentTargetWaypoint + 1;
         int thirdTargetIndex = currentTargetWaypoint + 2;
         if (secondTargetIndex >= numberofWaypoints)
@@ -126,19 +139,26 @@ public class WaypointAI : MonoBehaviour {
             thirdTargetIndex = 0;
         }
 
+        string previousTarget = waypoints[previousTargetIndex].transform.parent.transform.parent.name;
+        string onTarget = waypoints[onTargetIndex].transform.parent.transform.parent.name;
         string firstTarget = waypoints[currentTargetWaypoint].transform.parent.transform.parent.name;
         string secondTarget = waypoints[secondTargetIndex].transform.parent.transform.parent.name;
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
 
-        if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && boost > 0.0f)
+        if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && IsStraightTrackType(onTarget) && IsStraightTrackType(previousTarget) && boost > 0.0f)
         {
             physics.StartBoost();
             isBoosting = true;
         }
-        else if (firstTarget.Contains("Turn") || secondTarget.Contains("Turn"))
+        else if (previousTarget.Contains("Turn") || onTarget.Contains("Turn") || firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
         {
-            Debug.Log("Turning");
             physics.MaxSpeed = TURNINGMAXSPEED;
+            physics.EndBoost();
+            isBoosting = false;
+        }
+        else if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget))
+        {
+            physics.MaxSpeed = STRAIGHTOFFSPEED;
             physics.EndBoost();
             isBoosting = false;
         }

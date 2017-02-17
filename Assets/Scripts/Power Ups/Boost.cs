@@ -3,6 +3,7 @@
 public class Boost : IKartAbility {
 
     private GameObject owner;
+    private AudioClip boostUse;
     private float boostValue;
     private bool used;
     private bool destroy;
@@ -13,12 +14,14 @@ public class Boost : IKartAbility {
         used = false;
         destroy = false;
         owner = incomingOwner;
+        boostUse = Resources.Load<AudioClip>("Sounds/KartEffects/Boost_Sound");
     }
 
     public void UseItem()
     {
         if (used == false)
         {
+            GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(boostUse);
             used = true;
         }
     }

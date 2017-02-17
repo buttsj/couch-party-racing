@@ -31,9 +31,12 @@ public class RacingGameState : IGameState {
     }
 	
 	// Update is called once per frame
-	public void Update () {
+	public void NonDamagedUpdate () {
 		
 	}
+
+
+    public void DamagedUpdate() { }
 
     public void ResetKart() {
         player.transform.localEulerAngles = playerCheckpointRotation;

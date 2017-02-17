@@ -44,8 +44,7 @@ public class Kart : MonoBehaviour
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
-    private bool holdingPotato;
-    public bool HoldingPotato { get { return holdingPotato; } set { holdingPotato = value; } }
+    
 
     void Start()
     {
@@ -53,7 +52,6 @@ public class Kart : MonoBehaviour
         isBoosting = false;
         boost = 100.0f;
         selfTimer = 0;
-        holdingPotato = false;
         ability = new NullItem(gameObject);
     }
 
@@ -171,7 +169,7 @@ public class Kart : MonoBehaviour
             {
                 other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
                 other.gameObject.GetComponent<SpudScript>().IsTagged = true;
-                holdingPotato = true;
+                ((SpudRunGameState)gameState).HoldingPotato = true;
             }
             else
                 Debug.Log("can't grab potato yet");
@@ -243,7 +241,7 @@ public class Kart : MonoBehaviour
         return transform.eulerAngles.z > 90f;
     }
 
-    void ResetKart(IGameState gameState)
+    void ResetKart()
     {
         gameState.ResetKart();
     }
@@ -301,11 +299,11 @@ public class Kart : MonoBehaviour
     {
         UpdateMovement();
         UpdateBoost();
-
+        gameState.NonDamagedUpdate();
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
         if (SimpleInput.GetButton("Reset Rotation", playerNumber))
         {
-            ResetKart(gameState);
+            ResetKart();
         }
     }
 
@@ -315,13 +313,7 @@ public class Kart : MonoBehaviour
             isBoosting = false;
             physics.EndBoost();
         }
-        if (holdingPotato)
-        {
-            // drop potato
-            holdingPotato = false;
-            GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
-            GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
-        }
+        gameState.DamagedUpdate();
 
         physics.Spin();
         selfTimer = selfTimer + Time.deltaTime;
