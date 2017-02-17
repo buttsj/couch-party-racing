@@ -45,6 +45,7 @@ public class Kart : MonoBehaviour
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
     private bool holdingPotato;
+    public bool HoldingPotato { get { return holdingPotato; } set { holdingPotato = value; } }
 
     void Start()
     {

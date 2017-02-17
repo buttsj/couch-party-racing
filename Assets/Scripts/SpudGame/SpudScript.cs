@@ -14,7 +14,10 @@ public class SpudScript : MonoBehaviour {
     public GameObject SpudHolder { get { return holder; } set { holder = value; } }
 
     private bool gameOver;
-    public bool GameOver { get { return gameOver; } }
+    public bool GameOver { get { return gameOver; } set { gameOver = value; } }
+
+    private Vector3 spawnPos;
+    private Quaternion spawnRot;
 
     public bool CanIGrab()
     {
@@ -26,7 +29,9 @@ public class SpudScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        timer = 10.0f;
+        spawnPos = gameObject.transform.position;
+        spawnRot = gameObject.transform.rotation;
+        timer = 60.0f;
         tagged = false;
         gameOver = false;
         invulnTimer = 0.0f;
@@ -34,6 +39,10 @@ public class SpudScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (gameOver)
+        {
+            ResetRound();
+        }
 		if (tagged)
         {
             invulnTimer = 0.0f;
@@ -45,9 +54,19 @@ public class SpudScript : MonoBehaviour {
             invulnTimer = invulnTimer + Time.deltaTime;
             transform.Rotate(Vector3.up, 2.0f);
         }
-        if (timer <= 0.0f)
-        {
-            gameOver = true;
-        }
 	}
+
+    void ResetRound()
+    {
+        gameOver = false;
+        timer = 60.0f;
+        if (tagged)
+        {
+            tagged = false;
+            holder.GetComponent<Kart>().HoldingPotato = false;
+            holder = null;
+        }
+        transform.position = spawnPos;
+        transform.rotation = spawnRot;
+    }
 }

@@ -3,12 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SpudHUDManager : MonoBehaviour {
-
-    private bool GameOver;
-    public bool IsGameOver { get { return GameOver; } set { GameOver = value; } }
-    
+   
     public GameObject potato;
-
     public Text timeRemainingText;
     List<float> secondsRemain;
     List<int> minutesRemain;
@@ -25,7 +21,7 @@ public class SpudHUDManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (potato.GetComponent<SpudScript>().IsTagged && !GameOver)
+        if (potato.GetComponent<SpudScript>().IsTagged && !potato.gameObject.GetComponent<SpudScript>().GameOver)
         {
             UpdateTimerUI();
         }
@@ -36,13 +32,15 @@ public class SpudHUDManager : MonoBehaviour {
     {
         string minuteRemainText;
         string secondsRemainText;
-        secondsRemain[0] -= Time.deltaTime;
-        if (potato.GetComponent<SpudScript>().GameOver)
+        potato.gameObject.GetComponent<SpudScript>().TimeRemaining -= Time.deltaTime;
+        if (potato.gameObject.GetComponent<SpudScript>().TimeRemaining <= 0.0f)
         {
             secondsRemain[0] = 0.0f;
             minutesRemain[0] = 0;
-            GameOver = true;
+            potato.gameObject.GetComponent<SpudScript>().TimeRemaining = 0.0f;
+            potato.gameObject.GetComponent<SpudScript>().GameOver = true;
         }
+        secondsRemain[0] = potato.gameObject.GetComponent<SpudScript>().TimeRemaining;
         if (secondsRemain[0] < 10)
         {
             secondsRemainText = secondsRemain[0].ToString("F2");
@@ -60,7 +58,6 @@ public class SpudHUDManager : MonoBehaviour {
             minuteRemainText = minutesRemain[0].ToString();
         }
         string timeRemainDisplay = minuteRemainText + ":" + secondsRemainText;
-        potato.GetComponent<SpudScript>().TimeRemaining = secondsRemain[0];
         timeRemainingText.text = timeRemainDisplay;
     }
 }
