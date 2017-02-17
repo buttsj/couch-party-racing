@@ -2,10 +2,17 @@
 
 public class WaypointAI : MonoBehaviour {
 
+    private const float MINSPEED = 100f;
+    private const float NORMALMAXSPEED = 200f;
+    private const float TURNINGMAXSPEED = 160f;
+    private const float BOOSTSPEED = 250f;
+
     private int currentTargetWaypoint;
     private int numberofWaypoints;
     private GameObject[] waypoints;
-    private int selectedTargetChild;
+    private int selectedLane;
+    private int laneTimer;
+    private int laneTimerMax;
 
     private KartPhysics physics;
     private float boost;
@@ -22,19 +29,25 @@ public class WaypointAI : MonoBehaviour {
     private IGameState gameState;
 
     private bool damaged;
-
     private float selfTimer;
     private Vector3 originalOrientation;
 
     private bool isBoosting;
 
+    public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
+    public IGameState GameState { get { return gameState; } set { gameState = value; } }
+    public string TimeText { get { return timeText; } set { timeText = value; } }
+    public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+
     void Start() {
 
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
-        selectedTargetChild = 0;
+        selectedLane = 0;
+        laneTimer = 0;
+        laneTimerMax = Random.Range(2, 9);
 
-        physics = new KartPhysics(gameObject, 100, 200, 250);
+        physics = new KartPhysics(gameObject, MINSPEED, NORMALMAXSPEED, BOOSTSPEED);
 
         boost = 100.0f;
 
@@ -86,7 +99,7 @@ public class WaypointAI : MonoBehaviour {
         {
             handleMovementModifications();
 
-            Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedTargetChild).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedTargetChild).position.z);
+            Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.z);
             Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
 
             Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
@@ -122,8 +135,16 @@ public class WaypointAI : MonoBehaviour {
             physics.StartBoost();
             isBoosting = true;
         }
+        else if (firstTarget.Contains("Turn") || secondTarget.Contains("Turn"))
+        {
+            Debug.Log("Turning");
+            physics.MaxSpeed = TURNINGMAXSPEED;
+            physics.EndBoost();
+            isBoosting = false;
+        }
         else
         {
+            physics.MaxSpeed = NORMALMAXSPEED;
             physics.EndBoost();
             isBoosting = false;
         }
@@ -150,7 +171,13 @@ public class WaypointAI : MonoBehaviour {
     {
         if (currentTargetWaypoint == waypointNumber)
         {
-            selectedTargetChild = Random.Range(0, 3);
+            laneTimer++;
+            if(laneTimer >= laneTimerMax)
+            {
+                selectedLane = Random.Range(0, 3);
+                laneTimer = 0;
+            }
+            
             currentTargetWaypoint++;
             if (currentTargetWaypoint >= waypoints.Length)
             {
@@ -179,27 +206,6 @@ public class WaypointAI : MonoBehaviour {
     {
         originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         damaged = true;
-    }
-
-    public int CurrentTargetWaypoint
-    {
-        get { return currentTargetWaypoint; }
-        set { currentTargetWaypoint = value; }
-    }
-
-    public IGameState GameState {
-        get { return gameState; }
-        set { gameState = value; }
-    }
-
-    public string TimeText {
-        get { return timeText; }
-        set { timeText = value; }
-    }
-
-    public bool IsDamaged {
-        get { return damaged; }
-        set { damaged = value; }
     }
 
 }
