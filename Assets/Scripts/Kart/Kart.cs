@@ -14,6 +14,8 @@ public class Kart : MonoBehaviour
     public GameObject fLParent;
     public GameObject fRParent;
 
+    public GameObject green_arrow;
+
     private bool damaged;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     private bool isBoosting;
