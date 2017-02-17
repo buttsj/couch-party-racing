@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
+    private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
     private const string HUD_PATH = "Prefabs/UI Prefabs/";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
@@ -60,20 +61,18 @@ public class SceneGenerator : MonoBehaviour {
         }
     }
 
-    private void GenerateKart(int kartNumber) {
+    private void GenerateKart(int kartNumber, string destination) {
         Vector3 startPos = startObj.transform.position + kartStartAdjList[kartNumber];
         Quaternion startAngel = startObj.transform.rotation;
 
-        kartList.Add(Instantiate(Resources.Load<GameObject>(KART_PATH), startPos, startAngel));
+        kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngel));
         kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
         kartList[kartNumber].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
 
     private void GenerateAI() {
         for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
-            GenerateKart(i);
-            kartList[i].GetComponent<Kart>().enabled = false;
-            kartList[i].GetComponent<WaypointAI>().enabled = true;
+            GenerateKart(i, AI_KART_PATH);
             kartList[i].name = "AI" + (i + 1);
             if (GamemodeName == "RaceMode")
             {
@@ -86,9 +85,7 @@ public class SceneGenerator : MonoBehaviour {
         kartList = new List<GameObject>();
 
         for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-            GenerateKart(i);
-            kartList[i].GetComponent<Kart>().enabled = true;
-            kartList[i].GetComponent<WaypointAI>().enabled = false;
+            GenerateKart(i, KART_PATH);
             kartList[i].name = "Player " + (i + 1);
             kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
         }
