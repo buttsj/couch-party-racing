@@ -106,13 +106,34 @@ public class RacingEndGameMenu : MonoBehaviour {
     void DetermineRacePositions() {
         for (int i = 0; i < kartList.Count; i++) {
             int position = 1;
-            float distance = ((RacingGameState)kartList[i].GetComponent<Kart>().GameState).GetDistance();
+
+            float distance;
+            if (kartList[i].GetComponent<Kart>() != null)
+            {
+                distance = ((RacingGameState)kartList[i].GetComponent<Kart>().GameState).GetDistance();
+            }
+            else {
+                distance = ((RacingGameState)kartList[i].GetComponent<WaypointAI>().GameState).GetDistance();
+            }
             foreach (GameObject kart in kartList) {
-                if (((RacingGameState)kart.GetComponent<Kart>().GameState).GetDistance() > distance) {
-                    position++;
+                if (kart.GetComponent<Kart>() != null)
+                {
+                    if (((RacingGameState)kart.GetComponent<Kart>().GameState).GetDistance() > distance)
+                    {
+                        position++;
+                    }
+                }
+                else {
+                    if (((RacingGameState)kart.GetComponent<WaypointAI>().GameState).GetDistance() > distance)
+                    {
+                        position++;
+                    }
                 }
             }
-            ((RacingGameState)kartList[i].GetComponent<Kart>().GameState).Place = position;
+            if (kartList[i].GetComponent<Kart>() != null)
+                ((RacingGameState)kartList[i].GetComponent<Kart>().GameState).Place = position;
+            else
+                ((RacingGameState)kartList[i].GetComponent<WaypointAI>().GameState).Place = position;
         }
 
     }
