@@ -13,6 +13,9 @@ public class SpudScript : MonoBehaviour {
     public bool IsTagged { get { return tagged; } set { tagged = value; } }
     public GameObject SpudHolder { get { return holder; } set { holder = value; } }
 
+    private bool gameOver;
+    public bool GameOver { get { return gameOver; } }
+
     public bool CanIGrab()
     {
         if (invulnTimer > 2.0f)
@@ -23,7 +26,9 @@ public class SpudScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        timer = 10.0f;
         tagged = false;
+        gameOver = false;
         invulnTimer = 0.0f;
 	}
 	
@@ -39,6 +44,10 @@ public class SpudScript : MonoBehaviour {
         {
             invulnTimer = invulnTimer + Time.deltaTime;
             transform.Rotate(Vector3.up, 2.0f);
+        }
+        if (timer <= 0.0f)
+        {
+            gameOver = true;
         }
 	}
 }
