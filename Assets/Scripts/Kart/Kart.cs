@@ -196,7 +196,7 @@ public class Kart : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
         {
-            //other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            other.gameObject.GetComponent<WaypointAI>().Damage();
             // damage the other kart
         }
     }

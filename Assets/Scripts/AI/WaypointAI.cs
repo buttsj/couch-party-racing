@@ -27,8 +27,14 @@ public class WaypointAI : MonoBehaviour {
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public string TimeText { get { return timeText; } set { timeText = value; } }
 
-	void Start () {
+    private bool damaged;
+    public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+    private float selfTimer;
+    private Vector3 originalOrientation;
 
+    void Start () {
+        damaged = false;
+        selfTimer = 0.0f;
         currentTargetWaypoint = 0;
         selectedTargetChild = 0;
 
@@ -67,7 +73,7 @@ public class WaypointAI : MonoBehaviour {
     private void AIPhysics()
     {
 
-        if (IsGrounded())
+        if (IsGrounded() && !damaged)
         {
 
             Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedTargetChild).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedTargetChild).position.z);
@@ -80,6 +86,17 @@ public class WaypointAI : MonoBehaviour {
 
             physics.Accelerate();
             physics.ApplyForces();
+        }
+        else if (damaged)
+        {
+            physics.Spin();
+            selfTimer = selfTimer + Time.deltaTime;
+            if (selfTimer >= 1.5f)
+            {
+                damaged = false;
+                selfTimer = 0;
+                transform.localEulerAngles = originalOrientation;
+            }
         }
     }
 
@@ -105,6 +122,12 @@ public class WaypointAI : MonoBehaviour {
     {
         get { return currentTargetWaypoint; }
         set { currentTargetWaypoint = value; }
+    }
+
+    public void Damage()
+    {
+        originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        damaged = true;
     }
 
 }
