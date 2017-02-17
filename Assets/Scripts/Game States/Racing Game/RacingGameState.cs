@@ -13,7 +13,6 @@ public class RacingGameState : IGameState {
     public Vector3 PlayerCheckpointRotation { get { return playerCheckpointRotation; } set { playerCheckpointRotation = value; } }
     public int CurrentCheckpoint { get { return currentCheckpointNumber; } set { currentCheckpointNumber = value; } }
     public int NumberOfCheckpoints { get { return numberOfCheckpoints; } }
-    public int CurrentRacePosition { get; set; }
     public Vector2 LapAndCheckpoint { get { return new Vector2(lapNumber, currentCheckpointNumber); } }
     public int Place { get; set; }
     private GameObject player;
@@ -42,6 +41,6 @@ public class RacingGameState : IGameState {
     }
 
     public float GetDistance() {
-        return (player.transform.position - playerCheckpointPosition).magnitude + currentCheckpointNumber * 100 + lapNumber * 1000; 
+        return (player.transform.position - playerCheckpointPosition).magnitude + currentCheckpointNumber * 1000 + lapNumber * 10000; 
     }
 }

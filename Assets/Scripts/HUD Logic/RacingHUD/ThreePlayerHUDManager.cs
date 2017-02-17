@@ -17,6 +17,9 @@ public class ThreePlayerHUDManager : MonoBehaviour {
     public Text lapText2;
     public Text boostText3;
     public Text lapText3;
+    public Text placeText1;
+    public Text placeText2;
+    public Text placeText3;
     List<float> seconds;
     List<int> minutes;
     private List<GameObject> aiList;
@@ -189,6 +192,47 @@ public class ThreePlayerHUDManager : MonoBehaviour {
                     }
                     i++;
                 }
+                break;
+        }
+    }
+
+    void UpdatePlace(GameObject kart, int playerNumber)
+    {
+        int place = ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+
+        switch (place)
+        {
+            case 1:
+                if (playerNumber == 1)
+                    placeText1.text = "1st";
+                else if (playerNumber == 2)
+                    placeText2.text = "1st";
+                else
+                    placeText3.text = "1st";
+                break;
+            case 2:
+                if (playerNumber == 1)
+                    placeText1.text = "2nd";
+                else if (playerNumber == 2)
+                    placeText2.text = "2nd";
+                else
+                    placeText3.text = "2nd";
+                break;
+            case 3:
+                if (playerNumber == 1)
+                    placeText1.text = "3rd";
+                else if (playerNumber == 2)
+                    placeText2.text = "3rd";
+                else
+                    placeText3.text = "3rd";
+                break;
+            case 4:
+                if (playerNumber == 1)
+                    placeText1.text = "4th";
+                else if (playerNumber == 2)
+                    placeText2.text = "4th";
+                else
+                    placeText3.text = "4th";
                 break;
         }
     }
