@@ -19,7 +19,7 @@ public class SceneGenerator : MonoBehaviour {
     private GameObject startObj;
 
     private List<GameObject> kartList;
-    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(30, 1, -10), new Vector3(30, 1, 10), new Vector3(10, 1, -10), new Vector3(10, 1, 10) };
+    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-25, 1, 15), new Vector3(-25, 1, 45), new Vector3(-55, 1, 15), new Vector3(-55, 1, 45) };
     private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow};
     
 
@@ -63,7 +63,7 @@ public class SceneGenerator : MonoBehaviour {
 
     private void GenerateKart(int kartNumber, string destination) {
         Vector3 startPos = startObj.transform.position + kartStartAdjList[kartNumber];
-        Quaternion startAngel = startObj.transform.rotation;
+        Quaternion startAngel = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
 
         kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngel));
         kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
