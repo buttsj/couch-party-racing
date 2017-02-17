@@ -54,6 +54,11 @@ public class Boost : IKartAbility {
         }
     }
 
+    public bool IsUsing()
+    {
+        return used;
+    }
+
     public bool IsUsed()
     {
         return destroy;

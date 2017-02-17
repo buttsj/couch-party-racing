@@ -4,4 +4,5 @@
     string ToString();
     void Update();
     bool IsUsed();
+    bool IsUsing();
 }

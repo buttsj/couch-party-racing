@@ -43,6 +43,11 @@ public class Spark : IKartAbility {
         }
     }
 
+    public bool IsUsing()
+    {
+        return used;
+    }
+
     public bool IsUsed()
     {
         return destroy;

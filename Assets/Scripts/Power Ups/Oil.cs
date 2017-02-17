@@ -53,4 +53,9 @@ public class Oil : IKartAbility {
     {
         return destroy;
     }
+
+    public bool IsUsing()
+    {
+        return used;
+    }
 }

@@ -4,11 +4,13 @@ public class NullItem : IKartAbility {
 
     private GameObject owner;
     private bool destroy;
+    private bool used;
 
     public NullItem(GameObject incomingOwner)
     {
         owner = incomingOwner;
         destroy = false;
+        used = false;
     }
 
     public void UseItem()
@@ -24,6 +26,11 @@ public class NullItem : IKartAbility {
     public void Update()
     {
 
+    }
+
+    public bool IsUsing()
+    {
+        return used;
     }
 
     public bool IsUsed()
