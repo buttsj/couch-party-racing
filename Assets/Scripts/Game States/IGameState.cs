@@ -6,7 +6,9 @@ public interface IGameState {
 
     void Start();
 
-    void Update();
+    void NonDamagedUpdate();
+
+    void DamagedUpdate();
 
     void ResetKart();
 }

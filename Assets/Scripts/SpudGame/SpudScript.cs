@@ -63,7 +63,7 @@ public class SpudScript : MonoBehaviour {
         if (tagged)
         {
             tagged = false;
-            holder.GetComponent<Kart>().HoldingPotato = false;
+            ((SpudRunGameState)holder.GetComponent<Kart>().GameState).HoldingPotato = false;
             holder = null;
         }
         transform.position = spawnPos;
