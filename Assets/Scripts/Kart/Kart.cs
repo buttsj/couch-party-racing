@@ -180,6 +180,15 @@ public class Kart : MonoBehaviour
             damaged = true;
             originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
+        if (other.gameObject.name.Contains("Oil") && damaged == false)
+        {
+            if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
+            {
+                damaged = true;
+                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                Destroy(other.gameObject);
+            }
+        }
     }
 
     void OnCollisionEnter(Collision other)
