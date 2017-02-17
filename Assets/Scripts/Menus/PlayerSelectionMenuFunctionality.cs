@@ -61,7 +61,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             SimpleInput.MapPlayerToDevice(4);
         }
 
-        SceneManager.LoadScene("LevelSelectionMenu");
+        sceneGenerator.LoadScene();
     }
 
     private void checkForReadyPlayers() {
