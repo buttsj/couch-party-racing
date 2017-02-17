@@ -60,8 +60,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
         }
-        
-        sceneGenerator.LoadScene();
+
+        SceneManager.LoadScene("LevelSelectionMenu");
     }
 
     private void checkForReadyPlayers() {
