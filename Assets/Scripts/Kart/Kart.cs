@@ -16,6 +16,9 @@ public class Kart : MonoBehaviour
 
     public GameObject green_arrow;
 
+    private AudioClip boostSound;
+    private bool makeBoostSound;
+
     private bool damaged;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     private bool isBoosting;
@@ -48,6 +51,8 @@ public class Kart : MonoBehaviour
 
     void Start()
     {
+        boostSound = Resources.Load<AudioClip>("Sounds/KartEffects/Boosting");
+        makeBoostSound = false;
         damaged = false;
         isBoosting = false;
         boost = 100.0f;
@@ -81,13 +86,30 @@ public class Kart : MonoBehaviour
         {
             damaged = true;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            // increase lap count
+            ((RacingGameState)gameState).LapNumber++;
+        }
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            ability.UseItem();
+            switch (ability.ToString())
+            {
+                case "Oil":
+                    if (IsGrounded())
+                        ability.UseItem();
+                    break;
+                case "Spark":
+                    ability.UseItem();
+                    break;
+                case "Boost":
+                    ability.UseItem();
+                    break;
+            }
         }
         if (ability.IsUsed())
         {
@@ -193,7 +215,8 @@ public class Kart : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
         {
-            other.gameObject.GetComponent<WaypointAI>().Damage();
+            if (ability.IsUsing())
+                other.gameObject.GetComponent<WaypointAI>().Damage();
             // damage the other kart
         }
     }
@@ -347,18 +370,30 @@ public class Kart : MonoBehaviour
             {
                 isBoosting = true;
                 physics.StartBoost();
+                BoostNoise();
                 boost -= .5f;
             }
             else
             {
+                makeBoostSound = false;
                 isBoosting = false;
                 physics.EndBoost();
             }
         }
         else
         {
+            makeBoostSound = false;
             isBoosting = false;
             physics.EndBoost();
+        }
+    }
+
+    void BoostNoise()
+    {
+        if (!makeBoostSound)
+        {
+            makeBoostSound = true;
+            GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(boostSound);
         }
     }
 }

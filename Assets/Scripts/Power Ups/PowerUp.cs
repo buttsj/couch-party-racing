@@ -5,11 +5,12 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour {
     
     public enum Type { Boost, Oil, Spark }
+    private AudioClip powerUpGet;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Start () {
+        powerUpGet = Resources.Load<AudioClip>("Sounds/KartEffects/Item_Get_Sound");
+    }
 
     public Type DeterminePowerup()
     {
@@ -30,6 +31,7 @@ public class PowerUp : MonoBehaviour {
                 ret = Type.Boost; // this won't happen
                 break;
         }
+        GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(powerUpGet);
         return ret;
     }
 	
