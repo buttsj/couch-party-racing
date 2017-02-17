@@ -3,6 +3,7 @@
 public class Spark : IKartAbility {
 
     private GameObject owner;
+    private AudioClip sparkUse;
     private bool destroy;
     private bool used;
     private float timer;
@@ -13,6 +14,7 @@ public class Spark : IKartAbility {
         destroy = false;
         used = false;
         timer = 0.0f;
+        sparkUse = Resources.Load<AudioClip>("Sounds/KartEffects/SparkNoise");
     }
 
     public void UseItem()
@@ -22,6 +24,7 @@ public class Spark : IKartAbility {
         {
             owner.transform.Find("electricity").gameObject.SetActive(true);
             used = true;
+            GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(sparkUse);
         }
     }
     
