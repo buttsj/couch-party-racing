@@ -32,7 +32,7 @@ public class Boost : IKartAbility {
     {
         if (used)
         {
-            owner.GetComponent<Kart>().green_arrow.SetActive(true);
+            owner.GetComponent<Kart>().green_arrow.GetComponent<ParticleSystem>().Play();
             if (owner.GetComponent<Kart>().Boost < 100.0f)
             {
                 owner.GetComponent<Kart>().Boost += 1.0f;
@@ -45,7 +45,7 @@ public class Boost : IKartAbility {
             }
             if (boostValue == 0.0f)
             {
-                owner.GetComponent<Kart>().green_arrow.SetActive(false);
+                owner.GetComponent<Kart>().green_arrow.GetComponent<ParticleSystem>().Stop();
                 destroy = true;
             }
         }
