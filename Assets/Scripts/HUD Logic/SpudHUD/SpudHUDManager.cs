@@ -6,19 +6,15 @@ public class SpudHUDManager : MonoBehaviour {
 
     private bool GameOver;
     public bool IsGameOver { get { return GameOver; } set { GameOver = value; } }
-    private float boost;
-    private string poweruptype;
+
     public GameObject kart;
     public GameObject potato;
-    public Image spark;
-    public Image oil;
-    public Image boostImg;
-    public Text boostText;
+
     //public Text timerText;
     List<float> seconds;
     List<int> minutes;
 
-    //public Text timeRemainingText;
+    public Text timeRemainingText;
     List<float> secondsRemain;
     List<int> minutesRemain;
 
@@ -39,39 +35,10 @@ public class SpudHUDManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        boost = kart.GetComponent<Kart>().Boost;
-        boostText.text = ((int)boost).ToString();
-        poweruptype = kart.GetComponent<Kart>().Powerup;
-
         if (potato.GetComponent<SpudScript>().IsTagged && !GameOver)
         {
             UpdateTimerUI(kart, 0);
         }
-
-        switch (kart.GetComponent<Kart>().Ability.ToString())
-        {
-            case "Boost":
-                spark.enabled = false;
-                oil.enabled = false;
-                boostImg.enabled = true;
-                break;
-            case "Spark":
-                spark.enabled = true;
-                oil.enabled = false;
-                boostImg.enabled = false;
-                break;
-            case "Oil":
-                oil.enabled = true;
-                spark.enabled = false;
-                boostImg.enabled = false;
-                break;
-            case "Null":
-                oil.enabled = false;
-                spark.enabled = false;
-                boostImg.enabled = false;
-                break;
-        }
-    
     }
 
 
@@ -113,7 +80,7 @@ public class SpudHUDManager : MonoBehaviour {
             kart.GetComponent<Kart>().TimeText = timeDisplay;
             potato.GetComponent<SpudScript>().TimeRemaining = secondsRemain[0];
             //timerText.text = timeDisplay;
-            //timeRemainingText.text = timeRemainDisplay;
+            timeRemainingText.text = timeRemainDisplay;
         }
         else
         {
