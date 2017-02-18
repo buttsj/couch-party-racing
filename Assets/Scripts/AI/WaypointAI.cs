@@ -2,7 +2,7 @@
 
 public class WaypointAI : MonoBehaviour {
 
-    private const float MINSPEED = 150f;
+    private const float MINSPEED = 175f;
     private const float NORMALMAXSPEED = 250f;
     private const float BOOSTSPEED = 300f;
 
@@ -87,11 +87,13 @@ public class WaypointAI : MonoBehaviour {
 
     void FixedUpdate() {
 
-        resetTimer = resetTimer + Time.deltaTime;
-
         if (!damaged)
         {
+            resetTimer = resetTimer + Time.deltaTime;
             handleAIMovement();
+            handleReset();
+            handlePowerup();
+            handleWheelAnimation();
         }
         else
         {
@@ -103,9 +105,6 @@ public class WaypointAI : MonoBehaviour {
             boost -= 0.5f;
         }
 
-        handleReset();
-        handlePowerup();
-        handleWheelAnimation();
     }
 
     void OnTriggerEnter(Collider other)
@@ -119,10 +118,30 @@ public class WaypointAI : MonoBehaviour {
                 ability = new Boost(gameObject);
             }
         }
+
+        /*
+        if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
+        {
+            damaged = true;
+            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        }
+        */
+
+        if (other.gameObject.name.Contains("Oil") && damaged == false)
+        {
+            if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
+            {
+                damaged = true;
+                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                Destroy(other.gameObject);
+            }
+        }
+
     }
 
     void OnTriggerStay(Collider other)
     {
+        /*
         if (other.gameObject.name.Contains("Conveyor"))
         {
             if (other.gameObject.GetComponent<ConveyorScript>().direction)
@@ -130,11 +149,13 @@ public class WaypointAI : MonoBehaviour {
             else
                 physics.FastZone(other.gameObject);
         }
+        */
 
         if (other.gameObject.name.Contains("BoostPlate"))
         {
             physics.BoostPlate(other.gameObject);
         }
+
     }
 
     private void handleWheelAnimation()
@@ -201,7 +222,7 @@ public class WaypointAI : MonoBehaviour {
             isBoosting = false;
         }
 
-        if(breakTimer > 0.0f)
+        if (breakTimer > 0.0f)
         {
             physics.Coast();
             breakTimer = breakTimer - Time.deltaTime;
@@ -239,12 +260,11 @@ public class WaypointAI : MonoBehaviour {
     {
         if (ability.ToString() == "Boost" && boost <= 0.0f)
         {
-            Debug.Log("Used boost powerup");
             ability.UseItem();
         }
         if (ability.IsUsed())
         {
-            ability = new NullItem(gameObject); // item is completely used
+            ability = new NullItem(gameObject);
         }
         ability.Update();
     }
@@ -255,12 +275,12 @@ public class WaypointAI : MonoBehaviour {
         {
             resetTimer = 0.0f;
             laneCounter++;
-            if(laneCounter >= laneCounterMax)
+            if (laneCounter >= laneCounterMax)
             {
                 selectedLane = Random.Range(0, 3);
                 laneCounter = 0;
             }
-            
+
             currentTargetWaypoint++;
             if (currentTargetWaypoint >= waypoints.Length)
             {
@@ -273,6 +293,17 @@ public class WaypointAI : MonoBehaviour {
 
     private void breakForTurn()
     {
+        int onTargetIndex = currentTargetWaypoint - 1;
+        int previousTargetIndex = currentTargetWaypoint - 2;
+        if (onTargetIndex < 0)
+        {
+            onTargetIndex = numberofWaypoints - 1;
+            previousTargetIndex = numberofWaypoints - 2;
+        }
+        else if (previousTargetIndex < 0)
+        {
+            previousTargetIndex = numberofWaypoints - 1;
+        }
         int secondTargetIndex = currentTargetWaypoint + 1;
         int thirdTargetIndex = currentTargetWaypoint + 2;
         if (secondTargetIndex >= numberofWaypoints)
@@ -284,12 +315,14 @@ public class WaypointAI : MonoBehaviour {
         {
             thirdTargetIndex = 0;
         }
+        string onTarget = waypoints[onTargetIndex].transform.parent.transform.parent.name;
+        string previousTarget = waypoints[previousTargetIndex].transform.parent.transform.parent.name;
         string firstTarget = waypoints[currentTargetWaypoint].transform.parent.transform.parent.name;
         string secondTarget = waypoints[secondTargetIndex].transform.parent.transform.parent.name;
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
-        if (firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
+        if (previousTarget.Contains("Turn") || onTarget.Contains("Turn") || firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
         {
-            breakTimer = 0.26f;
+            breakTimer = 0.2f;
         }
     }
 
