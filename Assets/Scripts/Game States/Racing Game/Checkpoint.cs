@@ -12,7 +12,6 @@ public class Checkpoint : MonoBehaviour {
         {
             
             RacingGameState racingGameState = (RacingGameState)other.GetComponent<Kart>().GameState;
-            Debug.Log("Checkpoint #"+ racingGameState.CurrentCheckpoint);
 
             if (checkpointNumber == racingGameState.CurrentCheckpoint)
             {
