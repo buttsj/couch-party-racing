@@ -3,9 +3,8 @@
 public class WaypointAI : MonoBehaviour {
 
     private const float MINSPEED = 150f;
-    private const float NORMALMAXSPEED = 220f;
-    private const float STRAIGHTOFFSPEED = 250f;
-    private const float TURNINGMAXSPEED = 160f;
+    private const float NORMALMAXSPEED = 250f;
+    private const float TURNINGMAXSPEED = 200f;
     private const float BOOSTSPEED = 300f;
 
     private int currentTargetWaypoint;
@@ -38,6 +37,8 @@ public class WaypointAI : MonoBehaviour {
     private float resetTimer;
     private int resetWaypoint;
 
+    private float breakTimer;
+
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public string TimeText { get { return timeText; } set { timeText = value; } }
@@ -47,6 +48,7 @@ public class WaypointAI : MonoBehaviour {
     void Start() {
 
         resetTimer = 0.0f;
+        breakTimer = 0.0f;
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
         selectedLane = 0;
@@ -83,7 +85,7 @@ public class WaypointAI : MonoBehaviour {
 
         if (!damaged)
         {
-            handleAIPhysics();
+            handleAIMovement();
         }
         else
         {
@@ -95,7 +97,7 @@ public class WaypointAI : MonoBehaviour {
             boost -= 0.5f;
         }
 
-        if(resetTimer >= 8.0f)
+        if(resetTimer >= 6.0f)
         {
             gameState.ResetKart();
             currentTargetWaypoint = resetWaypoint;
@@ -130,26 +132,23 @@ public class WaypointAI : MonoBehaviour {
         rRightModel.transform.Rotate(Vector3.right * physics.Speed);
     }
 
-    private void handleAIPhysics()
+    private void handleAIMovement()
     {
         Vector3 targetWaypointXZPosition = new Vector3(waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.x, 0.0f, waypoints[currentTargetWaypoint].transform.GetChild(selectedLane).position.z);
         Vector3 aiXZPosition = new Vector3(transform.position.x, 0.0f, transform.position.z);
 
         Quaternion targetQuaternion = Quaternion.LookRotation((targetWaypointXZPosition - aiXZPosition).normalized);
-        Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.3f);
+        Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.2f);
 
         transform.rotation = new Quaternion(transform.rotation.x, slerpQuaternion.y, transform.rotation.z, slerpQuaternion.w);
 
         if (IsGrounded())
         {
-            handleMovementModifications();
-
-            physics.Accelerate();
-            physics.ApplyForces();
+            handleAIPhysics();
         }
     }
 
-    private void handleMovementModifications()
+    private void handleAIPhysics()
     {
         int onTargetIndex = currentTargetWaypoint - 1;
         int previousTargetIndex = currentTargetWaypoint - 2;
@@ -192,18 +191,23 @@ public class WaypointAI : MonoBehaviour {
             physics.EndBoost();
             isBoosting = false;
         }
-        else if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && IsStraightTrackType(onTarget) && IsStraightTrackType(previousTarget))
-        {
-            physics.MaxSpeed = STRAIGHTOFFSPEED;
-            physics.EndBoost();
-            isBoosting = false;
-        }
         else
         {
             physics.MaxSpeed = NORMALMAXSPEED;
             physics.EndBoost();
             isBoosting = false;
         }
+
+        if(breakTimer > 0.0f)
+        {
+            physics.Coast();
+            breakTimer = breakTimer - Time.deltaTime;
+        }
+        else
+        {
+            physics.Accelerate();
+        }
+        physics.ApplyForces();
     }
 
     private void handleDamage()
@@ -235,6 +239,30 @@ public class WaypointAI : MonoBehaviour {
             {
                 currentTargetWaypoint = 0;
             }
+
+            breakForTurn();
+        }
+    }
+
+    private void breakForTurn()
+    {
+        int secondTargetIndex = currentTargetWaypoint + 1;
+        int thirdTargetIndex = currentTargetWaypoint + 2;
+        if (secondTargetIndex >= numberofWaypoints)
+        {
+            secondTargetIndex = 0;
+            thirdTargetIndex = secondTargetIndex + 1;
+        }
+        else if (thirdTargetIndex >= numberofWaypoints)
+        {
+            thirdTargetIndex = 0;
+        }
+        string firstTarget = waypoints[currentTargetWaypoint].transform.parent.transform.parent.name;
+        string secondTarget = waypoints[secondTargetIndex].transform.parent.transform.parent.name;
+        string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
+        if (firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
+        {
+            breakTimer = 0.2f;
         }
     }
 
