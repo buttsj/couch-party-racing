@@ -23,9 +23,7 @@ public class RacingGameState : IGameState {
         playerCheckpointPosition = player.transform.position;
         playerCheckpointRotation = player.transform.localEulerAngles;
         currentCheckpointNumber = 0;
-        //+1 for two checkpoints at starting location.
-        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length + 1;
-        Debug.Log(numberOfCheckpoints);
+        numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
     }
 
     public void Start () {
