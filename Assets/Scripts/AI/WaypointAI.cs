@@ -4,7 +4,6 @@ public class WaypointAI : MonoBehaviour {
 
     private const float MINSPEED = 150f;
     private const float NORMALMAXSPEED = 250f;
-    private const float TURNINGMAXSPEED = 200f;
     private const float BOOSTSPEED = 300f;
 
     private int currentTargetWaypoint;
@@ -39,11 +38,16 @@ public class WaypointAI : MonoBehaviour {
 
     private float breakTimer;
 
+    private string powerup;
+    private IKartAbility ability;
+
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
+    public float Boost { get { return boost; } set { boost = value; } }
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public string TimeText { get { return timeText; } set { timeText = value; } }
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     public int ResetWaypoint { get { return resetWaypoint; } set { resetWaypoint = value; } }
+    public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
     void Start() {
 
@@ -53,11 +57,13 @@ public class WaypointAI : MonoBehaviour {
         currentTargetWaypoint = 0;
         selectedLane = 0;
         laneCounter = 0;
-        laneCounterMax = Random.Range(2, 9);
+        laneCounterMax = Random.Range(4, 11);
 
         physics = new KartPhysics(gameObject, MINSPEED, NORMALMAXSPEED, BOOSTSPEED);
 
         boost = 100.0f;
+
+        ability = new NullItem(gameObject);
 
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
         numberofWaypoints = waypoints.Length;
@@ -97,16 +103,23 @@ public class WaypointAI : MonoBehaviour {
             boost -= 0.5f;
         }
 
-        if(resetTimer >= 6.0f)
-        {
-            gameState.ResetKart();
-            currentTargetWaypoint = resetWaypoint;
-            resetTimer = 0.0f;
-        }
-
+        handleReset();
+        handlePowerup();
         handleWheelAnimation();
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Power Up") && ability.ToString() == "Null")
+        {
+            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
+            other.gameObject.SetActive(false);
+            if (powerup == "Boost")
+            {
+                ability = new Boost(gameObject);
+            }
+        }
+    }
 
     void OnTriggerStay(Collider other)
     {
@@ -146,22 +159,20 @@ public class WaypointAI : MonoBehaviour {
         {
             handleAIPhysics();
         }
+        else
+        {
+            physics.EndBoost();
+            isBoosting = false;
+        }
     }
 
     private void handleAIPhysics()
     {
         int onTargetIndex = currentTargetWaypoint - 1;
-        int previousTargetIndex = currentTargetWaypoint - 2;
         if (onTargetIndex < 0)
         {
             onTargetIndex = numberofWaypoints - 1;
-            previousTargetIndex = numberofWaypoints - 2;
         }
-        else if (previousTargetIndex < 0)
-        {
-            previousTargetIndex = numberofWaypoints - 1;
-        }
-
         int secondTargetIndex = currentTargetWaypoint + 1;
         int thirdTargetIndex = currentTargetWaypoint + 2;
         if (secondTargetIndex >= numberofWaypoints)
@@ -174,26 +185,18 @@ public class WaypointAI : MonoBehaviour {
             thirdTargetIndex = 0;
         }
 
-        string previousTarget = waypoints[previousTargetIndex].transform.parent.transform.parent.name;
         string onTarget = waypoints[onTargetIndex].transform.parent.transform.parent.name;
         string firstTarget = waypoints[currentTargetWaypoint].transform.parent.transform.parent.name;
         string secondTarget = waypoints[secondTargetIndex].transform.parent.transform.parent.name;
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
 
-        if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && IsStraightTrackType(onTarget) && IsStraightTrackType(previousTarget) && boost > 0.0f)
+        if (IsStraightTrackType(firstTarget) && IsStraightTrackType(secondTarget) && IsStraightTrackType(thirdTarget) && IsStraightTrackType(onTarget) && boost > 0.0f)
         {
             physics.StartBoost();
             isBoosting = true;
         }
-        else if (previousTarget.Contains("Turn") || onTarget.Contains("Turn") || firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
-        {
-            physics.MaxSpeed = TURNINGMAXSPEED;
-            physics.EndBoost();
-            isBoosting = false;
-        }
         else
         {
-            physics.MaxSpeed = NORMALMAXSPEED;
             physics.EndBoost();
             isBoosting = false;
         }
@@ -220,6 +223,30 @@ public class WaypointAI : MonoBehaviour {
             selfTimer = 0;
             transform.localEulerAngles = originalOrientation;
         }
+    }
+
+    private void handleReset()
+    {
+        if (resetTimer >= 6.0f)
+        {
+            gameState.ResetKart();
+            currentTargetWaypoint = resetWaypoint;
+            resetTimer = 0.0f;
+        }
+    }
+
+    private void handlePowerup()
+    {
+        if (ability.ToString() == "Boost" && boost <= 0.0f)
+        {
+            Debug.Log("Used boost powerup");
+            ability.UseItem();
+        }
+        if (ability.IsUsed())
+        {
+            ability = new NullItem(gameObject); // item is completely used
+        }
+        ability.Update();
     }
 
     public void modifyTargetWaypoint(int waypointNumber)
@@ -262,7 +289,7 @@ public class WaypointAI : MonoBehaviour {
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
         if (firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
         {
-            breakTimer = 0.2f;
+            breakTimer = 0.26f;
         }
     }
 

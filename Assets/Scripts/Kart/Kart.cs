@@ -170,17 +170,14 @@ public class Kart : MonoBehaviour
             if (powerup == "Boost")
             {
                 ability = new Boost(gameObject);
-                Debug.Log("Picked up Boost");
             }
             else if (powerup == "Oil")
             {
                 ability = new Oil(gameObject);
-                Debug.Log("Picked up Oil");
             }
             else if (powerup == "Spark")
             {
                 ability = new Spark(gameObject);
-                Debug.Log("Picked up Spark");
             }
         }
         if (other.gameObject.CompareTag("Potato"))

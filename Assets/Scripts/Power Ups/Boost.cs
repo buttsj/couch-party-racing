@@ -33,7 +33,7 @@ public class Boost : IKartAbility {
 
     public void Update()
     {
-        if (used)
+        if (used && owner.GetComponent<Kart>() != null)
         {
             owner.GetComponent<Kart>().green_arrow.GetComponent<ParticleSystem>().Play();
             if (owner.GetComponent<Kart>().Boost < 100.0f)
@@ -52,6 +52,24 @@ public class Boost : IKartAbility {
                 destroy = true;
             }
         }
+        else if(used && owner.GetComponent<WaypointAI>() != null)
+        {
+            if (owner.GetComponent<WaypointAI>().Boost < 100.0f)
+            {
+                owner.GetComponent<WaypointAI>().Boost += 1.0f;
+                boostValue -= 1.0f;
+            }
+            else
+            {
+                boostValue = 0.0f;
+                destroy = true;
+            }
+            if (boostValue == 0.0f)
+            {
+                destroy = true;
+            }
+        }
+
     }
 
     public bool IsUsing()
