@@ -15,7 +15,8 @@ public class ControlBindings {
         { "Reset Rotation", NULL_CONTROL },
         { "Pause",          NULL_CONTROL },
         { "Bump Kart",      NULL_CONTROL },
-        { "Boost",          NULL_CONTROL }
+        { "Boost",          NULL_CONTROL },
+        { "Cancel",         NULL_CONTROL }
     };
 
     private int joystickNumber;
@@ -36,6 +37,7 @@ public class ControlBindings {
             bindings["Pause"] = new JoystickControl(XBOX.Start, joystickNumber);
             bindings["Bump Kart"] = new JoystickControl(XBOX.A, joystickNumber);
             bindings["Boost"] = new JoystickControl(XBOX.B, joystickNumber);
+            bindings["Cancel"] = new JoystickControl(XBOX.B, joystickNumber);
 
             return bindings;
         }
@@ -52,6 +54,7 @@ public class ControlBindings {
             bindings["Pause"] = new KeyboardControl(KeyCode.Return);
             bindings["Bump Kart"] = new KeyboardControl(KeyCode.Space);
             bindings["Boost"] = new KeyboardControl(KeyCode.LeftShift);
+            bindings["Cancel"] = new KeyboardControl(KeyCode.Escape);
 
             return bindings;
         }
@@ -68,6 +71,7 @@ public class ControlBindings {
             bindings["Pause"] = new KeyboardControl(KeyCode.Home);
             bindings["Bump Kart"] = new KeyboardControl(KeyCode.Keypad0);
             bindings["Boost"] = new KeyboardControl(KeyCode.Keypad2);
+            bindings["Cancel"] = new KeyboardControl(KeyCode.Backspace);
 
             return bindings;
         }
