@@ -97,7 +97,7 @@ public class Kart : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (SimpleInput.GetButtonDown("Use PowerUp", playerNumber))
         {
             switch (ability.ToString())
             {
