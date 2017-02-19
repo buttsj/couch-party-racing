@@ -12,6 +12,12 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
     public Text boostText2;
     public Text scoreText1;
     public Text scoreText2;
+    public Image spark1;
+    public Image oil1;
+    public Image boostImg1;
+    public Image spark2;
+    public Image oil2;
+    public Image boostImg2;
     public GameObject kart1;
     public GameObject kart2;
     // Use this for initialization
@@ -71,13 +77,81 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
         switch (kartNumber)
         {
             case 0:
-                boostText1.text = kart1.GetComponent<Kart>().Boost.ToString();
+                boostText1.text = ((int)kart1.GetComponent<Kart>().Boost).ToString();
                 scoreText1.text = ((SpudRunGameState)kart1.GetComponent<Kart>().GameState).SpudScore.ToString("F2");
+                UpdatePowerup(kart1, 1);
                 break;
             case 1:
+                boostText2.text = ((int)kart2.GetComponent<Kart>().Boost).ToString();
                 scoreText2.text = ((SpudRunGameState)kart2.GetComponent<Kart>().GameState).SpudScore.ToString("F2");
+                UpdatePowerup(kart2, 2);
                 break;
         }
 
+    }
+
+    void UpdatePowerup(GameObject kart, int playerNumber)
+    {
+
+        switch (kart.GetComponent<Kart>().Ability.ToString())
+        {
+            case "Boost":
+                if (playerNumber == 1)
+                {
+                    spark1.enabled = false;
+                    oil1.enabled = false;
+                    boostImg1.enabled = true;
+                }
+                else
+                {
+                    spark2.enabled = false;
+                    oil2.enabled = false;
+                    boostImg2.enabled = true;
+                }
+                break;
+            case "Spark":
+                if (playerNumber == 1)
+                {
+                    spark1.enabled = true;
+                    oil1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else
+                {
+                    spark2.enabled = true;
+                    oil2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                break;
+            case "Oil":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = true;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else
+                {
+                    oil2.enabled = true;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                break;
+
+            case "Null":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else
+                {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                break;
+        }
     }
 }
