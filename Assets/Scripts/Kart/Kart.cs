@@ -47,7 +47,14 @@ public class Kart : MonoBehaviour
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
-    
+    private KartAudio kartAudio;
+
+    void Awake()
+    {
+        maxSpeed = 250f;
+        minSpeed = 150f;
+        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
+    }
 
     void Start()
     {
@@ -58,13 +65,8 @@ public class Kart : MonoBehaviour
         boost = 100.0f;
         selfTimer = 0;
         ability = new NullItem(gameObject);
-    }
 
-    void Awake()
-    {
-        maxSpeed = 250f;
-        minSpeed = 150f;
-        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
+        kartAudio = new KartAudio(gameObject, physics, maxSpeed, minSpeed);
     }
 
     void DebugMenu()
@@ -125,7 +127,6 @@ public class Kart : MonoBehaviour
         else
         {
             DamagedUpdate();
-            gameObject.GetComponent<AudioSource>().pitch = 1.5f;
         }
     }
 
@@ -337,12 +338,17 @@ public class Kart : MonoBehaviour
         gameState.DamagedUpdate();
 
         physics.Spin();
+
+        kartAudio.spinOutSound();
+        kartAudio.handleDamageGearingSounds();
+
         selfTimer = selfTimer + Time.deltaTime;
         if (selfTimer >= 1.5f)
         {
             damaged = false;
             selfTimer = 0;
             transform.localEulerAngles = originalOrientation;
+            kartAudio.SpinOutPlayed = false;
         }
     }
 
@@ -350,59 +356,17 @@ public class Kart : MonoBehaviour
         if (SimpleInput.GetButton("Accelerate", playerNumber))
         {
             physics.Accelerate();
-            handleAccelerationGearingSounds();
+            kartAudio.handleAccelerationGearingSounds(isBoosting);
         }
         else if (SimpleInput.GetButton("Reverse", playerNumber))
         {
             physics.Reverse();
-            handleAccelerationGearingSounds();
+            kartAudio.handleAccelerationGearingSounds(isBoosting);
         }
         else
         {
             physics.Coast();
-            handleCoastingGearingSounds();
-        }
-    }
-
-    private void handleAccelerationGearingSounds()
-    {
-        if (!isBoosting)
-        {
-            float currentTravelingSpeed = physics.Speed - minSpeed;
-            float currentMaxSpeed = maxSpeed - minSpeed;
-            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 1.5f;
-            }
-            else
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 1.5f;
-            }
-        }
-        else
-        {
-            float currentTravelingSpeed = physics.Speed - minSpeed;
-            float currentMaxSpeed = maxSpeed - minSpeed;
-            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 2.0f;
-            }
-            else
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 2.0f;
-            }
-        }
-    }
-
-    private void handleCoastingGearingSounds()
-    {
-        if (!isBoosting)
-        {
-            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 1.5f;
-        }
-        else
-        {
-            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 2.0f;
+            kartAudio.handleCoastingGearingSounds(isBoosting);
         }
     }
 

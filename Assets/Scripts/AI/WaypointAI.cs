@@ -41,6 +41,8 @@ public class WaypointAI : MonoBehaviour {
     private string powerup;
     private IKartAbility ability;
 
+    private KartAudio kartAudio;
+
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
     public float Boost { get { return boost; } set { boost = value; } }
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
@@ -67,6 +69,8 @@ public class WaypointAI : MonoBehaviour {
 
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
         numberofWaypoints = waypoints.Length;
+
+        kartAudio = new KartAudio(gameObject, physics, NORMALMAXSPEED, MINSPEED);
 
         for (int i = 1; i < numberofWaypoints; i++)
         {
@@ -98,7 +102,6 @@ public class WaypointAI : MonoBehaviour {
         else
         {
             handleDamage();
-            gameObject.GetComponent<AudioSource>().pitch = 1.5f;
         }
 
         if (isBoosting && boost > 0.0f)
@@ -226,13 +229,13 @@ public class WaypointAI : MonoBehaviour {
         if (breakTimer > 0.0f)
         {
             physics.Coast();
-            handleCoastingGearingSounds();
+            kartAudio.handleCoastingGearingSounds(isBoosting);
             breakTimer = breakTimer - Time.deltaTime;
         }
         else
         {
             physics.Accelerate();
-            handleAccelerationGearingSounds();
+            kartAudio.handleAccelerationGearingSounds(isBoosting);
         }
         physics.ApplyForces();
     }
@@ -240,12 +243,17 @@ public class WaypointAI : MonoBehaviour {
     private void handleDamage()
     {
         physics.Spin();
+
+        kartAudio.spinOutSound();
+        kartAudio.handleDamageGearingSounds();
+
         selfTimer = selfTimer + Time.deltaTime;
         if (selfTimer >= 1.5f)
         {
             damaged = false;
             selfTimer = 0;
             transform.localEulerAngles = originalOrientation;
+            kartAudio.SpinOutPlayed = false;
         }
     }
 
@@ -270,48 +278,6 @@ public class WaypointAI : MonoBehaviour {
             ability = new NullItem(gameObject);
         }
         ability.Update();
-    }
-
-    private void handleAccelerationGearingSounds()
-    {
-        if (!isBoosting)
-        {
-            float currentTravelingSpeed = physics.Speed - MINSPEED;
-            float currentMaxSpeed = NORMALMAXSPEED - MINSPEED;
-            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 1.5f;
-            }
-            else
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 1.5f;
-            }
-        }
-        else
-        {
-            float currentTravelingSpeed = physics.Speed - MINSPEED;
-            float currentMaxSpeed = NORMALMAXSPEED - MINSPEED;
-            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 2.0f;
-            }
-            else
-            {
-                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 2.0f;
-            }
-        }
-    }
-
-    private void handleCoastingGearingSounds()
-    {
-        if (!isBoosting)
-        {
-            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 1.5f;
-        }
-        else
-        {
-            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 2.0f;
-        }
     }
 
     public void modifyTargetWaypoint(int waypointNumber)
