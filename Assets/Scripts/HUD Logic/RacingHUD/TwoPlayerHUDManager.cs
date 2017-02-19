@@ -17,9 +17,12 @@ public class TwoPlayerHUDManager : MonoBehaviour
     public Text lapText2;
     public Text placeText1;
     public Text placeText2;
+    public Text checkpointText1;
+    public Text checkpointText2;
     List<float> seconds;
     List<int> minutes;
     private List<GameObject> aiList;
+    private int totalCheckpoints;
     // Use this for initialization
     void Start()
     {
@@ -39,6 +42,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 minutes.Add(0);
             }
         }
+        totalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length - 1;
     }
 
     // Update is called once per frame
@@ -56,6 +60,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 boostText.text = ((int)boost1).ToString();
                 poweruptype = kart1.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart1, 1);
+                UpdateCheckpointNumber(kart1, 1);
                 if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText.text = "1 / 3";
@@ -77,6 +82,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 boostText2.text = ((int)boost2).ToString();
                 poweruptype = kart2.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart2, 2);
+                UpdateCheckpointNumber(kart2, 2);
                 if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText2.text = "1 / 3";
@@ -192,6 +198,18 @@ public class TwoPlayerHUDManager : MonoBehaviour
                     placeText1.text = "4th";
                 else
                     placeText2.text = "4th";
+                break;
+        }
+    }
+
+    void UpdateCheckpointNumber(GameObject kart, int playerNumber)
+    {
+        switch (playerNumber) {
+            case 1:
+                checkpointText1.text = ((RacingGameState)kart1.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
+                break;
+            case 2:
+                checkpointText2.text = ((RacingGameState)kart2.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
                 break;
         }
     }

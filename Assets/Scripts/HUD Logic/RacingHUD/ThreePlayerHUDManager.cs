@@ -20,6 +20,10 @@ public class ThreePlayerHUDManager : MonoBehaviour {
     public Text placeText1;
     public Text placeText2;
     public Text placeText3;
+    public Text checkpointText1;
+    public Text checkpointText2;
+    public Text checkpointText3;
+    private int totalCheckpoints;
     List<float> seconds;
     List<int> minutes;
     private List<GameObject> aiList;
@@ -44,6 +48,7 @@ public class ThreePlayerHUDManager : MonoBehaviour {
                 minutes.Add(0);
             }
         }
+        totalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length - 1;
     }
 
     // Update is called once per frame
@@ -63,6 +68,8 @@ public class ThreePlayerHUDManager : MonoBehaviour {
                 boost1 = kart1.GetComponent<Kart>().Boost;
                 boostText.text = ((int)boost1).ToString();
                 poweruptype = kart1.GetComponent<Kart>().Powerup;
+                UpdatePlace(kart1, 1);
+                UpdateCheckpointNumber(kart1, 1);
                 if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText.text = "1 / 3";
@@ -83,6 +90,8 @@ public class ThreePlayerHUDManager : MonoBehaviour {
                 boost2 = kart2.GetComponent<Kart>().Boost;
                 boostText2.text = ((int)boost2).ToString();
                 poweruptype = kart2.GetComponent<Kart>().Powerup;
+                UpdatePlace(kart2, 2);
+                UpdateCheckpointNumber(kart2, 2);
                 if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText2.text = "1 / 3";
@@ -103,6 +112,8 @@ public class ThreePlayerHUDManager : MonoBehaviour {
                 boost3 = kart3.GetComponent<Kart>().Boost;
                 boostText3.text = ((int)boost3).ToString();
                 poweruptype = kart3.GetComponent<Kart>().Powerup;
+                UpdatePlace(kart3, 3);
+                UpdateCheckpointNumber(kart3, 3);
                 if (((RacingGameState)kart3.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText3.text = "1 / 3";
@@ -236,6 +247,22 @@ public class ThreePlayerHUDManager : MonoBehaviour {
                     placeText2.text = "4th";
                 else
                     placeText3.text = "4th";
+                break;
+        }
+    }
+
+    void UpdateCheckpointNumber(GameObject kart, int playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case 1:
+                checkpointText1.text = ((RacingGameState)kart1.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
+                break;
+            case 2:
+                checkpointText2.text = ((RacingGameState)kart2.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
+                break;
+            case 3:
+                checkpointText3.text = ((RacingGameState)kart3.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
                 break;
         }
     }
