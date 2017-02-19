@@ -46,7 +46,7 @@ public class HUDManager : MonoBehaviour {
         poweruptype = kart.GetComponent<Kart>().Powerup;
         UpdatePlace();
         UpdateCheckpointNumber();
-        
+        UpdatePowerup();
         if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber == 0)
         {
             lapText.text = "1 / 3";
