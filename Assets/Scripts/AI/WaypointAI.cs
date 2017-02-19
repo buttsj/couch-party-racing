@@ -94,14 +94,6 @@ public class WaypointAI : MonoBehaviour {
             handleReset();
             handlePowerup();
             handleWheelAnimation();
-            if (!isBoosting)
-            {
-                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 1.5f;
-            }
-            else
-            {
-                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 2.0f;
-            }
         }
         else
         {
@@ -234,11 +226,13 @@ public class WaypointAI : MonoBehaviour {
         if (breakTimer > 0.0f)
         {
             physics.Coast();
+            handleCoastingGearingSounds();
             breakTimer = breakTimer - Time.deltaTime;
         }
         else
         {
             physics.Accelerate();
+            handleAccelerationGearingSounds();
         }
         physics.ApplyForces();
     }
@@ -276,6 +270,48 @@ public class WaypointAI : MonoBehaviour {
             ability = new NullItem(gameObject);
         }
         ability.Update();
+    }
+
+    private void handleAccelerationGearingSounds()
+    {
+        if (!isBoosting)
+        {
+            float currentTravelingSpeed = physics.Speed - MINSPEED;
+            float currentMaxSpeed = NORMALMAXSPEED - MINSPEED;
+            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 1.5f;
+            }
+            else
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 1.5f;
+            }
+        }
+        else
+        {
+            float currentTravelingSpeed = physics.Speed - MINSPEED;
+            float currentMaxSpeed = NORMALMAXSPEED - MINSPEED;
+            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 2.0f;
+            }
+            else
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 2.0f;
+            }
+        }
+    }
+
+    private void handleCoastingGearingSounds()
+    {
+        if (!isBoosting)
+        {
+            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 1.5f;
+        }
+        else
+        {
+            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 2.0f;
+        }
     }
 
     public void modifyTargetWaypoint(int waypointNumber)

@@ -121,16 +121,6 @@ public class Kart : MonoBehaviour
         if (!damaged)
         {
             NonDamagedUpdate();
-
-            if (!isBoosting)
-            {
-                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 1.5f;
-            }
-            else
-            {
-                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 2.0f;
-            }
-            
         }
         else
         {
@@ -360,15 +350,59 @@ public class Kart : MonoBehaviour
         if (SimpleInput.GetButton("Accelerate", playerNumber))
         {
             physics.Accelerate();
+            handleAccelerationGearingSounds();
         }
         else if (SimpleInput.GetButton("Reverse", playerNumber))
         {
             physics.Reverse();
+            handleAccelerationGearingSounds();
         }
         else
         {
             physics.Coast();
+            handleCoastingGearingSounds();
+        }
+    }
 
+    private void handleAccelerationGearingSounds()
+    {
+        if (!isBoosting)
+        {
+            float currentTravelingSpeed = physics.Speed - minSpeed;
+            float currentMaxSpeed = maxSpeed - minSpeed;
+            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 1.5f;
+            }
+            else
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 1.5f;
+            }
+        }
+        else
+        {
+            float currentTravelingSpeed = physics.Speed - minSpeed;
+            float currentMaxSpeed = maxSpeed - minSpeed;
+            if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 2.0f;
+            }
+            else
+            {
+                gameObject.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 2.0f;
+            }
+        }
+    }
+
+    private void handleCoastingGearingSounds()
+    {
+        if (!isBoosting)
+        {
+            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 1.5f;
+        }
+        else
+        {
+            gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 2.0f;
         }
     }
 
