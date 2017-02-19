@@ -53,11 +53,7 @@ public class SceneGenerator : MonoBehaviour {
 	}
 
     public void LoadScene() {
-        if(GamemodeName == "RaceMode") {
-            SceneManager.LoadScene("LevelSelectionMenu");
-        } else {
-            SceneManager.LoadScene(SceneName);
-        }
+        SceneManager.LoadScene(SceneName);
     }
 
     private void GenerateLevel() {

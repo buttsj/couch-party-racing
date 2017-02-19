@@ -76,7 +76,7 @@ public class MainMenuFunctionality : MonoBehaviour {
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
         //sceneGenerator.LevelName = "KitchenTrack1.xml";
-        GoToPlayerSelectionMenu();
+        GoToNextMenu();
     }
 
     public void trackBuilderModePress() {
@@ -94,11 +94,11 @@ public class MainMenuFunctionality : MonoBehaviour {
     public void hotPotatoModePress() {
         sceneGenerator.GamemodeName = "SpudRun";
         sceneGenerator.SceneName = "SpudRunScene";
-        GoToPlayerSelectionMenu();
+        GoToNextMenu();
     }
 
-    private void GoToPlayerSelectionMenu() {
-        SceneManager.LoadScene("SelectionMenu");
+    private void GoToNextMenu() {
+        SceneManager.LoadScene("LevelSelectionMenu");
     }
 
 }

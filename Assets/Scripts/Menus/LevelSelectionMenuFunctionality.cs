@@ -6,34 +6,32 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class LevelSelectionMenuFunctionality : MonoBehaviour {
-
-    public Button Kitchen1;
-    public Button Bedroom1;
+   
+    public GameObject RaceMode;
+    public GameObject SpudRun;
 
     private SceneGenerator sceneGenerator;
 
     void Start() {
-
-        EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("Kitchen 1"));
-
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+
+        DetermineLevelMenu();
     }
 
     void Update() {
 
     }
 
-    public void Kitchen1Press() {
-        sceneGenerator.LevelName = "KitchenTrack1.xml";
-        GoToLevel();
-    }
+    private void DetermineLevelMenu() {
+        var gamemodeName = sceneGenerator.GamemodeName;
 
-    public void Bedroom1Press() {
-        sceneGenerator.LevelName = "BedroomTrack.xml";
-        GoToLevel();
-    }
-
-    private void GoToLevel() {
-        SceneManager.LoadScene(sceneGenerator.SceneName);
+        switch (gamemodeName) {
+            case "RaceMode":
+                RaceMode.SetActive(true);
+                break;
+            case "SpudRun":
+                SpudRun.SetActive(true);
+                break;
+        }
     }
 }
