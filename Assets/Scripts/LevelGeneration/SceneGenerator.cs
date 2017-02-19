@@ -133,9 +133,13 @@ public class SceneGenerator : MonoBehaviour {
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
                 {
                     kartList[i].GetComponent<Kart>().GameState = new RacingGameState(kartList[i]);
-                    Debug.Log("Setting game state");
                 }
-
+                break;
+            case "SpudRun":
+                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
+                {
+                    kartList[i].GetComponent<Kart>().GameState = new SpudRunGameState(kartList[i]);
+                }
                 break;
         }
     }
@@ -234,7 +238,7 @@ public class SceneGenerator : MonoBehaviour {
             case 2:
                 hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<TwoPlayerSpudHUD>().kart1 = kartList[0];
-                hud.GetComponent<TwoPlayerSpudHUD>().kart1 = kartList[1];
+                hud.GetComponent<TwoPlayerSpudHUD>().kart2 = kartList[1];
                 hud.GetComponent<TwoPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }

@@ -154,9 +154,9 @@ public class MusicManager : MonoBehaviour
     {
         if (clips.Count > 0)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.LeftBracket))
                 Backward();
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.RightBracket))
                 Forward();
         }
     }
