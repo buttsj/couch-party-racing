@@ -7,12 +7,11 @@ public class PowerUp : MonoBehaviour {
     public enum Type { Boost, Oil, Spark }
     private AudioClip powerUpGet;
 
-    // Use this for initialization
     void Start () {
         powerUpGet = Resources.Load<AudioClip>("Sounds/KartEffects/Item_Get_Sound");
     }
 
-    public Type DeterminePowerup()
+    public Type DeterminePowerup(KartAudio audio)
     {
         Type ret;
         int num = Random.Range(1, 4);
@@ -31,11 +30,12 @@ public class PowerUp : MonoBehaviour {
                 ret = Type.Boost; // this won't happen
                 break;
         }
-        GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(powerUpGet);
+
+        audio.playOneOff(powerUpGet);
+
         return ret;
     }
-	
-	// Update is called once per frame
+
 	void Update () {
 		
 	}

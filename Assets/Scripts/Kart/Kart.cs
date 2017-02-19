@@ -47,7 +47,14 @@ public class Kart : MonoBehaviour
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
-    
+    private KartAudio kartAudio;
+
+    void Awake()
+    {
+        maxSpeed = 250f;
+        minSpeed = 150f;
+        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
+    }
 
     void Start()
     {
@@ -58,13 +65,8 @@ public class Kart : MonoBehaviour
         boost = 100.0f;
         selfTimer = 0;
         ability = new NullItem(gameObject);
-    }
 
-    void Awake()
-    {
-        maxSpeed = 250f;
-        minSpeed = 150f;
-        physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
+        kartAudio = new KartAudio(gameObject, physics, maxSpeed, minSpeed);
     }
 
     void DebugMenu()
@@ -72,15 +74,15 @@ public class Kart : MonoBehaviour
         // our debug commands
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ability = new Boost(gameObject);
+            ability = new Boost(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ability = new Oil(gameObject);
+            ability = new Oil(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ability = new Spark(gameObject);
+            ability = new Spark(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -159,28 +161,26 @@ public class Kart : MonoBehaviour
         }
         physics.RotateKart(turnPower);
         RotateTires();
+        
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Power Up") && ability.ToString() == "Null")
         {
-            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
+            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup(kartAudio).ToString();
             other.gameObject.SetActive(false);
             if (powerup == "Boost")
             {
-                ability = new Boost(gameObject);
-                Debug.Log("Picked up Boost");
+                ability = new Boost(gameObject, kartAudio);
             }
             else if (powerup == "Oil")
             {
-                ability = new Oil(gameObject);
-                Debug.Log("Picked up Oil");
+                ability = new Oil(gameObject, kartAudio);
             }
             else if (powerup == "Spark")
             {
-                ability = new Spark(gameObject);
-                Debug.Log("Picked up Spark");
+                ability = new Spark(gameObject, kartAudio);
             }
         }
         if (other.gameObject.CompareTag("Potato"))
@@ -215,9 +215,14 @@ public class Kart : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
         {
-            if (ability.IsUsing())
+            if (ability.IsUsing() && other.transform.name.Contains("AI"))
+            {
                 other.gameObject.GetComponent<WaypointAI>().Damage();
-            // damage the other kart
+            }
+            else if (ability.IsUsing() && other.transform.name.Contains("Player"))
+            {
+                other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            }
         }
     }
 
@@ -338,12 +343,17 @@ public class Kart : MonoBehaviour
         gameState.DamagedUpdate();
 
         physics.Spin();
+
+        kartAudio.spinOutSound();
+        kartAudio.handleDamageGearingSounds();
+
         selfTimer = selfTimer + Time.deltaTime;
         if (selfTimer >= 1.5f)
         {
             damaged = false;
             selfTimer = 0;
             transform.localEulerAngles = originalOrientation;
+            kartAudio.SpinOutPlayed = false;
         }
     }
 
@@ -351,15 +361,17 @@ public class Kart : MonoBehaviour
         if (SimpleInput.GetButton("Accelerate", playerNumber))
         {
             physics.Accelerate();
+            kartAudio.handleAccelerationGearingSounds(isBoosting);
         }
         else if (SimpleInput.GetButton("Reverse", playerNumber))
         {
             physics.Reverse();
+            kartAudio.handleAccelerationGearingSounds(isBoosting);
         }
         else
         {
             physics.Coast();
-
+            kartAudio.handleCoastingGearingSounds(isBoosting);
         }
     }
 

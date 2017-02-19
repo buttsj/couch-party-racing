@@ -59,7 +59,6 @@ public class RacingEndGameMenu : MonoBehaviour {
             for (int i = playerList.Count; i < aiList.Count + playerList.Count; i++)
             {
                 playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
-                Debug.Log(aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText);
             }
         }
         else {
