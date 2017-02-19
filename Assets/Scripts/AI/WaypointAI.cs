@@ -100,7 +100,15 @@ public class WaypointAI : MonoBehaviour {
 
         if(!isOnTrack() && canSkip && IsGrounded())
         {
+            if(waypoints[currentTargetWaypoint].GetComponent<Checkpoint>() != null)
+            {
+                waypoints[currentTargetWaypoint].GetComponent<Checkpoint>().checkpointSkip(gameObject);
+            }
             currentTargetWaypoint++;
+            if(currentTargetWaypoint >= numberofWaypoints)
+            {
+                currentTargetWaypoint = 0;
+            }
             canSkip = false;
         }
 
@@ -399,7 +407,7 @@ public class WaypointAI : MonoBehaviour {
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
         if (previousTarget.Contains("Turn") || onTarget.Contains("Turn") || firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
         {
-            breakTimer = 0.2f;
+            breakTimer = 0.14f;
         }
     }
 
@@ -427,7 +435,7 @@ public class WaypointAI : MonoBehaviour {
 
     private bool isOnTrack()
     {
-        RaycastHit[] info = Physics.RaycastAll(transform.position - Vector3.up, -transform.up, 1f);
+        RaycastHit[] info = Physics.RaycastAll(transform.position - Vector3.up, -transform.up, 250f);
         bool onTrack = false;
         foreach (RaycastHit hit in info)
         {

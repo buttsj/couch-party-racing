@@ -46,4 +46,18 @@ public class Checkpoint : MonoBehaviour {
 
     }
 
+    public void checkpointSkip(GameObject other)
+    {
+        RacingGameState racingGameState = (RacingGameState)other.GetComponent<WaypointAI>().GameState;
+        other.GetComponent<WaypointAI>().ResetWaypoint = gameObject.GetComponent<Waypoint>().waypointNumber;
+        racingGameState.PlayerCheckpointPosition = new Vector3(transform.position.x, transform.position.y - 240.0f, transform.position.z);
+        racingGameState.PlayerCheckpointRotation = new Vector3(other.GetComponent<WaypointAI>().transform.localEulerAngles.x, other.GetComponent<WaypointAI>().transform.localEulerAngles.y, other.GetComponent<WaypointAI>().transform.localEulerAngles.z);
+        racingGameState.CurrentCheckpoint++;
+        if (racingGameState.CurrentCheckpoint >= racingGameState.NumberOfCheckpoints)
+        {
+            racingGameState.LapNumber++;
+            racingGameState.CurrentCheckpoint = 0;
+        }
+    }
+
 }
