@@ -40,6 +40,8 @@ public class WaypointAI : MonoBehaviour {
 
     private string powerup;
     private IKartAbility ability;
+    private float powerUpTimer;
+    private float powerUpTimeLimit;
 
     private KartAudio kartAudio;
 
@@ -89,6 +91,9 @@ public class WaypointAI : MonoBehaviour {
         damaged = false;
         canSkip = true;
         isBoosting = false;
+
+        powerUpTimer = 0.0f;
+        powerUpTimeLimit = Random.Range(3, 13);
     }
 
     void FixedUpdate() {
@@ -129,6 +134,12 @@ public class WaypointAI : MonoBehaviour {
             {
                 ability = new Boost(gameObject);
             }
+            /*
+            else if (powerup == "Oil")
+            {
+                ability = new Oil(gameObject);
+            }
+            */
         }
 
         /*
@@ -281,10 +292,25 @@ public class WaypointAI : MonoBehaviour {
         {
             ability.UseItem();
         }
+        else if(ability.ToString() == "Oil")
+        {
+            if(powerUpTimer >= powerUpTimeLimit)
+            {
+                ability.UseItem();
+                powerUpTimeLimit = Random.Range(3, 11);
+            }
+            else
+            {
+                powerUpTimer = powerUpTimer + Time.deltaTime;
+            }
+        }
+
         if (ability.IsUsed())
         {
             ability = new NullItem(gameObject);
+            powerUpTimer = 0.0f;
         }
+
         ability.Update();
     }
 

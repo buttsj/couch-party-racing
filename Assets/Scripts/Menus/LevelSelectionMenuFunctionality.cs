@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class LevelSelectionMenuFunctionality : MonoBehaviour {
 
@@ -12,6 +13,9 @@ public class LevelSelectionMenuFunctionality : MonoBehaviour {
     private SceneGenerator sceneGenerator;
 
     void Start() {
+
+        EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("Kitchen 1"));
+
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
     }
 
