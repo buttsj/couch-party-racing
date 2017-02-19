@@ -140,6 +140,10 @@ public class WaypointAI : MonoBehaviour {
                 ability = new Oil(gameObject);
             }
             */
+            else if (powerup == "Spark")
+            {
+                ability = new Spark(gameObject);
+            }
         }
 
         /*
@@ -160,6 +164,21 @@ public class WaypointAI : MonoBehaviour {
             }
         }
 
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
+        {
+            if (ability.IsUsing() && other.transform.name.Contains("AI"))
+            {
+                other.gameObject.GetComponent<WaypointAI>().Damage();
+            }
+            else if (ability.IsUsing() && other.transform.name.Contains("Player"))
+            {
+                other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            }
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -295,6 +314,18 @@ public class WaypointAI : MonoBehaviour {
         else if(ability.ToString() == "Oil")
         {
             if(powerUpTimer >= powerUpTimeLimit)
+            {
+                ability.UseItem();
+                powerUpTimeLimit = Random.Range(3, 11);
+            }
+            else
+            {
+                powerUpTimer = powerUpTimer + Time.deltaTime;
+            }
+        }
+        else if (ability.ToString() == "Spark")
+        {
+            if (powerUpTimer >= powerUpTimeLimit)
             {
                 ability.UseItem();
                 powerUpTimeLimit = Random.Range(3, 11);
