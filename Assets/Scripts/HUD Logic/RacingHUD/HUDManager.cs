@@ -46,29 +46,7 @@ public class HUDManager : MonoBehaviour {
         poweruptype = kart.GetComponent<Kart>().Powerup;
         UpdatePlace();
         UpdateCheckpointNumber();
-        switch (kart.GetComponent<Kart>().Ability.ToString())
-        {
-            case "Boost":
-                spark.enabled = false;
-                oil.enabled = false;
-                boostImg.enabled = true;
-                break;
-            case "Spark":
-                spark.enabled = true;
-                oil.enabled = false;
-                boostImg.enabled = false;
-                break;
-            case "Oil":
-                oil.enabled = true;
-                spark.enabled = false;
-                boostImg.enabled = false;
-                break;
-            case "Null":
-                oil.enabled = false;
-                spark.enabled = false;
-                boostImg.enabled = false;
-                break;
-        }
+        
         if (((RacingGameState)kart.GetComponent<Kart>().GameState).LapNumber == 0)
         {
             lapText.text = "1 / 3";
@@ -154,5 +132,32 @@ public class HUDManager : MonoBehaviour {
 
     void UpdateCheckpointNumber() {
         checkpointText.text = ((RacingGameState)kart.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
+    }
+
+    void UpdatePowerup() {
+
+        switch (kart.GetComponent<Kart>().Ability.ToString())
+        {
+            case "Boost":
+                spark.enabled = false;
+                oil.enabled = false;
+                boostImg.enabled = true;
+                break;
+            case "Spark":
+                spark.enabled = true;
+                oil.enabled = false;
+                boostImg.enabled = false;
+                break;
+            case "Oil":
+                oil.enabled = true;
+                spark.enabled = false;
+                boostImg.enabled = false;
+                break;
+            case "Null":
+                oil.enabled = false;
+                spark.enabled = false;
+                boostImg.enabled = false;
+                break;
+        }
     }
 }

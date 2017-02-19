@@ -11,6 +11,12 @@ public class TwoPlayerHUDManager : MonoBehaviour
     private string poweruptype;
     public GameObject kart1;
     public GameObject kart2;
+    public Image spark1;
+    public Image oil1;
+    public Image boostImg1;
+    public Image spark2;
+    public Image oil2;
+    public Image boostImg2;
     public Text boostText;
     public Text lapText;
     public Text boostText2;
@@ -61,6 +67,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 poweruptype = kart1.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart1, 1);
                 UpdateCheckpointNumber(kart1, 1);
+                UpdatePowerup(kart1, 1);
                 if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText.text = "1 / 3";
@@ -83,6 +90,7 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 poweruptype = kart2.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart2, 2);
                 UpdateCheckpointNumber(kart2, 2);
+                UpdatePowerup(kart2, 2);
                 if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText2.text = "1 / 3";
@@ -210,6 +218,67 @@ public class TwoPlayerHUDManager : MonoBehaviour
                 break;
             case 2:
                 checkpointText2.text = ((RacingGameState)kart2.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
+                break;
+        }
+    }
+
+    void UpdatePowerup(GameObject kart, int playerNumber)
+    {
+
+        switch (kart.GetComponent<Kart>().Ability.ToString())
+        {
+            case "Boost":
+                if (playerNumber == 1)
+                {
+                    spark1.enabled = false;
+                    oil1.enabled = false;
+                    boostImg1.enabled = true;
+                }
+                else {
+                    spark2.enabled = false;
+                    oil2.enabled = false;
+                    boostImg2.enabled = true;
+                }
+                break;
+            case "Spark":
+                if (playerNumber == 1)
+                {
+                    spark1.enabled = true;
+                    oil1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else {
+                    spark2.enabled = true;
+                    oil2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                break;
+            case "Oil":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = true;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else {
+                    oil2.enabled = true;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                break;
+                
+            case "Null":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                }
                 break;
         }
     }

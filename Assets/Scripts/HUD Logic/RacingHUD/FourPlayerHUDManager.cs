@@ -13,6 +13,18 @@ public class FourPlayerHUDManager : MonoBehaviour {
     public GameObject kart2;
     public GameObject kart3;
     public GameObject kart4;
+    public Image spark1;
+    public Image oil1;
+    public Image boostImg1;
+    public Image spark2;
+    public Image oil2;
+    public Image boostImg2;
+    public Image spark3;
+    public Image oil3;
+    public Image boostImg3;
+    public Image spark4;
+    public Image oil4;
+    public Image boostImg4;
     public Text boostText;
     public Text lapText;
     public Text boostText2;
@@ -67,6 +79,7 @@ public class FourPlayerHUDManager : MonoBehaviour {
                 poweruptype = kart1.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart1, 1);
                 UpdateCheckpointNumber(kart1, 1);
+                UpdatePowerup(kart1, 1);
                 if (((RacingGameState)kart1.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText.text = "1 / 3";
@@ -89,6 +102,7 @@ public class FourPlayerHUDManager : MonoBehaviour {
                 poweruptype = kart2.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart2, 2);
                 UpdateCheckpointNumber(kart2,2);
+                UpdatePowerup(kart2, 2);
                 if (((RacingGameState)kart2.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText2.text = "1 / 3";
@@ -111,6 +125,7 @@ public class FourPlayerHUDManager : MonoBehaviour {
                 poweruptype = kart3.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart3, 3);
                 UpdateCheckpointNumber(kart3, 3);
+                UpdatePowerup(kart3, 3);
                 if (((RacingGameState)kart3.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText3.text = "1 / 3";
@@ -134,6 +149,7 @@ public class FourPlayerHUDManager : MonoBehaviour {
                 poweruptype = kart4.GetComponent<Kart>().Powerup;
                 UpdatePlace(kart4, 4);
                 UpdateCheckpointNumber(kart4, 4);
+                UpdatePowerup(kart4, 4);
                 if (((RacingGameState)kart4.GetComponent<Kart>().GameState).LapNumber == 0)
                 {
                     lapText4.text = "1 / 3";
@@ -284,6 +300,115 @@ public class FourPlayerHUDManager : MonoBehaviour {
                 break;
             case 4:
                 checkpointText4.text = ((RacingGameState)kart4.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
+                break;
+        }
+    }
+
+    void UpdatePowerup(GameObject kart, int playerNumber)
+    {
+
+        switch (kart.GetComponent<Kart>().Ability.ToString())
+        {
+            case "Boost":
+                if (playerNumber == 1)
+                {
+                    spark1.enabled = false;
+                    oil1.enabled = false;
+                    boostImg1.enabled = true;
+                }
+                else if (playerNumber == 2)
+                {
+                    spark2.enabled = false;
+                    oil2.enabled = false;
+                    boostImg2.enabled = true;
+                }
+                else if (playerNumber == 3)
+                {
+                    spark3.enabled = false;
+                    oil3.enabled = false;
+                    boostImg3.enabled = true;
+                }
+                else {
+                    spark4.enabled = false;
+                    oil4.enabled = false;
+                    boostImg4.enabled = true;
+                }
+                break;
+            case "Spark":
+                if (playerNumber == 1)
+                {
+                    spark1.enabled = true;
+                    oil1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else if (playerNumber == 2)
+                {
+                    spark2.enabled = true;
+                    oil2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                else if (playerNumber == 3)
+                {
+                    spark3.enabled = true;
+                    oil3.enabled = false;
+                    boostImg3.enabled = false;
+                }
+                else {
+                    spark4.enabled = true;
+                    oil4.enabled = false;
+                    boostImg4.enabled = false;
+                }
+                break;
+            case "Oil":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = true;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else if (playerNumber == 2)
+                {
+                    oil2.enabled = true;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                else if (playerNumber == 3)
+                {
+                    oil3.enabled = true;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
+                }
+                else {
+                    oil3.enabled = true;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
+                }
+                break;
+
+            case "Null":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                }
+                else if (playerNumber == 2)
+                {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                }
+                else if (playerNumber == 3)
+                {
+                    oil3.enabled = false;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
+                }
+                else {
+                    oil4.enabled = false;
+                    spark4.enabled = false;
+                    boostImg4.enabled = false;
+                }
                 break;
         }
     }

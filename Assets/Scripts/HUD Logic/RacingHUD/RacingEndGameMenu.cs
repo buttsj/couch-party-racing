@@ -69,7 +69,7 @@ public class RacingEndGameMenu : MonoBehaviour {
     bool AllKartsFinishedRace() {
         bool finished = true;
 
-        foreach (GameObject player in playerList) {
+        foreach (GameObject player in kartList) {
             if (player.GetComponent<Kart>() != null)
             {
                 if (((RacingGameState)player.GetComponent<Kart>().GameState).LapNumber < 4)
