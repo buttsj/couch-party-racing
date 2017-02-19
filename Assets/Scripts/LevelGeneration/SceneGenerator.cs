@@ -39,12 +39,12 @@ public class SceneGenerator : MonoBehaviour {
             GeneratePlayers();
             GenerateCameras();
             GenerateAI();
-            if (GamemodeName == "Racemode")
+            if (GamemodeName == "RaceMode")
             {
                 GenerateRacingHUD(SimpleInput.NumberOfPlayers);
             }
             else if (GamemodeName == "SpudRun") {
-
+                GenerateSpudRunHUD(SimpleInput.NumberOfPlayers);
             }
             
 
@@ -235,6 +235,7 @@ public class SceneGenerator : MonoBehaviour {
                 hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<TwoPlayerSpudHUD>().kart1 = kartList[0];
                 hud.GetComponent<TwoPlayerSpudHUD>().kart1 = kartList[1];
+                hud.GetComponent<TwoPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }
 
