@@ -75,7 +75,6 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
                 scoreText1.text = ((SpudRunGameState)kart1.GetComponent<Kart>().GameState).SpudScore.ToString("F2");
                 break;
             case 1:
-                boostText2.text = kart2.GetComponent<Kart>().Boost.ToString();
                 scoreText2.text = ((SpudRunGameState)kart2.GetComponent<Kart>().GameState).SpudScore.ToString("F2");
                 break;
         }

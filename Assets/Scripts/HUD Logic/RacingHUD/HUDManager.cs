@@ -15,6 +15,8 @@ public class HUDManager : MonoBehaviour {
     public Text boostText;
     public Text lapText;
     public Text placeText;
+    public Text checkpointText;
+    private int totalCheckpoints;
     List<float> seconds;
     List<int> minutes;
 
@@ -34,6 +36,7 @@ public class HUDManager : MonoBehaviour {
                 minutes.Add(0);
             }
         }
+        totalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length - 1;
     }
 
     // Update is called once per frame
@@ -42,6 +45,7 @@ public class HUDManager : MonoBehaviour {
         boostText.text = ((int)boost).ToString();
         poweruptype = kart.GetComponent<Kart>().Powerup;
         UpdatePlace();
+        UpdateCheckpointNumber();
         switch (kart.GetComponent<Kart>().Ability.ToString())
         {
             case "Boost":
@@ -146,5 +150,9 @@ public class HUDManager : MonoBehaviour {
                 placeText.text = "4th";
                 break;
         }
+    }
+
+    void UpdateCheckpointNumber() {
+        checkpointText.text = ((RacingGameState)kart.GetComponent<Kart>().GameState).CurrentCheckpoint.ToString() + " / " + totalCheckpoints.ToString();
     }
 }
