@@ -3,7 +3,9 @@
 public class KartAudio {
     private const string SPINOUT = "Sounds/KartEffects/cpuspin";
 
-    private GameObject kart;
+    private AudioSource engineAudioSource;
+    private AudioSource oneOffAudioSource;
+
     private KartPhysics physics;
     private float maxSpeed;
     private float minSpeed;
@@ -15,7 +17,9 @@ public class KartAudio {
 
     public KartAudio(GameObject kart, KartPhysics physics,float maxSpeed, float minSpeed)
     {
-        this.kart = kart;
+        engineAudioSource = kart.GetComponent<AudioSource>();
+        oneOffAudioSource = kart.GetComponents<AudioSource>()[1];
+
         this.physics = physics;
         this.maxSpeed = maxSpeed;
         this.minSpeed = minSpeed;
@@ -32,11 +36,11 @@ public class KartAudio {
             float currentMaxSpeed = maxSpeed - minSpeed;
             if (currentTravelingSpeed < (currentMaxSpeed * (1.0f / 2.5f)))
             {
-                kart.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 1.5f;
+                engineAudioSource.pitch = (currentTravelingSpeed / (currentMaxSpeed * (1.0f / 2.5f))) + 1.5f;
             }
             else
             {
-                kart.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentMaxSpeed) + 1.5f;
+                engineAudioSource.pitch = (currentTravelingSpeed / currentMaxSpeed) + 1.5f;
             }
         }
         else
@@ -45,11 +49,11 @@ public class KartAudio {
             float currentTravelingMaxSpeed = maxSpeed - minSpeed;
             if (currentTravelingSpeed < (currentTravelingMaxSpeed * (1.0f / 2.5f)))
             {
-                kart.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / (currentTravelingMaxSpeed * (1.0f / 2.5f))) + 2.0f;
+                engineAudioSource.pitch = (currentTravelingSpeed / (currentTravelingMaxSpeed * (1.0f / 2.5f))) + 2.0f;
             }
             else
             {
-                kart.GetComponent<AudioSource>().pitch = (currentTravelingSpeed / currentTravelingMaxSpeed) + 2.0f;
+                engineAudioSource.pitch = (currentTravelingSpeed / currentTravelingMaxSpeed) + 2.0f;
             }
         }
     }
@@ -58,26 +62,30 @@ public class KartAudio {
     {
         if (!isBoosting)
         {
-            kart.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 1.5f;
+            engineAudioSource.pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 1.5f;
         }
         else
         {
-            kart.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 2.0f;
+            engineAudioSource.pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 2.0f;
         }
     }
 
     public void handleDamageGearingSounds()
     {
-        kart.GetComponent<AudioSource>().pitch = 1.5f;
+        engineAudioSource.pitch = 1.5f;
     }
 
     public void spinOutSound()
     {
         if (!spinOutPlayed)
         {
-            kart.GetComponents<AudioSource>()[1].PlayOneShot(spinout, 1.0f);
+            oneOffAudioSource.PlayOneShot(spinout, 1.0f);
             spinOutPlayed = true;
         }
     }
 
+    public void playOneOff(AudioClip clip)
+    {
+        oneOffAudioSource.PlayOneShot(clip, 1.0f);
+    }
 }

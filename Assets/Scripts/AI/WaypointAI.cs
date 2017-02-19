@@ -128,21 +128,21 @@ public class WaypointAI : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Power Up") && ability.ToString() == "Null")
         {
-            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
+            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup(kartAudio).ToString();
             other.gameObject.SetActive(false);
             if (powerup == "Boost")
             {
-                ability = new Boost(gameObject);
+                ability = new Boost(gameObject, kartAudio);
             }
             /*
             else if (powerup == "Oil")
             {
-                ability = new Oil(gameObject);
+                ability = new Oil(gameObject, kartAudio);
             }
             */
             else if (powerup == "Spark")
             {
-                ability = new Spark(gameObject);
+                ability = new Spark(gameObject, kartAudio);
             }
         }
 

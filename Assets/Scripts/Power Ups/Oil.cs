@@ -3,6 +3,8 @@
 public class Oil : IKartAbility {
 
     private GameObject owner;
+    private KartAudio ownerAudio;
+
     private Object oil;
     private GameObject oilObj;
     private AudioClip oilUse;
@@ -10,13 +12,14 @@ public class Oil : IKartAbility {
     private bool used;
     private float timer;
 
-    public Oil(GameObject incomingOwner)
+    public Oil(GameObject incomingOwner, KartAudio audio)
     {
         owner = incomingOwner;
         timer = 0.0f;
         destroy = false;
         used = false;
         oilUse = Resources.Load<AudioClip>("Sounds/KartEffects/OilSound");
+        ownerAudio = audio;
     }
 
 	public void UseItem()
@@ -28,7 +31,7 @@ public class Oil : IKartAbility {
             oil = Resources.Load("Prefabs/Powerups/Oil");
             Vector3 oilPos = new Vector3(owner.transform.position.x, owner.transform.position.y - 1, owner.transform.position.z);
             oilObj = (GameObject)Object.Instantiate(oil, oilPos, Quaternion.Euler(new Vector3(-90, 0, 0)));
-            GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(oilUse);
+            ownerAudio.playOneOff(oilUse);
             destroy = true;
         }
     }

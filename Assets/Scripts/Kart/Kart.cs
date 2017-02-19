@@ -74,15 +74,15 @@ public class Kart : MonoBehaviour
         // our debug commands
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ability = new Boost(gameObject);
+            ability = new Boost(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ability = new Oil(gameObject);
+            ability = new Oil(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ability = new Spark(gameObject);
+            ability = new Spark(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -168,19 +168,19 @@ public class Kart : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Power Up") && ability.ToString() == "Null")
         {
-            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup().ToString();
+            powerup = other.gameObject.GetComponent<PowerUp>().DeterminePowerup(kartAudio).ToString();
             other.gameObject.SetActive(false);
             if (powerup == "Boost")
             {
-                ability = new Boost(gameObject);
+                ability = new Boost(gameObject, kartAudio);
             }
             else if (powerup == "Oil")
             {
-                ability = new Oil(gameObject);
+                ability = new Oil(gameObject, kartAudio);
             }
             else if (powerup == "Spark")
             {
-                ability = new Spark(gameObject);
+                ability = new Spark(gameObject, kartAudio);
             }
         }
         if (other.gameObject.CompareTag("Potato"))

@@ -3,18 +3,20 @@
 public class Spark : IKartAbility {
 
     private GameObject owner;
+    private KartAudio ownerAudio;
     private AudioClip sparkUse;
     private bool destroy;
     private bool used;
     private float timer;
 
-    public Spark(GameObject incomingOwner)
+    public Spark(GameObject incomingOwner, KartAudio audio)
     {
         owner = incomingOwner;
         destroy = false;
         used = false;
         timer = 0.0f;
         sparkUse = Resources.Load<AudioClip>("Sounds/KartEffects/SparkNoise");
+        ownerAudio = audio;
     }
 
     public void UseItem()
@@ -24,7 +26,7 @@ public class Spark : IKartAbility {
         {
             owner.transform.Find("electricity").gameObject.SetActive(true);
             used = true;
-            GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(sparkUse);
+            ownerAudio.playOneOff(sparkUse);
         }
     }
     

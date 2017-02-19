@@ -3,12 +3,13 @@
 public class Boost : IKartAbility {
 
     private GameObject owner;
+    private KartAudio ownerAudio;
     private AudioClip boostUse;
     private float boostValue;
     private bool used;
     private bool destroy;
 
-    public Boost(GameObject incomingOwner)
+    public Boost(GameObject incomingOwner, KartAudio audio)
     {
         boostValue = 50.0f;
         used = false;
@@ -21,7 +22,7 @@ public class Boost : IKartAbility {
     {
         if (used == false)
         {
-            GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(boostUse);
+            ownerAudio.playOneOff(boostUse);
             used = true;
         }
     }
