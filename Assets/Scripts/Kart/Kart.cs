@@ -121,10 +121,21 @@ public class Kart : MonoBehaviour
         if (!damaged)
         {
             NonDamagedUpdate();
+
+            if (!isBoosting)
+            {
+                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 1.5f;
+            }
+            else
+            {
+                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - minSpeed) / (maxSpeed - minSpeed)) + 2.0f;
+            }
+            
         }
         else
         {
             DamagedUpdate();
+            gameObject.GetComponent<AudioSource>().pitch = 1.5f;
         }
     }
 
@@ -159,6 +170,7 @@ public class Kart : MonoBehaviour
         }
         physics.RotateKart(turnPower);
         RotateTires();
+        
     }
 
     void OnTriggerEnter(Collider other)

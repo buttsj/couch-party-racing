@@ -15,7 +15,7 @@ public class Checkpoint : MonoBehaviour {
 
             if (checkpointNumber == racingGameState.CurrentCheckpoint)
             {
-                racingGameState.PlayerCheckpointPosition = transform.position;
+                racingGameState.PlayerCheckpointPosition = new Vector3(transform.position.x, transform.position.y - 240.0f, transform.position.z);
                 racingGameState.PlayerCheckpointRotation = new Vector3(other.GetComponent<Kart>().transform.localEulerAngles.x, other.GetComponent<Kart>().transform.localEulerAngles.y, other.GetComponent<Kart>().transform.localEulerAngles.z);
                 racingGameState.CurrentCheckpoint++;
                 if(racingGameState.CurrentCheckpoint >= racingGameState.NumberOfCheckpoints)
@@ -32,7 +32,7 @@ public class Checkpoint : MonoBehaviour {
             if (checkpointNumber == racingGameState.CurrentCheckpoint)
             {
                 other.GetComponent<WaypointAI>().ResetWaypoint = gameObject.GetComponent<Waypoint>().waypointNumber;
-                racingGameState.PlayerCheckpointPosition = transform.position;
+                racingGameState.PlayerCheckpointPosition = new Vector3(transform.position.x, transform.position.y - 240.0f, transform.position.z);
                 racingGameState.PlayerCheckpointRotation = new Vector3(other.GetComponent<WaypointAI>().transform.localEulerAngles.x, other.GetComponent<WaypointAI>().transform.localEulerAngles.y, other.GetComponent<WaypointAI>().transform.localEulerAngles.z);
                 racingGameState.CurrentCheckpoint++;
                 if (racingGameState.CurrentCheckpoint >= racingGameState.NumberOfCheckpoints)

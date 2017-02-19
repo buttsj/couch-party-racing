@@ -94,10 +94,19 @@ public class WaypointAI : MonoBehaviour {
             handleReset();
             handlePowerup();
             handleWheelAnimation();
+            if (!isBoosting)
+            {
+                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 1.5f;
+            }
+            else
+            {
+                gameObject.GetComponent<AudioSource>().pitch = ((physics.Speed - MINSPEED) / (NORMALMAXSPEED - MINSPEED)) + 2.0f;
+            }
         }
         else
         {
             handleDamage();
+            gameObject.GetComponent<AudioSource>().pitch = 1.5f;
         }
 
         if (isBoosting && boost > 0.0f)
