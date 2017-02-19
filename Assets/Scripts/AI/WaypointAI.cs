@@ -43,6 +43,8 @@ public class WaypointAI : MonoBehaviour {
 
     private KartAudio kartAudio;
 
+    private bool canSkip;
+
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
     public float Boost { get { return boost; } set { boost = value; } }
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
@@ -85,11 +87,17 @@ public class WaypointAI : MonoBehaviour {
         }
 
         damaged = false;
-
+        canSkip = true;
         isBoosting = false;
     }
 
     void FixedUpdate() {
+
+        if(!isOnTrack() && canSkip && IsGrounded())
+        {
+            currentTargetWaypoint++;
+            canSkip = false;
+        }
 
         if (!damaged)
         {
@@ -284,6 +292,7 @@ public class WaypointAI : MonoBehaviour {
     {
         if (currentTargetWaypoint == waypointNumber)
         {
+            canSkip = true;
             resetTimer = 0.0f;
             laneCounter++;
             if (laneCounter >= laneCounterMax)
@@ -359,4 +368,18 @@ public class WaypointAI : MonoBehaviour {
         damaged = true;
     }
 
+    private bool isOnTrack()
+    {
+        RaycastHit[] info = Physics.RaycastAll(transform.position - Vector3.up, -transform.up, 1f);
+        bool onTrack = false;
+        foreach (RaycastHit hit in info)
+        {
+            if (hit.collider.gameObject.CompareTag("Track"))
+            {
+                onTrack = true;
+            }
+        }
+
+        return onTrack;
+    }
 }
