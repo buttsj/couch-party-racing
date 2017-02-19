@@ -16,6 +16,7 @@ public class Boost : IKartAbility {
         destroy = false;
         owner = incomingOwner;
         boostUse = Resources.Load<AudioClip>("Sounds/KartEffects/Boost_Sound");
+        ownerAudio = audio;
     }
 
     public void UseItem()
