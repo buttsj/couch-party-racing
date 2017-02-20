@@ -21,7 +21,7 @@ public class SceneGenerator : MonoBehaviour {
     private GameObject startObj;
 
     private List<GameObject> kartList;
-    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-25, 1, 15), new Vector3(-25, 1, 45), new Vector3(-55, 1, 15), new Vector3(-55, 1, 45) };
+    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
     private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
 
 
