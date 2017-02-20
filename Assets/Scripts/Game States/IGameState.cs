@@ -11,4 +11,6 @@ public interface IGameState {
     void DamagedUpdate();
 
     void ResetKart();
+
+    string GetGameStateName();
 }

@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class SceneGenerator : MonoBehaviour {
     private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
-    private const string HUD_PATH = "Prefabs/UI Prefabs/";
+    private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
+    private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
+    private const string SPUD_HUD_PATH = "Prefabs/UI Prefabs/SpudRun UI/";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
     private const int MAX_PLAYERS = 4;
 
@@ -204,30 +206,30 @@ public class SceneGenerator : MonoBehaviour {
         GameObject hud;
         switch (numberOfPlayers) {
             case 1:
-                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Single Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud = Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "Single Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<HUDManager>().kart = kartList[0];
                 break;
             case 2:
-                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud = Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "Two Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<TwoPlayerHUDManager>().kart1 = kartList[0];
                 hud.GetComponent<TwoPlayerHUDManager>().kart2 = kartList[1];
                 break;
             case 3:
-                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud = Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "Three Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<ThreePlayerHUDManager>().kart1 = kartList[0];
                 hud.GetComponent<ThreePlayerHUDManager>().kart2 = kartList[1];
                 hud.GetComponent<ThreePlayerHUDManager>().kart3 = kartList[2];
                 break;
             case 4:
-                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud = Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "Four Player HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<FourPlayerHUDManager>().kart1 = kartList[0];
                 hud.GetComponent<FourPlayerHUDManager>().kart2 = kartList[1];
                 hud.GetComponent<FourPlayerHUDManager>().kart3 = kartList[2];
                 hud.GetComponent<FourPlayerHUDManager>().kart4 = kartList[3];
                 break;
         }
-        Instantiate(Resources.Load<GameObject>(HUD_PATH + "RacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        Instantiate(Resources.Load<GameObject>(HUD_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "RacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
     }
 
     private void GenerateSpudRunHUD(int numberOfPlayers)
@@ -235,12 +237,14 @@ public class SceneGenerator : MonoBehaviour {
         GameObject hud;
         switch (numberOfPlayers) {
             case 2:
-                hud = Instantiate(Resources.Load<GameObject>(HUD_PATH + "Two Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Two Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<TwoPlayerSpudHUD>().kart1 = kartList[0];
                 hud.GetComponent<TwoPlayerSpudHUD>().kart2 = kartList[1];
                 hud.GetComponent<TwoPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }
+        Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
 
     }    
 }

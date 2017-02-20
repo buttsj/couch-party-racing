@@ -19,6 +19,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private bool axisEnabled;
 
     private Color highlight;
+    private string gameStateName;
 
     void Start () {
         highlight = new Color(255, 255, 0);
@@ -36,23 +37,41 @@ public class PauseMenuFunctionality : MonoBehaviour {
         resumeText.color = highlight;
 
         axisEnabled = true;
+        gameStateName = GameObject.Find("Player 1").GetComponent<Kart>().GameState.GetGameStateName();
     }
 	
 	void Update () {
-
-        if (!GameObject.Find("RacingEndMenu(Clone)").GetComponent<RacingEndGameMenu>().RaceOver)
+        if (gameStateName == "RacingGameState")
         {
-            if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
+            if (GameObject.Find("RacingEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
             {
-                pauseMenu.enabled = true;
-                Time.timeScale = 0;
-                resumeText.color = highlight;
+                if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
+                {
+                    pauseMenu.enabled = true;
+                    Time.timeScale = 0;
+                    resumeText.color = highlight;
+                }
+
+                scrollMenu();
+
+                buttonPress();
             }
         }
+        else if (gameStateName == "SpudRunGameState") {
+            if (GameObject.Find("SpudRunEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
+            {
+                if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
+                {
+                    pauseMenu.enabled = true;
+                    Time.timeScale = 0;
+                    resumeText.color = highlight;
+                }
 
-        scrollMenu();
+                scrollMenu();
 
-        buttonPress();
+                buttonPress();
+            }
+        }
 	}
 
     private void buttonPress()

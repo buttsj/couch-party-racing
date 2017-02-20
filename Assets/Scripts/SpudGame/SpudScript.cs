@@ -41,7 +41,7 @@ public class SpudScript : MonoBehaviour {
 	void Update () {
         if (gameOver)
         {
-            ResetRound();
+            EndRound();
         }
 		if (tagged)
         {
@@ -60,6 +60,17 @@ public class SpudScript : MonoBehaviour {
     {
         gameOver = false;
         timer = 60.0f;
+        if (tagged)
+        {
+            tagged = false;
+            ((SpudRunGameState)holder.GetComponent<Kart>().GameState).HoldingPotato = false;
+            holder = null;
+        }
+        transform.position = spawnPos;
+        transform.rotation = spawnRot;
+    }
+
+    void EndRound() {
         if (tagged)
         {
             tagged = false;

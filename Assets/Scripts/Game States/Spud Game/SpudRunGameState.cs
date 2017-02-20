@@ -39,4 +39,8 @@ public class SpudRunGameState : IGameState {
     {
         player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);
     }
+
+    public string GetGameStateName() {
+        return "SpudRunGameState";
+    }
 }

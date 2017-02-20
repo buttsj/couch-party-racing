@@ -7,7 +7,6 @@ public class KartPhysics {
     Rigidbody body;
     private float minSpeed;
     private float maxSpeed;
-    private float colliderFloor;
     private float power;
     private float acceleration = 1f;
     private int direction;
@@ -27,7 +26,6 @@ public class KartPhysics {
         body = kart.GetComponent<Rigidbody>();
         this.minSpeed = minSpeed;
         this.maxSpeed = maxSpeed;
-        colliderFloor = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
         body.centerOfMass = new Vector3(0, -1, 0);
         speed = minSpeed;
 
