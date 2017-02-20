@@ -173,6 +173,7 @@ public class MainMenuFunctionality : MonoBehaviour {
     {
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
+        sceneGenerator.LevelName = null;
         GoToNextMenu();
     }
 
@@ -195,6 +196,7 @@ public class MainMenuFunctionality : MonoBehaviour {
     {
         sceneGenerator.GamemodeName = "SpudRun";
         sceneGenerator.SceneName = "SpudRunScene";
+        sceneGenerator.LevelName = null;
         GoToNextMenu();
     }
 
