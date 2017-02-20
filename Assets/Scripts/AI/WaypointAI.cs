@@ -2,6 +2,8 @@
 
 public class WaypointAI : MonoBehaviour {
 
+    private const float MAXBREAKTIMER = 0.14f;
+
     private const float MINSPEED = 175f;
     private const float NORMALMAXSPEED = 250f;
     private const float BOOSTSPEED = 300f;
@@ -37,6 +39,7 @@ public class WaypointAI : MonoBehaviour {
     private int resetWaypoint;
 
     private float breakTimer;
+    private float breakTimerMax;
 
     private string powerup;
     private IKartAbility ability;
@@ -54,11 +57,13 @@ public class WaypointAI : MonoBehaviour {
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     public int ResetWaypoint { get { return resetWaypoint; } set { resetWaypoint = value; } }
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
+    public float MAXBREAKTIME { set { breakTimerMax = value; } }
 
     void Start() {
 
         resetTimer = 0.0f;
         breakTimer = 0.0f;
+        breakTimerMax = MAXBREAKTIMER;
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
         selectedLane = 0;
@@ -407,7 +412,7 @@ public class WaypointAI : MonoBehaviour {
         string thirdTarget = waypoints[thirdTargetIndex].transform.parent.transform.parent.name;
         if (previousTarget.Contains("Turn") || onTarget.Contains("Turn") || firstTarget.Contains("Turn") || secondTarget.Contains("Turn") || thirdTarget.Contains("Turn"))
         {
-            breakTimer = 0.14f;
+            breakTimer = breakTimerMax;
         }
     }
 
