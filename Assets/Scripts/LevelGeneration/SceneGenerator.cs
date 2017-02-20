@@ -129,12 +129,15 @@ public class SceneGenerator : MonoBehaviour {
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
                 {
                     kartList[i].GetComponent<Kart>().GameState = new RacingGameState(kartList[i]);
+                    kartList[i].GetComponent<Kart>().IsRacingGameState = true;
                 }
                 break;
             case "SpudRun":
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
                 {
                     kartList[i].GetComponent<Kart>().GameState = new SpudRunGameState(kartList[i]);
+                    kartList[i].GetComponent<Kart>().IsRacingGameState = false;
+
                 }
                 break;
         }

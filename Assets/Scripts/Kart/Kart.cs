@@ -43,6 +43,7 @@ public class Kart : MonoBehaviour
 
     private IGameState gameState;
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
+    public bool IsRacingGameState { get; set; }
 
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
@@ -144,7 +145,7 @@ public class Kart : MonoBehaviour
             rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
             rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
-            if (!IsOnTrack())
+            if (!IsOnTrack() && IsRacingGameState)
             {
                 physics.ApplyCarpetFriction();
             }
