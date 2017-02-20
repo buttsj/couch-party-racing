@@ -22,37 +22,33 @@ public class SceneGenerator : MonoBehaviour {
 
     private List<GameObject> kartList;
     private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-25, 1, 15), new Vector3(-25, 1, 45), new Vector3(-55, 1, 15), new Vector3(-55, 1, 45) };
-    private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow};
-    
+    private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
 
-    void Awake () {
+
+    void Awake() {
         DontDestroyOnLoad(this);
     }
-
-    // Use this for initialization
-    void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (IsLoaded()) {
+    
+    void Update() {
+        if (IsLoaded()) {
             GenerateLevel();
             GeneratePlayers();
             GenerateCameras();
             GenerateAI();
-            if (GamemodeName == "RaceMode")
-            {
-                GenerateRacingHUD(SimpleInput.NumberOfPlayers);
-            }
-            else if (GamemodeName == "SpudRun") {
-                GenerateSpudRunHUD(SimpleInput.NumberOfPlayers);
-            }
-            
+            GenerateHUD();
+            InitializeMinimap();
 
             DestroyGenerator();
         }
-	}
+    }
+
+    private void GenerateHUD() {
+        if (GamemodeName == "RaceMode") {
+            GenerateRacingHUD(SimpleInput.NumberOfPlayers);
+        } else if (GamemodeName == "SpudRun") {
+            GenerateSpudRunHUD(SimpleInput.NumberOfPlayers);
+        }
+    }
 
     public void LoadScene() {
         SceneManager.LoadScene(SceneName);
@@ -66,6 +62,12 @@ public class SceneGenerator : MonoBehaviour {
         } else {
             startObj = new GameObject();
         }
+    }
+
+    private void InitializeMinimap() {
+        GameObject minimap = GameObject.Find("Minimap");
+
+
     }
 
     private void GenerateKart(int kartNumber, string destination) {
@@ -113,7 +115,7 @@ public class SceneGenerator : MonoBehaviour {
                 }
             }
 
-            WaypointSetter.SetWaypoints(); 
+            WaypointSetter.SetWaypoints();
         }
     }
 
@@ -128,15 +130,13 @@ public class SceneGenerator : MonoBehaviour {
 
         switch (GamemodeName) {
             case "RaceMode":
-                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
-                {
+                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
                     kartList[i].GetComponent<Kart>().GameState = new RacingGameState(kartList[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = true;
                 }
                 break;
             case "SpudRun":
-                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
-                {
+                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
                     kartList[i].GetComponent<Kart>().GameState = new SpudRunGameState(kartList[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = false;
 
@@ -154,7 +154,7 @@ public class SceneGenerator : MonoBehaviour {
         Rect TOP_LEFT = new Rect(0.0f, 0.5f, 0.5f, 0.5f);
         Rect BOT_RIGH = new Rect(0.5f, 0.0f, 0.5f, 0.5f);
         Rect TOP_RIGH = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-        
+
         switch (SimpleInput.NumberOfPlayers) {
             case 1:
                 CreateCamera("Camera (Player 1)", FULL_SCREEN, 1);
@@ -190,7 +190,7 @@ public class SceneGenerator : MonoBehaviour {
 
         camera.SetActive(true);
 
-       
+
         return camera;
     }
 
@@ -232,8 +232,7 @@ public class SceneGenerator : MonoBehaviour {
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
     }
 
-    private void GenerateSpudRunHUD(int numberOfPlayers)
-    {
+    private void GenerateSpudRunHUD(int numberOfPlayers) {
         GameObject hud;
         switch (numberOfPlayers) {
             case 2:
@@ -246,5 +245,5 @@ public class SceneGenerator : MonoBehaviour {
         Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
 
-    }    
+    }
 }
