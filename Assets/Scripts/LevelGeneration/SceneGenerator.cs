@@ -67,7 +67,15 @@ public class SceneGenerator : MonoBehaviour {
     private void InitializeMinimap() {
         GameObject minimap = GameObject.Find("Minimap");
 
+        if (minimap) {
+            for (int i = 0; i < kartList.Count; i++) {
+                var icon = minimap.transform.GetChild(i).gameObject;
 
+                icon.SetActive(true);
+                icon.GetComponent<MinimapFollowObject>().followObj = kartList[i].transform;
+                icon.GetComponent<Renderer>().material.color = kartColorList[i];
+            }
+        }
     }
 
     private void GenerateKart(int kartNumber, string destination) {
@@ -76,7 +84,7 @@ public class SceneGenerator : MonoBehaviour {
 
         kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngel));
         kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
-        kartList[kartNumber].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
+        //kartList[kartNumber].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
 
     /*private Vector3 KartStartPos(int kartNumber) {
