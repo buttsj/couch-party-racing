@@ -225,6 +225,14 @@ public class Kart : MonoBehaviour
                 other.gameObject.GetComponent<Kart>().IsDamaged = true;
             }
         }
+
+        if (other.gameObject.CompareTag("Player") && !IsRacingGameState) {
+            if (((SpudRunGameState)other.gameObject.GetComponent<Kart>().GameState).HoldingPotato){
+                ((SpudRunGameState)other.gameObject.GetComponent<Kart>().GameState).HoldingPotato = false;
+                GameObject.Find("Potato").GetComponent<SpudScript>().SpudHolder = null;
+                GameObject.Find("Potato").GetComponent<SpudScript>().IsTagged = false;
+            }
+        }
     }
 
     void OnTriggerStay(Collider other)

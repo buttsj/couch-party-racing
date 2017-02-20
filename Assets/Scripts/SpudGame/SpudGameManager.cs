@@ -14,7 +14,7 @@ public class SpudGameManager : MonoBehaviour {
     void Start () {
         playerList = new List<GameObject>();
         raceOver = false;
-        kart.GetComponent<Kart>().PlayerNumber = 1; // set player to Player 1 by default, this will change eventually
+        //kart.GetComponent<Kart>().PlayerNumber = 1; // set player to Player 1 by default, this will change eventually
     }
 	
 	// Update is called once per frame
