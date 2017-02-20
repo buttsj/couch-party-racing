@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
-    public const string READY = "Ready!";
-    public const string UNREADY = "Unready";
+    public const string READY = "Ready to Play!";
+    public const string UNREADY = "Press Any Button";
 
     public Text player1ReadyText;
     public Text player2ReadyText;
