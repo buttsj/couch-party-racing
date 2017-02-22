@@ -9,7 +9,7 @@ public static class SimpleInput {
         new ControlScheme("Keyboard1"),
         new ControlScheme("Xbox", 1),
         new ControlScheme("Xbox", 2),
-        new ControlScheme("Keyboard2")
+        new ControlScheme("Xbox", 3)
     };
 
     private static List<ControlScheme> playerSchemes = new List<ControlScheme>(storedPrefSchemes);
@@ -99,7 +99,7 @@ public static class SimpleInput {
     public static float GetAxis(string axisName) {
         float isPressed = 0.0f;
 
-        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Count; i++) {
+        for (int i = 0; isPressed == 0.0f && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetAxis(axisName);
         }
 
@@ -124,7 +124,7 @@ public static class SimpleInput {
     public static float GetAxisRaw(string axisName) {
         float isPressed = 0.0f;
 
-        for (int i = 0; isPressed != 0.0f && i < playerSchemes.Count; i++) {
+        for (int i = 0; isPressed == 0.0f && i < playerSchemes.Count; i++) {
             isPressed = playerSchemes[i].GetAxisRaw(axisName);
         }
 

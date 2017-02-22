@@ -6,15 +6,25 @@ using UnityEngine;
 public class JoystickControl : IControl {
 
     private string virtualAction;
+    private string overloadedAction;
     private int joystickNumber;
     private bool isButton;
+    private bool isPositiveOverloadedAxis;
 
     public JoystickControl(string virtualAction, int joystickNumber) {
         this.joystickNumber = joystickNumber;
-
         isButton = virtualAction.Contains("button");
 
         this.virtualAction = ConvertToPlayerSpecific(virtualAction);
+    }
+
+    public JoystickControl(string virtualAction, string overloadedAction, bool isPositiveOverloadedAxis, int joystickNumber) {
+        this.joystickNumber = joystickNumber;
+        isButton = virtualAction.Contains("button");
+
+        this.virtualAction = ConvertToPlayerSpecific(virtualAction);
+        this.overloadedAction = ConvertToPlayerSpecific(overloadedAction);
+        this.isPositiveOverloadedAxis = isPositiveOverloadedAxis;
     }
 
     public bool IsHeldDown() {
@@ -23,7 +33,6 @@ public class JoystickControl : IControl {
         if (isButton) {
             isInput = Input.GetKey(virtualAction);
         } else {
-            isInput = Input.GetAxis(virtualAction) != 0.0f;
         }
 
         return isInput;
@@ -83,5 +92,17 @@ public class JoystickControl : IControl {
 
     private string ConvertToPlayerSpecific(string buttonName) {
         return "joystick " + joystickNumber + " " + buttonName;
+    }
+
+    private bool GetOverloadedAction() {
+        bool isInput = false;
+
+        if(isPositiveOverloadedAxis) {
+            isInput = Input.GetAxis(overloadedAction) > 0.0f;
+        } else {
+            isInput = Input.GetAxis(overloadedAction) < 0.0f;
+        }
+
+        return isInput;
     }
 }

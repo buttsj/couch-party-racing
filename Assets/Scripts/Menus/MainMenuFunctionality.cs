@@ -68,7 +68,7 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     void Update()
     {
-        if (SimpleInput.GetAxis("Vertical", 1) == 0 && SimpleInput.GetAxis("Horizontal", 1) == 0)
+        if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
         }
@@ -88,7 +88,7 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     private void scrollMenu()
     {
-        if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+        if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
             axisEnabled = false;
             currentButtonX++;
@@ -98,7 +98,7 @@ public class MainMenuFunctionality : MonoBehaviour {
             }
             colorSelectedButton();
         }
-        else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+        else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
             axisEnabled = false;
             currentButtonX--;
@@ -108,7 +108,7 @@ public class MainMenuFunctionality : MonoBehaviour {
             }
             colorSelectedButton();
         }
-        else if ((SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled))
+        else if ((SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled))
         {
             axisEnabled = false;
             currentButtonY++;
@@ -118,7 +118,7 @@ public class MainMenuFunctionality : MonoBehaviour {
             }
             colorSelectedButton();
         }
-        else if ((SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled))
+        else if ((SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled))
         {
             axisEnabled = false;
             currentButtonY--;
@@ -212,7 +212,7 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     private void quitScroll()
     {
-        if(SimpleInput.GetAxis("Horizontal", 1) != 0 && axisEnabled)
+        if(SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
         {
             axisEnabled = false;
             exitIndex++;
