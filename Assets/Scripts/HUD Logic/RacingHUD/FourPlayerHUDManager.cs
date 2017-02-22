@@ -379,9 +379,9 @@ public class FourPlayerHUDManager : MonoBehaviour {
                     boostImg3.enabled = false;
                 }
                 else {
-                    oil3.enabled = true;
-                    spark3.enabled = false;
-                    boostImg3.enabled = false;
+                    oil4.enabled = true;
+                    spark4.enabled = false;
+                    boostImg4.enabled = false;
                 }
                 break;
 
