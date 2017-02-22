@@ -33,6 +33,7 @@ public class JoystickControl : IControl {
         if (isButton) {
             isInput = Input.GetKey(virtualAction);
         } else {
+            isInput = Input.GetAxis(virtualAction) != 0.0f || GetOverloadedAction();
         }
 
         return isInput;
