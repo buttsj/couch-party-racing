@@ -9,6 +9,7 @@ public class LevelSelectionMenuFunctionality : MonoBehaviour {
    
     public GameObject RaceMode;
     public GameObject SpudRun;
+    public GameObject TrackBuilder;
 
     private SceneGenerator sceneGenerator;
 
@@ -31,6 +32,9 @@ public class LevelSelectionMenuFunctionality : MonoBehaviour {
                 break;
             case "SpudRun":
                 SpudRun.SetActive(true);
+                break;
+            case "TrackBuilder":
+                TrackBuilder.SetActive(true);
                 break;
         }
     }

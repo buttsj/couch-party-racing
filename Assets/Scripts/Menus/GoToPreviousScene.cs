@@ -9,6 +9,11 @@ public class GoToPreviousScene : MonoBehaviour {
 	void Update () {
         if (SimpleInput.GetButton("Cancel")) {
             var prevScene = SceneManager.GetActiveScene().buildIndex - 1;
+
+            if (prevScene == 0) {
+                Destroy(GameObject.Find("SceneGenerator"));
+            }
+
             SceneManager.LoadScene(prevScene);
         }
 	}
