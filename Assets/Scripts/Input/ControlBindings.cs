@@ -77,7 +77,24 @@ public class ControlBindings {
         }
     }
 
-    public static class XBOX {
+    public Dictionary<string, IControl> Ps4 {
+        get {
+            bindings["Horizontal"] = new JoystickControl(PS4.LStickX, joystickNumber);
+            bindings["Vertical"] = new JoystickControl(PS4.LStickY, joystickNumber);
+            bindings["Accelerate"] = new JoystickControl(PS4.R2Axis, joystickNumber);
+            bindings["Reverse"] = new JoystickControl(PS4.L2Axis, joystickNumber);
+            bindings["Use PowerUp"] = new JoystickControl(PS4.Square, joystickNumber);
+            bindings["Reset Rotation"] = new JoystickControl(PS4.Share, joystickNumber);
+            bindings["Pause"] = new JoystickControl(PS4.Playstation, joystickNumber);
+            bindings["Bump Kart"] = new JoystickControl(PS4.X, joystickNumber);
+            bindings["Boost"] = new JoystickControl(PS4.Circle, joystickNumber);
+            bindings["Cancel"] = new JoystickControl(PS4.Circle, joystickNumber);
+
+            return bindings;
+        }
+    }
+
+    private static class XBOX {
         public const string A = "button 0";
         public const string B = "button 1";
         public const string X = "button 2";
@@ -88,6 +105,7 @@ public class ControlBindings {
         public const string Start = "button 7";
         public const string LStickClick = "button 8";
         public const string RStickClick = "button 9";
+
         public const string LStickX = "X Axis";
         public const string LStickY = "Y Axis";
         public const string LTrigger = "9th Axis";
@@ -97,5 +115,31 @@ public class ControlBindings {
         public const string RStickY = "5th Axis";
         public const string DPadX = "6th Axis";
         public const string DPadY = "7th Axis";
+    }
+
+    private static class PS4 {
+        public const string Square = "button 0";
+        public const string X = "button 1";
+        public const string Circle = "button 2";
+        public const string Triangle = "button 3";
+        public const string L1 = "button 4";
+        public const string R1 = "button 5";
+        public const string L2 = "button 6";
+        public const string R2 = "button 7";
+        public const string Share = "button 8";
+        public const string Options = "button 9";
+        public const string L3 = "button 10";
+        public const string R3 = "button 11";
+        public const string Playstation = "button 12";
+        public const string PadPress = "button 13";
+
+        public const string LStickX = "X Axis";
+        public const string LStickY = "Y Axis";
+        public const string RStickX = "3rd Axis";
+        public const string RStickY = "4th Axis";
+        public const string L2Axis = "4th Axis";
+        public const string R2Axis = "5th Axis";
+        public const string DPadX = "7th Axis";
+        public const string DPadY = "8th Axis";
     }
 }
