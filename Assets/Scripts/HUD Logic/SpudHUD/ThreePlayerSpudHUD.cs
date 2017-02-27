@@ -24,6 +24,9 @@ public class ThreePlayerSpudHUD: MonoBehaviour
     public Image spark3;
     public Image oil3;
     public Image boostImg3;
+    public Image marble1;
+    public Image marble2;
+    public Image marble3;
     public GameObject kart1;
     public GameObject kart2;
     public GameObject kart3;
@@ -113,17 +116,21 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark1.enabled = false;
                     oil1.enabled = false;
                     boostImg1.enabled = true;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     spark2.enabled = false;
                     oil2.enabled = false;
                     boostImg2.enabled = true;
+                    marble2.enabled = false;
                 }
-                else {
+                else
+                {
                     spark3.enabled = false;
                     oil3.enabled = false;
                     boostImg3.enabled = true;
+                    marble3.enabled = false;
                 }
                 break;
             case "Spark":
@@ -132,17 +139,21 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark1.enabled = true;
                     oil1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     spark2.enabled = true;
                     oil2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
-                else {
+                else
+                {
                     spark3.enabled = true;
                     oil3.enabled = false;
                     boostImg3.enabled = false;
+                    marble3.enabled = false;
                 }
                 break;
             case "Oil":
@@ -151,17 +162,44 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil1.enabled = true;
                     spark1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     oil2.enabled = true;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
-                else {
+                else
+                {
                     oil3.enabled = true;
                     spark3.enabled = false;
                     boostImg3.enabled = false;
+                    marble3.enabled = false;
+                }
+                break;
+            case "Marble":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                    marble1.enabled = true;
+                }
+                else if (playerNumber == 2)
+                {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                    marble2.enabled = true;
+                }
+                else
+                {
+                    oil3.enabled = false;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
+                    marble3.enabled = true;
                 }
                 break;
 
@@ -171,17 +209,21 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil1.enabled = false;
                     spark1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     oil2.enabled = false;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
-                else {
+                else
+                {
                     oil3.enabled = false;
                     spark3.enabled = false;
                     boostImg3.enabled = false;
+                    marble3.enabled = false;
                 }
                 break;
         }
