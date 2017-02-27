@@ -29,6 +29,10 @@ public class FourPlayerSpudHUD : MonoBehaviour
     public Image spark4;
     public Image oil4;
     public Image boostImg4;
+    public Image marble1;
+    public Image marble2;
+    public Image marble3;
+    public Image marble4;
     public GameObject kart1;
     public GameObject kart2;
     public GameObject kart3;
@@ -125,24 +129,28 @@ public class FourPlayerSpudHUD : MonoBehaviour
                     spark1.enabled = false;
                     oil1.enabled = false;
                     boostImg1.enabled = true;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     spark2.enabled = false;
                     oil2.enabled = false;
                     boostImg2.enabled = true;
+                    marble2.enabled = false;
                 }
                 else if (playerNumber == 3)
                 {
                     spark3.enabled = false;
                     oil3.enabled = false;
                     boostImg3.enabled = true;
+                    marble3.enabled = false;
                 }
                 else
                 {
                     spark4.enabled = false;
                     oil4.enabled = false;
                     boostImg4.enabled = true;
+                    marble4.enabled = false;
                 }
                 break;
             case "Spark":
@@ -151,24 +159,28 @@ public class FourPlayerSpudHUD : MonoBehaviour
                     spark1.enabled = true;
                     oil1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     spark2.enabled = true;
                     oil2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
                 else if (playerNumber == 3)
                 {
                     spark3.enabled = true;
                     oil3.enabled = false;
                     boostImg3.enabled = false;
+                    marble3.enabled = false;
                 }
                 else
                 {
                     spark4.enabled = true;
                     oil4.enabled = false;
                     boostImg4.enabled = false;
+                    marble4.enabled = false;
                 }
                 break;
             case "Oil":
@@ -177,24 +189,59 @@ public class FourPlayerSpudHUD : MonoBehaviour
                     oil1.enabled = true;
                     spark1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     oil2.enabled = true;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
                 else if (playerNumber == 3)
                 {
                     oil3.enabled = true;
                     spark3.enabled = false;
                     boostImg3.enabled = false;
+                    marble3.enabled = false;
                 }
                 else
                 {
                     oil4.enabled = true;
                     spark4.enabled = false;
                     boostImg4.enabled = false;
+                    marble4.enabled = false;
+                }
+                break;
+
+            case "Marble":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                    marble1.enabled = true;
+                }
+                else if (playerNumber == 2)
+                {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                    marble2.enabled = true;
+                }
+                else if (playerNumber == 3)
+                {
+                    oil3.enabled = false;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
+                    marble3.enabled = true;
+                }
+                else
+                {
+                    oil4.enabled = false;
+                    spark4.enabled = false;
+                    boostImg4.enabled = false;
+                    marble4.enabled = true;
                 }
                 break;
 
@@ -204,24 +251,28 @@ public class FourPlayerSpudHUD : MonoBehaviour
                     oil1.enabled = false;
                     spark1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
                     oil2.enabled = false;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
                 else if (playerNumber == 3)
                 {
                     oil3.enabled = false;
                     spark3.enabled = false;
                     boostImg3.enabled = false;
+                    marble3.enabled = false;
                 }
                 else
                 {
                     oil4.enabled = false;
                     spark4.enabled = false;
                     boostImg4.enabled = false;
+                    marble4.enabled = false;
                 }
                 break;
         }

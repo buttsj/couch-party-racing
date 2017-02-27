@@ -157,6 +157,10 @@ public class WaypointAI : MonoBehaviour {
             {
                 ability = new Spark(gameObject, kartAudio);
             }
+            else if (powerup == "Marble")
+            {
+                ability = new Marble(gameObject, kartAudio);
+            }
         }
 
         /*
@@ -166,7 +170,6 @@ public class WaypointAI : MonoBehaviour {
             originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
         */
-
         if (other.gameObject.name.Contains("Oil") && damaged == false)
         {
             if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
@@ -175,6 +178,12 @@ public class WaypointAI : MonoBehaviour {
                 originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 Destroy(other.gameObject);
             }
+        }
+        if (other.gameObject.name.Contains("Marble") && damaged == false && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
+        {
+            damaged = true;
+            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+            Destroy(other.gameObject);
         }
 
     }
@@ -320,7 +329,7 @@ public class WaypointAI : MonoBehaviour {
 
     private void handlePowerup()
     {
-        if (ability.ToString() == "Boost" && boost <= 0.0f)
+        if (ability.ToString() == "Boost" && boost <= 49.9f)
         {
             ability.UseItem();
         }
@@ -329,7 +338,7 @@ public class WaypointAI : MonoBehaviour {
             if(powerUpTimer >= powerUpTimeLimit)
             {
                 ability.UseItem();
-                powerUpTimeLimit = Random.Range(3, 11);
+                powerUpTimeLimit = Random.Range(3, 13);
             }
             else
             {
@@ -341,7 +350,19 @@ public class WaypointAI : MonoBehaviour {
             if (powerUpTimer >= powerUpTimeLimit)
             {
                 ability.UseItem();
-                powerUpTimeLimit = Random.Range(3, 11);
+                powerUpTimeLimit = Random.Range(3, 13);
+            }
+            else
+            {
+                powerUpTimer = powerUpTimer + Time.deltaTime;
+            }
+        }
+        else if (ability.ToString() == "Marble")
+        {
+            if (powerUpTimer >= powerUpTimeLimit)
+            {
+                ability.UseItem();
+                powerUpTimeLimit = Random.Range(3, 13);
             }
             else
             {

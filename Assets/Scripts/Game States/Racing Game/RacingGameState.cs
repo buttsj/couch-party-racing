@@ -50,4 +50,6 @@ public class RacingGameState : IGameState {
     public string GetGameStateName() {
         return "RacingGameState";
     }
+
+    public void OnCollisionEnter(GameObject other) { }
 }

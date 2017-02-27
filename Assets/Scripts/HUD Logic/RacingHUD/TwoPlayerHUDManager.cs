@@ -14,9 +14,11 @@ public class TwoPlayerHUDManager : MonoBehaviour
     public Image spark1;
     public Image oil1;
     public Image boostImg1;
+    public Image marble1;
     public Image spark2;
     public Image oil2;
     public Image boostImg2;
+    public Image marble2;
     public Text boostText;
     public Text lapText;
     public Text boostText2;
@@ -233,11 +235,13 @@ public class TwoPlayerHUDManager : MonoBehaviour
                     spark1.enabled = false;
                     oil1.enabled = false;
                     boostImg1.enabled = true;
+                    marble1.enabled = false;
                 }
                 else {
                     spark2.enabled = false;
                     oil2.enabled = false;
                     boostImg2.enabled = true;
+                    marble2.enabled = false;
                 }
                 break;
             case "Spark":
@@ -246,11 +250,13 @@ public class TwoPlayerHUDManager : MonoBehaviour
                     spark1.enabled = true;
                     oil1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else {
                     spark2.enabled = true;
                     oil2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
                 break;
             case "Oil":
@@ -259,25 +265,46 @@ public class TwoPlayerHUDManager : MonoBehaviour
                     oil1.enabled = true;
                     spark1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else {
                     oil2.enabled = true;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
                 break;
-                
+
+            case "Marble":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                    marble1.enabled = true;
+                }
+                else
+                {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                    marble2.enabled = true;
+                }
+                break;
+
             case "Null":
                 if (playerNumber == 1)
                 {
                     oil1.enabled = false;
                     spark1.enabled = false;
                     boostImg1.enabled = false;
+                    marble1.enabled = false;
                 }
                 else {
                     oil2.enabled = false;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                    marble2.enabled = false;
                 }
                 break;
         }
