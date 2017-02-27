@@ -87,12 +87,16 @@ public class Kart : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            damaged = true;
+            ability = new Marble(gameObject, kartAudio);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             // increase lap count
             ((RacingGameState)gameState).LapNumber++;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            damaged = true;
         }
     }
 
@@ -110,6 +114,9 @@ public class Kart : MonoBehaviour
                     ability.UseItem();
                     break;
                 case "Boost":
+                    ability.UseItem();
+                    break;
+                case "Marble":
                     ability.UseItem();
                     break;
             }
@@ -183,6 +190,10 @@ public class Kart : MonoBehaviour
             {
                 ability = new Spark(gameObject, kartAudio);
             }
+            else if(powerup == "Marble")
+            {
+                ability = new Marble(gameObject, kartAudio);
+            }
         }
         if (other.gameObject.CompareTag("Potato"))
         {
@@ -209,6 +220,12 @@ public class Kart : MonoBehaviour
                 originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 Destroy(other.gameObject);
             }
+        }
+        if (other.gameObject.name.Contains("Marble") && damaged == false && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
+        {
+            damaged = true;
+            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+            Destroy(other.gameObject);
         }
     }
 
