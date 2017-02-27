@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MarbleManager : MonoBehaviour {
 
+    private const float MAXSPEED = 250f;
+
     private int targetIndex;
     private GameObject owner;
     private GameObject[] targets;
@@ -17,7 +19,7 @@ public class MarbleManager : MonoBehaviour {
 
         lifeTimer = 0.0f;
 
-        gameObject.GetComponent<Rigidbody>().velocity = gameObject.transform.forward * 250f;
+        gameObject.GetComponent<Rigidbody>().velocity = gameObject.transform.forward * MAXSPEED;
 
         targets = GameObject.FindGameObjectsWithTag("Player");
     }
@@ -27,7 +29,7 @@ public class MarbleManager : MonoBehaviour {
         if (targetIndex != -1)
         {
             transform.LookAt(targets[targetIndex].transform);
-            gameObject.GetComponent<Rigidbody>().velocity = gameObject.transform.forward * 250f;
+            gameObject.GetComponent<Rigidbody>().velocity = gameObject.transform.forward * MAXSPEED;
         }
         else
         {
@@ -44,6 +46,14 @@ public class MarbleManager : MonoBehaviour {
 
         lifeTimer += Time.deltaTime;
         if(lifeTimer >= MAXTIME)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Contains("Track"))
         {
             Destroy(gameObject);
         }

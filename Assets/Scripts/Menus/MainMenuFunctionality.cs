@@ -164,36 +164,46 @@ public class MainMenuFunctionality : MonoBehaviour
         }
     }
 
+    private void SetFadeOut()
+    {
+        pressed = true;
+        FadeOutBool = true;
+        FadeInBool = false;
+        fadeSpeed = .9f;
+    }
+
     private void buttonPress()
     {
         if (SimpleInput.GetButtonDown("Bump Kart") && !pressed)
         {
-            pressed = true;
-            FadeOutBool = true;
-            FadeInBool = false;
-            fadeSpeed = .9f;
             if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode))
             {
+                SetFadeOut();
                 StartCoroutine(raceModePress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder))
             {
+                SetFadeOut();
                 StartCoroutine(trackBuilderPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun))
             {
+                SetFadeOut();
                 deathRunPress();
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground))
             {
+                SetFadeOut();
                 playgroundPress();
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun))
             {
+                SetFadeOut();
                 StartCoroutine(spudRunPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings))
             {
+                SetFadeOut();
                 settingsPress();
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit))
