@@ -248,6 +248,21 @@ public class SceneGenerator : MonoBehaviour {
                 hud.GetComponent<TwoPlayerSpudHUD>().kart2 = kartList[1];
                 hud.GetComponent<TwoPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
+            case 3:
+                hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Three Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<ThreePlayerSpudHUD>().kart1 = kartList[0];
+                hud.GetComponent<ThreePlayerSpudHUD>().kart2 = kartList[1];
+                hud.GetComponent<ThreePlayerSpudHUD>().kart3 = kartList[2];
+                hud.GetComponent<ThreePlayerSpudHUD>().potato = GameObject.Find("Potato");
+                break;
+            case 4:
+                hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Four Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<FourPlayerSpudHUD>().kart1 = kartList[0];
+                hud.GetComponent<FourPlayerSpudHUD>().kart2 = kartList[1];
+                hud.GetComponent<FourPlayerSpudHUD>().kart3 = kartList[0];
+                hud.GetComponent<FourPlayerSpudHUD>().kart4 = kartList[1];
+                hud.GetComponent<FourPlayerSpudHUD>().potato = GameObject.Find("Potato");
+                break;
         }
         Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
