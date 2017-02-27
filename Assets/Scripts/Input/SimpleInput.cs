@@ -7,9 +7,9 @@ public static class SimpleInput {
     // Temporary collection. Will be replaced with Unity PlayerPref lookup.
     private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme> {
         new ControlScheme("Keyboard1"),
+        new ControlScheme("Keyboard2"),
         new ControlScheme("Xbox", 1),
-        new ControlScheme("Xbox", 2),
-        new ControlScheme("Xbox", 3)
+        new ControlScheme("Xbox", 2)
     };
 
     private static List<ControlScheme> playerSchemes = new List<ControlScheme>(storedPrefSchemes);

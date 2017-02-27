@@ -22,8 +22,9 @@ public class SceneGenerator : MonoBehaviour {
 
     private List<GameObject> kartList;
     private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
-    private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
-
+    //private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
+    private List<Color> kartColorList = new List<Color>();
+    public Color KartColorizer { set { kartColorList.Add(value); } }
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -247,6 +248,21 @@ public class SceneGenerator : MonoBehaviour {
                 hud.GetComponent<TwoPlayerSpudHUD>().kart1 = kartList[0];
                 hud.GetComponent<TwoPlayerSpudHUD>().kart2 = kartList[1];
                 hud.GetComponent<TwoPlayerSpudHUD>().potato = GameObject.Find("Potato");
+                break;
+            case 3:
+                hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Three Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<ThreePlayerSpudHUD>().kart1 = kartList[0];
+                hud.GetComponent<ThreePlayerSpudHUD>().kart2 = kartList[1];
+                hud.GetComponent<ThreePlayerSpudHUD>().kart3 = kartList[2];
+                hud.GetComponent<ThreePlayerSpudHUD>().potato = GameObject.Find("Potato");
+                break;
+            case 4:
+                hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Four Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                hud.GetComponent<FourPlayerSpudHUD>().kart1 = kartList[0];
+                hud.GetComponent<FourPlayerSpudHUD>().kart2 = kartList[1];
+                hud.GetComponent<FourPlayerSpudHUD>().kart3 = kartList[0];
+                hud.GetComponent<FourPlayerSpudHUD>().kart4 = kartList[1];
+                hud.GetComponent<FourPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }
         Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));

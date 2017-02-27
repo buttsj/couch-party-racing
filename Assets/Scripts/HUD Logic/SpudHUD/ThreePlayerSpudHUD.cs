@@ -2,24 +2,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TwoPlayerSpudHUD : MonoBehaviour {
-   
+public class ThreePlayerSpudHUD: MonoBehaviour
+{
+
     public GameObject potato;
     public Text timeRemainingText;
     float secondsRemain;
     float minutesRemain;
     public Text boostText1;
     public Text boostText2;
+    public Text boostText3;
     public Text scoreText1;
     public Text scoreText2;
+    public Text scoreText3;
     public Image spark1;
     public Image oil1;
     public Image boostImg1;
     public Image spark2;
     public Image oil2;
     public Image boostImg2;
+    public Image spark3;
+    public Image oil3;
+    public Image boostImg3;
     public GameObject kart1;
     public GameObject kart2;
+    public GameObject kart3;
     // Use this for initialization
     void Start()
     {
@@ -32,6 +39,7 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
     {
         UpdateKartHUD(0);
         UpdateKartHUD(1);
+        UpdateKartHUD(2);
         if (potato.GetComponent<SpudScript>().IsTagged && !potato.gameObject.GetComponent<SpudScript>().GameOver)
         {
             UpdateTimerUI();
@@ -85,6 +93,11 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
                 scoreText2.text = ((SpudRunGameState)kart2.GetComponent<Kart>().GameState).SpudScore.ToString("F2");
                 UpdatePowerup(kart2, 2);
                 break;
+            case 2:
+                boostText3.text = ((int)kart3.GetComponent<Kart>().Boost).ToString();
+                scoreText3.text = ((SpudRunGameState)kart3.GetComponent<Kart>().GameState).SpudScore.ToString("F2");
+                UpdatePowerup(kart3, 3);
+                break;
         }
 
     }
@@ -101,11 +114,16 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
                     oil1.enabled = false;
                     boostImg1.enabled = true;
                 }
-                else
+                else if (playerNumber == 2)
                 {
                     spark2.enabled = false;
                     oil2.enabled = false;
                     boostImg2.enabled = true;
+                }
+                else {
+                    spark3.enabled = false;
+                    oil3.enabled = false;
+                    boostImg3.enabled = true;
                 }
                 break;
             case "Spark":
@@ -115,11 +133,16 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
                     oil1.enabled = false;
                     boostImg1.enabled = false;
                 }
-                else
+                else if (playerNumber == 2)
                 {
                     spark2.enabled = true;
                     oil2.enabled = false;
                     boostImg2.enabled = false;
+                }
+                else {
+                    spark3.enabled = true;
+                    oil3.enabled = false;
+                    boostImg3.enabled = false;
                 }
                 break;
             case "Oil":
@@ -129,11 +152,16 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
                     spark1.enabled = false;
                     boostImg1.enabled = false;
                 }
-                else
+                else if (playerNumber == 2)
                 {
                     oil2.enabled = true;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                }
+                else {
+                    oil3.enabled = true;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
                 }
                 break;
 
@@ -144,11 +172,16 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
                     spark1.enabled = false;
                     boostImg1.enabled = false;
                 }
-                else
+                else if (playerNumber == 2)
                 {
                     oil2.enabled = false;
                     spark2.enabled = false;
                     boostImg2.enabled = false;
+                }
+                else {
+                    oil3.enabled = false;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
                 }
                 break;
         }
