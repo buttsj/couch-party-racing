@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class RecordingCamera : MonoBehaviour {
-
+    
     public GameObject leftwheel;
     public GameObject rightwheel;
     public GameObject backlwheel;
@@ -25,6 +25,7 @@ public class RecordingCamera : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
         leftwheel.transform.Rotate(Vector3.right, 100.0f);
         rightwheel.transform.Rotate(Vector3.right, 100.0f);
         backlwheel.transform.Rotate(Vector3.right, 100.0f);
