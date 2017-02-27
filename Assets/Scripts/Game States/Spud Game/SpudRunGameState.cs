@@ -44,4 +44,24 @@ public class SpudRunGameState : IGameState {
     public string GetGameStateName() {
         return "SpudRunGameState";
     }
+
+    public void OnCollisionEnter(GameObject other) {
+        if (other.CompareTag("Player"))
+        {
+            if (((SpudRunGameState)other.GetComponent<Kart>().GameState).HoldingPotato)
+            {
+                ((SpudRunGameState)other.GetComponent<Kart>().GameState).HoldingPotato = false;
+                GameObject.Find("Potato").GetComponent<SpudScript>().SpudHolder = null;
+                GameObject.Find("Potato").GetComponent<SpudScript>().IsTagged = false;
+                if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing())
+                {
+                    SpudScore += 5;
+                }
+                else {
+                    SpudScore += 3;
+                }
+            }
+        }
+
+    }
 }
