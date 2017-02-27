@@ -22,7 +22,7 @@ public class RecordingCamera : MonoBehaviour {
         timer = 0;
         angle = 0;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         leftwheel.transform.Rotate(Vector3.right, 100.0f);
