@@ -9,6 +9,7 @@ public class Cursor : MonoBehaviour {
     private const string CHILD_NAME = "Track Piece";
     private const int TRACK_SCALE = 60;
 
+    public GameObject trackParent;
     private List<GameObject> trackList;
     private int trackIndex = 0;
     private bool canAcceptInput = false;
@@ -93,8 +94,7 @@ public class Cursor : MonoBehaviour {
     }
 
     private void SpawnTrack() {
-        PrintTrackName();
-        Instantiate(trackList[trackIndex], transform.position, transform.rotation);
+        Instantiate(trackList[trackIndex], transform.position, transform.rotation, trackParent.transform).name = trackList[trackIndex].name;
     }
 
     private bool IsInputReset() {
