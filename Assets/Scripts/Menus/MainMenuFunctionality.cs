@@ -1,8 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class MainMenuFunctionality : MonoBehaviour {
+
+    private const string TRANSITION = "Sounds/KartEffects/screen_transition";
+    private AudioClip transition;
+    private AudioSource source;
+    private bool pressed;
 
     private const int BUTTONSWIDTH = 2;
     private const int BUTTONSHEIGHT = 4;
@@ -34,6 +40,9 @@ public class MainMenuFunctionality : MonoBehaviour {
     private int exitIndex;
 
     void Start() {
+        pressed = false;
+        transition = (AudioClip)Resources.Load(TRANSITION);
+        source = GameObject.Find("Sound").GetComponent<AudioSource>();
 
         highlight = new Color(255, 255, 0);
 
@@ -113,17 +122,18 @@ public class MainMenuFunctionality : MonoBehaviour {
     }
 
     private void buttonPress() {
-        if (SimpleInput.GetButtonDown("Bump Kart")) {
+        if (SimpleInput.GetButtonDown("Bump Kart") && !pressed) {
+            pressed = true;
             if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode)) {
-                raceModePress();
+                StartCoroutine(raceModePress());
             } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder)) {
-                trackBuilderPress();
+                StartCoroutine(trackBuilderPress());
             } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun)) {
                 deathRunPress();
             } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground)) {
                 playgroundPress();
             } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun)) {
-                spudRunPress();
+                StartCoroutine(spudRunPress());
             } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings)) {
                 settingsPress();
             } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit)) {
@@ -134,14 +144,18 @@ public class MainMenuFunctionality : MonoBehaviour {
         }
     }
 
-    private void raceModePress() {
+    private IEnumerator raceModePress() {
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
         sceneGenerator.LevelName = null;
         GoToNextMenu();
     }
 
-    private void trackBuilderPress() {
+    private IEnumerator trackBuilderPress() {
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "TrackBuilder";
         sceneGenerator.SceneName = "TrackBuilderScene";
         sceneGenerator.LevelName = null;
@@ -156,7 +170,9 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     }
 
-    private void spudRunPress() {
+    private IEnumerator spudRunPress() {
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "SpudRun";
         sceneGenerator.SceneName = "SpudRunScene";
         sceneGenerator.LevelName = null;
@@ -216,6 +232,13 @@ public class MainMenuFunctionality : MonoBehaviour {
         }
 
         buttons[currentButtonX, currentButtonY].color = highlight;
+    }
+
+    private void PlaySound()
+    {
+        source.clip = transition;
+        source.loop = false;
+        source.Play();
     }
 
 }
