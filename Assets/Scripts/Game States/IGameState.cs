@@ -13,4 +13,6 @@ public interface IGameState {
     void ResetKart();
 
     string GetGameStateName();
+
+    void OnCollisionEnter(GameObject other);
 }

@@ -9,6 +9,8 @@ public class SpudScript : MonoBehaviour {
     private GameObject holder;
     private float invulnTimer;
 
+    private const float SPUD_MAX_TIME = 60f;
+
     public float TimeRemaining { get { return timer; } set { timer = value; } }
     public bool IsTagged { get { return tagged; } set { tagged = value; } }
     public GameObject SpudHolder { get { return holder; } set { holder = value; } }
@@ -18,6 +20,9 @@ public class SpudScript : MonoBehaviour {
 
     private Vector3 spawnPos;
     private Quaternion spawnRot;
+    public bool RoundOver { get; set; }
+    private int roundCount;
+    public int RoundCount { get; }
 
     public bool CanIGrab()
     {
@@ -31,18 +36,38 @@ public class SpudScript : MonoBehaviour {
 	void Start () {
         spawnPos = gameObject.transform.position;
         spawnRot = gameObject.transform.rotation;
-        timer = 60.0f;
+        timer = SPUD_MAX_TIME;
         tagged = false;
         gameOver = false;
+        RoundOver = false;
         invulnTimer = 0.0f;
+        roundCount = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (gameOver)
-        {
-            EndRound();
+
+        if (timer <= 0) {
+            RoundOver = true;
         }
+        if (RoundOver)
+        {
+
+            
+            if (roundCount < 3)
+            {
+                ResetRound();
+                roundCount++;
+                Debug.Log(roundCount);
+            }
+            else {
+                gameOver = true;
+                EndRound();
+            }
+            
+        }
+
+
 		if (tagged)
         {
             invulnTimer = 0.0f;
@@ -58,8 +83,8 @@ public class SpudScript : MonoBehaviour {
 
     void ResetRound()
     {
-        gameOver = false;
-        timer = 60.0f;
+        RoundOver = false;
+        timer = SPUD_MAX_TIME;
         if (tagged)
         {
             tagged = false;

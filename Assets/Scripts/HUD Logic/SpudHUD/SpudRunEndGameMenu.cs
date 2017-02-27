@@ -43,15 +43,15 @@ public class SpudRunEndGameMenu : MonoBehaviour
         {
             LoadPlayers();
         }
-        else if (potato.GetComponent<SpudScript>().TimeRemaining <= 0)
+        else if (potato.GetComponent<SpudScript>().GameOver)
         {
-            raceOver = true;
-            canvas.enabled = true;
-            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                playerTexts[i].text = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore.ToString("F2");
-            }
+                canvas.enabled = true;
+                EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    playerTexts[i].text = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore.ToString("F2");
+                }
+          
         }
 
     }

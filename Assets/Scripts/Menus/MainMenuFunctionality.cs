@@ -3,7 +3,16 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class MainMenuFunctionality : MonoBehaviour {
+public class MainMenuFunctionality : MonoBehaviour
+{
+
+    public GameObject waypointAI;
+
+    public Image img;
+    private float alpha;
+    private float fadeSpeed = .5f;
+    private bool FadeInBool;
+    private bool FadeOutBool;
 
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
     private AudioClip transition;
@@ -39,7 +48,16 @@ public class MainMenuFunctionality : MonoBehaviour {
     private Text[] quitButtons;
     private int exitIndex;
 
-    void Start() {
+    void Start()
+    {
+
+        Color col = img.color;
+        col.a = 255;
+        img.color = col;
+        alpha = 1.0f;
+        FadeInBool = true;
+        FadeOutBool = false;
+
         pressed = false;
         transition = (AudioClip)Resources.Load(TRANSITION);
         source = GameObject.Find("Sound").GetComponent<AudioSource>();
@@ -74,77 +92,123 @@ public class MainMenuFunctionality : MonoBehaviour {
         axisEnabled = true;
     }
 
-    void Update() {
-        if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0) {
+    void Update()
+    {
+        if (FadeInBool)
+        {
+            FadeIn();
+        }
+        if (FadeOutBool)
+        {
+            FadeOut();
+        }
+        if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
+        {
             axisEnabled = true;
         }
 
-        if (!quitMenu.enabled) {
+        if (!quitMenu.enabled)
+        {
             scrollMenu();
             buttonPress();
-        } else {
+        }
+        else
+        {
             quitScroll();
             quitButtonPress();
         }
 
     }
 
-    private void scrollMenu() {
-        if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse")) {
+    private void scrollMenu()
+    {
+        if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+        {
             axisEnabled = false;
             currentButtonX++;
-            if (currentButtonX >= BUTTONSHEIGHT) {
+            if (currentButtonX >= BUTTONSHEIGHT)
+            {
                 currentButtonX = 0;
             }
             colorSelectedButton();
-        } else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate")) {
+        }
+        else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+        {
             axisEnabled = false;
             currentButtonX--;
-            if (currentButtonX < 0) {
+            if (currentButtonX < 0)
+            {
                 currentButtonX = BUTTONSHEIGHT - 1;
             }
             colorSelectedButton();
-        } else if ((SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled)) {
+        }
+        else if ((SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled))
+        {
             axisEnabled = false;
             currentButtonY++;
-            if (currentButtonY >= BUTTONSWIDTH) {
+            if (currentButtonY >= BUTTONSWIDTH)
+            {
                 currentButtonY = 0;
             }
             colorSelectedButton();
-        } else if ((SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled)) {
+        }
+        else if ((SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled))
+        {
             axisEnabled = false;
             currentButtonY--;
-            if (currentButtonY < 0) {
+            if (currentButtonY < 0)
+            {
                 currentButtonY = BUTTONSWIDTH - 1;
             }
             colorSelectedButton();
         }
     }
 
-    private void buttonPress() {
-        if (SimpleInput.GetButtonDown("Bump Kart") && !pressed) {
+    private void buttonPress()
+    {
+        if (SimpleInput.GetButtonDown("Bump Kart") && !pressed)
+        {
             pressed = true;
-            if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode)) {
+            FadeOutBool = true;
+            FadeInBool = false;
+            fadeSpeed = .9f;
+            if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode))
+            {
                 StartCoroutine(raceModePress());
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder))
+            {
                 StartCoroutine(trackBuilderPress());
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun))
+            {
                 deathRunPress();
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground))
+            {
                 playgroundPress();
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun))
+            {
                 StartCoroutine(spudRunPress());
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings))
+            {
                 settingsPress();
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit))
+            {
                 exitPress();
-            } else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit)) {
+            }
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit))
+            {
                 exitPress();
             }
         }
     }
 
-    private IEnumerator raceModePress() {
+    private IEnumerator raceModePress()
+    {
         PlaySound();
         yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "RaceMode";
@@ -153,7 +217,8 @@ public class MainMenuFunctionality : MonoBehaviour {
         GoToNextMenu();
     }
 
-    private IEnumerator trackBuilderPress() {
+    private IEnumerator trackBuilderPress()
+    {
         PlaySound();
         yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "TrackBuilder";
@@ -162,15 +227,18 @@ public class MainMenuFunctionality : MonoBehaviour {
         GoToNextMenu();
     }
 
-    private void deathRunPress() {
+    private void deathRunPress()
+    {
 
     }
 
-    private void playgroundPress() {
+    private void playgroundPress()
+    {
 
     }
 
-    private IEnumerator spudRunPress() {
+    private IEnumerator spudRunPress()
+    {
         PlaySound();
         yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "SpudRun";
@@ -179,16 +247,20 @@ public class MainMenuFunctionality : MonoBehaviour {
         GoToNextMenu();
     }
 
-    private void settingsPress() {
+    private void settingsPress()
+    {
 
     }
 
-    private void exitPress() {
+    private void exitPress()
+    {
         quitMenu.enabled = true;
     }
 
-    private void quitScroll() {
-        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled) {
+    private void quitScroll()
+    {
+        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
+        {
             axisEnabled = false;
             exitIndex++;
             exitIndex %= 2;
@@ -198,21 +270,28 @@ public class MainMenuFunctionality : MonoBehaviour {
         }
     }
 
-    private void quitButtonPress() {
-        if (SimpleInput.GetButtonDown("Bump Kart")) {
-            if (ReferenceEquals(quitButtons[exitIndex], noExit)) {
+    private void quitButtonPress()
+    {
+        if (SimpleInput.GetButtonDown("Bump Kart"))
+        {
+            if (ReferenceEquals(quitButtons[exitIndex], noExit))
+            {
                 noQuitPress();
-            } else if (ReferenceEquals(quitButtons[exitIndex], yesExit)) {
+            }
+            else if (ReferenceEquals(quitButtons[exitIndex], yesExit))
+            {
                 yesQuitPress();
             }
         }
     }
 
-    private void noQuitPress() {
+    private void noQuitPress()
+    {
         quitMenu.enabled = false;
     }
 
-    private void yesQuitPress() {
+    private void yesQuitPress()
+    {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -220,13 +299,17 @@ public class MainMenuFunctionality : MonoBehaviour {
 #endif
     }
 
-    private void GoToNextMenu() {
+    private void GoToNextMenu()
+    {
         SceneManager.LoadScene("LevelSelectionMenu");
     }
 
-    private void colorSelectedButton() {
-        for (int i = 0; i < BUTTONSHEIGHT; i++) {
-            for (int j = 0; j < BUTTONSWIDTH; j++) {
+    private void colorSelectedButton()
+    {
+        for (int i = 0; i < BUTTONSHEIGHT; i++)
+        {
+            for (int j = 0; j < BUTTONSWIDTH; j++)
+            {
                 buttons[i, j].color = Color.white;
             }
         }
@@ -239,6 +322,32 @@ public class MainMenuFunctionality : MonoBehaviour {
         source.clip = transition;
         source.loop = false;
         source.Play();
+    }
+
+    private void FadeIn()
+    {
+        alpha -= fadeSpeed * Time.deltaTime;
+        alpha = Mathf.Clamp01(alpha);
+        Color col = img.color;
+        col.a = alpha;
+        img.color = col;
+        if (alpha == 0)
+        {
+            FadeInBool = false;
+        }
+    }
+
+    private void FadeOut()
+    {
+        alpha += fadeSpeed * Time.deltaTime;
+        alpha = Mathf.Clamp01(alpha);
+        Color col = img.color;
+        col.a = alpha;
+        img.color = col;
+        if (alpha == 1)
+        {
+            FadeOutBool = false;
+        }
     }
 
 }

@@ -29,6 +29,7 @@ public class Kart : MonoBehaviour
     public float Boost { get { return boost; } set { boost = value; } }
 
     private KartPhysics physics;
+    public KartPhysics PhysicsObject { get { return physics; } }
     private float turnPower;
     private float angle = 0.0f;
     private float maxSpeed;
@@ -154,7 +155,7 @@ public class Kart : MonoBehaviour
 
             if (!IsOnTrack() && IsRacingGameState)
             {
-                physics.ApplyCarpetFriction();
+                physics.MaxSpeed = 175;
             }
             else
             {
@@ -243,13 +244,8 @@ public class Kart : MonoBehaviour
             }
         }
 
-        if (other.gameObject.CompareTag("Player") && !IsRacingGameState) {
-            if (((SpudRunGameState)other.gameObject.GetComponent<Kart>().GameState).HoldingPotato){
-                ((SpudRunGameState)other.gameObject.GetComponent<Kart>().GameState).HoldingPotato = false;
-                GameObject.Find("Potato").GetComponent<SpudScript>().SpudHolder = null;
-                GameObject.Find("Potato").GetComponent<SpudScript>().IsTagged = false;
-            }
-        }
+        gameState.OnCollisionEnter(other.gameObject);
+        
     }
 
     void OnTriggerStay(Collider other)
@@ -268,9 +264,9 @@ public class Kart : MonoBehaviour
         }
     }
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
-        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 5);
+        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 10);
     }
 
     bool IsOnTrack()
