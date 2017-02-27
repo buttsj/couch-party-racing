@@ -20,6 +20,7 @@ public class SpudRunGameState : IGameState {
     public void NonDamagedUpdate() {
         if (HoldingPotato) {
             SpudScore += Time.deltaTime;
+            player.GetComponent<Kart>().PhysicsObject.MaxSpeed = 200f;
         }
     }
 

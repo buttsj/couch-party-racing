@@ -64,9 +64,7 @@ public class KartPhysics {
         body.AddRelativeForce(0, 1000, 0);
     }
 
-    public void ApplyCarpetFriction() {
-        maxSpeed = 175;
-    }
+
     public void Spin()
     {
         kart.transform.Rotate(Vector3.up, 20.0f);

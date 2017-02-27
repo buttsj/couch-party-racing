@@ -29,6 +29,7 @@ public class Kart : MonoBehaviour
     public float Boost { get { return boost; } set { boost = value; } }
 
     private KartPhysics physics;
+    public KartPhysics PhysicsObject { get { return physics; } }
     private float turnPower;
     private float angle = 0.0f;
     private float maxSpeed;
@@ -147,7 +148,7 @@ public class Kart : MonoBehaviour
 
             if (!IsOnTrack() && IsRacingGameState)
             {
-                physics.ApplyCarpetFriction();
+                physics.MaxSpeed = 175;
             }
             else
             {
