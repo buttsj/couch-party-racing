@@ -64,7 +64,6 @@ public class FourPlayerSpudHUD : MonoBehaviour
             secondsRemain = 0.0f;
             minutesRemain = 0;
             potato.gameObject.GetComponent<SpudScript>().TimeRemaining = 0.0f;
-            potato.gameObject.GetComponent<SpudScript>().GameOver = true;
         }
         secondsRemain = potato.gameObject.GetComponent<SpudScript>().TimeRemaining;
         if (secondsRemain < 10)
