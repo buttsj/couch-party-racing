@@ -76,6 +76,16 @@ public class SceneGenerator : MonoBehaviour {
                 icon.GetComponent<MinimapFollowObject>().followObj = kartList[i].transform;
                 icon.GetComponent<Renderer>().material.color = kartColorList[i];
             }
+
+            switch (SimpleInput.NumberOfPlayers) {
+                case 3:
+                    minimap.GetComponent<Camera>().rect = new Rect(0.785f, 0.03f, .2f, .26f);
+                    break;
+                case 4:
+                    minimap.GetComponent<Camera>().rect = new Rect(.3f, 0.4f, .2f, .26f);
+                    break;
+            }
+
         }
     }
 
