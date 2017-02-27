@@ -6,10 +6,41 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
+    private int player1Color;
+    private int player2Color;
+    private int player3Color;
+    private int player4Color;
+
+    public Text player1ColorText;
+    public Text player2ColorText;
+    public Text player3ColorText;
+    public Text player4ColorText;
+
+    private const string COLOR = "Color: ";
+
+    private List<string> kartColorName = new List<string>
+    {
+        "Blue",
+        "Gray",
+        "Red",
+        "Magenta",
+        "Green",
+        "Yellow"
+    };
+
+    private List<Color> kartColorList = new List<Color> {
+        Color.blue,
+        Color.gray,
+        Color.red,
+        Color.magenta,
+        Color.green,
+        Color.yellow
+    };
+
     public Image img;
     public Text loading;
     private float alpha;
-    private float fadeSpeed = 1f;
+    private float fadeSpeed = 1.5f;
     private bool FadeOutBool;
 
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
@@ -31,9 +62,26 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     private string gamemodeName;
 
     void Start() {
-        Color col = img.color;
-        col.a = 0;
-        img.color = col;
+
+        player1Color = 0;
+        player1ColorText.text = COLOR + kartColorName[player1Color];
+        player1ColorText.color = kartColorList[player1Color];
+
+        player2Color = 1;
+        player2ColorText.text = COLOR + kartColorName[player2Color];
+        player2ColorText.color = kartColorList[player2Color];
+
+        player3Color = 2;
+        player3ColorText.text = COLOR + kartColorName[player3Color];
+        player3ColorText.color = kartColorList[player3Color];
+
+        player4Color = 3;
+        player4ColorText.text = COLOR + kartColorName[player4Color];
+        player4ColorText.color = kartColorList[player4Color];
+
+        Color fadeCol = img.color;
+        fadeCol.a = 0;
+        img.color = fadeCol;
         alpha = 0.0f;
         FadeOutBool = false;
 
