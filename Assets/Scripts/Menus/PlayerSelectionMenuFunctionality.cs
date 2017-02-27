@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
+    public Image img;
+    public Text loading;
+    private float alpha;
+    private float fadeSpeed = 1f;
+    private bool FadeOutBool;
+
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
     private AudioClip transition;
     private AudioSource source;
@@ -25,6 +31,12 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     private string gamemodeName;
 
     void Start() {
+        Color col = img.color;
+        col.a = 0;
+        img.color = col;
+        alpha = 0.0f;
+        FadeOutBool = false;
+
         pressed = false;
         transition = (AudioClip)Resources.Load(TRANSITION);
         source = GameObject.Find("Sound").GetComponent<AudioSource>();
@@ -43,6 +55,10 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     void Update() {
+        if (FadeOutBool)
+        {
+            FadeOut();
+        }
         if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY) && !pressed) {
             StartCoroutine(LoadScene());
         } else {
@@ -52,6 +68,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     private IEnumerator LoadScene() {
         // Configure Controls (Player Testing Order Matters)
+        pressed = true;
+        FadeOutBool = true;
         pressed = true;
         PlaySound();
         yield return new WaitWhile(() => source.isPlaying);
@@ -133,6 +151,21 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         source.clip = transition;
         source.loop = false;
         source.Play();
+    }
+
+
+    private void FadeOut()
+    {
+        alpha += fadeSpeed * Time.deltaTime;
+        alpha = Mathf.Clamp01(alpha);
+        Color col = img.color;
+        col.a = alpha;
+        img.color = col;
+        if (alpha == 1)
+        {
+            loading.enabled = true;
+            FadeOutBool = false;
+        }
     }
 
 }
