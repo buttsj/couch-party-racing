@@ -6,10 +6,41 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
+    private int player1Color;
+    private int player2Color;
+    private int player3Color;
+    private int player4Color;
+
+    public Text player1ColorText;
+    public Text player2ColorText;
+    public Text player3ColorText;
+    public Text player4ColorText;
+
+    private const string COLOR = "Color: ";
+
+    private List<string> kartColorName = new List<string>
+    {
+        "Blue",
+        "Gray",
+        "Red",
+        "Magenta",
+        "Green",
+        "Yellow"
+    };
+
+    private List<Color> kartColorList = new List<Color> {
+        Color.blue,
+        Color.gray,
+        Color.red,
+        Color.magenta,
+        Color.green,
+        Color.yellow
+    };
+
     public Image img;
     public Text loading;
     private float alpha;
-    private float fadeSpeed = 1f;
+    private float fadeSpeed = 1.5f;
     private bool FadeOutBool;
 
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
@@ -31,9 +62,26 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     private string gamemodeName;
 
     void Start() {
-        Color col = img.color;
-        col.a = 0;
-        img.color = col;
+
+        player1Color = 0;
+        player1ColorText.text = COLOR + kartColorName[player1Color];
+        player1ColorText.color = kartColorList[player1Color];
+
+        player2Color = 1;
+        player2ColorText.text = COLOR + kartColorName[player2Color];
+        player2ColorText.color = kartColorList[player2Color];
+
+        player3Color = 2;
+        player3ColorText.text = COLOR + kartColorName[player3Color];
+        player3ColorText.color = kartColorList[player3Color];
+
+        player4Color = 3;
+        player4ColorText.text = COLOR + kartColorName[player4Color];
+        player4ColorText.color = kartColorList[player4Color];
+
+        Color fadeCol = img.color;
+        fadeCol.a = 0;
+        img.color = fadeCol;
         alpha = 0.0f;
         FadeOutBool = false;
 
@@ -55,6 +103,18 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     void Update() {
+        player1ColorText.text = COLOR + kartColorName[player1Color];
+        player1ColorText.color = kartColorList[player1Color];
+        
+        player2ColorText.text = COLOR + kartColorName[player2Color];
+        player2ColorText.color = kartColorList[player2Color];
+        
+        player3ColorText.text = COLOR + kartColorName[player3Color];
+        player3ColorText.color = kartColorList[player3Color];
+        
+        player4ColorText.text = COLOR + kartColorName[player4Color];
+        player4ColorText.color = kartColorList[player4Color];
+
         if (FadeOutBool)
         {
             FadeOut();
@@ -63,6 +123,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             StartCoroutine(LoadScene());
         } else {
             checkForReadyPlayers();
+            checkForChangeColor();
         }
     }
 
@@ -91,7 +152,10 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
         }
-
+        sceneGenerator.KartColorizer = kartColorList[player1Color];
+        sceneGenerator.KartColorizer = kartColorList[player2Color];
+        sceneGenerator.KartColorizer = kartColorList[player3Color];
+        sceneGenerator.KartColorizer = kartColorList[player4Color];
         sceneGenerator.LoadScene();
     }
 
@@ -120,6 +184,55 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY)) {
             player4ReadyText.text = READY;
         } else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY)) {
+            player4ReadyText.text = UNREADY;
+        }
+    }
+
+    private void checkForChangeColor()
+    {
+
+        if (SimpleInput.GetButtonDown("Bump Kart", 1))
+        {
+            player1Color += 1;
+            if (player1Color >= kartColorList.Count)
+                player1Color = 0;
+        }
+
+        if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY))
+        {
+            player1ReadyText.text = READY;
+            startToContinueText.text = "Press Start to Continue!";
+        }
+        else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
+        {
+            player1ReadyText.text = UNREADY;
+            startToContinueText.text = "";
+        }
+
+        if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY))
+        {
+            player2ReadyText.text = READY;
+        }
+        else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == READY))
+        {
+            player2ReadyText.text = UNREADY;
+        }
+
+        if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == UNREADY))
+        {
+            player3ReadyText.text = READY;
+        }
+        else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == READY))
+        {
+            player3ReadyText.text = UNREADY;
+        }
+
+        if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY))
+        {
+            player4ReadyText.text = READY;
+        }
+        else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY))
+        {
             player4ReadyText.text = UNREADY;
         }
     }
