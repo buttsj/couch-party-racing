@@ -6,6 +6,8 @@ public class Marble : IKartAbility
     private GameObject owner;
     private KartAudio ownerAudio;
 
+    private AudioClip marbleUse;
+    
     private bool destroy;
     private bool used;
 
@@ -13,6 +15,8 @@ public class Marble : IKartAbility
     {
         owner = incomingOwner;
         ownerAudio = audio;
+
+        marbleUse = Resources.Load<AudioClip>("Sounds/KartEffects/marbleLaunch");
 
         destroy = false;
         used = false;
@@ -27,6 +31,7 @@ public class Marble : IKartAbility
             used = true;
             destroy = true;
             initMarble();
+            ownerAudio.playOneOff(marbleUse);
         }
     }
 
@@ -59,5 +64,7 @@ public class Marble : IKartAbility
 
         marble.AddComponent<MarbleManager>();
         marble.GetComponent<MarbleManager>().Owner = owner;
+
+        marble.AddComponent<AudioSource>();
     }
 }
