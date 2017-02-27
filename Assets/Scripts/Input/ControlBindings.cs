@@ -7,16 +7,19 @@ public class ControlBindings {
 
     // Dictionary of all actions, initially all mapped to null
     private Dictionary<string, IControl> bindings = new Dictionary<string, IControl> {
-        { "Horizontal",     NULL_CONTROL },
-        { "Vertical",       NULL_CONTROL },
-        { "Accelerate",     NULL_CONTROL },
-        { "Reverse",        NULL_CONTROL },
-        { "Use PowerUp",    NULL_CONTROL },
-        { "Reset Rotation", NULL_CONTROL },
-        { "Pause",          NULL_CONTROL },
-        { "Bump Kart",      NULL_CONTROL },
-        { "Boost",          NULL_CONTROL },
-        { "Cancel",         NULL_CONTROL }
+        { "Horizontal",         NULL_CONTROL },
+        { "Vertical",           NULL_CONTROL },
+        { "Accelerate",         NULL_CONTROL },
+        { "Reverse",            NULL_CONTROL },
+        { "Use PowerUp",        NULL_CONTROL },
+        { "Reset Rotation",     NULL_CONTROL },
+        { "Pause",              NULL_CONTROL },
+        { "Bump Kart",          NULL_CONTROL },
+        { "Boost",              NULL_CONTROL },
+        { "Cancel",             NULL_CONTROL },
+        { "Rotate",             NULL_CONTROL },
+        { "Next Track",         NULL_CONTROL },
+        { "Previous Track",     NULL_CONTROL }
     };
 
     private int joystickNumber;
@@ -55,6 +58,9 @@ public class ControlBindings {
             bindings["Bump Kart"] = new KeyboardControl(KeyCode.Space);
             bindings["Boost"] = new KeyboardControl(KeyCode.LeftShift);
             bindings["Cancel"] = new KeyboardControl(KeyCode.Escape);
+            bindings["Rotate"] = new KeyboardControl(KeyCode.R);
+            bindings["Next Track"] = new KeyboardControl(KeyCode.RightArrow);
+            bindings["Previous Track"] = new KeyboardControl(KeyCode.LeftArrow);
 
             return bindings;
         }
@@ -77,7 +83,7 @@ public class ControlBindings {
         }
     }
 
-    public Dictionary<string, IControl> Ps4 {
+    public Dictionary<string, IControl> Playstation4 {
         get {
             bindings["Horizontal"] = new JoystickControl(PS4.LStickX, joystickNumber);
             bindings["Vertical"] = new JoystickControl(PS4.LStickY, joystickNumber);

@@ -29,6 +29,8 @@ public class ControlScheme {
             bindings = new ControlBindings().Keyboard1;
         } else if (deviceName == "Keyboard2") {
             bindings = new ControlBindings().Keyboard2;
+        } else if (deviceName == "Playstation4") {
+            bindings = new ControlBindings().Playstation4;
         }
     }
 
