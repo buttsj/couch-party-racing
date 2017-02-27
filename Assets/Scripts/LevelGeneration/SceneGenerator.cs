@@ -84,7 +84,6 @@ public class SceneGenerator : MonoBehaviour {
 
         kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngel));
         kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
-        //kartList[kartNumber].transform.FindChild("MinimapColor").GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
 
     /*private Vector3 KartStartPos(int kartNumber) {

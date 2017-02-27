@@ -1,8 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
-public class MainMenuFunctionality : MonoBehaviour {
+public class MainMenuFunctionality : MonoBehaviour
+{
+
+    public Image img;
+    private float alpha;
+    private float fadeSpeed = .5f;
+    private bool FadeInBool;
+    private bool FadeOutBool;
+
+    private const string TRANSITION = "Sounds/KartEffects/screen_transition";
+    private AudioClip transition;
+    private AudioSource source;
+    private bool pressed;
 
     private const int BUTTONSWIDTH = 2;
     private const int BUTTONSHEIGHT = 4;
@@ -35,6 +48,16 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     void Start()
     {
+        Color col = img.color;
+        col.a = 255;
+        img.color = col;
+        alpha = 1.0f;
+        FadeInBool = true;
+        FadeOutBool = false;
+
+        pressed = false;
+        transition = (AudioClip)Resources.Load(TRANSITION);
+        source = GameObject.Find("Sound").GetComponent<AudioSource>();
 
         highlight = new Color(255, 255, 0);
 
@@ -68,6 +91,14 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     void Update()
     {
+        if (FadeInBool)
+        {
+            FadeIn();
+        }
+        if (FadeOutBool)
+        {
+            FadeOut();
+        }
         if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
@@ -132,15 +163,19 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     private void buttonPress()
     {
-        if (SimpleInput.GetButtonDown("Bump Kart"))
+        if (SimpleInput.GetButtonDown("Bump Kart") && !pressed)
         {
+            pressed = true;
+            FadeOutBool = true;
+            FadeInBool = false;
+            fadeSpeed = .9f;
             if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode))
             {
-                raceModePress();
+                StartCoroutine(raceModePress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder))
             {
-                trackBuilderPress();
+                StartCoroutine(trackBuilderPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun))
             {
@@ -152,7 +187,7 @@ public class MainMenuFunctionality : MonoBehaviour {
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun))
             {
-                spudRunPress();
+                StartCoroutine(spudRunPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings))
             {
@@ -169,17 +204,24 @@ public class MainMenuFunctionality : MonoBehaviour {
         }
     }
 
-    private void raceModePress()
+    private IEnumerator raceModePress()
     {
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
         sceneGenerator.LevelName = null;
         GoToNextMenu();
     }
 
-    private void trackBuilderPress()
+    private IEnumerator trackBuilderPress()
     {
-
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
+        sceneGenerator.GamemodeName = "TrackBuilder";
+        sceneGenerator.SceneName = "TrackBuilderScene";
+        sceneGenerator.LevelName = null;
+        GoToNextMenu();
     }
 
     private void deathRunPress()
@@ -192,8 +234,10 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     }
 
-    private void spudRunPress()
+    private IEnumerator spudRunPress()
     {
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "SpudRun";
         sceneGenerator.SceneName = "SpudRunScene";
         sceneGenerator.LevelName = null;
@@ -212,7 +256,7 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     private void quitScroll()
     {
-        if(SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
+        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
         {
             axisEnabled = false;
             exitIndex++;
@@ -245,7 +289,11 @@ public class MainMenuFunctionality : MonoBehaviour {
 
     private void yesQuitPress()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
     private void GoToNextMenu()
@@ -257,13 +305,46 @@ public class MainMenuFunctionality : MonoBehaviour {
     {
         for (int i = 0; i < BUTTONSHEIGHT; i++)
         {
-            for(int j = 0; j < BUTTONSWIDTH; j++)
+            for (int j = 0; j < BUTTONSWIDTH; j++)
             {
                 buttons[i, j].color = Color.white;
             }
         }
 
         buttons[currentButtonX, currentButtonY].color = highlight;
+    }
+
+    private void PlaySound()
+    {
+        source.clip = transition;
+        source.loop = false;
+        source.Play();
+    }
+
+    private void FadeIn()
+    {
+        alpha -= fadeSpeed * Time.deltaTime;
+        alpha = Mathf.Clamp01(alpha);
+        Color col = img.color;
+        col.a = alpha;
+        img.color = col;
+        if (alpha == 0)
+        {
+            FadeInBool = false;
+        }
+    }
+
+    private void FadeOut()
+    {
+        alpha += fadeSpeed * Time.deltaTime;
+        alpha = Mathf.Clamp01(alpha);
+        Color col = img.color;
+        col.a = alpha;
+        img.color = col;
+        if (alpha == 1)
+        {
+            FadeOutBool = false;
+        }
     }
 
 }
