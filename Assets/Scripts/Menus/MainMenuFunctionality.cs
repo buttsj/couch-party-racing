@@ -6,6 +6,8 @@ using System.Collections;
 public class MainMenuFunctionality : MonoBehaviour
 {
 
+    public GameObject waypointAI;
+
     public Image img;
     private float alpha;
     private float fadeSpeed = .5f;
@@ -48,6 +50,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
     void Start()
     {
+
         Color col = img.color;
         col.a = 255;
         img.color = col;
