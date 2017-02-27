@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
+    private const string TRANSITION = "Sounds/KartEffects/screen_transition";
+    private AudioClip transition;
+    private AudioSource source;
+    private bool pressed;
+
     public const string READY = "Ready to Play!";
     public const string UNREADY = "Press Any Button";
 
@@ -20,6 +25,10 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     private string gamemodeName;
 
     void Start() {
+        pressed = false;
+        transition = (AudioClip)Resources.Load(TRANSITION);
+        source = GameObject.Find("Sound").GetComponent<AudioSource>();
+
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
         gamemodeName = sceneGenerator.GamemodeName;
 
@@ -34,15 +43,19 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     void Update() {
-        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
-            LoadScene();
+        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY) && !pressed) {
+            StartCoroutine(LoadScene());
         } else {
             checkForReadyPlayers();
         }
     }
 
-    private void LoadScene() {
+    private IEnumerator LoadScene() {
         // Configure Controls (Player Testing Order Matters)
+        pressed = true;
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
+
         SimpleInput.ClearCurrentPlayerDevices();
 
         if (player1ReadyText.text == READY) {
@@ -113,6 +126,13 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         }
 
         return count;
+    }
+
+    private void PlaySound()
+    {
+        source.clip = transition;
+        source.loop = false;
+        source.Play();
     }
 
 }
