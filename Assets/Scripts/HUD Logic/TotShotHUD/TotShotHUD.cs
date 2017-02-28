@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SinglePlayerTotShotHUD : MonoBehaviour
+public class TotShotHUD : MonoBehaviour
 {
-
-    private float boost;
-    public GameObject kart;
     private List<GameObject> aiList;
-    public Text boostText;
-    public Text redScore;
-    public Text blueScore;
+    public Text redScoreText;
+    public Text blueScoreText;
+    public int redScoreInt;
+    public int blueScoreInt;
     public Text time;
     List<float> seconds;
     List<int> minutes;
 
+    public int RedScore { get { return redScoreInt; } set { redScoreInt = value; } }
+    public int BlueScore { get { return blueScoreInt; } set { blueScoreInt = value; } }
+
     // Use this for initialization
     void Start()
     {
+        redScoreInt = 0;
+        blueScoreInt = 0;
         aiList = new List<GameObject>();
         seconds = new List<float>();
         minutes = new List<int>();
@@ -38,7 +41,7 @@ public class SinglePlayerTotShotHUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        boost = kart.GetComponent<Kart>().Boost;
-        boostText.text = ((int)boost).ToString();
+        redScoreText.text = redScoreInt.ToString();
+        blueScoreText.text = blueScoreInt.ToString();
     }
 }

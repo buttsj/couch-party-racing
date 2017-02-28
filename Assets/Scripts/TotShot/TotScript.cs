@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TotScript : MonoBehaviour {
 
     public GameObject tot;
     public ParticleSystem explosion;
+    public GameObject HUD;
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +27,19 @@ public class TotScript : MonoBehaviour {
         {
             explosion.Play();
             tot.SetActive(false);
+            int rScore = HUD.GetComponent<TotShotHUD>().RedScore;
+            rScore += 1;
+            HUD.GetComponent<TotShotHUD>().RedScore = rScore;
+            //reset ball, players, countdown timer
         }
         else if (tot.transform.position.z <= -153)
         {
             explosion.Play();
             tot.SetActive(false);
+            int bScore = HUD.GetComponent<TotShotHUD>().BlueScore;
+            bScore += 1;
+            HUD.GetComponent<TotShotHUD>().BlueScore = bScore;
+            //reset ball, players, countdown timer
         }
     }
 
