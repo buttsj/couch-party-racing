@@ -2,6 +2,7 @@
 
 public class KartAudio {
     private const string SPINOUT = "Sounds/KartEffects/cpuspin";
+    private const string APPLAUSE = "Sounds/KartEffects/Applause_Sound";
 
     private AudioSource engineAudioSource;
     private AudioSource oneOffAudioSource;
@@ -12,6 +13,9 @@ public class KartAudio {
 
     private AudioClip spinout;
     private bool spinOutPlayed;
+
+    private AudioClip applause;
+    private bool applausePlayed;
 
     public bool SpinOutPlayed { set { spinOutPlayed = value; } }
 
@@ -26,6 +30,9 @@ public class KartAudio {
 
         spinout = (AudioClip)Resources.Load(SPINOUT);
         spinOutPlayed = false;
+
+        applause = (AudioClip)Resources.Load(APPLAUSE);
+        applausePlayed = false;
     }
 
     public void handleAccelerationGearingSounds(bool isBoosting)
@@ -81,6 +88,15 @@ public class KartAudio {
         {
             oneOffAudioSource.PlayOneShot(spinout, 1.0f);
             spinOutPlayed = true;
+        }
+    }
+
+    public void applauseSound()
+    {
+        if (!applausePlayed)
+        {
+            oneOffAudioSource.PlayOneShot(applause, 1.0f);
+            applausePlayed = true;
         }
     }
 

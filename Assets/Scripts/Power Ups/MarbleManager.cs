@@ -40,7 +40,7 @@ public class MarbleManager : MonoBehaviour {
             {
                 Vector3 heading = targets[i].transform.position - transform.position;
                 float dot = Vector3.Dot(heading, transform.forward);
-                if(Vector3.Distance(targets[i].transform.position, gameObject.transform.position) < 100.0f && !ReferenceEquals(targets[i], owner) && dot > 0)
+                if(Vector3.Distance(targets[i].transform.position, gameObject.transform.position) < 150.0f && !ReferenceEquals(targets[i], owner) && dot > 0)
                 {
                     targetIndex = i;
                 }
