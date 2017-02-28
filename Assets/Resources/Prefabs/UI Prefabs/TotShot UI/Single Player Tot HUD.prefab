@@ -41,8 +41,8 @@ GameObject:
   - component: {fileID: 223697319222695802}
   - component: {fileID: 114198971859388668}
   - component: {fileID: 114263836034703082}
-  - component: {fileID: 114626931869919324}
   - component: {fileID: 222421639126476504}
+  - component: {fileID: 114676073996587346}
   m_Layer: 5
   m_Name: Single Player Tot HUD
   m_TagString: Untagged
@@ -498,25 +498,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &114626931869919324
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1388585197091852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c852e95fdce9a5b47b670a3dfef1994a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kart: {fileID: 0}
-  spark: {fileID: 0}
-  oil: {fileID: 0}
-  boostImg: {fileID: 0}
-  boostText: {fileID: 114422836289208064}
-  lapText: {fileID: 0}
-  placeText: {fileID: 0}
-  checkpointText: {fileID: 0}
 --- !u!114 &114670988824924370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -531,6 +512,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &114676073996587346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388585197091852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f55d1cb11577de4fbfcb49f92d6b6ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kart: {fileID: 0}
+  boostText: {fileID: 114422836289208064}
+  redScore: {fileID: 114909959925719010}
+  blueScore: {fileID: 114531920188472392}
+  time: {fileID: 114551253844255588}
 --- !u!114 &114687286527693884
 MonoBehaviour:
   m_ObjectHideFlags: 1
