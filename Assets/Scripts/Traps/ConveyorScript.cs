@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ConveyorScript : MonoBehaviour {
 
@@ -16,8 +14,14 @@ public class ConveyorScript : MonoBehaviour {
 	void Update () {
         float offset = Time.time * scrollSpeed;
         if (direction)
+        {
             conveyor.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
+            conveyor.GetComponent<Renderer>().material.color = Color.red;
+        }
         else
+        {
             conveyor.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, -offset));
+            conveyor.GetComponent<Renderer>().material.color = Color.green;
+        }
     }
 }
