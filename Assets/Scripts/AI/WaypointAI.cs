@@ -179,10 +179,13 @@ public class WaypointAI : MonoBehaviour {
                 Destroy(other.gameObject);
             }
         }
-        if (other.gameObject.name.Contains("Marble") && damaged == false && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
+        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
         {
-            damaged = true;
-            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+            if (damaged == false)
+            {
+                damaged = true;
+                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+            }
             Destroy(other.gameObject);
         }
 
