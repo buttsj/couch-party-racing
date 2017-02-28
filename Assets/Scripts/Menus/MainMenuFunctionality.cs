@@ -194,7 +194,7 @@ public class MainMenuFunctionality : MonoBehaviour
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground))
             {
                 SetFadeOut();
-                playgroundPress();
+                StartCoroutine(playgroundPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun))
             {

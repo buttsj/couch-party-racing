@@ -99,7 +99,23 @@ public class PauseMenuFunctionality : MonoBehaviour {
                 buttonPress();
             }
         }
-	}
+        else if (gameStateName == "TotShotGameState")
+        {
+            if (GameObject.Find("ToShotEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
+            {
+                if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
+                {
+                    pauseMenu.enabled = true;
+                    Time.timeScale = 0;
+                    resumeText.color = highlight;
+                }
+
+                scrollMenu();
+
+                buttonPress();
+            }
+        }
+    }
 
     private void buttonPress()
     {

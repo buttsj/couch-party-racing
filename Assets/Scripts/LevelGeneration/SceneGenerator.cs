@@ -9,6 +9,7 @@ public class SceneGenerator : MonoBehaviour {
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
     private const string SPUD_HUD_PATH = "Prefabs/UI Prefabs/SpudRun UI/";
+    private const string TOT_HUD_PATH = "Prefabs/UI Prefabs/TotShot UI/";
     private const int CAMERA_FOLLOW_DISTANCE = 20;
     private const int MAX_PLAYERS = 4;
 
@@ -48,6 +49,9 @@ public class SceneGenerator : MonoBehaviour {
             GenerateRacingHUD(SimpleInput.NumberOfPlayers);
         } else if (GamemodeName == "SpudRun") {
             GenerateSpudRunHUD(SimpleInput.NumberOfPlayers);
+        } else if (GamemodeName == "TotShot")
+        {
+            GenerateTotShotHUD(SimpleInput.NumberOfPlayers);
         }
     }
 
@@ -156,6 +160,14 @@ public class SceneGenerator : MonoBehaviour {
             case "SpudRun":
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
                     kartList[i].GetComponent<Kart>().GameState = new SpudRunGameState(kartList[i]);
+                    kartList[i].GetComponent<Kart>().IsRacingGameState = false;
+
+                }
+                break;
+            case "TotShot":
+                for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
+                {
+                    kartList[i].GetComponent<Kart>().GameState = new TotShotGameState(kartList[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = false;
 
                 }
@@ -276,6 +288,14 @@ public class SceneGenerator : MonoBehaviour {
                 break;
         }
         Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+
+    }
+
+    private void GenerateTotShotHUD(int numberOfPlayers)
+    {
+        GameObject hud;
+        hud = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
 
     }

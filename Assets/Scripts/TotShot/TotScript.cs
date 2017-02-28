@@ -9,13 +9,14 @@ public class TotScript : MonoBehaviour {
     public ParticleSystem explosion;
     public GameObject HUD;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         explosion.Stop();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        HUD = GameObject.FindGameObjectWithTag("TotHUD");
+    }
+    // Update is called once per frame
+        void Update () {
         checkForGoal();
         updateExplosionPosition();
 
