@@ -51,6 +51,8 @@ public class Kart : MonoBehaviour
 
     private KartAudio kartAudio;
 
+    public void KartApplause() { kartAudio.applauseSound(); }
+
     void Awake()
     {
         maxSpeed = 250f;

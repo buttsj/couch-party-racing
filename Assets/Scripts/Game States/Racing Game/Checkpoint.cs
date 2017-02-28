@@ -21,6 +21,10 @@ public class Checkpoint : MonoBehaviour {
                 if(racingGameState.CurrentCheckpoint >= racingGameState.NumberOfCheckpoints)
                 {
                     racingGameState.LapNumber++;
+                    if (racingGameState.LapNumber == 4)
+                    {
+                        other.GetComponent<Kart>().KartApplause();
+                    }
                     racingGameState.CurrentCheckpoint = 0;
                 }
             }
