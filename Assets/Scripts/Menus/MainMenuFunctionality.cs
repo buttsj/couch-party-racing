@@ -242,9 +242,14 @@ public class MainMenuFunctionality : MonoBehaviour
 
     }
 
-    private void playgroundPress()
+    private IEnumerator playgroundPress()
     {
-
+        PlaySound();
+        yield return new WaitWhile(() => source.isPlaying);
+        sceneGenerator.GamemodeName = "TotShot";
+        sceneGenerator.SceneName = "TotShotScene";
+        sceneGenerator.LevelName = null;
+        GoToNextMenu();
     }
 
     private IEnumerator spudRunPress()
