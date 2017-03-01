@@ -15,6 +15,7 @@ public class Kart : MonoBehaviour
     public GameObject fRParent;
 
     public GameObject green_arrow;
+    public GameObject pow_particles;
 
     private AudioClip boostSound;
     private bool makeBoostSound;
@@ -389,9 +390,12 @@ public class Kart : MonoBehaviour
         kartAudio.spinOutSound();
         kartAudio.handleDamageGearingSounds();
 
+        pow_particles.GetComponent<ParticleSystem>().Play();
+
         selfTimer = selfTimer + Time.deltaTime;
         if (selfTimer >= 1.5f)
         {
+            pow_particles.GetComponent<ParticleSystem>().Stop();
             damaged = false;
             selfTimer = 0;
             transform.localEulerAngles = originalOrientation;
