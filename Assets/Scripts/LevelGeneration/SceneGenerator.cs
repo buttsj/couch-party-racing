@@ -22,8 +22,10 @@ public class SceneGenerator : MonoBehaviour {
     private GameObject startObj;
 
     private List<GameObject> kartList;
-    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
+    private List<Vector3> kartStartListRaceMode = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
     private List<Vector3> kartStartListTotShot = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140), new Vector3(30, 1, 140) };
+    private List<Quaternion> kartStartRotationTotShot = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 0f, 0f)),
+        Quaternion.Euler(new Vector3(0f, 180f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
     //private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
     private List<Color> kartColorList = new List<Color>();
     public Color KartColorizer { set { kartColorList.Add(value); } }
@@ -100,11 +102,11 @@ public class SceneGenerator : MonoBehaviour {
         if (GamemodeName == "TotShot")
         {
             startPos = startObj.transform.position + kartStartListTotShot[kartNumber];
-            startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 0f, 0f));
+            startAngle = kartStartRotationTotShot[kartNumber];
         }
         else
         {
-            startPos = startObj.transform.position + kartStartAdjList[kartNumber];
+            startPos = startObj.transform.position + kartStartListRaceMode[kartNumber];
             startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
 
         }
