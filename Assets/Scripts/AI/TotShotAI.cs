@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TotShotAI : MonoBehaviour {
 
-    private const float MINSPEED = 175f;
+    private const float MINSPEED = 150f;
     private const float NORMALMAXSPEED = 250f;
     private const float BOOSTSPEED = 300f;
 
