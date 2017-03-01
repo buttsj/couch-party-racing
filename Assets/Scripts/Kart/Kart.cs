@@ -56,7 +56,7 @@ public class Kart : MonoBehaviour
     public void KartApplause() { kartAudio.applauseSound(); }
 
     private int hopLimitCounter;
-    private const int HOPLIMITMAX = 4;
+    private const int HOPLIMITMAX = 2;
 
     void Awake()
     {
@@ -131,6 +131,9 @@ public class Kart : MonoBehaviour
                     break;
             }
         }
+
+        handleBump();
+
         if (ability.IsUsed())
         {
             ability = new NullItem(gameObject); // item is completely used
@@ -150,20 +153,6 @@ public class Kart : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsTotShotGameState && SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
-        {
-            physics.BumpKart();
-        }
-        else if(IsTotShotGameState && SimpleInput.GetButton("Bump Kart", playerNumber) && hopLimitCounter < HOPLIMITMAX)
-        {
-            physics.BumpKart();
-            hopLimitCounter++;
-        }
-        else if (IsTotShotGameState && Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 1))
-        {
-            hopLimitCounter = 0;
-        }
-
         if (physics.Power != 0)
         {
             fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
@@ -189,6 +178,32 @@ public class Kart : MonoBehaviour
         physics.RotateKart(turnPower);
         RotateTires();
         
+    }
+
+    void handleBump()
+    {
+        if (!IsTotShotGameState && SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
+        {
+            physics.BumpKart();
+        }
+        else if(IsTotShotGameState && SimpleInput.GetButtonDown("Bump Kart", playerNumber) && hopLimitCounter < HOPLIMITMAX)
+        {
+            if (hopLimitCounter == 0)
+            {
+                physics.TotJump1();
+                Debug.Log("Jump 1");
+            }
+            else
+            {
+                physics.TotJump2();
+                Debug.Log("Jump 2");
+            }
+            hopLimitCounter++;
+        }
+        else if (IsTotShotGameState && Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 1))
+        {
+            hopLimitCounter = 0;
+        }
     }
 
     void OnTriggerEnter(Collider other)
