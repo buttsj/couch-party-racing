@@ -297,7 +297,7 @@ public class SceneGenerator : MonoBehaviour {
     {
         GameObject hud;
         hud = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(hud);
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-
     }
 }

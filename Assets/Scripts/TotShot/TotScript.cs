@@ -7,19 +7,24 @@ public class TotScript : MonoBehaviour {
 
     public GameObject tot;
     public ParticleSystem explosion;
-    public GameObject HUD;
+    public GameObject hud;
 
-    // Use this for initialization
+    private bool hudSet;
+
     void Start()
     {
+        hud = GameObject.FindGameObjectWithTag("TotHUD");
         explosion.Stop();
-        HUD = GameObject.FindGameObjectWithTag("TotHUD");
-    }
-    // Update is called once per frame
-        void Update () {
-        checkForGoal();
-        updateExplosionPosition();
 
+        hudSet = false;
+    }
+
+    void Update () {
+        if (hudSet)
+        {
+            checkForGoal();
+            updateExplosionPosition();
+        }
     }
 
     public void checkForGoal()
@@ -28,18 +33,18 @@ public class TotScript : MonoBehaviour {
         {
             explosion.Play();
             tot.SetActive(false);
-            int rScore = HUD.GetComponent<TotShotHUD>().RedScore;
+            int rScore = hud.GetComponent<TotShotHUD>().RedScore;
             rScore += 1;
-            HUD.GetComponent<TotShotHUD>().RedScore = rScore;
+            hud.GetComponent<TotShotHUD>().RedScore = rScore;
             //reset ball, players, countdown timer
         }
         else if (tot.transform.position.z <= -153)
         {
             explosion.Play();
             tot.SetActive(false);
-            int bScore = HUD.GetComponent<TotShotHUD>().BlueScore;
+            int bScore = hud.GetComponent<TotShotHUD>().BlueScore;
             bScore += 1;
-            HUD.GetComponent<TotShotHUD>().BlueScore = bScore;
+            hud.GetComponent<TotShotHUD>().BlueScore = bScore;
             //reset ball, players, countdown timer
         }
     }
@@ -47,5 +52,11 @@ public class TotScript : MonoBehaviour {
     public void updateExplosionPosition()
     {
         explosion.transform.position = new Vector3(tot.transform.position.x, tot.transform.position.y, tot.transform.position.z);
+    }
+
+    public void setHUD(GameObject hud)
+    {
+        hudSet = true;
+        this.hud = hud;
     }
 }
