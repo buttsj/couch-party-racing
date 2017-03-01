@@ -99,7 +99,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
                 buttonPress();
             }
         }
-        /*else if (gameStateName == "TotShotGameState")
+        else if (gameStateName == "TotShotGameState")
         {
             if (GameObject.Find("TotShotEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
             {
@@ -114,7 +114,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
                 buttonPress();
             }
-        }*/
+        }
     }
 
     private void buttonPress()

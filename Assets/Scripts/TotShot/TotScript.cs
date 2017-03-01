@@ -13,9 +13,7 @@ public class TotScript : MonoBehaviour {
 
     void Start()
     {
-        hud = GameObject.FindGameObjectWithTag("TotHUD");
         explosion.Stop();
-
         hudSet = false;
     }
 
