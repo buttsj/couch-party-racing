@@ -15,9 +15,10 @@ public class KartPhysics {
     public float previousMax;
     private float boostMax;
 
-    public float Speed { get { return speed; } }
+    public float Speed { get { return speed; } set { speed = value; } }
     public float Power { get { return power; } }
     public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
+    public float PreJumpSpeed { get; set; }
 
     public float BoostMax { get { return boostMax; } set { BoostMax = value; } }
 
@@ -58,6 +59,10 @@ public class KartPhysics {
 
     public void ApplyForces() {
         body.AddRelativeForce(0f, 0f, power * speed);
+    }
+
+    public void ApplyLandingForces() {
+        body.AddRelativeForce(0f, 0f, 4*power * speed);
     }
 
     public void BumpKart() {
