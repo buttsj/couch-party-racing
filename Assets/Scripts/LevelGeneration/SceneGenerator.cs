@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
     private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
+    private const string AI_KART_TOT_PATH = "Prefabs/Karts/TotAIKart";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
@@ -154,6 +155,15 @@ public class SceneGenerator : MonoBehaviour {
 
             WaypointSetter.SetWaypoints();
         }
+        else if(GamemodeName == "TotShot")
+        {
+            for (int i = kartList.Count; i < MAX_PLAYERS; i++)
+            {
+                GenerateKart(i, AI_KART_TOT_PATH);
+                kartList[i].name = "AI" + (i + 1);
+            }
+        }
+
     }
 
     private void GeneratePlayers() {
