@@ -47,7 +47,7 @@ public class Kart : MonoBehaviour
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public bool IsRacingGameState { get; set; }
     public bool IsTotShotGameState { get; set; }
-
+    private bool wasGrounded;
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
 
@@ -71,6 +71,7 @@ public class Kart : MonoBehaviour
         makeBoostSound = false;
         damaged = false;
         isBoosting = false;
+        wasGrounded = true;
         boost = 100.0f;
         selfTimer = 0;
         ability = new NullItem(gameObject);
@@ -171,7 +172,16 @@ public class Kart : MonoBehaviour
 
             if (IsGrounded())
             {
+                if (!wasGrounded) {
+                    physics.Speed = physics.PreJumpSpeed;
+                    wasGrounded = true;
+                    physics.ApplyLandingForces();
+                }
                 physics.ApplyForces();
+            }
+            else {
+                physics.PreJumpSpeed = physics.Speed;
+                wasGrounded = false;
             }
 
         }
