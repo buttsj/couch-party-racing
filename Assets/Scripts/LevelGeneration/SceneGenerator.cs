@@ -86,7 +86,7 @@ public class SceneGenerator : MonoBehaviour {
                     minimap.GetComponent<Camera>().rect = new Rect(0.785f, 0.03f, .2f, .26f);
                     break;
                 case 4:
-                    minimap.GetComponent<Camera>().rect = new Rect(.3f, 0.4f, .2f, .26f);
+                    minimap.GetComponent<Camera>().rect = new Rect(.4f, 0.4f, .2f, .26f);
                     break;
             }
 
