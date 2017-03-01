@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SinglePlayerTotHUD : MonoBehaviour {
 
+    public GameObject kart1;
+
 	// Use this for initialization
 	void Start () {
 		
