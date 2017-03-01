@@ -334,6 +334,9 @@ public class SceneGenerator : MonoBehaviour {
     {
         GameObject timeScoreHUD;
         GameObject boostHUD;
+        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD);
         switch (numberOfPlayers)
         {
             case 1:
@@ -359,9 +362,6 @@ public class SceneGenerator : MonoBehaviour {
                 boostHUD.GetComponent<FourPlayerTotHUD>().kart4 = kartList[3];
                 break;
         }
-        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD);
     }
 
     private void CreateRacingArrow(int playerNumber, string arrowName) {

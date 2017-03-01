@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 223416840360627750}
   - component: {fileID: 114815119648718806}
   - component: {fileID: 114656826605536896}
-  - component: {fileID: 114007780393109752}
+  - component: {fileID: 114838013500805042}
   m_Layer: 5
   m_Name: Two Player Tot HUD
   m_TagString: Untagged
@@ -144,40 +144,13 @@ Transform:
   m_GameObject: {fileID: 1065484899923308}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -265.3706, y: 116.433105, z: -660.79144}
-  m_LocalScale: {x: 2.8125, y: 2.8125, z: 2.8125}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 224032701990690944}
   - {fileID: 224371652885995452}
   m_Father: {fileID: 224226830012734554}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114007780393109752
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193948114030470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b7292b77a1fafd49972d2b84924eb63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  potato: {fileID: 0}
-  timeRemainingText: {fileID: 0}
-  boostText1: {fileID: 114277731229234468}
-  boostText2: {fileID: 114706719306885204}
-  scoreText1: {fileID: 0}
-  scoreText2: {fileID: 0}
-  spark1: {fileID: 0}
-  oil1: {fileID: 0}
-  boostImg1: {fileID: 0}
-  marble1: {fileID: 0}
-  marble2: {fileID: 0}
-  spark2: {fileID: 0}
-  oil2: {fileID: 0}
-  boostImg2: {fileID: 0}
-  kart1: {fileID: 0}
-  kart2: {fileID: 0}
 --- !u!114 &114025234241239034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,7 +214,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c858d64f4f22c6a4b8317bb61e5bda87, type: 3}
-    m_FontSize: 20
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -302,7 +275,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c858d64f4f22c6a4b8317bb61e5bda87, type: 3}
-    m_FontSize: 20
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -351,7 +324,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c858d64f4f22c6a4b8317bb61e5bda87, type: 3}
-    m_FontSize: 20
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -412,6 +385,21 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &114838013500805042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193948114030470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2eede9550bb04d42ac09fb9e4f899be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kart1: {fileID: 0}
+  kart2: {fileID: 0}
+  boost1Text: {fileID: 114277731229234468}
+  boost2Text: {fileID: 114706719306885204}
 --- !u!114 &114898019470141348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -433,11 +421,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c858d64f4f22c6a4b8317bb61e5bda87, type: 3}
-    m_FontSize: 20
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 228
+    m_MaxSize: 272
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -510,14 +498,14 @@ RectTransform:
   m_GameObject: {fileID: 1753363583002134}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 234.94807}
-  m_LocalScale: {x: 0.35555556, y: 0.35555556, z: 0.35555556}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4119850230365206}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -179.53491, y: -95.79843}
+  m_AnchoredPosition: {x: -427, y: -123}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224226830012734554
@@ -548,14 +536,14 @@ RectTransform:
   m_GameObject: {fileID: 1272034115480152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 234.94807}
-  m_LocalScale: {x: 0.35555556, y: 0.35555556, z: 0.35555556}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4119850230365206}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -147.53491, y: -96.86511}
+  m_AnchoredPosition: {x: -289, y: -124}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224627847926433410
@@ -566,14 +554,14 @@ RectTransform:
   m_GameObject: {fileID: 1091371033963124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6666696, y: 0.6666696, z: 0.6666696}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224986920757829446}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 70.00007, y: -5.333313}
+  m_AnchoredPosition: {x: -18, y: 46}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224661306126113418
@@ -584,14 +572,14 @@ RectTransform:
   m_GameObject: {fileID: 1358629109827168}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6666696, y: 0.6666696, z: 0.6666696}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224986920757829446}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 130.00005, y: -6.666687}
+  m_AnchoredPosition: {x: 116, y: 46}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224986920757829446
