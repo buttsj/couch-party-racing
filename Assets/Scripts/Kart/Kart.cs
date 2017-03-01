@@ -15,6 +15,7 @@ public class Kart : MonoBehaviour
     public GameObject fRParent;
 
     public GameObject green_arrow;
+    public GameObject pow_particles;
 
     private AudioClip boostSound;
     private bool makeBoostSound;
@@ -45,6 +46,7 @@ public class Kart : MonoBehaviour
     private IGameState gameState;
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public bool IsRacingGameState { get; set; }
+    public bool IsTotShotGameState { get; set; }
 
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
@@ -52,6 +54,9 @@ public class Kart : MonoBehaviour
     private KartAudio kartAudio;
 
     public void KartApplause() { kartAudio.applauseSound(); }
+
+    private int hopLimitCounter;
+    private const int HOPLIMITMAX = 2;
 
     void Awake()
     {
@@ -71,6 +76,8 @@ public class Kart : MonoBehaviour
         ability = new NullItem(gameObject);
 
         kartAudio = new KartAudio(gameObject, physics, maxSpeed, minSpeed);
+
+        hopLimitCounter = 0;
     }
 
     void DebugMenu()
@@ -124,6 +131,9 @@ public class Kart : MonoBehaviour
                     break;
             }
         }
+
+        handleBump();
+
         if (ability.IsUsed())
         {
             ability = new NullItem(gameObject); // item is completely used
@@ -143,11 +153,6 @@ public class Kart : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
-        {
-            physics.BumpKart();
-        }
-
         if (physics.Power != 0)
         {
             fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
@@ -173,6 +178,32 @@ public class Kart : MonoBehaviour
         physics.RotateKart(turnPower);
         RotateTires();
         
+    }
+
+    void handleBump()
+    {
+        if (!IsTotShotGameState && SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
+        {
+            physics.BumpKart();
+        }
+        else if(IsTotShotGameState && SimpleInput.GetButtonDown("Bump Kart", playerNumber) && hopLimitCounter < HOPLIMITMAX)
+        {
+            if (hopLimitCounter == 0)
+            {
+                physics.TotJump1();
+                Debug.Log("Jump 1");
+            }
+            else
+            {
+                physics.TotJump2();
+                Debug.Log("Jump 2");
+            }
+            hopLimitCounter++;
+        }
+        else if (IsTotShotGameState && Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 1))
+        {
+            hopLimitCounter = 0;
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -374,9 +405,12 @@ public class Kart : MonoBehaviour
         kartAudio.spinOutSound();
         kartAudio.handleDamageGearingSounds();
 
+        pow_particles.GetComponent<ParticleSystem>().Play();
+
         selfTimer = selfTimer + Time.deltaTime;
         if (selfTimer >= 1.5f)
         {
+            pow_particles.GetComponent<ParticleSystem>().Stop();
             damaged = false;
             selfTimer = 0;
             transform.localEulerAngles = originalOrientation;

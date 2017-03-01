@@ -64,6 +64,16 @@ public class KartPhysics {
         body.AddRelativeForce(0, 1000, 0);
     }
 
+    public void TotJump1()
+    {
+        body.AddRelativeForce(0, 1500, 0);
+    }
+
+    public void TotJump2()
+    {
+        body.AddRelativeForce(0, 3000, 0);
+    }
+
 
     public void Spin()
     {
