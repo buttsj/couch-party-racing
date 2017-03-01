@@ -345,9 +345,11 @@ public class SceneGenerator : MonoBehaviour {
     {
         GameObject timeScoreHUD;
         GameObject boostHUD;
+        GameObject countdownTimer;
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        countdownTimer = Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD);
+        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD, countdownTimer);
         switch (numberOfPlayers)
         {
             case 1:

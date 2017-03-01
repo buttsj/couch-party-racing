@@ -30,4 +30,11 @@ public class CountdownTimer : MonoBehaviour {
         }
 		
 	}
+
+    public void ResetTimer()
+    {
+        timer = 3f;
+        timerText.text = timer.ToString("F2");
+        gameObject.GetComponent<Canvas>().enabled = true;
+    }
 }
