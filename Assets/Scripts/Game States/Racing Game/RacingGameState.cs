@@ -52,4 +52,5 @@ public class RacingGameState : IGameState {
     }
 
     public void OnCollisionEnter(GameObject other) { }
+
 }

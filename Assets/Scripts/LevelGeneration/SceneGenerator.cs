@@ -47,6 +47,7 @@ public class SceneGenerator : MonoBehaviour {
     private void GenerateHUD() {
         if (GamemodeName == "RaceMode") {
             GenerateRacingHUD(SimpleInput.NumberOfPlayers);
+            GenerateRacingArrows();
         } else if (GamemodeName == "SpudRun") {
             GenerateSpudRunHUD(SimpleInput.NumberOfPlayers);
         } else if (GamemodeName == "TotShot")
@@ -217,8 +218,30 @@ public class SceneGenerator : MonoBehaviour {
         camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
         camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
         camera.AddComponent<AudioListener>();
-
         camera.SetActive(true);
+
+        switch (playerNumber) {
+            case 1:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 10);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 11);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 12);
+                break;
+            case 2:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 11);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 12);
+                break;
+            case 3:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 10);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 12);
+                break;
+            case 4:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 10);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 11);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
+                break;
+        }
 
 
         return camera;
@@ -298,5 +321,53 @@ public class SceneGenerator : MonoBehaviour {
         hud = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
 
+    }
+
+    private void CreateRacingArrow(int playerNumber, string arrowName) {
+        GameObject arrow = Instantiate(Resources.Load<GameObject>("Prefabs/Temp_Arrow"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        arrow.name = arrowName;
+        arrow.GetComponent<CheckpointArrow>().kart = kartList[playerNumber];
+
+        switch (playerNumber) {
+            case 0:
+                arrow.layer = LayerMask.NameToLayer("Player 1");
+                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 1"); 
+                break;
+            case 1:
+                arrow.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 2");
+                break;
+            case 2:
+                arrow.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 3");
+                break;
+            case 3:
+                arrow.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 4");
+                break;
+        }
+    }
+
+    private void GenerateRacingArrows() {
+        switch (SimpleInput.NumberOfPlayers) {
+            case 1:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                break;
+            case 2:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                CreateRacingArrow(1, "Player 2 Arrow");
+                break;
+            case 3:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                CreateRacingArrow(1, "Player 2 Arrow");
+                CreateRacingArrow(2, "Player 3 Arrow");
+                break;
+            case 4:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                CreateRacingArrow(1, "Player 2 Arrow");
+                CreateRacingArrow(2, "Player 3 Arrow");
+                CreateRacingArrow(3, "Player 4 Arrow");
+                break;
+        }
     }
 }
