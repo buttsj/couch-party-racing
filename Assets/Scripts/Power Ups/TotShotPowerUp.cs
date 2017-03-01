@@ -32,7 +32,7 @@ public class TotShotPowerUp : MonoBehaviour
         transform.Rotate(Vector3.up, 2.0f);
     }
 
-    private void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision other)
     {
         print("collided with boost");
         if (other.gameObject.name.Contains("Player"))
