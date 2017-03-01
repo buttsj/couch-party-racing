@@ -4199,6 +4199,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 428115881}
+  - component: {fileID: 428115882}
   m_Layer: 0
   m_Name: BoostPads
   m_TagString: Untagged
@@ -4225,6 +4226,23 @@ Transform:
   m_Father: {fileID: 782739925}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &428115882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428115880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef17d5a60086e547aed639b2cabead5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PowerUpOne: {fileID: 367877955}
+  PowerUpTwo: {fileID: 1748178631}
+  PowerUpThree: {fileID: 400222289}
+  PowerUpFour: {fileID: 1000910906}
+  PowerUpFive: {fileID: 1062756215}
+  PowerUpSix: {fileID: 1317413389}
 --- !u!1 &449196770
 GameObject:
   m_ObjectHideFlags: 0
