@@ -25,7 +25,7 @@ public class TotShotAI : MonoBehaviour {
 
     void Start () {
 
-        GameObject.Find("Tot");
+        tot = GameObject.Find("Tot");
 
         boost = 100.0f;
 
@@ -35,8 +35,8 @@ public class TotShotAI : MonoBehaviour {
     }
 	
 	void FixedUpdate () {
-
         steerTowardsTot();
+        handleMovement();
         handleWheelAnimation();
     }
 
