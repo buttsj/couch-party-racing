@@ -215,7 +215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 921676162}
   - component: {fileID: 921676163}
-  - component: {fileID: 921676164}
   m_Layer: 0
   m_Name: Track Cursor
   m_TagString: Untagged
@@ -248,18 +247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackParent: {fileID: 183916258}
---- !u!65 &921676164
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 921676161}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 60, y: 60, z: 60}
-  m_Center: {x: -30, y: 30, z: 30}
 --- !u!1 &1222605419
 GameObject:
   m_ObjectHideFlags: 0
