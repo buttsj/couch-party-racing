@@ -45,6 +45,7 @@ public class Kart : MonoBehaviour
     private IGameState gameState;
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
     public bool IsRacingGameState { get; set; }
+    public bool IsTotShotGameState { get; set; }
 
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
@@ -52,6 +53,9 @@ public class Kart : MonoBehaviour
     private KartAudio kartAudio;
 
     public void KartApplause() { kartAudio.applauseSound(); }
+
+    private int hopLimitCounter;
+    private const int HOPLIMITMAX = 4;
 
     void Awake()
     {
@@ -71,6 +75,8 @@ public class Kart : MonoBehaviour
         ability = new NullItem(gameObject);
 
         kartAudio = new KartAudio(gameObject, physics, maxSpeed, minSpeed);
+
+        hopLimitCounter = 0;
     }
 
     void DebugMenu()
@@ -143,9 +149,18 @@ public class Kart : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
+        if (!IsTotShotGameState && SimpleInput.GetButtonDown("Bump Kart", playerNumber) && IsGrounded())
         {
             physics.BumpKart();
+        }
+        else if(IsTotShotGameState && SimpleInput.GetButton("Bump Kart", playerNumber) && hopLimitCounter < HOPLIMITMAX)
+        {
+            physics.BumpKart();
+            hopLimitCounter++;
+        }
+        else if (IsTotShotGameState && Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 1))
+        {
+            hopLimitCounter = 0;
         }
 
         if (physics.Power != 0)

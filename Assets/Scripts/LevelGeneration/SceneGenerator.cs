@@ -155,13 +155,14 @@ public class SceneGenerator : MonoBehaviour {
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
                     kartList[i].GetComponent<Kart>().GameState = new RacingGameState(kartList[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = true;
+                    kartList[i].GetComponent<Kart>().IsTotShotGameState = false;
                 }
                 break;
             case "SpudRun":
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
                     kartList[i].GetComponent<Kart>().GameState = new SpudRunGameState(kartList[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = false;
-
+                    kartList[i].GetComponent<Kart>().IsTotShotGameState = false;
                 }
                 break;
             case "TotShot":
@@ -169,7 +170,7 @@ public class SceneGenerator : MonoBehaviour {
                 {
                     kartList[i].GetComponent<Kart>().GameState = new TotShotGameState(kartList[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = false;
-
+                    kartList[i].GetComponent<Kart>().IsTotShotGameState = true;
                 }
                 break;
         }
