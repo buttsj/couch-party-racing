@@ -320,8 +320,8 @@ public class SceneGenerator : MonoBehaviour {
                 hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Four Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<FourPlayerSpudHUD>().kart1 = kartList[0];
                 hud.GetComponent<FourPlayerSpudHUD>().kart2 = kartList[1];
-                hud.GetComponent<FourPlayerSpudHUD>().kart3 = kartList[0];
-                hud.GetComponent<FourPlayerSpudHUD>().kart4 = kartList[1];
+                hud.GetComponent<FourPlayerSpudHUD>().kart3 = kartList[2];
+                hud.GetComponent<FourPlayerSpudHUD>().kart4 = kartList[3];
                 hud.GetComponent<FourPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }
@@ -332,9 +332,35 @@ public class SceneGenerator : MonoBehaviour {
 
     private void GenerateTotShotHUD(int numberOfPlayers)
     {
-        GameObject hud;
-        hud = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(hud);
+        GameObject timeScoreHUD;
+        GameObject boostHUD;
+        timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD);
+        switch (numberOfPlayers)
+        {
+            case 1:
+                boostHUD = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Single Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<SinglePlayerTotHUD>().kart1 = kartList[0];
+                break;
+            case 2:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Two Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<TwoPlayerTotHUD>().kart1 = kartList[0];
+                boostHUD.GetComponent<TwoPlayerTotHUD>().kart2 = kartList[1];
+                break;
+            case 3:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Three Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<ThreePlayerTotHUD>().kart1 = kartList[0];
+                boostHUD.GetComponent<ThreePlayerTotHUD>().kart2 = kartList[1];
+                boostHUD.GetComponent<ThreePlayerTotHUD>().kart3 = kartList[2];
+                break;
+            case 4:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Four Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart1 = kartList[0];
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart2 = kartList[1];
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart3 = kartList[2];
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart4 = kartList[3];
+                break;
+        }
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
     }
 
