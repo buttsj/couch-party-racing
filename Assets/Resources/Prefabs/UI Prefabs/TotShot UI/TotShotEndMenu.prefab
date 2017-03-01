@@ -203,7 +203,6 @@ GameObject:
   - component: {fileID: 223698219632125044}
   - component: {fileID: 114726720000005562}
   - component: {fileID: 114020959709832324}
-  - component: {fileID: 114071636530896378}
   m_Layer: 0
   m_Name: TotShotEndMenu
   m_TagString: Untagged
@@ -325,23 +324,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &114071636530896378
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1617487485864062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e7e2a513793c694fbe447b92556d624, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 223698219632125044}
-  player1Text: {fileID: 114665181948214048}
-  player2Text: {fileID: 114371574173702870}
-  player3Text: {fileID: 114742137466063518}
-  player4Text: {fileID: 114057751829645148}
-  exit: {fileID: 114132043098711522}
 --- !u!114 &114079885608318284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -414,7 +396,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114071636530896378}
+      - m_Target: {fileID: 0}
         m_MethodName: exitPress
         m_Mode: 1
         m_Arguments:

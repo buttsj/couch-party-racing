@@ -43,7 +43,7 @@ public class SceneGenerator : MonoBehaviour {
             GenerateAI();
             GenerateHUD();
             InitializeMinimap();
-
+            Debug.Log("Made it out of HUD");
             DestroyGenerator();
         }
     }
@@ -344,6 +344,9 @@ public class SceneGenerator : MonoBehaviour {
     {
         GameObject timeScoreHUD;
         GameObject boostHUD;
+        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD);
         switch (numberOfPlayers)
         {
             case 1:
@@ -369,32 +372,37 @@ public class SceneGenerator : MonoBehaviour {
                 boostHUD.GetComponent<FourPlayerTotHUD>().kart4 = kartList[3];
                 break;
         }
-        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD);
     }
 
     private void CreateRacingArrow(int playerNumber, string arrowName) {
-        GameObject arrow = Instantiate(Resources.Load<GameObject>("Prefabs/Temp_Arrow"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject arrow = Instantiate(Resources.Load<GameObject>("Prefabs/Checkpoint_Arrow"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         arrow.name = arrowName;
         arrow.GetComponent<CheckpointArrow>().kart = kartList[playerNumber];
 
         switch (playerNumber) {
             case 0:
                 arrow.layer = LayerMask.NameToLayer("Player 1");
-                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 1"); 
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 1");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 1");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 1");
                 break;
             case 1:
                 arrow.layer = LayerMask.NameToLayer("Player 2");
-                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 2");
                 break;
             case 2:
                 arrow.layer = LayerMask.NameToLayer("Player 3");
-                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 3");
                 break;
             case 3:
                 arrow.layer = LayerMask.NameToLayer("Player 4");
-                arrow.transform.FindChild("Arrow").gameObject.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 4");
                 break;
         }
     }
