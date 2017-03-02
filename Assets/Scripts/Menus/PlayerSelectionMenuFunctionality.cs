@@ -150,12 +150,21 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     private void checkForReadyPlayers() {
-
         if (SimpleInput.GetButtonDown("Bump Kart", 1))
         {
             player1Color += 1;
             if (player1Color >= kartColorList.Count)
                 player1Color = 0;
+        }
+        else if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY))
+        {
+            player1ReadyText.text = READY;
+            startToContinueText.text = "Press Start to Continue!";
+        }
+        else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
+        {
+            player1ReadyText.text = UNREADY;
+            startToContinueText.text = "";
         }
 
         if (SimpleInput.GetButtonDown("Bump Kart", 2))
@@ -164,12 +173,28 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (player2Color >= kartColorList.Count)
                 player2Color = 0;
         }
+        else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY))
+        {
+            player2ReadyText.text = READY;
+        }
+        else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == READY))
+        {
+            player2ReadyText.text = UNREADY;
+        }
 
         if (SimpleInput.GetButtonDown("Bump Kart", 3))
         {
             player3Color += 1;
             if (player3Color >= kartColorList.Count)
                 player3Color = 0;
+        }
+        else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == UNREADY))
+        {
+            player3ReadyText.text = READY;
+        }
+        else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == READY))
+        {
+            player3ReadyText.text = UNREADY;
         }
 
         if (SimpleInput.GetButtonDown("Bump Kart", 4))
@@ -178,30 +203,12 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (player4Color >= kartColorList.Count)
                 player4Color = 0;
         }
-
-        if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY)) {
-            player1ReadyText.text = READY;
-            startToContinueText.text = "Press Start to Continue!";
-        } else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY)) {
-            player1ReadyText.text = UNREADY;
-            startToContinueText.text = "";
-        }
-
-        if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY)) {
-            player2ReadyText.text = READY;
-        } else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == READY)) {
-            player2ReadyText.text = UNREADY;
-        }
-
-        if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == UNREADY)) {
-            player3ReadyText.text = READY;
-        } else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == READY)) {
-            player3ReadyText.text = UNREADY;
-        }
-
-        if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY)) {
+        else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY))
+        {
             player4ReadyText.text = READY;
-        } else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY)) {
+        }
+        else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY))
+        {
             player4ReadyText.text = UNREADY;
         }
     }
