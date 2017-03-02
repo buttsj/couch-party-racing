@@ -38,7 +38,7 @@ public class MainMenuFunctionality : MonoBehaviour
     private Text[] quitButtons;
     private int exitIndex;
 
-    void Start()
+    void Awake()
     {
         // fade in/out initializer
         GameObject fadeObject = new GameObject();
@@ -46,9 +46,12 @@ public class MainMenuFunctionality : MonoBehaviour
         fadeObject.transform.SetParent(transform);
         fadeObject.SetActive(true);
         fader = fadeObject.AddComponent<WhiteFadeUniversal>();
-        fader.BeginNewScene();
+        fader.BeginNewScene("Sound");
         //
+    }
 
+    void Start()
+    {
         highlight = new Color(255, 255, 0);
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();

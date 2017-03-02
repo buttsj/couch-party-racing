@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 using System.Linq;
 
 public class RacingEndGameMenu : MonoBehaviour {
+
+    private WhiteFadeUniversal fader;
+
     List<GameObject> playerList;
     List<GameObject> aiList;
     List<Text> playerTexts;
@@ -19,6 +22,18 @@ public class RacingEndGameMenu : MonoBehaviour {
     private bool raceOver;
     public bool RaceOver { get { return raceOver; } }
     List<GameObject> kartList;
+
+    void Awake()
+    {
+        // fade in/out initializer
+        GameObject fadeObject = new GameObject();
+        fadeObject.name = "Fader";
+        fadeObject.transform.SetParent(transform);
+        fadeObject.SetActive(true);
+        fader = fadeObject.AddComponent<WhiteFadeUniversal>();
+        fader.BeginExitScene("Music Manager HUD");
+        //
+    }
 
     // Use this for initialization
     public void Start () {
@@ -90,6 +105,14 @@ public class RacingEndGameMenu : MonoBehaviour {
     public void exitPress()
     {
         canvas.enabled = false;
+        StartCoroutine(leaveScene());
+    }
+
+    public IEnumerator leaveScene()
+    {
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
         SceneManager.LoadScene("MainMenu");
     }
 

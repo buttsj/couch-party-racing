@@ -4,10 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CountdownTimer : MonoBehaviour {
 
+
+    private WhiteFadeUniversal fader;
     public Text timerText;
     private float timer;
-	// Use this for initialization
-	void Start () {
+
+    void Awake()
+    {
+        // fade in/out initializer
+        GameObject fadeObject = new GameObject();
+        fadeObject.name = "Fader";
+        fadeObject.transform.SetParent(transform);
+        fadeObject.SetActive(true);
+        fader = fadeObject.AddComponent<WhiteFadeUniversal>();
+        fader.BeginNewScene("Music Manager HUD");
+        //
+    }
+
+    // Use this for initialization
+    void Start () {
         timer = 3f;
         timerText.text = timer.ToString("F2");
 	}
