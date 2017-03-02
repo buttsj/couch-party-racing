@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Cursor : MonoBehaviour {
 
+    public GameObject trackParent;
+
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string CHILD_NAME = "Track Piece";
     private const int TRACK_SCALE = 60;
@@ -14,7 +16,8 @@ public class Cursor : MonoBehaviour {
     private static readonly Vector3 CENTER_OFFSET = new Vector3(-TRACK_SCALE, TRACK_SCALE, TRACK_SCALE) / 2f;
     private static readonly Vector3 BOX_HALF_SCALE = new Vector3(TRACK_SCALE - OFFSET, TRACK_SCALE - OFFSET, TRACK_SCALE - OFFSET) / 2f;
 
-    public GameObject trackParent;
+    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "CrossTrack", "Minimap"};
+
     private GameObject childTrackPiece;
     private List<GameObject> trackList;
     private int trackIndex = 0;
@@ -24,6 +27,7 @@ public class Cursor : MonoBehaviour {
 	void Start () {
         trackList = new List<GameObject>(Resources.LoadAll<GameObject>(TRACK_DIR));
 
+        NextTrackPiece();
         SwapCurrentTrack();
         PrintTrackName();
 	}
@@ -72,12 +76,14 @@ public class Cursor : MonoBehaviour {
 
         // Switch Track
         if (SimpleInput.GetButtonDown("Next Track")) {
-            trackIndex = (++trackIndex) % trackList.Count;
+            //trackIndex = (++trackIndex) % trackList.Count;
+            NextTrackPiece();
             SwapCurrentTrack();
             PrintTrackName();
         }
         if (SimpleInput.GetButtonDown("Previous Track")) {
-            trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+            //trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+            PreviousTrackPiece();
             SwapCurrentTrack();
             PrintTrackName();
         }
@@ -146,8 +152,16 @@ public class Cursor : MonoBehaviour {
             centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, 0));
             centerList.Add(centerPosition + new Vector3(0, TRACK_SCALE, 0));
             centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, TRACK_SCALE, 0));
+        } else if (childTrackPiece.name.Contains("RightTurn")) {
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, 0));
+            centerList.Add(centerPosition + new Vector3(0, 0, TRACK_SCALE));
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, TRACK_SCALE));
+        } else if (childTrackPiece.name.Contains("LeftTurn")) {
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, 0));
+            centerList.Add(centerPosition + new Vector3(0, 0, -TRACK_SCALE));
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, -TRACK_SCALE));
         }
-      
+
         // Adjust for Rotation if not Local
         for (int i = 0; i < centerList.Count && !isLocal; i++) {
             centerList[i] = RotateFromPivot(centerList[i], transform.position, childTrackPiece.transform.rotation);
@@ -172,5 +186,17 @@ public class Cursor : MonoBehaviour {
         Vector3 rotatedDirectionVector = rotation * directionVector;
         Vector3 rotatedPoint = pivot + rotatedDirectionVector;
         return rotatedPoint;
+    }
+
+    private void NextTrackPiece() {
+        do {
+            trackIndex = (++trackIndex) % trackList.Count;
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+    }
+
+    private void PreviousTrackPiece() {
+        do {
+            trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
     }
 }
