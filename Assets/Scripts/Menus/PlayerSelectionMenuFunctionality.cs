@@ -26,7 +26,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         "Red",
         "Magenta",
         "Green",
-        "Yellow"
+        "Yellow",
+        "Cyan"
     };
 
     private List<Color> kartColorList = new List<Color> {
@@ -35,7 +36,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         Color.red,
         Color.magenta,
         Color.green,
-        Color.yellow
+        Color.yellow,
+        Color.cyan
     };
 
     public Text loading;
