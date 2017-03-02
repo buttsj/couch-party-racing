@@ -43,7 +43,6 @@ public class SceneGenerator : MonoBehaviour {
             GenerateAI();
             GenerateHUD();
             InitializeMinimap();
-            Debug.Log("Made it out of HUD");
             DestroyGenerator();
         }
     }
@@ -347,9 +346,10 @@ public class SceneGenerator : MonoBehaviour {
         GameObject boostHUD;
         GameObject countdownTimer;
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        countdownTimer = Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        countdownTimer = Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD, countdownTimer);
+        GameObject.Find("Tot").GetComponent<TotScript>().setKarts(kartList);
         switch (numberOfPlayers)
         {
             case 1:

@@ -9,6 +9,12 @@ public class TotScript : MonoBehaviour {
     public ParticleSystem explosion;
     public GameObject hud;
     public GameObject resetTimer;
+    public bool isAfterGoalSequence;
+    private List<GameObject> karts;
+    private List<Vector3> startingLocations = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140), new Vector3(30, 1, 140) };
+    private List<Quaternion> startingRotations = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 0f, 0f)),
+        Quaternion.Euler(new Vector3(0f, 180f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
+    private float timer;
 
     private bool hudSet;
 
@@ -16,6 +22,8 @@ public class TotScript : MonoBehaviour {
     {
         explosion.Stop();
         hudSet = false;
+        isAfterGoalSequence = false;
+        timer = 0;
     }
 
     void Update () {
@@ -23,6 +31,13 @@ public class TotScript : MonoBehaviour {
         {
             checkForGoal();
             updateExplosionPosition();
+        }
+        while (isAfterGoalSequence)
+        {
+            ResetEnvironment();
+            isAfterGoalSequence = false;
+            hudSet = true;
+            timer = 0;
         }
     }
 
@@ -35,8 +50,8 @@ public class TotScript : MonoBehaviour {
             int rScore = hud.GetComponent<TotShotHUD>().RedScore;
             rScore += 1;
             hud.GetComponent<TotShotHUD>().RedScore = rScore;
-            resetTimer.GetComponent<CountdownTimer>().ResetTimer();
-            //reset ball, players, countdown timer
+            isAfterGoalSequence = true;
+            hudSet = false;
         }
         else if (tot.transform.position.z <= -153)
         {
@@ -45,8 +60,8 @@ public class TotScript : MonoBehaviour {
             int bScore = hud.GetComponent<TotShotHUD>().BlueScore;
             bScore += 1;
             hud.GetComponent<TotShotHUD>().BlueScore = bScore;
-            resetTimer.GetComponent<CountdownTimer>().ResetTimer();
-            //reset ball, players, countdown timer
+            isAfterGoalSequence = true;
+            hudSet = false;
         }
     }
 
@@ -60,5 +75,22 @@ public class TotScript : MonoBehaviour {
         hudSet = true;
         this.hud = hud;
         this.resetTimer = resetTimer;
+    }
+
+    public void ResetEnvironment()
+    {
+        for (int i = 0; i < 4;i++)
+        {
+            karts[i].transform.position = startingLocations[i];
+            karts[i].transform.rotation = startingRotations[i];
+        }
+        resetTimer.GetComponent<CountdownTimer>().ResetTimer();
+        tot.transform.position = new Vector3(0, 5, 0);
+        tot.SetActive(true);
+    }
+
+    public void setKarts(List<GameObject> karts)
+    {
+        this.karts = karts;
     }
 }
