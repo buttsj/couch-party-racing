@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
     private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
+    private const string AI_KART_TOT_PATH = "Prefabs/Karts/TotAIKart";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
@@ -22,7 +23,10 @@ public class SceneGenerator : MonoBehaviour {
     private GameObject startObj;
 
     private List<GameObject> kartList;
-    private List<Vector3> kartStartAdjList = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
+    private List<Vector3> kartStartListRaceMode = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
+    private List<Vector3> kartStartListTotShot = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140), new Vector3(30, 1, 140) };
+    private List<Quaternion> kartStartRotationTotShot = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 0f, 0f)),
+        Quaternion.Euler(new Vector3(0f, 180f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
     //private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
     private List<Color> kartColorList = new List<Color>();
     public Color KartColorizer { set { kartColorList.Add(value); } }
@@ -39,7 +43,7 @@ public class SceneGenerator : MonoBehaviour {
             GenerateAI();
             GenerateHUD();
             InitializeMinimap();
-
+            Debug.Log("Made it out of HUD");
             DestroyGenerator();
         }
     }
@@ -47,6 +51,7 @@ public class SceneGenerator : MonoBehaviour {
     private void GenerateHUD() {
         if (GamemodeName == "RaceMode") {
             GenerateRacingHUD(SimpleInput.NumberOfPlayers);
+            GenerateRacingArrows();
         } else if (GamemodeName == "SpudRun") {
             GenerateSpudRunHUD(SimpleInput.NumberOfPlayers);
         } else if (GamemodeName == "TotShot")
@@ -94,10 +99,21 @@ public class SceneGenerator : MonoBehaviour {
     }
 
     private void GenerateKart(int kartNumber, string destination) {
-        Vector3 startPos = startObj.transform.position + kartStartAdjList[kartNumber];
-        Quaternion startAngel = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
+        Vector3 startPos;
+        Quaternion startAngle;
+        if (GamemodeName == "TotShot")
+        {
+            startPos = startObj.transform.position + kartStartListTotShot[kartNumber];
+            startAngle = kartStartRotationTotShot[kartNumber];
+        }
+        else
+        {
+            startPos = startObj.transform.position + kartStartListRaceMode[kartNumber];
+            startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
 
-        kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngel));
+        }
+
+        kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
         kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
 
@@ -139,6 +155,15 @@ public class SceneGenerator : MonoBehaviour {
 
             WaypointSetter.SetWaypoints();
         }
+        else if(GamemodeName == "TotShot")
+        {
+            for (int i = kartList.Count; i < MAX_PLAYERS; i++)
+            {
+                GenerateKart(i, AI_KART_TOT_PATH);
+                kartList[i].name = "AI" + (i + 1);
+            }
+        }
+
     }
 
     private void GeneratePlayers() {
@@ -218,8 +243,30 @@ public class SceneGenerator : MonoBehaviour {
         camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
         camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
         camera.AddComponent<AudioListener>();
-
         camera.SetActive(true);
+
+        switch (playerNumber) {
+            case 1:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 10);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 11);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 12);
+                break;
+            case 2:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 11);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 12);
+                break;
+            case 3:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 10);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 12);
+                break;
+            case 4:
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 10);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 11);
+                camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
+                break;
+        }
 
 
         return camera;
@@ -260,6 +307,7 @@ public class SceneGenerator : MonoBehaviour {
                 break;
         }
         Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "RacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
     }
 
@@ -283,8 +331,8 @@ public class SceneGenerator : MonoBehaviour {
                 hud = Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "Four Player Spud HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
                 hud.GetComponent<FourPlayerSpudHUD>().kart1 = kartList[0];
                 hud.GetComponent<FourPlayerSpudHUD>().kart2 = kartList[1];
-                hud.GetComponent<FourPlayerSpudHUD>().kart3 = kartList[0];
-                hud.GetComponent<FourPlayerSpudHUD>().kart4 = kartList[1];
+                hud.GetComponent<FourPlayerSpudHUD>().kart3 = kartList[2];
+                hud.GetComponent<FourPlayerSpudHUD>().kart4 = kartList[3];
                 hud.GetComponent<FourPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }
@@ -295,9 +343,93 @@ public class SceneGenerator : MonoBehaviour {
 
     private void GenerateTotShotHUD(int numberOfPlayers)
     {
-        GameObject hud;
-        hud = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject timeScoreHUD;
+        GameObject boostHUD;
+        GameObject countdownTimer;
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        countdownTimer = Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD, countdownTimer);
+        switch (numberOfPlayers)
+        {
+            case 1:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Single Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<SinglePlayerTotHUD>().kart1 = kartList[0];
+                break;
+            case 2:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Two Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<TwoPlayerTotHUD>().kart1 = kartList[0];
+                boostHUD.GetComponent<TwoPlayerTotHUD>().kart2 = kartList[1];
+                break;
+            case 3:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Three Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<ThreePlayerTotHUD>().kart1 = kartList[0];
+                boostHUD.GetComponent<ThreePlayerTotHUD>().kart2 = kartList[1];
+                boostHUD.GetComponent<ThreePlayerTotHUD>().kart3 = kartList[2];
+                break;
+            case 4:
+                boostHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "Four Player Tot HUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart1 = kartList[0];
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart2 = kartList[1];
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart3 = kartList[2];
+                boostHUD.GetComponent<FourPlayerTotHUD>().kart4 = kartList[3];
+                break;
+        }
+    }
 
+    private void CreateRacingArrow(int playerNumber, string arrowName) {
+        GameObject arrow = Instantiate(Resources.Load<GameObject>("Prefabs/Checkpoint_Arrow"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        arrow.name = arrowName;
+        arrow.GetComponent<CheckpointArrow>().kart = kartList[playerNumber];
+
+        switch (playerNumber) {
+            case 0:
+                arrow.layer = LayerMask.NameToLayer("Player 1");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 1");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 1");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 1");
+                break;
+            case 1:
+                arrow.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 2");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 2");
+                break;
+            case 2:
+                arrow.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 3");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 3");
+                break;
+            case 3:
+                arrow.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.GetChild(1).gameObject.layer = LayerMask.NameToLayer("Player 4");
+                arrow.transform.GetChild(2).gameObject.layer = LayerMask.NameToLayer("Player 4");
+                break;
+        }
+    }
+
+    private void GenerateRacingArrows() {
+        switch (SimpleInput.NumberOfPlayers) {
+            case 1:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                break;
+            case 2:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                CreateRacingArrow(1, "Player 2 Arrow");
+                break;
+            case 3:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                CreateRacingArrow(1, "Player 2 Arrow");
+                CreateRacingArrow(2, "Player 3 Arrow");
+                break;
+            case 4:
+                CreateRacingArrow(0, "Player 1 Arrow");
+                CreateRacingArrow(1, "Player 2 Arrow");
+                CreateRacingArrow(2, "Player 3 Arrow");
+                CreateRacingArrow(3, "Player 4 Arrow");
+                break;
+        }
     }
 }

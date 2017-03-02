@@ -5,7 +5,6 @@ using UnityEngine;
 public class TotShotPowerUp : MonoBehaviour
 {
 
-    public enum Type { Boost }
     private AudioClip powerUpGet;
 
     void Start()
@@ -13,22 +12,22 @@ public class TotShotPowerUp : MonoBehaviour
         powerUpGet = Resources.Load<AudioClip>("Sounds/KartEffects/Item_Get_Sound");
     }
 
-    public Type DeterminePowerup(KartAudio audio)
-    {
-        Type ret = Type.Boost;
-
-        audio.playOneOff(powerUpGet);
-
-        return ret;
-    }
 
     void Update()
     {
-
     }
 
     void FixedUpdate()
     {
         transform.Rotate(Vector3.up, 2.0f);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name.Contains("Player"))
+        {
+            other.gameObject.GetComponent<Kart>().Boost = 100;
+            gameObject.SetActive(false);
+        }
     }
 }

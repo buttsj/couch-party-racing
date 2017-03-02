@@ -7,19 +7,23 @@ public class TotScript : MonoBehaviour {
 
     public GameObject tot;
     public ParticleSystem explosion;
-    public GameObject HUD;
+    public GameObject hud;
+    public GameObject resetTimer;
 
-    // Use this for initialization
+    private bool hudSet;
+
     void Start()
     {
         explosion.Stop();
-        HUD = GameObject.FindGameObjectWithTag("TotHUD");
+        hudSet = false;
     }
-    // Update is called once per frame
-        void Update () {
-        checkForGoal();
-        updateExplosionPosition();
 
+    void Update () {
+        if (hudSet)
+        {
+            checkForGoal();
+            updateExplosionPosition();
+        }
     }
 
     public void checkForGoal()
@@ -28,18 +32,20 @@ public class TotScript : MonoBehaviour {
         {
             explosion.Play();
             tot.SetActive(false);
-            int rScore = HUD.GetComponent<TotShotHUD>().RedScore;
+            int rScore = hud.GetComponent<TotShotHUD>().RedScore;
             rScore += 1;
-            HUD.GetComponent<TotShotHUD>().RedScore = rScore;
+            hud.GetComponent<TotShotHUD>().RedScore = rScore;
+            resetTimer.GetComponent<CountdownTimer>().ResetTimer();
             //reset ball, players, countdown timer
         }
         else if (tot.transform.position.z <= -153)
         {
             explosion.Play();
             tot.SetActive(false);
-            int bScore = HUD.GetComponent<TotShotHUD>().BlueScore;
+            int bScore = hud.GetComponent<TotShotHUD>().BlueScore;
             bScore += 1;
-            HUD.GetComponent<TotShotHUD>().BlueScore = bScore;
+            hud.GetComponent<TotShotHUD>().BlueScore = bScore;
+            resetTimer.GetComponent<CountdownTimer>().ResetTimer();
             //reset ball, players, countdown timer
         }
     }
@@ -47,5 +53,12 @@ public class TotScript : MonoBehaviour {
     public void updateExplosionPosition()
     {
         explosion.transform.position = new Vector3(tot.transform.position.x, tot.transform.position.y, tot.transform.position.z);
+    }
+
+    public void setHUD(GameObject hud, GameObject resetTimer)
+    {
+        hudSet = true;
+        this.hud = hud;
+        this.resetTimer = resetTimer;
     }
 }
