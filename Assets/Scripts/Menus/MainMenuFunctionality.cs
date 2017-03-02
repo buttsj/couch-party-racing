@@ -297,7 +297,6 @@ public class MainMenuFunctionality : MonoBehaviour
     private void applySettings()
     {
         // apply the settings
-        settingsMenu.enabled = false;
     }
 
     private void quitScroll()
