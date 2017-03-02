@@ -7,12 +7,12 @@ public class MainMenuFunctionality : MonoBehaviour
 {
     private WhiteFadeUniversal fader;
 
-    public GameObject waypointAI;
-
     private const int BUTTONSWIDTH = 2;
     private const int BUTTONSHEIGHT = 4;
 
     public Canvas quitMenu;
+
+    public Canvas settingsMenu;
 
     public Text raceMode;
     public Text trackBuilder;
@@ -59,6 +59,9 @@ public class MainMenuFunctionality : MonoBehaviour
         quitMenu = quitMenu.GetComponent<Canvas>();
         quitMenu.enabled = false;
 
+        settingsMenu = settingsMenu.GetComponent<Canvas>();
+        settingsMenu.enabled = false;
+
         buttons = new Text[BUTTONSHEIGHT, BUTTONSWIDTH];
         buttons[0, 0] = raceMode;
         buttons[0, 1] = trackBuilder;
@@ -98,6 +101,15 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             quitScroll();
             quitButtonPress();
+        }
+
+        if (!settingsMenu.enabled)
+        {
+            
+        }
+        else
+        {
+
         }
 
     }
@@ -238,7 +250,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void settingsPress()
     {
-
+        settingsMenu.enabled = true;
     }
 
     private void exitPress()
