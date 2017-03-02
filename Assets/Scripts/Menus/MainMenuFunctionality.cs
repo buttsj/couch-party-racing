@@ -11,8 +11,14 @@ public class MainMenuFunctionality : MonoBehaviour
     private const int BUTTONSHEIGHT = 4;
 
     public Canvas quitMenu;
+    public Text yesExit;
+    public Text noExit;
 
     public Canvas settingsMenu;
+    public Text setApply;
+    public Text setCancel;
+    private Text[] settingsButtons;
+    private int settingsIndex;
 
     public Text raceMode;
     public Text trackBuilder;
@@ -21,9 +27,6 @@ public class MainMenuFunctionality : MonoBehaviour
     public Text spudRun;
     public Text settings;
     public Text exit;
-
-    public Text yesExit;
-    public Text noExit;
 
     private SceneGenerator sceneGenerator;
 
@@ -82,6 +85,12 @@ public class MainMenuFunctionality : MonoBehaviour
         exitIndex = 0;
         noExit.color = highlight;
 
+        settingsButtons = new Text[2];
+        settingsButtons[0] = setApply;
+        settingsButtons[1] = setCancel;
+        settingsIndex = 0;
+        setApply.color = highlight;
+
         axisEnabled = true;
     }
 
@@ -92,26 +101,20 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = true;
         }
 
-        if (!quitMenu.enabled)
+        if (!quitMenu.enabled && !settingsMenu.enabled)
         {
             scrollMenu();
             buttonPress();
         }
-        else
+        else if (quitMenu.enabled && !settingsMenu.enabled)
         {
             quitScroll();
             quitButtonPress();
-        }
-
-        if (!settingsMenu.enabled)
+        } else if (!quitMenu.enabled && settingsMenu.enabled)
         {
-            
+            settingsScroll();
+            settingsButtonPress();
         }
-        else
-        {
-
-        }
-
     }
 
     private void scrollMenu()
@@ -256,6 +259,45 @@ public class MainMenuFunctionality : MonoBehaviour
     private void exitPress()
     {
         quitMenu.enabled = true;
+    }
+
+    private void settingsScroll()
+    {
+        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
+        {
+            axisEnabled = false;
+            settingsIndex++;
+            settingsIndex %= 2;
+            setApply.color = Color.white;
+            setCancel.color = Color.white;
+            settingsButtons[settingsIndex].color = highlight;
+        }
+    }
+
+    private void settingsButtonPress()
+    {
+        if (SimpleInput.GetButtonDown("Bump Kart"))
+        {
+            if (ReferenceEquals(settingsButtons[settingsIndex], setCancel))
+            {
+                cancelSettings();
+            }
+            else if (ReferenceEquals(settingsButtons[settingsIndex], setApply))
+            {
+                applySettings();
+            }
+        }
+    }
+
+    private void cancelSettings()
+    {
+        settingsMenu.enabled = false;
+    }
+
+    private void applySettings()
+    {
+        // apply the settings
+        settingsMenu.enabled = false;
     }
 
     private void quitScroll()
