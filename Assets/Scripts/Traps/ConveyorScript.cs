@@ -16,12 +16,10 @@ public class ConveyorScript : MonoBehaviour {
         if (direction)
         {
             conveyor.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
-            conveyor.GetComponent<Renderer>().material.color = Color.red;
         }
         else
         {
             conveyor.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(0, -offset));
-            conveyor.GetComponent<Renderer>().material.color = Color.green;
         }
     }
 }
