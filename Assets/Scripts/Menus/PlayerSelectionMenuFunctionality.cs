@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerSelectionMenuFunctionality : MonoBehaviour {
+
+    private WhiteFadeUniversal fader;
 
     private int player1Color;
     private int player2Color;
@@ -37,16 +38,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         Color.yellow
     };
 
-    public Image img;
     public Text loading;
-    private float alpha;
-    private float fadeSpeed = 1.5f;
-    private bool FadeOutBool;
-
-    private const string TRANSITION = "Sounds/KartEffects/screen_transition";
-    private AudioClip transition;
-    private AudioSource source;
-    private bool pressed;
 
     public const string READY = "Ready to Play!";
     public const string UNREADY = "Press Any Button";
@@ -61,8 +53,19 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     private SceneGenerator sceneGenerator;
     private string gamemodeName;
 
-    void Start() {
+    void Awake()
+    {
+        // fade in/out initializer
+        GameObject fadeObject = new GameObject();
+        fadeObject.name = "Fader";
+        fadeObject.transform.SetParent(transform);
+        fadeObject.SetActive(true);
+        fader = fadeObject.AddComponent<WhiteFadeUniversal>();
+        fader.BeginExitScene("Sound");
+        //
+    }
 
+    void Start() {
         player1Color = 0;
         player1ColorText.text = COLOR + kartColorName[player1Color];
         player1ColorText.color = kartColorList[player1Color];
@@ -78,16 +81,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         player4Color = 3;
         player4ColorText.text = COLOR + kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
-
-        Color fadeCol = img.color;
-        fadeCol.a = 0;
-        img.color = fadeCol;
-        alpha = 0.0f;
-        FadeOutBool = false;
-
-        pressed = false;
-        transition = (AudioClip)Resources.Load(TRANSITION);
-        source = GameObject.Find("Sound").GetComponent<AudioSource>();
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
         gamemodeName = sceneGenerator.GamemodeName;
@@ -115,11 +108,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         player4ColorText.text = COLOR + kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
 
-        if (FadeOutBool)
-        {
-            FadeOut();
-        }
-        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY) && !pressed) {
+        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
             StartCoroutine(LoadScene());
         } else {
             checkForReadyPlayers();
@@ -128,11 +117,13 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     private IEnumerator LoadScene() {
         // Configure Controls (Player Testing Order Matters)
-        pressed = true;
-        FadeOutBool = true;
-        pressed = true;
-        PlaySound();
-        yield return new WaitWhile(() => source.isPlaying);
+
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+
+        loading.GetComponent<Text>().enabled = true;
+        loading.transform.SetAsFirstSibling();
 
         SimpleInput.ClearCurrentPlayerDevices();
 
@@ -237,27 +228,4 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
         return count;
     }
-
-    private void PlaySound()
-    {
-        source.clip = transition;
-        source.loop = false;
-        source.Play();
-    }
-
-
-    private void FadeOut()
-    {
-        alpha += fadeSpeed * Time.deltaTime;
-        alpha = Mathf.Clamp01(alpha);
-        Color col = img.color;
-        col.a = alpha;
-        img.color = col;
-        if (alpha == 1)
-        {
-            loading.enabled = true;
-            FadeOutBool = false;
-        }
-    }
-
 }

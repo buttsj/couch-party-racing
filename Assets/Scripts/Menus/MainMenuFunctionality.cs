@@ -5,19 +5,9 @@ using System.Collections;
 
 public class MainMenuFunctionality : MonoBehaviour
 {
+    private WhiteFadeUniversal fader;
 
     public GameObject waypointAI;
-
-    public Image img;
-    private float alpha;
-    private float fadeSpeed = .5f;
-    private bool FadeInBool;
-    private bool FadeOutBool;
-
-    private const string TRANSITION = "Sounds/KartEffects/screen_transition";
-    private AudioClip transition;
-    private AudioSource source;
-    private bool pressed;
 
     private const int BUTTONSWIDTH = 2;
     private const int BUTTONSHEIGHT = 4;
@@ -48,20 +38,20 @@ public class MainMenuFunctionality : MonoBehaviour
     private Text[] quitButtons;
     private int exitIndex;
 
+    void Awake()
+    {
+        // fade in/out initializer
+        GameObject fadeObject = new GameObject();
+        fadeObject.name = "Fader";
+        fadeObject.transform.SetParent(transform);
+        fadeObject.SetActive(true);
+        fader = fadeObject.AddComponent<WhiteFadeUniversal>();
+        fader.BeginNewScene("Sound");
+        //
+    }
+
     void Start()
     {
-
-        Color col = img.color;
-        col.a = 255;
-        img.color = col;
-        alpha = 1.0f;
-        FadeInBool = true;
-        FadeOutBool = false;
-
-        pressed = false;
-        transition = (AudioClip)Resources.Load(TRANSITION);
-        source = GameObject.Find("Sound").GetComponent<AudioSource>();
-
         highlight = new Color(255, 255, 0);
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
@@ -94,14 +84,6 @@ public class MainMenuFunctionality : MonoBehaviour
 
     void Update()
     {
-        if (FadeInBool)
-        {
-            FadeIn();
-        }
-        if (FadeOutBool)
-        {
-            FadeOut();
-        }
         if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
@@ -164,46 +146,32 @@ public class MainMenuFunctionality : MonoBehaviour
         }
     }
 
-    private void SetFadeOut()
-    {
-        pressed = true;
-        FadeOutBool = true;
-        FadeInBool = false;
-        fadeSpeed = .9f;
-    }
-
     private void buttonPress()
     {
-        if (SimpleInput.GetButtonDown("Bump Kart") && !pressed)
+        if (SimpleInput.GetButtonDown("Bump Kart"))
         {
             if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode))
             {
-                SetFadeOut();
                 StartCoroutine(raceModePress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder))
             {
-                SetFadeOut();
                 StartCoroutine(trackBuilderPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun))
             {
-                SetFadeOut();
-                deathRunPress();
+                StartCoroutine(deathRunPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground))
             {
-                SetFadeOut();
                 StartCoroutine(playgroundPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun))
             {
-                SetFadeOut();
                 StartCoroutine(spudRunPress());
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings))
             {
-                SetFadeOut();
                 settingsPress();
             }
             else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit))
@@ -219,46 +187,52 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private IEnumerator raceModePress()
     {
-        PlaySound();
-        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
         sceneGenerator.LevelName = null;
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
         GoToNextMenu();
     }
 
     private IEnumerator trackBuilderPress()
     {
-        PlaySound();
-        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "TrackBuilder";
         sceneGenerator.SceneName = "TrackBuilderScene";
         sceneGenerator.LevelName = null;
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
         GoToNextMenu();
     }
 
-    private void deathRunPress()
+    private IEnumerator deathRunPress()
     {
-
+        while (!fader.Faded)
+            yield return null;
+        //GoToNextMenu();
     }
 
     private IEnumerator playgroundPress()
     {
-        PlaySound();
-        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "TotShot";
         sceneGenerator.SceneName = "TotShotScene";
         sceneGenerator.LevelName = null;
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
         GoToNextMenu();
     }
 
     private IEnumerator spudRunPress()
     {
-        PlaySound();
-        yield return new WaitWhile(() => source.isPlaying);
         sceneGenerator.GamemodeName = "SpudRun";
         sceneGenerator.SceneName = "SpudRunScene";
         sceneGenerator.LevelName = null;
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
         GoToNextMenu();
     }
 
@@ -331,38 +305,4 @@ public class MainMenuFunctionality : MonoBehaviour
 
         buttons[currentButtonX, currentButtonY].color = highlight;
     }
-
-    private void PlaySound()
-    {
-        source.clip = transition;
-        source.loop = false;
-        source.Play();
-    }
-
-    private void FadeIn()
-    {
-        alpha -= fadeSpeed * Time.deltaTime;
-        alpha = Mathf.Clamp01(alpha);
-        Color col = img.color;
-        col.a = alpha;
-        img.color = col;
-        if (alpha == 0)
-        {
-            FadeInBool = false;
-        }
-    }
-
-    private void FadeOut()
-    {
-        alpha += fadeSpeed * Time.deltaTime;
-        alpha = Mathf.Clamp01(alpha);
-        Color col = img.color;
-        col.a = alpha;
-        img.color = col;
-        if (alpha == 1)
-        {
-            FadeOutBool = false;
-        }
-    }
-
 }

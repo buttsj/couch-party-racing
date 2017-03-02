@@ -6,11 +6,18 @@ using UnityEngine;
 
 public class Cursor : MonoBehaviour {
 
+    public GameObject trackParent;
+
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string CHILD_NAME = "Track Piece";
     private const int TRACK_SCALE = 60;
 
-    public GameObject trackParent;
+    private const float OFFSET = 0.001f;
+    private static readonly Vector3 CENTER_OFFSET = new Vector3(-TRACK_SCALE, TRACK_SCALE, TRACK_SCALE) / 2f;
+    private static readonly Vector3 BOX_HALF_SCALE = new Vector3(TRACK_SCALE - OFFSET, TRACK_SCALE - OFFSET, TRACK_SCALE - OFFSET) / 2f;
+
+    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "CrossTrack", "Minimap"};
+
     private GameObject childTrackPiece;
     private List<GameObject> trackList;
     private int trackIndex = 0;
@@ -20,6 +27,7 @@ public class Cursor : MonoBehaviour {
 	void Start () {
         trackList = new List<GameObject>(Resources.LoadAll<GameObject>(TRACK_DIR));
 
+        NextTrackPiece();
         SwapCurrentTrack();
         PrintTrackName();
 	}
@@ -68,12 +76,14 @@ public class Cursor : MonoBehaviour {
 
         // Switch Track
         if (SimpleInput.GetButtonDown("Next Track")) {
-            trackIndex = (++trackIndex) % trackList.Count;
+            //trackIndex = (++trackIndex) % trackList.Count;
+            NextTrackPiece();
             SwapCurrentTrack();
             PrintTrackName();
         }
         if (SimpleInput.GetButtonDown("Previous Track")) {
-            trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+            //trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+            PreviousTrackPiece();
             SwapCurrentTrack();
             PrintTrackName();
         }
@@ -94,23 +104,27 @@ public class Cursor : MonoBehaviour {
 
     private void SpawnTrack() {
         if (!IsOverlap()) {
-            var trackPiece = Instantiate(trackList[trackIndex], transform.position, transform.rotation, trackParent.transform);
-            trackPiece.name = trackList[trackIndex].name;
+            var spawnedTrackPiece = Instantiate(trackList[trackIndex], transform.position, transform.rotation, trackParent.transform);
+            spawnedTrackPiece.name = trackList[trackIndex].name;
 
-            DisableColliders(trackPiece);
+            DisableColliders(spawnedTrackPiece);
 
-            trackPiece.AddComponent<BoxCollider>().center = new Vector3(-TRACK_SCALE, TRACK_SCALE, TRACK_SCALE) / 2f;
-            trackPiece.GetComponent<BoxCollider>().size = new Vector3(TRACK_SCALE, TRACK_SCALE, TRACK_SCALE);
+            foreach (var center in GetCenterPoints(CENTER_OFFSET, true)) {
+                spawnedTrackPiece.AddComponent<BoxCollider>().center = center;
+            }
+
+            // Set Size of Colliders
+            foreach (var collider in spawnedTrackPiece.GetComponentsInChildren<BoxCollider>()) {
+                if(collider.enabled) {
+                    collider.size = Vector3.one * TRACK_SCALE;
+                }
+            }
         }
     }
 
     private bool IsOverlap() {
-        const float OFFSET = 0.001f;
-        Vector3 CENTER_OFFSET = new Vector3(-TRACK_SCALE, TRACK_SCALE, TRACK_SCALE) / 2f;
-        Vector3 BOX_HALF_SCALE = new Vector3(TRACK_SCALE - OFFSET, TRACK_SCALE - OFFSET, TRACK_SCALE - OFFSET) / 2f;
-
         var centerPosition = transform.position + CENTER_OFFSET;
-        var collisions = DetermineOverlapBoxes(centerPosition, BOX_HALF_SCALE);
+        var collisions = GetOverlapBoxes(centerPosition, BOX_HALF_SCALE);
 
         foreach (var collision in collisions) {
             Debug.Log(collision.ToString());
@@ -119,22 +133,41 @@ public class Cursor : MonoBehaviour {
         return collisions.Count > 0;
     }
 
-    private IList DetermineOverlapBoxes(Vector3 centerPosition, Vector3 halfScale) {
-        var rotatedCenter = RotateFromPivot(centerPosition, transform.position, childTrackPiece.transform.rotation);
+    private IList GetOverlapBoxes(Vector3 centerPosition, Vector3 halfScale) {
+        List<Collider> collisions = new List<Collider>();
 
-        var collisions = Physics.OverlapBox(rotatedCenter, halfScale, Quaternion.identity, ~0, QueryTriggerInteraction.Ignore).ToList();
-
-        if (childTrackPiece.name.Contains("Ramp")) {
-            Vector3 rotatedLeftCenter = RotateFromPivot(centerPosition + new Vector3(-TRACK_SCALE, 0, 0), transform.position, childTrackPiece.transform.rotation);
-            Vector3 rotatedTopCenter = RotateFromPivot(centerPosition + new Vector3(0, TRACK_SCALE, 0), transform.position, childTrackPiece.transform.rotation);
-            Vector3 rotatedTopLeftCenter = RotateFromPivot(centerPosition + new Vector3(-TRACK_SCALE, TRACK_SCALE, 0), transform.position, childTrackPiece.transform.rotation);
-
-            collisions.AddRange(Physics.OverlapBox(rotatedLeftCenter, halfScale, childTrackPiece.transform.rotation, ~0, QueryTriggerInteraction.Ignore));
-            collisions.AddRange(Physics.OverlapBox(rotatedTopCenter, halfScale, childTrackPiece.transform.rotation, ~0, QueryTriggerInteraction.Ignore));
-            collisions.AddRange(Physics.OverlapBox(rotatedTopLeftCenter, halfScale, childTrackPiece.transform.rotation, ~0, QueryTriggerInteraction.Ignore));
-        } 
+        foreach (var center in GetCenterPoints(centerPosition, false)) {
+            collisions.AddRange(Physics.OverlapBox(center, halfScale, childTrackPiece.transform.rotation, ~0, QueryTriggerInteraction.Ignore).ToList());
+        }
 
         return collisions;
+    }
+
+    private List<Vector3> GetCenterPoints(Vector3 centerPosition, bool isLocal) {
+        List<Vector3> centerList = new List<Vector3>();
+        
+        centerList.Add(centerPosition);
+
+        if (childTrackPiece.name.Contains("Ramp")) {
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, 0));
+            centerList.Add(centerPosition + new Vector3(0, TRACK_SCALE, 0));
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, TRACK_SCALE, 0));
+        } else if (childTrackPiece.name.Contains("RightTurn")) {
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, 0));
+            centerList.Add(centerPosition + new Vector3(0, 0, TRACK_SCALE));
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, TRACK_SCALE));
+        } else if (childTrackPiece.name.Contains("LeftTurn")) {
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, 0));
+            centerList.Add(centerPosition + new Vector3(0, 0, -TRACK_SCALE));
+            centerList.Add(centerPosition + new Vector3(-TRACK_SCALE, 0, -TRACK_SCALE));
+        }
+
+        // Adjust for Rotation if not Local
+        for (int i = 0; i < centerList.Count && !isLocal; i++) {
+            centerList[i] = RotateFromPivot(centerList[i], transform.position, childTrackPiece.transform.rotation);
+        }
+
+        return centerList;
     }
 
     private bool IsInputReset() {
@@ -153,5 +186,17 @@ public class Cursor : MonoBehaviour {
         Vector3 rotatedDirectionVector = rotation * directionVector;
         Vector3 rotatedPoint = pivot + rotatedDirectionVector;
         return rotatedPoint;
+    }
+
+    private void NextTrackPiece() {
+        do {
+            trackIndex = (++trackIndex) % trackList.Count;
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+    }
+
+    private void PreviousTrackPiece() {
+        do {
+            trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
     }
 }
