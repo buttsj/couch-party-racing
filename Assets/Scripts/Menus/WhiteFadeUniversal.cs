@@ -28,6 +28,7 @@ public class WhiteFadeUniversal : MonoBehaviour {
             AddFadeOut();
 	}
 
+    // called when a scene is using a Fade In
     public void BeginNewScene(string musicPlayer)
     {
         played = false;
@@ -44,6 +45,7 @@ public class WhiteFadeUniversal : MonoBehaviour {
         transform.SetAsLastSibling();
     }
 
+    // called when a scene is only using a Fade Out
     public void BeginExitScene(string musicPlayer)
     {
         played = false;
@@ -60,17 +62,15 @@ public class WhiteFadeUniversal : MonoBehaviour {
         transform.SetAsLastSibling();
     }
 
+    // begin Fade Out sequence
     public void SceneSwitch()
     {
-        Color fadeCol = img.color;
-        fadeCol.a = 0;
-        img.color = fadeCol;
-        alpha = 0.0f;
         FadeInBool = false;
         FadeOutBool = true;
         source.PlayOneShot(transition);
     }
 
+    // increment the Fade In (via deltaTime)
     private void AddFadeIn()
     {
         if (Time.timeScale == 0)
@@ -88,6 +88,7 @@ public class WhiteFadeUniversal : MonoBehaviour {
         }
     }
 
+    // increment the Fade Out (via deltaTime)
     private void AddFadeOut()
     {
         alpha += fadeSpeed * Time.deltaTime;
