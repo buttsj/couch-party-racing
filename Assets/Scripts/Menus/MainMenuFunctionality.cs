@@ -5,8 +5,10 @@ using System.Collections;
 
 public class MainMenuFunctionality : MonoBehaviour
 {
-    private WhiteFadeUniversal fader;
 
+    public SettingsMenuFunctionality settingsFunc;
+
+    private WhiteFadeUniversal fader;
     private const int BUTTONSWIDTH = 2;
     private const int BUTTONSHEIGHT = 4;
 
@@ -55,6 +57,8 @@ public class MainMenuFunctionality : MonoBehaviour
 
     void Start()
     {
+        settingsFunc = settingsMenu.GetComponent<SettingsMenuFunctionality>();
+
         highlight = new Color(255, 255, 0);
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
@@ -297,6 +301,8 @@ public class MainMenuFunctionality : MonoBehaviour
     private void applySettings()
     {
         // apply the settings
+        settingsFunc.ApplySettings();
+        settingsMenu.enabled = false;
     }
 
     private void quitScroll()
