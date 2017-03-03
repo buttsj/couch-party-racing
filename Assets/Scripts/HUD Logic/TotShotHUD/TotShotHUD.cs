@@ -25,9 +25,9 @@ public class TotShotHUD : MonoBehaviour
         redScoreInt = 0;
         blueScoreInt = 0;
         secondsRemain = 0;
-        minutesRemain = 5;
+        minutesRemain = 1;
         seconds = "00";
-        minutes = "5";
+        minutes = "1";
         time.text = minutes + ":" + seconds;
     }
 
@@ -49,25 +49,28 @@ public class TotShotHUD : MonoBehaviour
 
     public void UpdateTimerUI()
     {
-        secondsRemain -= Time.deltaTime;
-        if (secondsRemain <= 0 && minutesRemain <=0)
+        if (!isOver())
         {
-            secondsRemain = 0;
-            minutesRemain = 0;
-        }
-        seconds = ((int)secondsRemain).ToString();
-        if (secondsRemain < 10)
-        {
-            seconds = "0" + ((int)secondsRemain).ToString();
-        }
-        if (secondsRemain <=0)
-        {
-            minutesRemain--;
-            secondsRemain = 59.9f;
-            seconds = "59";
-        }
-        minutes = minutesRemain.ToString();
+            secondsRemain -= Time.deltaTime;
+            seconds = ((int)secondsRemain).ToString();
+            if (secondsRemain < 10)
+            {
+                seconds = "0" + ((int)secondsRemain).ToString();
+            }
+            if (secondsRemain <= 0)
+            {
+                minutesRemain--;
+                secondsRemain = 59.9f;
+                seconds = "59";
+            }
+            minutes = minutesRemain.ToString();
 
-        time.text = minutes + ":" + seconds;
+            time.text = minutes + ":" + seconds;
+        }
+    }
+
+    public bool isOver()
+    {
+        return (seconds == "00" && minutes == "0");
     }
 }
