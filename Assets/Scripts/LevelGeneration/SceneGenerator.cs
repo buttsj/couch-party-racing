@@ -31,6 +31,8 @@ public class SceneGenerator : MonoBehaviour {
     private List<Color> kartColorList = new List<Color>();
     public Color KartColorizer { set { kartColorList.Add(value); } }
 
+    string[] teamColor = new string[]{ "red", "red", "blue", "blue" };
+
     void Awake() {
         DontDestroyOnLoad(this);
     }
@@ -160,6 +162,7 @@ public class SceneGenerator : MonoBehaviour {
             {
                 GenerateKart(i, AI_KART_TOT_PATH);
                 kartList[i].name = "AI" + (i + 1);
+                kartList[i].GetComponent<TotShotAI>().GameState = new TotShotGameState(kartList[i], teamColor[i]);
             }
         }
 
@@ -192,7 +195,7 @@ public class SceneGenerator : MonoBehaviour {
             case "TotShot":
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
                 {
-                    kartList[i].GetComponent<Kart>().GameState = new TotShotGameState(kartList[i]);
+                    kartList[i].GetComponent<Kart>().GameState = new TotShotGameState(kartList[i], teamColor[i]);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = false;
                     kartList[i].GetComponent<Kart>().IsTotShotGameState = true;
                 }

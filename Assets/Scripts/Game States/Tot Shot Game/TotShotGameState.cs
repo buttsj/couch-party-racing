@@ -5,10 +5,12 @@ using UnityEngine;
 public class TotShotGameState : IGameState {
 
     public GameObject player;
+    private string teamColor;
 
-    public TotShotGameState(GameObject kart)
+    public TotShotGameState(GameObject kart, string team)
     {
         player = kart;
+        teamColor = team;
     }
 
     public void Start()
@@ -41,4 +43,8 @@ public class TotShotGameState : IGameState {
 
     }
 
+    public string getTeam()
+    {
+        return teamColor;
+    }
 }
