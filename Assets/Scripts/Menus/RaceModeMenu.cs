@@ -30,11 +30,12 @@ public class RaceModeMenu : MonoBehaviour {
 
     void Update()
     {
-        if (pressed)
-        {
-            Kitchen1.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
-            Bedroom1.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
+        if (pressed) {
             levelSelection.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
+
+            foreach (var child in GetComponentsInChildren<Transform>()) {
+                child.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
+            }
         }
     }
 
