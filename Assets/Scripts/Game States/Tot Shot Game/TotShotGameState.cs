@@ -43,6 +43,8 @@ public class TotShotGameState : IGameState {
 
     }
 
+    public void OnTriggerEnter(GameObject other) { }
+
     public string getTeam()
     {
         return teamColor;

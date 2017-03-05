@@ -15,4 +15,5 @@ public interface IGameState {
     string GetGameStateName();
 
     void OnCollisionEnter(GameObject other);
+    void OnTriggerEnter(GameObject other);
 }

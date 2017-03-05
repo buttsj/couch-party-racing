@@ -7,6 +7,7 @@ public class SpudRunGameState : IGameState {
     public bool HoldingPotato { get; set; }
     public GameObject player;
     public float SpudScore { get; set; }
+    public float InvulnerableTimer { get; set; }
 
     public SpudRunGameState(GameObject kart) {
         player = kart;
@@ -22,6 +23,7 @@ public class SpudRunGameState : IGameState {
             SpudScore += Time.deltaTime;
             player.GetComponent<Kart>().PhysicsObject.MaxSpeed = 200f;
         }
+        InvulnerableTimer -= Time.deltaTime;
     }
 
   
@@ -48,13 +50,14 @@ public class SpudRunGameState : IGameState {
     public void OnCollisionEnter(GameObject other) {
         if (other.CompareTag("Player"))
         {
-            if (((SpudRunGameState)other.GetComponent<Kart>().GameState).HoldingPotato)
+            if (((SpudRunGameState)other.GetComponent<Kart>().GameState).HoldingPotato && ((SpudRunGameState)other.GetComponent<Kart>().GameState).InvulnerableTimer < 0)
             {
                 ((SpudRunGameState)other.GetComponent<Kart>().GameState).HoldingPotato = false;
                 GameObject.Find("Potato").GetComponent<SpudScript>().SpudHolder = null;
                 GameObject.Find("Potato").GetComponent<SpudScript>().IsTagged = false;
                 if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing())
-                {
+                { 
+                    other.gameObject.GetComponent<Kart>().IsDamaged = true;
                     SpudScore += 5;
                 }
                 else {
@@ -63,5 +66,23 @@ public class SpudRunGameState : IGameState {
             }
         }
 
+    }
+
+    public void OnTriggerEnter(GameObject other) {
+        if (other.gameObject.CompareTag("Potato"))
+        {
+            if (other.gameObject.GetComponent<SpudScript>().CanIGrab())
+            {
+                other.gameObject.GetComponent<SpudScript>().SpudHolder = player;
+                other.gameObject.GetComponent<SpudScript>().IsTagged = true;
+                HoldingPotato = true;
+                InvulnerableTimer = 2f;
+            }
+        }
+
+        if (other.name.Contains("Marble") && HoldingPotato)
+        {
+            ((SpudRunGameState)other.GetComponent<Marble>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
+        }
     }
 }

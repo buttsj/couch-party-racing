@@ -239,18 +239,8 @@ public class Kart : MonoBehaviour
                 ability = new Marble(gameObject, kartAudio);
             }
         }
-        if (other.gameObject.CompareTag("Potato"))
-        {
-            Debug.Log("hit potato");
-            if (other.gameObject.GetComponent<SpudScript>().CanIGrab())
-            {
-                other.gameObject.GetComponent<SpudScript>().SpudHolder = gameObject;
-                other.gameObject.GetComponent<SpudScript>().IsTagged = true;
-                ((SpudRunGameState)gameState).HoldingPotato = true;
-            }
-            else
-                Debug.Log("can't grab potato yet");
-        }
+
+        gameState.OnTriggerEnter(other.gameObject);
         if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
         {
             damaged = true;
@@ -278,17 +268,7 @@ public class Kart : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
-        {
-            if (ability.IsUsing() && other.transform.name.Contains("AI"))
-            {
-                other.gameObject.GetComponent<WaypointAI>().Damage();
-            }
-            else if (ability.IsUsing() && other.transform.name.Contains("Player"))
-            {
-                other.gameObject.GetComponent<Kart>().IsDamaged = true;
-            }
-        }
+        
 
         gameState.OnCollisionEnter(other.gameObject);
         

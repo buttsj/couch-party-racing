@@ -51,6 +51,19 @@ public class RacingGameState : IGameState {
         return "RacingGameState";
     }
 
-    public void OnCollisionEnter(GameObject other) { }
+    public void OnCollisionEnter(GameObject other) {
+        if (other.gameObject.CompareTag("Player") && player.GetComponent<Kart>().Ability.ToString() == "Spark")
+        {
+            if (player.GetComponent<Kart>().Ability.IsUsing() && other.transform.name.Contains("AI"))
+            {
+                other.gameObject.GetComponent<WaypointAI>().Damage();
+            }
+            else if (player.GetComponent<Kart>().Ability.IsUsing() && other.transform.name.Contains("Player"))
+            {
+                other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            }
+        }
+    }
 
+    public void OnTriggerEnter(GameObject other) { }
 }

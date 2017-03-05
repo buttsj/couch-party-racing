@@ -7,7 +7,7 @@ public class Marble : IKartAbility
     private KartAudio ownerAudio;
 
     private AudioClip marbleUse;
-    
+    public GameObject Owner { get; }
     private bool destroy;
     private bool used;
 
