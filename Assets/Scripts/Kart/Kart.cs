@@ -36,7 +36,7 @@ public class Kart : MonoBehaviour
     private float maxSpeed;
     private float minSpeed;
     private string powerup;
-    private Vector3 originalOrientation;
+    public Vector3 OriginalOrientation { get; set; }
     private int playerNumber;
     public int PlayerNumber { get { return playerNumber; } set { playerNumber = value; } }
     private string timeText;
@@ -244,14 +244,14 @@ public class Kart : MonoBehaviour
         if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
         {
             damaged = true;
-            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+            OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
         if (other.gameObject.name.Contains("Oil") && damaged == false)
         {
             if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
             {
                 damaged = true;
-                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 Destroy(other.gameObject);
             }
         }
@@ -260,7 +260,7 @@ public class Kart : MonoBehaviour
             if (damaged == false)
             {
                 damaged = true;
-                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
             }
             Destroy(other.gameObject);
         }
@@ -403,7 +403,7 @@ public class Kart : MonoBehaviour
             pow_particles.GetComponent<ParticleSystem>().Stop();
             damaged = false;
             selfTimer = 0;
-            transform.localEulerAngles = originalOrientation;
+            transform.localEulerAngles = OriginalOrientation;
             kartAudio.SpinOutPlayed = false;
         }
     }

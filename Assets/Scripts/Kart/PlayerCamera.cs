@@ -6,12 +6,12 @@ public class PlayerCamera : MonoBehaviour {
 
     public Transform player;
     public float followDistance;
+    private Vector3 originalOrientation;
     private Vector3 offset;
-    int notGroundedOffset;
     float fov;
 	// Use this for initialization
 	void Start() {
-        offset = new Vector3(0, 7, 0);
+        offset = new Vector3(0, 10, 0);
         transform.position = player.position - followDistance * player.forward + offset;
         transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
         fov = gameObject.GetComponent<Camera>().fieldOfView;
@@ -24,10 +24,11 @@ public class PlayerCamera : MonoBehaviour {
         if (!player.gameObject.GetComponent<Kart>().IsDamaged)
         {
             transform.position = player.position - followDistance * player.forward + offset;
-            transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
+            transform.localEulerAngles = new Vector3(player.localEulerAngles.x + 10, player.localEulerAngles.y, 0);
+            originalOrientation = player.forward;
         }
         else {
-            transform.position = player.position - followDistance * transform.forward + offset;
+            transform.position = player.position - followDistance * originalOrientation + offset;
 
         }
       

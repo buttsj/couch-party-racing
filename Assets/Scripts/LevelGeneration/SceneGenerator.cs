@@ -11,7 +11,7 @@ public class SceneGenerator : MonoBehaviour {
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
     private const string SPUD_HUD_PATH = "Prefabs/UI Prefabs/SpudRun UI/";
     private const string TOT_HUD_PATH = "Prefabs/UI Prefabs/TotShot UI/";
-    private const int CAMERA_FOLLOW_DISTANCE = 20;
+    private const int CAMERA_FOLLOW_DISTANCE = 30;
     private const int MAX_PLAYERS = 4;
 
     public string LevelName { get; set; }
