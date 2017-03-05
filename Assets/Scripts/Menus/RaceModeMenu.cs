@@ -33,7 +33,7 @@ public class RaceModeMenu : MonoBehaviour {
         if (pressed) {
             levelSelection.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
 
-            foreach (var child in GetComponentsInChildren<Transform>()) {
+            foreach (Transform child in transform) {
                 child.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
             }
         }

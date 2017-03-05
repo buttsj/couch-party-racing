@@ -22,7 +22,6 @@ public class Cursor : MonoBehaviour {
     private GameObject childTrackPiece;
     private List<GameObject> trackList;
     private int trackIndex = 0;
-    private bool canAcceptInput = false;
 
 	// Use this for initialization
 	void Start () {
@@ -35,36 +34,6 @@ public class Cursor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        HandleInput();
-    }
-
-    private void HandleInput() {
-        if (canAcceptInput) {
-            // X-Axis
-            if (SimpleInput.GetAxis("Horizontal", 1) > 0) {
-                transform.position += new Vector3(TRACK_SCALE, 0, 0);
-            }
-            if (SimpleInput.GetAxis("Horizontal", 1) < 0) {
-                transform.position -= new Vector3(TRACK_SCALE, 0, 0);
-            }
-
-            // Y-Axis
-            if (SimpleInput.GetAxis("Vertical", 1) > 0) {
-                transform.position += new Vector3(0, TRACK_SCALE, 0);
-            }
-            if (SimpleInput.GetAxis("Vertical", 1) < 0) {
-                transform.position -= new Vector3(0, TRACK_SCALE, 0);
-            }   
-        }
-
-        // Z-Axis
-        if (SimpleInput.GetButtonDown("Accelerate", 1)) {
-            transform.position += new Vector3(0, 0, TRACK_SCALE);
-        }
-        if (SimpleInput.GetButtonDown("Reverse", 1)) {
-            transform.position -= new Vector3(0, 0, TRACK_SCALE);
-        }
-
         // Rotate
         if (SimpleInput.GetButtonDown("Rotate", 1)) {
             transform.Rotate(new Vector3(0, 90, 0));
@@ -91,8 +60,6 @@ public class Cursor : MonoBehaviour {
             SwapCurrentTrack();
             PrintTrackName();
         }
-
-        canAcceptInput = IsInputReset();
     }
 
     private void SwapCurrentTrack() {
@@ -183,10 +150,6 @@ public class Cursor : MonoBehaviour {
         }
 
         return centerList;
-    }
-
-    private bool IsInputReset() {
-        return SimpleInput.GetAxis("Horizontal") == 0 && SimpleInput.GetAxis("Vertical") == 0;
     }
 
     private void DisableColliders(GameObject parent) {
