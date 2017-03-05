@@ -99,7 +99,9 @@ public class Cursor : MonoBehaviour {
             var collisions = GetOverlapBoxes(centerPosition, BOX_HALF_SCALE);
 
             foreach (var collision in collisions) {
-                Destroy(collision.gameObject);
+                if(trackList.Find(x => collision.name == x.name)) {
+                    Destroy(collision.gameObject);
+                }
             }
         }
     }
