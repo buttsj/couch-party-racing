@@ -125,9 +125,8 @@ public class SceneGenerator : MonoBehaviour {
             }
 
             var spudIcon = minimap.transform.FindChild("SpudIcon").gameObject;
-            spudIcon.SetActive(true);
             spudIcon.GetComponent<MinimapFollowObject>().followObj = GameObject.Find("Potato").transform;
-            spudIcon.GetComponent<Renderer>().material.SetTexture("potatoTexture", GameObject.Find("Potato").GetComponent<Renderer>().material.mainTexture);
+            spudIcon.SetActive(true);
             switch (SimpleInput.NumberOfPlayers)
             {
                 case 3:

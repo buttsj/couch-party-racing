@@ -9,7 +9,7 @@ public class SpudScript : MonoBehaviour {
     private GameObject holder;
     private float invulnTimer;
 
-    private const float SPUD_MAX_TIME = 60f;
+    private const float SPUD_MAX_TIME = 20f;
 
     public float TimeRemaining { get { return timer; } set { timer = value; } }
     public bool IsTagged { get { return tagged; } set { tagged = value; } }
@@ -22,7 +22,7 @@ public class SpudScript : MonoBehaviour {
     private Quaternion spawnRot;
     public bool RoundOver { get; set; }
     private int roundCount;
-    public int RoundCount { get; }
+    public int RoundCount { get { return roundCount; } }
 
     public bool CanIGrab()
     {
