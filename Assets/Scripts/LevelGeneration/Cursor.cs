@@ -10,6 +10,7 @@ public class Cursor : MonoBehaviour {
 
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string CHILD_NAME = "Track Piece";
+    private const string START_TRACK_NAME = "StartTrack";
     private const int TRACK_SCALE = 60;
 
     private const float OFFSET = 0.001f;
@@ -27,7 +28,8 @@ public class Cursor : MonoBehaviour {
 	void Start () {
         trackList = new List<GameObject>(Resources.LoadAll<GameObject>(TRACK_DIR));
 
-        NextTrackPiece();
+        //NextTrackPiece();
+        SetToTrackPiece(START_TRACK_NAME);
         SwapCurrentTrack();
         PrintTrackName();
 	}
@@ -198,5 +200,11 @@ public class Cursor : MonoBehaviour {
         do {
             trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
         } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+    }
+
+    private void SetToTrackPiece(string trackPieceName) {
+        while(trackPieceName != trackList[trackIndex].name) {
+            NextTrackPiece();
+        }
     }
 }
