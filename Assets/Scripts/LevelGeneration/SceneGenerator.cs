@@ -33,6 +33,8 @@ public class SceneGenerator : MonoBehaviour {
 
     string[] teamColor = new string[]{ "red", "red", "blue", "blue" };
 
+    public void ClearColors() { kartColorList.Clear(); }
+
     void Awake() {
         DontDestroyOnLoad(this);
     }

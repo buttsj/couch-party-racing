@@ -144,6 +144,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
         }
+
+        sceneGenerator.ClearColors();
         sceneGenerator.KartColorizer = kartColorList[player1Color];
         sceneGenerator.KartColorizer = kartColorList[player2Color];
         sceneGenerator.KartColorizer = kartColorList[player3Color];
