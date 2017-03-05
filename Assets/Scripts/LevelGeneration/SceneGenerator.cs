@@ -44,7 +44,7 @@ public class SceneGenerator : MonoBehaviour {
             GenerateCameras();
             GenerateAI();
             GenerateHUD();
-            InitializeMinimap();
+            GenerateMinimap();
             DestroyGenerator();
         }
     }
@@ -75,8 +75,18 @@ public class SceneGenerator : MonoBehaviour {
         }
     }
 
-    private void InitializeMinimap() {
-        GameObject minimap = GameObject.Find("Minimap");
+    private void GenerateMinimap() {
+        if (GamemodeName == "RaceMode")
+        {
+            InitializeRaceModeMinimap();
+        }
+        else if (GamemodeName == "SpudRun") {
+            InitializeSpudRunMinimap();
+        }
+    }
+
+    private void InitializeRaceModeMinimap() {
+        GameObject minimap = GameObject.Find("RaceModeMinimap");
 
         if (minimap) {
             for (int i = 0; i < kartList.Count; i++) {
@@ -97,6 +107,37 @@ public class SceneGenerator : MonoBehaviour {
             }
 
         }
+    }
+
+    private void InitializeSpudRunMinimap() {
+        GameObject minimap = GameObject.Find("SpudRunMinimap");
+        if (minimap)
+        {
+            for (int i = 0; i < kartList.Count; i++)
+            {
+                var icon = minimap.transform.GetChild(i).gameObject;
+
+                icon.SetActive(true);
+                icon.GetComponent<MinimapFollowObject>().followObj = kartList[i].transform;
+                icon.GetComponent<Renderer>().material.color = kartColorList[i];
+            }
+
+            var spudIcon = minimap.transform.FindChild("SpudIcon").gameObject;
+            spudIcon.SetActive(true);
+            spudIcon.GetComponent<MinimapFollowObject>().followObj = GameObject.Find("Potato").transform;
+            spudIcon.GetComponent<Renderer>().material.SetTexture("potatoTexture", GameObject.Find("Potato").GetComponent<Renderer>().material.mainTexture);
+            switch (SimpleInput.NumberOfPlayers)
+            {
+                case 3:
+                    minimap.GetComponent<Camera>().rect = new Rect(0.785f, 0.03f, .2f, .26f);
+                    break;
+                case 4:
+                    minimap.GetComponent<Camera>().rect = new Rect(.4f, 0.4f, .2f, .26f);
+                    break;
+            }
+
+        }
+
     }
 
     private void GenerateKart(int kartNumber, string destination) {
