@@ -16,6 +16,10 @@ public class TrackBuilderMenu : MonoBehaviour {
         EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("NewTrack"));
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+
+        SimpleInput.ClearCurrentPlayerDevices();
+        SimpleInput.MapPlayerToDevice(1);
+
         Destroy(sceneGenerator.gameObject);
     }
 
