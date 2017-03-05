@@ -73,4 +73,5 @@ public class TotShotHUD : MonoBehaviour
     {
         return (seconds == "00" && minutes == "0");
     }
+
 }

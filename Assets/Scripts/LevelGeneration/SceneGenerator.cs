@@ -197,6 +197,7 @@ public class SceneGenerator : MonoBehaviour {
 
             WaypointSetter.SetWaypoints();
         }
+        /*
         else if(GamemodeName == "TotShot")
         {
             for (int i = kartList.Count; i < MAX_PLAYERS; i++)
@@ -206,6 +207,7 @@ public class SceneGenerator : MonoBehaviour {
                 kartList[i].GetComponent<TotShotAI>().GameState = new TotShotGameState(kartList[i], teamColor[i]);
             }
         }
+        */
 
     }
 
