@@ -19,7 +19,8 @@ public class ControlBindings {
         { "Cancel",             NULL_CONTROL },
         { "Rotate",             NULL_CONTROL },
         { "Next Track",         NULL_CONTROL },
-        { "Previous Track",     NULL_CONTROL }
+        { "Previous Track",     NULL_CONTROL },
+        { "Delete Track",       NULL_CONTROL }
     };
 
     private int joystickNumber;
@@ -61,6 +62,7 @@ public class ControlBindings {
             bindings["Rotate"] = new KeyboardControl(KeyCode.R);
             bindings["Next Track"] = new KeyboardControl(KeyCode.RightArrow);
             bindings["Previous Track"] = new KeyboardControl(KeyCode.LeftArrow);
+            bindings["Delete Track"] = new KeyboardControl(KeyCode.Delete);
 
             return bindings;
         }

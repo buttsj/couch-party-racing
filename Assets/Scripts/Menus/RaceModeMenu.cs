@@ -48,6 +48,11 @@ public class RaceModeMenu : MonoBehaviour {
         StartCoroutine(Transition());
     }
 
+    public void UserInputEnter(InputField userInputField) {
+        sceneGenerator.LevelName = userInputField.text;
+        StartCoroutine(Transition());
+    }
+
     private void GoToNextMenu() {
         SceneManager.LoadScene("SelectionMenu");
     }

@@ -28,7 +28,6 @@ public class Cursor : MonoBehaviour {
 	void Start () {
         trackList = new List<GameObject>(Resources.LoadAll<GameObject>(TRACK_DIR));
 
-        //NextTrackPiece();
         SetToTrackPiece(START_TRACK_NAME);
         SwapCurrentTrack();
         PrintTrackName();
@@ -42,49 +41,52 @@ public class Cursor : MonoBehaviour {
     private void HandleInput() {
         if (canAcceptInput) {
             // X-Axis
-            if (SimpleInput.GetAxis("Horizontal") > 0) {
+            if (SimpleInput.GetAxis("Horizontal", 1) > 0) {
                 transform.position += new Vector3(TRACK_SCALE, 0, 0);
             }
-            if (SimpleInput.GetAxis("Horizontal") < 0) {
+            if (SimpleInput.GetAxis("Horizontal", 1) < 0) {
                 transform.position -= new Vector3(TRACK_SCALE, 0, 0);
             }
 
             // Y-Axis
-            if (SimpleInput.GetAxis("Vertical") > 0) {
+            if (SimpleInput.GetAxis("Vertical", 1) > 0) {
                 transform.position += new Vector3(0, TRACK_SCALE, 0);
             }
-            if (SimpleInput.GetAxis("Vertical") < 0) {
+            if (SimpleInput.GetAxis("Vertical", 1) < 0) {
                 transform.position -= new Vector3(0, TRACK_SCALE, 0);
             }   
         }
 
         // Z-Axis
-        if (SimpleInput.GetButtonDown("Accelerate")) {
+        if (SimpleInput.GetButtonDown("Accelerate", 1)) {
             transform.position += new Vector3(0, 0, TRACK_SCALE);
         }
-        if (SimpleInput.GetButtonDown("Reverse")) {
+        if (SimpleInput.GetButtonDown("Reverse", 1)) {
             transform.position -= new Vector3(0, 0, TRACK_SCALE);
         }
 
         // Rotate
-        if (SimpleInput.GetButtonDown("Rotate")) {
+        if (SimpleInput.GetButtonDown("Rotate", 1)) {
             transform.Rotate(new Vector3(0, 90, 0));
         }
 
         // Spawn Track
-        if (SimpleInput.GetButtonDown("Bump Kart")) {
+        if (SimpleInput.GetButtonDown("Bump Kart", 1)) {
             SpawnTrack();
         }
 
+        // Delete Track
+        if (SimpleInput.GetButtonDown("Delete Track", 1)) {
+            DeleteTrack();
+        }
+
         // Switch Track
-        if (SimpleInput.GetButtonDown("Next Track")) {
-            //trackIndex = (++trackIndex) % trackList.Count;
+        if (SimpleInput.GetButtonDown("Next Track", 1)) {
             NextTrackPiece();
             SwapCurrentTrack();
             PrintTrackName();
         }
-        if (SimpleInput.GetButtonDown("Previous Track")) {
-            //trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
+        if (SimpleInput.GetButtonDown("Previous Track", 1)) {
             PreviousTrackPiece();
             SwapCurrentTrack();
             PrintTrackName();
@@ -124,6 +126,17 @@ public class Cursor : MonoBehaviour {
         }
     }
 
+    private void DeleteTrack() {
+        if(IsOverlap()) {
+            var centerPosition = transform.position + CENTER_OFFSET;
+            var collisions = GetOverlapBoxes(centerPosition, BOX_HALF_SCALE);
+
+            foreach (var collision in collisions) {
+                Destroy(collision.gameObject);
+            }
+        }
+    }
+
     private bool IsOverlap() {
         var centerPosition = transform.position + CENTER_OFFSET;
         var collisions = GetOverlapBoxes(centerPosition, BOX_HALF_SCALE);
@@ -135,7 +148,7 @@ public class Cursor : MonoBehaviour {
         return collisions.Count > 0;
     }
 
-    private IList GetOverlapBoxes(Vector3 centerPosition, Vector3 halfScale) {
+    private List<Collider> GetOverlapBoxes(Vector3 centerPosition, Vector3 halfScale) {
         List<Collider> collisions = new List<Collider>();
 
         foreach (var center in GetCenterPoints(centerPosition, false)) {
