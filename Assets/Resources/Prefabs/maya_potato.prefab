@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4420571816801844}
   - component: {fileID: 33886254320470510}
   - component: {fileID: 23487582274954158}
-  - component: {fileID: 95012746066601138}
   - component: {fileID: 135788176754375792}
   - component: {fileID: 96056046362868732}
   - component: {fileID: 114506364753794612}
+  - component: {fileID: 122419634548455046}
   m_Layer: 0
   m_Name: maya_potato
   m_TagString: Potato
@@ -39,8 +39,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371957054333224}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 2, z: 50}
-  m_LocalScale: {x: 100, y: 130, z: 100}
+  m_LocalPosition: {x: -0, y: 65, z: 0}
+  m_LocalScale: {x: 200, y: 230, z: 200}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,23 +83,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371957054333224}
   m_Mesh: {fileID: 4300000, guid: 7f97cee5b668e114490f1c0c9544abb0, type: 3}
---- !u!95 &95012746066601138
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1371957054333224}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7f97cee5b668e114490f1c0c9544abb0, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!96 &96056046362868732
 TrailRenderer:
   serializedVersion: 2
@@ -114,7 +97,7 @@ TrailRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,6 +192,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57c26f61d96d27408cb1c7fc4f67f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!122 &122419634548455046
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1371957054333224}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278230783
+  m_Size: 5
 --- !u!135 &135788176754375792
 SphereCollider:
   m_ObjectHideFlags: 1

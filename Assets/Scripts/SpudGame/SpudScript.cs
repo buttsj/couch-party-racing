@@ -71,6 +71,8 @@ public class SpudScript : MonoBehaviour {
 		if (tagged)
         {
             invulnTimer = 0.0f;
+            gameObject.GetComponent<TrailRenderer>().startColor = holder.GetComponentInChildren<Renderer>().material.color;
+            gameObject.GetComponent<TrailRenderer>().material.color = holder.GetComponentInChildren<Renderer>().material.color;
             transform.position = holder.transform.position;
             transform.rotation = holder.transform.rotation;
         }
