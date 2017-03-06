@@ -147,43 +147,25 @@ public class SceneGenerator : MonoBehaviour {
         {
             startPos = startObj.transform.position + kartStartListTotShot[kartNumber];
             startAngle = kartStartRotationTotShot[kartNumber];
+            kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
+            if(teamColor[kartNumber] == "red")
+            {
+                kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = Color.red;
+            }
+            else
+            {
+                kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = Color.blue;
+            }
         }
         else
         {
             startPos = startObj.transform.position + kartStartListRaceMode[kartNumber];
             startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
-
+            kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
+            kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
         }
 
-        kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
-        kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
     }
-
-    /*private Vector3 KartStartPos(int kartNumber) {
-        const float AWAY_FROM_FLAG = 25;
-        const float AWAY_FROM_SIDE = 15;
-        const float AWAY_FROM_OTHERS = 30;
-        const float HEIGHT = 1; 
-
-        Vector3 trackPos = startObj.transform.position;
-        var trackAngle = Mathf.RoundToInt(startObj.transform.rotation.eulerAngles.y);
-
-        Vector3 kartPos = new Vector3();
-
-        switch (trackAngle) {
-            case 90:
-                break;
-            case 180:
-                break;
-            case 270:
-                break;
-            default:
-                kartPos = trackPos + new Vector3(AWAY_FROM_FLAG, HEIGHT, AWAY_FROM_SIDE);
-                break;
-        }
-             
-        return kartPos;
-    }*/
 
     private void GenerateAI() {
         if (GamemodeName == "RaceMode") {
@@ -197,17 +179,6 @@ public class SceneGenerator : MonoBehaviour {
 
             WaypointSetter.SetWaypoints();
         }
-        /*
-        else if(GamemodeName == "TotShot")
-        {
-            for (int i = kartList.Count; i < MAX_PLAYERS; i++)
-            {
-                GenerateKart(i, AI_KART_TOT_PATH);
-                kartList[i].name = "AI" + (i + 1);
-                kartList[i].GetComponent<TotShotAI>().GameState = new TotShotGameState(kartList[i], teamColor[i]);
-            }
-        }
-        */
 
     }
 
@@ -400,8 +371,6 @@ public class SceneGenerator : MonoBehaviour {
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         timeScoreHUD = Instantiate(Resources.Load<GameObject>(TOT_HUD_PATH + "TotShotHUD"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         countdownTimer = Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
-        GameObject.Find("Tot").GetComponent<TotScript>().setHUD(timeScoreHUD, countdownTimer);
-        GameObject.Find("Tot").GetComponent<TotScript>().setKarts(kartList);
         switch (numberOfPlayers)
         {
             case 1:

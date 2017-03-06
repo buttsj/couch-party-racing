@@ -22,7 +22,7 @@ public class SpudScript : MonoBehaviour {
     private Quaternion spawnRot;
     public bool RoundOver { get; set; }
     private int roundCount;
-    public int RoundCount { get; }
+    public int RoundCount { get; set; }
 
     public bool CanIGrab()
     {
