@@ -64,6 +64,11 @@ public class SpudRunGameState : IGameState {
                     SpudScore += 3;
                 }
             }
+            else if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing() && ((SpudRunGameState)other.GetComponent<Kart>().GameState).InvulnerableTimer < 0)
+            {
+                other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            }
+
         }
 
     }
