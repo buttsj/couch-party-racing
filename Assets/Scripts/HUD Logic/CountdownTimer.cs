@@ -21,13 +21,11 @@ public class CountdownTimer : MonoBehaviour {
         //
     }
 
-    // Use this for initialization
     void Start () {
         timer = 3f;
         timerText.text = timer.ToString("F2");
 	}
 	
-	// Update is called once per frame
 	void Update () {
         timer -= .02f;
         if (timer > 0 && timer < 2.98f)
@@ -39,6 +37,7 @@ public class CountdownTimer : MonoBehaviour {
         {
             Time.timeScale = 1;
             timerText.text = "Go!";
+            Destroy(gameObject);
         }
         else if (timer < -2){
             gameObject.GetComponent<Canvas>().enabled = false;

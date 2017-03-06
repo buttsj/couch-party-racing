@@ -68,53 +68,18 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             FadeOut();
         }
-        if (gameStateName == "RacingGameState")
+
+        if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
         {
-            if (GameObject.Find("RacingEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
-            {
-                if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
-                {
-                    pauseMenu.enabled = true;
-                    Time.timeScale = 0;
-                    resumeText.color = highlight;
-                }
-
-                scrollMenu();
-
-                buttonPress();
-            }
+            pauseMenu.enabled = true;
+            Time.timeScale = 0;
+            resumeText.color = highlight;
         }
-        else if (gameStateName == "SpudRunGameState") {
-            if (GameObject.Find("SpudRunEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
-            {
-                if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
-                {
-                    pauseMenu.enabled = true;
-                    Time.timeScale = 0;
-                    resumeText.color = highlight;
-                }
 
-                scrollMenu();
+        scrollMenu();
 
-                buttonPress();
-            }
-        }
-        /*else if (gameStateName == "TotShotGameState")
-        {
-            if (GameObject.Find("TotShotEndMenu(Clone)").GetComponent<Canvas>().enabled != true)
-            {
-                if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
-                {
-                    pauseMenu.enabled = true;
-                    Time.timeScale = 0;
-                    resumeText.color = highlight;
-                }
+        buttonPress();
 
-                scrollMenu();
-
-                buttonPress();
-            }
-        }*/
     }
 
     private void buttonPress()
