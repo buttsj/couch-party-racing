@@ -165,7 +165,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             player1ReadyText.text = READY;
             startToContinueText.text = "Press Start to Continue!";
         }
-        else if ((SimpleInput.GetButtonDown("Pause", 1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
+        else if ((SimpleInput.GetButtonDown("Boost", 1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
         {
             player1ReadyText.text = UNREADY;
             startToContinueText.text = "";
@@ -181,7 +181,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {
             player2ReadyText.text = READY;
         }
-        else if (SimpleInput.GetButtonDown("Pause", 2) && (player2ReadyText.text == READY))
+        else if (SimpleInput.GetButtonDown("Boost", 2) && (player2ReadyText.text == READY))
         {
             player2ReadyText.text = UNREADY;
         }
@@ -196,7 +196,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {
             player3ReadyText.text = READY;
         }
-        else if (SimpleInput.GetButtonDown("Pause", 3) && (player3ReadyText.text == READY))
+        else if (SimpleInput.GetButtonDown("Boost", 3) && (player3ReadyText.text == READY))
         {
             player3ReadyText.text = UNREADY;
         }
@@ -211,7 +211,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {
             player4ReadyText.text = READY;
         }
-        else if (SimpleInput.GetButtonDown("Pause", 4) && (player4ReadyText.text == READY))
+        else if (SimpleInput.GetButtonDown("Boost", 4) && (player4ReadyText.text == READY))
         {
             player4ReadyText.text = UNREADY;
         }
