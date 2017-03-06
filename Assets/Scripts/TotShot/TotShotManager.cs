@@ -46,6 +46,7 @@ public class TotShotManager : MonoBehaviour {
         winText = GameObject.Find("WinText").GetComponent<Text>();
         winText.enabled = false;
         startToContinueText = GameObject.Find("PressStartText").GetComponent<Text>();
+        startToContinueText.text = "Press BACK/ESC";
         startToContinueText.enabled = false;
     }
 
@@ -74,7 +75,7 @@ public class TotShotManager : MonoBehaviour {
                 winText.text = "Draw";
             }
 
-            if (SimpleInput.GetButtonDown("Pause"))
+            if (SimpleInput.GetButtonDown("Cancel"))
             {
                 SceneManager.LoadScene("MainMenu");
             }
