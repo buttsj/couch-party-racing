@@ -9,7 +9,7 @@ public class SpudScript : MonoBehaviour {
     private GameObject holder;
     private float invulnTimer;
 
-    private const float SPUD_MAX_TIME = 20f;
+    private const float SPUD_MAX_TIME = 60f;
 
     public float TimeRemaining { get { return timer; } set { timer = value; } }
     public bool IsTagged { get { return tagged; } set { tagged = value; } }
