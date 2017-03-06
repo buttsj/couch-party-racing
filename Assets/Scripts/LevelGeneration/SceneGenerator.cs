@@ -93,9 +93,8 @@ public class SceneGenerator : MonoBehaviour {
         if (minimap) {
             for (int i = 0; i < kartList.Count; i++) {
                 var icon = minimap.transform.GetChild(i).gameObject;
-
-                icon.SetActive(true);
                 icon.GetComponent<MinimapFollowObject>().followObj = kartList[i].transform;
+                icon.SetActive(true);
                 icon.GetComponent<Renderer>().material.color = kartColorList[i];
             }
 
@@ -118,9 +117,8 @@ public class SceneGenerator : MonoBehaviour {
             for (int i = 0; i < kartList.Count; i++)
             {
                 var icon = minimap.transform.GetChild(i).gameObject;
-
-                icon.SetActive(true);
                 icon.GetComponent<MinimapFollowObject>().followObj = kartList[i].transform;
+                icon.SetActive(true);
                 icon.GetComponent<Renderer>().material.color = kartColorList[i];
             }
 

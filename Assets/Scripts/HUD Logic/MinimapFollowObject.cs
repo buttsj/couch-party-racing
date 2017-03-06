@@ -7,6 +7,9 @@ public class MinimapFollowObject : MonoBehaviour {
     public Transform followObj;
 
     void FixedUpdate() {
-        transform.position = new Vector3(followObj.position.x, transform.position.y, followObj.position.z);
+        if (followObj)
+        {
+            transform.position = new Vector3(followObj.position.x, transform.position.y, followObj.position.z);
+        }
     }
 }
