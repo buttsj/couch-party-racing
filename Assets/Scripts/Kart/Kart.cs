@@ -201,12 +201,10 @@ public class Kart : MonoBehaviour
             if (hopLimitCounter == 0)
             {
                 physics.TotJump1();
-                Debug.Log("Jump 1");
             }
             else
             {
                 physics.TotJump2();
-                Debug.Log("Jump 2");
             }
             hopLimitCounter++;
         }

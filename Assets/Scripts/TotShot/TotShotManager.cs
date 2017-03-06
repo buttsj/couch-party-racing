@@ -7,29 +7,20 @@ public class TotShotManager : MonoBehaviour {
 
     public Text redScoreText;
     public Text blueScoreText;
-    private int redScoreInt;
-    private int blueScoreInt;
     public Text time;
-    private float secondsRemain;
-    private float minutesRemain;
-    private string seconds;
-    private string minutes;
-    private float timer;
-    private bool isCountingDown;
-    private bool deadBall;
-
     private Text winText;
     private Text startToContinueText;
+
+    private int redScoreInt;
+    private int blueScoreInt;
+    private float secondsRemain;
+
+    private bool deadBall;
 
     private ParticleSystem explosion;
 
     private float respawnDelayTimer;
     private const float RESPAWN_DELAY = 3.0f;
-
-    private List<GameObject> karts;
-    private List<Vector3> startingLocations = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140), new Vector3(30, 1, 140) };
-    private List<Quaternion> startingRotations = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 0f, 0f)),
-        Quaternion.Euler(new Vector3(0f, 180f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
 
     public int RedScore { get { return redScoreInt; } set { redScoreInt = value; } }
     public int BlueScore { get { return blueScoreInt; } set { blueScoreInt = value; } }
@@ -39,14 +30,11 @@ public class TotShotManager : MonoBehaviour {
     {
         redScoreInt = 0;
         blueScoreInt = 0;
-        secondsRemain = 0;
-        minutesRemain = 1;
-        seconds = "00";
-        minutes = "1";
-        time.text = minutes + ":" + seconds;
+        secondsRemain = 60;
+
+        time.text = secondsRemain.ToString("0.0");
+
         deadBall = false;
-        isCountingDown = true;
-        timer = 3f;
 
         respawnDelayTimer = 0.0f;
 
@@ -65,10 +53,10 @@ public class TotShotManager : MonoBehaviour {
     {
         redScoreText.text = redScoreInt.ToString();
         blueScoreText.text = blueScoreInt.ToString();
+        time.text = secondsRemain.ToString("0.0");
 
         if (gameIsOver())
         {
-            time.text = "0:00";
             winText.enabled = true;
             startToContinueText.enabled = true;
             if (blueScoreInt > redScoreInt)
@@ -98,42 +86,10 @@ public class TotShotManager : MonoBehaviour {
                 resetBall();
             }
 
-            if (!isCountingDown)
-            {
-                UpdateTimerUI();
-            }
-            else
-            {
-                timer -= Time.deltaTime;
-            }
-            if (timer <= 1)
-            {
-                isCountingDown = false;
-            }
-        }
-
-    }
-
-    private void UpdateTimerUI()
-    {
-        if (!gameIsOver())
-        {
             secondsRemain -= Time.deltaTime;
-            seconds = ((int)secondsRemain).ToString();
-            if (secondsRemain < 10)
-            {
-                seconds = "0" + ((int)secondsRemain).ToString();
-            }
-            if (secondsRemain <= 0 && minutesRemain >= 0)
-            {
-                minutesRemain--;
-                secondsRemain = 59.9f;
-                seconds = "59";
-            }
-            minutes = minutesRemain.ToString();
-
-            time.text = minutes + ":" + seconds;
+                
         }
+
     }
 
     public void addToBlue()
@@ -165,8 +121,9 @@ public class TotShotManager : MonoBehaviour {
     private bool gameIsOver()
     {
         bool isOver = false;
-        if(minutesRemain <= 0 && secondsRemain <= 0)
+        if(secondsRemain <= 0)
         {
+            secondsRemain = 0;
             isOver = true;
         }
         else if(blueScoreInt >= 3)
