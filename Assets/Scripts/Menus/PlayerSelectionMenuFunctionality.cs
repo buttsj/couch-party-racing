@@ -43,7 +43,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text loading;
 
     public const string READY = "Ready to Play!";
-    public const string UNREADY = "Press Any Button";
+    public const string UNREADY = "Press Start";
 
     public Text player1ReadyText;
     public Text player2ReadyText;
@@ -160,12 +160,12 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (player1Color >= kartColorList.Count)
                 player1Color = 0;
         }
-        else if (SimpleInput.GetAnyButtonDown(1) && (player1ReadyText.text == UNREADY))
+        else if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == UNREADY))
         {
             player1ReadyText.text = READY;
             startToContinueText.text = "Press Start to Continue!";
         }
-        else if ((SimpleInput.GetAnyButtonDown(1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
+        else if ((SimpleInput.GetButtonDown("Pause", 1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
         {
             player1ReadyText.text = UNREADY;
             startToContinueText.text = "";
@@ -177,11 +177,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (player2Color >= kartColorList.Count)
                 player2Color = 0;
         }
-        else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == UNREADY))
+        else if (SimpleInput.GetButtonDown("Pause", 2) && (player2ReadyText.text == UNREADY))
         {
             player2ReadyText.text = READY;
         }
-        else if (SimpleInput.GetAnyButtonDown(2) && (player2ReadyText.text == READY))
+        else if (SimpleInput.GetButtonDown("Pause", 2) && (player2ReadyText.text == READY))
         {
             player2ReadyText.text = UNREADY;
         }
@@ -192,11 +192,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (player3Color >= kartColorList.Count)
                 player3Color = 0;
         }
-        else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == UNREADY))
+        else if (SimpleInput.GetButtonDown("Pause", 3) && (player3ReadyText.text == UNREADY))
         {
             player3ReadyText.text = READY;
         }
-        else if (SimpleInput.GetAnyButtonDown(3) && (player3ReadyText.text == READY))
+        else if (SimpleInput.GetButtonDown("Pause", 3) && (player3ReadyText.text == READY))
         {
             player3ReadyText.text = UNREADY;
         }
@@ -207,11 +207,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (player4Color >= kartColorList.Count)
                 player4Color = 0;
         }
-        else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == UNREADY))
+        else if (SimpleInput.GetButtonDown("Pause", 4) && (player4ReadyText.text == UNREADY))
         {
             player4ReadyText.text = READY;
         }
-        else if (SimpleInput.GetAnyButtonDown(4) && (player4ReadyText.text == READY))
+        else if (SimpleInput.GetButtonDown("Pause", 4) && (player4ReadyText.text == READY))
         {
             player4ReadyText.text = UNREADY;
         }
