@@ -64,6 +64,11 @@ public class SpudRunGameState : IGameState {
                     SpudScore += 3;
                 }
             }
+            else if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing() && ((SpudRunGameState)other.GetComponent<Kart>().GameState).InvulnerableTimer < 0)
+            {
+                other.gameObject.GetComponent<Kart>().IsDamaged = true;
+            }
+
         }
 
     }
@@ -82,7 +87,7 @@ public class SpudRunGameState : IGameState {
 
         if (other.name.Contains("Marble") && HoldingPotato)
         {
-            ((SpudRunGameState)other.GetComponent<Marble>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
+            ((SpudRunGameState)other.GetComponent<MarbleManager>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
         }
     }
 }

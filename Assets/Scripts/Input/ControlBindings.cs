@@ -34,8 +34,8 @@ public class ControlBindings {
         get {
             bindings["Horizontal"] = new JoystickControl(XBOX.LStickX, joystickNumber);
             bindings["Vertical"] = new JoystickControl(XBOX.LStickY, joystickNumber);
-            bindings["Accelerate"] = new JoystickControl(XBOX.RTrigger, XBOX.Triggers, true, joystickNumber);
-            bindings["Reverse"] = new JoystickControl(XBOX.LTrigger, XBOX.Triggers, false, joystickNumber);
+            bindings["Accelerate"] = new JoystickControl(XBOX.RBumper, joystickNumber);
+            bindings["Reverse"] = new JoystickControl(XBOX.LBumper, joystickNumber);
             bindings["Use PowerUp"] = new JoystickControl(XBOX.X, joystickNumber);
             bindings["Reset Rotation"] = new JoystickControl(XBOX.Back, joystickNumber);
             bindings["Pause"] = new JoystickControl(XBOX.Start, joystickNumber);
