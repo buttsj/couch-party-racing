@@ -68,6 +68,7 @@ public class TotShotManager : MonoBehaviour {
 
         if (gameIsOver())
         {
+            time.text = "0:00";
             winText.enabled = true;
             startToContinueText.enabled = true;
             if (blueScoreInt > redScoreInt)

@@ -13,7 +13,7 @@ public class MarbleManager : MonoBehaviour {
     private const float MAXTIME = 8.0f;
     private AudioClip marbleHit;
 
-    public GameObject Owner { set { owner = value; } }
+    public GameObject Owner { get { return owner; } set { owner = value; } }
 
 	void Start () {
         targetIndex = -1;
@@ -78,5 +78,4 @@ public class MarbleManager : MonoBehaviour {
     {
         gameObject.GetComponent<AudioSource>().PlayOneShot(marbleHit, 1.0f);
     }
-
 }
