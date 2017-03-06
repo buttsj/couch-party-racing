@@ -290,7 +290,7 @@ public class Kart : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 10);
+        return Physics.SphereCast(new Ray(transform.position, -transform.up), 1f, 1);
     }
 
     bool IsOnTrack()
