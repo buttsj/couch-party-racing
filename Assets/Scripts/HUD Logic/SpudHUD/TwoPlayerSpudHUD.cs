@@ -12,6 +12,7 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
     public Text boostText2;
     public Text scoreText1;
     public Text scoreText2;
+    public Text RoundText;
     public Image spark1;
     public Image oil1;
     public Image boostImg1;
@@ -38,6 +39,7 @@ public class TwoPlayerSpudHUD : MonoBehaviour {
         {
             UpdateTimerUI();
         }
+        RoundText.text = potato.GetComponent<SpudScript>().RoundCount.ToString();
     }
 
 

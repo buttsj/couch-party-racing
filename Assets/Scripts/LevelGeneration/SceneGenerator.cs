@@ -11,7 +11,7 @@ public class SceneGenerator : MonoBehaviour {
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
     private const string SPUD_HUD_PATH = "Prefabs/UI Prefabs/SpudRun UI/";
     private const string TOT_HUD_PATH = "Prefabs/UI Prefabs/TotShot UI/";
-    private const int CAMERA_FOLLOW_DISTANCE = 30;
+    private const int CAMERA_FOLLOW_DISTANCE = 25;
     private const int MAX_PLAYERS = 4;
 
     public string LevelName { get; set; }
@@ -32,6 +32,8 @@ public class SceneGenerator : MonoBehaviour {
     public Color KartColorizer { set { kartColorList.Add(value); } }
 
     string[] teamColor = new string[]{ "red", "red", "blue", "blue" };
+
+    public void ClearColors() { kartColorList.Clear(); }
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -123,9 +125,8 @@ public class SceneGenerator : MonoBehaviour {
             }
 
             var spudIcon = minimap.transform.FindChild("SpudIcon").gameObject;
-            spudIcon.SetActive(true);
             spudIcon.GetComponent<MinimapFollowObject>().followObj = GameObject.Find("Potato").transform;
-            spudIcon.GetComponent<Renderer>().material.SetTexture("potatoTexture", GameObject.Find("Potato").GetComponent<Renderer>().material.mainTexture);
+            spudIcon.SetActive(true);
             switch (SimpleInput.NumberOfPlayers)
             {
                 case 3:

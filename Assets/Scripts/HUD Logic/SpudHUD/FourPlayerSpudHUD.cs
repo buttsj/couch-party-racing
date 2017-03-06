@@ -17,6 +17,7 @@ public class FourPlayerSpudHUD : MonoBehaviour
     public Text scoreText2;
     public Text scoreText3;
     public Text scoreText4;
+    public Text RoundText;
     public Image spark1;
     public Image oil1;
     public Image boostImg1;
@@ -55,6 +56,7 @@ public class FourPlayerSpudHUD : MonoBehaviour
         {
             UpdateTimerUI();
         }
+        RoundText.text = potato.GetComponent<SpudScript>().RoundCount.ToString();
     }
 
 
