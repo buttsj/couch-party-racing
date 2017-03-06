@@ -82,7 +82,7 @@ public class SpudRunGameState : IGameState {
 
         if (other.name.Contains("Marble") && HoldingPotato)
         {
-            ((SpudRunGameState)other.GetComponent<Marble>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
+            ((SpudRunGameState)other.GetComponent<MarbleManager>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
         }
     }
 }
