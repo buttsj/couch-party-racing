@@ -183,7 +183,7 @@ public class SceneGenerator : MonoBehaviour {
     private void GeneratePlayers() {
         kartList = new List<GameObject>();
 
-        if (GamemodeName != "TrackBuilder") {
+        if (GamemodeName != "TrackBuilder" && GamemodeName != "ChipShop") {
             for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
                 GenerateKart(i, KART_PATH);
                 kartList[i].name = "Player " + (i + 1);
@@ -257,7 +257,7 @@ public class SceneGenerator : MonoBehaviour {
         camera.AddComponent<Camera>().rect = rect;
         camera.GetComponent<Camera>().farClipPlane = 5000;
 
-        if (GamemodeName != "TrackBuilder") {
+        if (GamemodeName != "TrackBuilder" && GamemodeName != "ChipShop") {
             camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
             camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
             camera.AddComponent<AudioListener>();

@@ -6,7 +6,7 @@ using System.Collections;
 public class MainMenuFunctionality : MonoBehaviour
 {
 
-    public SettingsMenuFunctionality settingsFunc;
+    private SettingsMenuFunctionality settingsFunc;
 
     private WhiteFadeUniversal fader;
     private const int BUTTONSWIDTH = 2;
@@ -29,6 +29,7 @@ public class MainMenuFunctionality : MonoBehaviour
     public Text spudRun;
     public Text settings;
     public Text exit;
+    public Text store;
 
     private SceneGenerator sceneGenerator;
 
@@ -77,7 +78,7 @@ public class MainMenuFunctionality : MonoBehaviour
         buttons[2, 0] = spudRun;
         buttons[2, 1] = settings;
         buttons[3, 0] = exit;
-        buttons[3, 1] = exit;
+        buttons[3, 1] = store;
 
         currentButtonX = 0;
         currentButtonY = 0;
@@ -197,9 +198,9 @@ public class MainMenuFunctionality : MonoBehaviour
             {
                 exitPress();
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit))
+            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], store))
             {
-                exitPress();
+                StartCoroutine(storePress());
             }
         }
     }
@@ -228,6 +229,10 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private IEnumerator deathRunPress()
     {
+        sceneGenerator.GamemodeName = "DeathRun";
+        sceneGenerator.SceneName = "DeathRunScene";
+        sceneGenerator.LevelName = null;
+        fader.SceneSwitch();
         while (!fader.Faded)
             yield return null;
         //GoToNextMenu();
@@ -263,6 +268,14 @@ public class MainMenuFunctionality : MonoBehaviour
     private void exitPress()
     {
         quitMenu.enabled = true;
+    }
+
+    private IEnumerator storePress()
+    {
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+        GoToShop();
     }
 
     private void settingsScroll()
@@ -350,6 +363,11 @@ public class MainMenuFunctionality : MonoBehaviour
     private void GoToNextMenu()
     {
         SceneManager.LoadScene("LevelSelectionMenu");
+    }
+
+    private void GoToShop()
+    {
+        SceneManager.LoadScene("ChipShopScene");
     }
 
     private void colorSelectedButton()
