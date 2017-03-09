@@ -41,7 +41,20 @@ public class CheckpointArrow : MonoBehaviour {
         Quaternion targetQuaternion = Quaternion.LookRotation((targetCheckpointXZPosition - arrowXZPosition).normalized);
         Quaternion slerpQuaternion = Quaternion.Slerp(transform.rotation, targetQuaternion, 0.2f);
         transform.rotation = new Quaternion(transform.rotation.x, slerpQuaternion.y, transform.rotation.z, slerpQuaternion.w);
+        if (Mathf.Abs(Vector3.Angle(gameObject.transform.forward, kart.transform.forward)) > 120f)
+        {
+            SetColor(Color.red);
+        }
+        else {
+            SetColor(Color.green);
+        }
 
         transform.position = kart.transform.position + offset;
+    }
+
+    private void SetColor(Color color) {
+        gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = color;
+        gameObject.transform.GetChild(1).GetComponent<Renderer>().material.color = color;
+        gameObject.transform.GetChild(2).GetComponent<Renderer>().material.color = color;
     }
 }
