@@ -15,12 +15,12 @@ public class TotShotGameState : IGameState {
 
     public void Start()
     {
-
+        
     }
 
     public void NonDamagedUpdate()
     {
-
+        player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
     }
 
     public void DamagedUpdate()

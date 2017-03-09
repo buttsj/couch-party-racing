@@ -371,7 +371,7 @@ public class Kart : MonoBehaviour
     void NonDamagedUpdate()
     {
         UpdateMovement();
-        UpdateBoost();
+        UpdateBoost(IsTotShotGameState);
         gameState.NonDamagedUpdate();
         turnPower = SimpleInput.GetAxis("Horizontal", playerNumber);
         if (SimpleInput.GetButton("Reset Rotation", playerNumber))
@@ -424,13 +424,16 @@ public class Kart : MonoBehaviour
         }
     }
 
-    void UpdateBoost() {
+    void UpdateBoost(bool totShotMode) {
         if (SimpleInput.GetButton("Boost", playerNumber))
         {
             if (boost > 0)
             {
                 isBoosting = true;
                 physics.StartBoost();
+                if (totShotMode) {
+                    physics.RocketBoost();
+                }
                 BoostNoise();
                 boost -= .5f;
             }

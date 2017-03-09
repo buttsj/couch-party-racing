@@ -24,6 +24,7 @@ public class RacingGameState : IGameState {
         playerCheckpointRotation = player.transform.localEulerAngles;
         currentCheckpointNumber = 0;
         numberOfCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+        
     }
 
     public void Start () {
@@ -32,8 +33,8 @@ public class RacingGameState : IGameState {
 	
 	// Update is called once per frame
 	public void NonDamagedUpdate () {
-		
-	}
+        player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 2.25f;
+    }
 
 
     public void DamagedUpdate() { }

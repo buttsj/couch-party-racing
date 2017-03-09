@@ -14,14 +14,20 @@ public class SpudRunGameState : IGameState {
     }
     // Use this for initialization
     public void Start () {
-		
-	}
+        player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
+    }
 
     // Update is called once per frame
     public void NonDamagedUpdate() {
-        if (HoldingPotato) {
+        if (HoldingPotato)
+        {
             SpudScore += Time.deltaTime;
             player.GetComponent<Kart>().PhysicsObject.MaxSpeed = 200f;
+            player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 2.25f;
+        }
+        else {
+            player.GetComponent<Kart>().PhysicsObject.MaxSpeed = player.GetComponent<Kart>().PhysicsObject.MaxSpeed = 250f;
+            player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
         }
         InvulnerableTimer -= Time.deltaTime;
     }

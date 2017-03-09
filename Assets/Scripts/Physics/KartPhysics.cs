@@ -19,6 +19,7 @@ public class KartPhysics {
     public float Power { get { return power; } }
     public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
     public float PreJumpSpeed { get; set; }
+    public float TurningSpeed { get; set; }
 
     public float BoostMax { get { return boostMax; } set { BoostMax = value; } }
 
@@ -54,7 +55,7 @@ public class KartPhysics {
     }
 
     public void RotateKart(float turnDirection) {
-        kart.transform.Rotate(Vector3.up, 2 * turnDirection);
+        kart.transform.Rotate(Vector3.up, TurningSpeed * turnDirection);
     }
 
     public void ApplyForces() {
@@ -103,6 +104,10 @@ public class KartPhysics {
         acceleration = 2f;
         kart.transform.Find("LeftExhaust").gameObject.SetActive(true);
         kart.transform.Find("RightExhaust").gameObject.SetActive(true);
+    }
+
+    public void RocketBoost() {
+        body.AddRelativeForce(0f, 0f, 250);
     }
 
     public void EndBoost() {

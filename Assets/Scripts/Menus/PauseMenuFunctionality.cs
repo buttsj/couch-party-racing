@@ -60,7 +60,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         resumeText.color = highlight;
 
         axisEnabled = true;
-        gameStateName = GameObject.Find("Player 1").GetComponent<Kart>().GameState.GetGameStateName();
+        //gameStateName = GameObject.Find("Player 1").GetComponent<Kart>().GameState.GetGameStateName();
     }
 	
 	void Update () {
