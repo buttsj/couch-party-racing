@@ -28,8 +28,8 @@ public class TrackBuilderMenu : MonoBehaviour {
         GoToNextMenu();
     }
 
-    public void LoadTrackPress() {
-        //sceneGenerator.LevelName = "Basement.xml";
+    public void LoadTrackPress(InputField userInputField) {
+        //sceneGenerator.LevelName = userInputField.text;
         GoToNextMenu();
     }
 
