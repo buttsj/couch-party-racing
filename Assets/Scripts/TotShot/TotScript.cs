@@ -20,14 +20,14 @@ public class TotScript : MonoBehaviour {
 
     public void checkForGoal()
     {
-        if (transform.position.z >= 153)
+        if (transform.position.z >= 303)
         {
             explosion.Play();
             manager.GetComponent<TotShotManager>().addToRed();
             manager.GetComponent<TotShotManager>().DeadBall = true;
             Destroy(gameObject);
         }
-        else if (transform.position.z <= -153)
+        else if (transform.position.z <= -303)
         {
             explosion.Play();
             manager.GetComponent<TotShotManager>().addToBlue();
