@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System;
 
 public class ChipShopMenuFunctionality : MonoBehaviour {
 
@@ -12,6 +14,9 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     private WhiteFadeUniversal fader;
 
     private string currentColor;
+    private int purchaseNum;
+    private Dictionary<string, int> unlocks;
+    private bool refreshUnlocks;
 
     void Awake()
     {
@@ -25,8 +30,11 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
-	}
+        GameObject acct = GameObject.Find("AccountManager");
+        chips.text = acct.GetComponent<AccountManager>().CurrentChips.ToString();
+        LoadUnlocks();
+        refreshUnlocks = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,6 +47,33 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips++;
             chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
         }
+        if (refreshUnlocks == true)
+        {
+            refreshUnlocks = false;
+            LoadUnlocks();
+        }
+    }
+
+    private void LoadUnlocks()
+    {
+        GameObject acct = GameObject.Find("AccountManager");
+        acct.GetComponent<AccountManager>().RefreshUnlocks();
+        unlocks = acct.GetComponent<AccountManager>().GetUnlocks;
+        foreach (KeyValuePair<string, int> pair in unlocks)
+        {
+            if (pair.Value == 1)
+            {
+                try
+                {
+                    if (GameObject.Find(pair.Key).activeInHierarchy) 
+                        GameObject.Find(pair.Key).SetActive(false);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("could not find " + pair.Key);
+                }
+            }
+        }
     }
 
     public void MoreInfoButton()
@@ -49,6 +84,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     public void ShowPurchase(int choice)
     {
+        purchaseNum = choice;
         purchaseMenu.SetActive(true);
         kart.SetActive(true);
         switch (choice)
@@ -69,7 +105,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 currentColor = "Ice";
                 break;
             case 6:
-                currentColor = "Midnight Black";
+                currentColor = "MidnightBlack";
                 break;
             case 7:
                 break;
@@ -90,6 +126,39 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     {
         purchaseMenu.SetActive(false);
         kart.SetActive(false);
+        switch (purchaseNum)
+        {
+            case 1:
+                PlayerPrefs.SetInt("Berry", 1);
+                break;
+            case 2:
+                PlayerPrefs.SetInt("Chocolate", 1);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("Pink", 1);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("Beige", 1);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("Ice", 1);
+                break;
+            case 6:
+                PlayerPrefs.SetInt("MidnightBlack", 1);
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                break;
+        }
+        refreshUnlocks = true;
+        PlayerPrefs.Save();
     }
 
     public void PurchaseCancelled()
