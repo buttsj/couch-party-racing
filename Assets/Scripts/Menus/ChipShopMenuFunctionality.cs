@@ -6,7 +6,12 @@ using System.Collections;
 public class ChipShopMenuFunctionality : MonoBehaviour {
 
     public Text chips;
+    public GameObject moreInfo;
+    public GameObject purchaseMenu;
+    public GameObject kart;
     private WhiteFadeUniversal fader;
+
+    private string currentColor;
 
     void Awake()
     {
@@ -34,6 +39,63 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips++;
             chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
         }
+    }
+
+    public void MoreInfoButton()
+    {
+        Debug.Log("checking more info");
+        moreInfo.SetActive(true);
+    }
+
+    public void ShowPurchase(int choice)
+    {
+        purchaseMenu.SetActive(true);
+        kart.SetActive(true);
+        switch (choice)
+        {
+            case 1:
+                currentColor = "Berry";
+                break;
+            case 2:
+                currentColor = "Chocolate";
+                break;
+            case 3:
+                currentColor = "Pink";
+                break;
+            case 4:
+                currentColor = "Beige";
+                break;
+            case 5:
+                currentColor = "Ice";
+                break;
+            case 6:
+                currentColor = "Midnight Black";
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                break;
+        }
+        GameObject btn = GameObject.Find(currentColor);
+        kart.GetComponentInChildren<Renderer>().material.color = btn.GetComponent<Image>().color;
+    }
+
+    public void PurchaseMade()
+    {
+        purchaseMenu.SetActive(false);
+        kart.SetActive(false);
+    }
+
+    public void PurchaseCancelled()
+    {
+        purchaseMenu.SetActive(false);
+        kart.SetActive(false);
     }
 
     private IEnumerator LeaveScene()

@@ -67,6 +67,7 @@ public class WhiteFadeUniversal : MonoBehaviour {
     {
         FadeInBool = false;
         FadeOutBool = true;
+        gameObject.GetComponent<Image>().enabled = true;
         source.PlayOneShot(transition);
     }
 
@@ -85,6 +86,7 @@ public class WhiteFadeUniversal : MonoBehaviour {
         if (alpha == 0)
         {
             FadeInBool = false;
+            gameObject.GetComponent<Image>().enabled = false;
         }
     }
 
