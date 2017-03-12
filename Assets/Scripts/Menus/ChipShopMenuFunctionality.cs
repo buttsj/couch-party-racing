@@ -8,18 +8,27 @@ using System;
 public class ChipShopMenuFunctionality : MonoBehaviour {
 
     public Text chips;
+    public Text invalid;
+    public Text costText;
     public GameObject moreInfo;
     public GameObject purchaseMenu;
     public GameObject kart;
-    public Text invalid;
+    public GameObject colorHolder;
     private WhiteFadeUniversal fader;
+    private AudioSource source;
+    private AudioClip cash;
+    private const string REGISTER = "Sounds/KartEffects/cash";
+    private const string COST = " CHIPS";
 
+    private string currentKart;
     private string currentColor;
+    private int currentCost;
     private int purchaseNum;
     private Dictionary<string, int> unlocks;
     private bool refreshUnlocks;
     private bool rotateKart;
-    private int currentCost;
+    private bool colorPicked;
+    private bool kartPicked;
 
     void Awake()
     {
@@ -33,11 +42,15 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        source = GameObject.Find("Sound").GetComponent<AudioSource>();
+        cash = (AudioClip)Resources.Load(REGISTER);
         GameObject acct = GameObject.Find("AccountManager");
         chips.text = acct.GetComponent<AccountManager>().CurrentChips.ToString();
         LoadUnlocks();
         refreshUnlocks = false;
         rotateKart = false;
+        colorPicked = false;
+        kartPicked = false;
     }
 	
 	// Update is called once per frame
@@ -70,17 +83,13 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         unlocks = acct.GetComponent<AccountManager>().GetUnlocks;
         foreach (KeyValuePair<string, int> pair in unlocks)
         {
-            if (pair.Value == 1)
+            if (pair.Value == 0)
             {
-                try
-                {
-                    if (GameObject.Find(pair.Key).activeInHierarchy) 
-                        GameObject.Find(pair.Key).SetActive(false);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("could not find " + pair.Key);
-                }
+                colorHolder.transform.FindChild(pair.Key).gameObject.SetActive(true);
+            }
+            else if(pair.Value == 1)
+            {
+                colorHolder.transform.FindChild(pair.Key).gameObject.SetActive(false);
             }
         }
     }
@@ -97,50 +106,80 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         purchaseMenu.SetActive(true);
         kart.SetActive(true);
         rotateKart = true;
+        invalid.enabled = false;
         switch (choice)
         {
             case 1:
                 currentColor = "Berry";
                 currentCost = 10;
+                colorPicked = true;
                 break;
             case 2:
                 currentColor = "Chocolate";
                 currentCost = 10;
+                colorPicked = true;
                 break;
             case 3:
                 currentColor = "Pink";
                 currentCost = 10;
+                colorPicked = true;
                 break;
             case 4:
                 currentColor = "Beige";
                 currentCost = 10;
+                colorPicked = true;
                 break;
             case 5:
                 currentColor = "Ice";
                 currentCost = 10;
+                colorPicked = true;
                 break;
             case 6:
                 currentColor = "MidnightBlack";
                 currentCost = 10;
+                colorPicked = true;
                 break;
             case 7:
+                // kart 1
+                currentKart = "";
                 currentCost = 30;
+                kartPicked = true;
                 break;
             case 8:
+                // kart 2
+                currentKart = "";
                 currentCost = 30;
+                kartPicked = true;
                 break;
             case 9:
+                // kart 3
+                currentKart = "";
                 currentCost = 30;
+                kartPicked = true;
                 break;
             case 10:
+                // kart 4
+                currentKart = "";
                 currentCost = 50;
+                kartPicked = true;
                 break;
             case 11:
+                // kart 5
+                currentKart = "";
                 currentCost = 50;
+                kartPicked = true;
                 break;
         }
-        GameObject btn = GameObject.Find(currentColor);
-        kart.GetComponentInChildren<Renderer>().material.color = btn.GetComponent<Image>().color;
+        if (colorPicked)
+        {
+            GameObject btn = GameObject.Find(currentColor);
+            kart.GetComponentInChildren<Renderer>().material.color = btn.GetComponent<Image>().color;
+        }
+        if (kartPicked)
+        {
+
+        }
+        costText.text = currentCost.ToString() + COST;
     }
 
     public void PurchaseMade()
@@ -199,14 +238,44 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 }
                 break;
             case 7:
+                if (playerChips >= currentCost)
+                {
+                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 8:
+                if (playerChips >= currentCost)
+                {
+                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 9:
+                if (playerChips >= currentCost)
+                {
+                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 10:
+                if (playerChips >= currentCost)
+                {
+                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 11:
+                if (playerChips >= currentCost)
+                {
+                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
         }
         if (purcCheck)
@@ -217,6 +286,9 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             refreshUnlocks = true;
             invalid.enabled = false;
             PlayerPrefs.Save();
+            source.PlayOneShot(cash);
+            colorPicked = false;
+            kartPicked = false;
         }
         else
         {
@@ -230,6 +302,20 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         kart.SetActive(false);
         rotateKart = false;
         invalid.enabled = false;
+    }
+
+    public void ResetEverything()
+    {
+        // Debug way to reset the cash shop items
+        PlayerPrefs.SetInt("chips", 0);
+        PlayerPrefs.SetInt("Berry", 0);
+        PlayerPrefs.SetInt("Chocolate", 0);
+        PlayerPrefs.SetInt("Pink", 0);
+        PlayerPrefs.SetInt("Beige", 0);
+        PlayerPrefs.SetInt("Ice", 0);
+        PlayerPrefs.SetInt("MidnightBlack", 0);
+        PlayerPrefs.Save();
+        refreshUnlocks = true;
     }
 
     private IEnumerator LeaveScene()
