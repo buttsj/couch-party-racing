@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ChipShopMenuFunctionality : MonoBehaviour {
 
+    public Text chips;
     private WhiteFadeUniversal fader;
 
     void Awake()
@@ -18,7 +20,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
 	}
 	
 	// Update is called once per frame
@@ -26,6 +28,11 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         if (SimpleInput.GetButtonDown("Cancel"))
         {
             StartCoroutine(LeaveScene());
+        }
+        if (SimpleInput.GetButtonDown("Bump Kart"))
+        {
+            GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips++;
+            chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
         }
     }
 
