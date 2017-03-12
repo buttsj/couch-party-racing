@@ -9,12 +9,8 @@ public class MainMenuFunctionality : MonoBehaviour
     private SettingsMenuFunctionality settingsFunc;
 
     private WhiteFadeUniversal fader;
-    private const int BUTTONSWIDTH = 2;
-    private const int BUTTONSHEIGHT = 4;
 
-    public Canvas quitMenu;
-    public Text yesExit;
-    public Text noExit;
+    private const int NUMBEROFBUTTONS = 8;
 
     public Canvas settingsMenu;
     public Text setApply;
@@ -22,81 +18,61 @@ public class MainMenuFunctionality : MonoBehaviour
     private Text[] settingsButtons;
     private int settingsIndex;
 
-    public Text raceMode;
+    public Text race;
     public Text trackBuilder;
-    public Text deathRun;
-    public Text playground;
     public Text spudRun;
+    public Text totShot;
+    public Text deathRun;
+    public Text store;
     public Text settings;
     public Text exit;
-    public Text store;
 
     private SceneGenerator sceneGenerator;
 
-    private Text[,] buttons;
-    private int currentButtonX;
-    private int currentButtonY;
+    private Text[] buttons;
+    private int currentButton;
 
     private bool axisEnabled;
 
-    private Color highlight;
-
-    private Text[] quitButtons;
-    private int exitIndex;
-
     void Awake()
     {
-        // fade in/out initializer
         GameObject fadeObject = new GameObject();
         fadeObject.name = "Fader";
         fadeObject.transform.SetParent(transform);
         fadeObject.SetActive(true);
         fader = fadeObject.AddComponent<WhiteFadeUniversal>();
         fader.BeginNewScene("Sound");
-        //
     }
 
     void Start()
     {
         settingsFunc = settingsMenu.GetComponent<SettingsMenuFunctionality>();
 
-        highlight = new Color(255, 255, 0);
-
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-
-        quitMenu = quitMenu.GetComponent<Canvas>();
-        quitMenu.enabled = false;
 
         settingsMenu = settingsMenu.GetComponent<Canvas>();
         settingsMenu.enabled = false;
 
-        buttons = new Text[BUTTONSHEIGHT, BUTTONSWIDTH];
-        buttons[0, 0] = raceMode;
-        buttons[0, 1] = trackBuilder;
-        buttons[1, 0] = deathRun;
-        buttons[1, 1] = playground;
-        buttons[2, 0] = spudRun;
-        buttons[2, 1] = settings;
-        buttons[3, 0] = exit;
-        buttons[3, 1] = store;
+        buttons = new Text[NUMBEROFBUTTONS];
+        buttons[0] = race;
+        buttons[1] = trackBuilder;
+        buttons[2] = spudRun;
+        buttons[3] = totShot;
+        buttons[4] = deathRun;
+        buttons[5] = store;
+        buttons[6] = settings;
+        buttons[7] = exit;
 
-        currentButtonX = 0;
-        currentButtonY = 0;
-        raceMode.color = highlight;
-
-        quitButtons = new Text[2];
-        quitButtons[0] = noExit;
-        quitButtons[1] = yesExit;
-        exitIndex = 0;
-        noExit.color = highlight;
+        currentButton = 0;
 
         settingsButtons = new Text[2];
         settingsButtons[0] = setApply;
         settingsButtons[1] = setCancel;
         settingsIndex = 0;
-        setApply.color = highlight;
 
         axisEnabled = true;
+
+        buttons[currentButton].color = Color.white;
     }
 
     void Update()
@@ -106,61 +82,38 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = true;
         }
 
-        if (!quitMenu.enabled && !settingsMenu.enabled)
+        if (!settingsMenu.enabled)
         {
             scrollMenu();
             buttonPress();
         }
-        else if (quitMenu.enabled && !settingsMenu.enabled)
-        {
-            quitScroll();
-            quitButtonPress();
-        } else if (!quitMenu.enabled && settingsMenu.enabled)
+        else if (settingsMenu.enabled)
         {
             settingsScroll();
             settingsButtonPress();
         }
+
     }
 
     private void scrollMenu()
     {
-        if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+        if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
             axisEnabled = false;
-            currentButtonX++;
-            if (currentButtonX >= BUTTONSHEIGHT)
+            currentButton++;
+            if (currentButton >= NUMBEROFBUTTONS)
             {
-                currentButtonX = 0;
+                currentButton = 0;
             }
             colorSelectedButton();
         }
-        else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+        else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
             axisEnabled = false;
-            currentButtonX--;
-            if (currentButtonX < 0)
+            currentButton--;
+            if (currentButton < 0)
             {
-                currentButtonX = BUTTONSHEIGHT - 1;
-            }
-            colorSelectedButton();
-        }
-        else if ((SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled))
-        {
-            axisEnabled = false;
-            currentButtonY++;
-            if (currentButtonY >= BUTTONSWIDTH)
-            {
-                currentButtonY = 0;
-            }
-            colorSelectedButton();
-        }
-        else if ((SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled))
-        {
-            axisEnabled = false;
-            currentButtonY--;
-            if (currentButtonY < 0)
-            {
-                currentButtonY = BUTTONSWIDTH - 1;
+                currentButton = NUMBEROFBUTTONS - 1;
             }
             colorSelectedButton();
         }
@@ -170,35 +123,35 @@ public class MainMenuFunctionality : MonoBehaviour
     {
         if (SimpleInput.GetButtonDown("Bump Kart"))
         {
-            if (ReferenceEquals(buttons[currentButtonX, currentButtonY], raceMode))
+            if (ReferenceEquals(buttons[currentButton], race))
             {
                 StartCoroutine(raceModePress());
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], trackBuilder))
+            else if (ReferenceEquals(buttons[currentButton], trackBuilder))
             {
                 StartCoroutine(trackBuilderPress());
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], deathRun))
+            else if (ReferenceEquals(buttons[currentButton], deathRun))
             {
                 StartCoroutine(deathRunPress());
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], playground))
+            else if (ReferenceEquals(buttons[currentButton], totShot))
             {
                 StartCoroutine(playgroundPress());
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], spudRun))
+            else if (ReferenceEquals(buttons[currentButton], spudRun))
             {
                 StartCoroutine(spudRunPress());
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], settings))
+            else if (ReferenceEquals(buttons[currentButton], settings))
             {
                 settingsPress();
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], exit))
+            else if (ReferenceEquals(buttons[currentButton], exit))
             {
                 exitPress();
             }
-            else if (ReferenceEquals(buttons[currentButtonX, currentButtonY], store))
+            else if (ReferenceEquals(buttons[currentButton], store))
             {
                 StartCoroutine(storePress());
             }
@@ -267,7 +220,11 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void exitPress()
     {
-        quitMenu.enabled = true;
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     private IEnumerator storePress()
@@ -285,9 +242,9 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = false;
             settingsIndex++;
             settingsIndex %= 2;
-            setApply.color = Color.white;
-            setCancel.color = Color.white;
-            settingsButtons[settingsIndex].color = highlight;
+            setApply.color = Color.gray;
+            setCancel.color = Color.gray;
+            settingsButtons[settingsIndex].color = Color.white;
         }
     }
 
@@ -313,51 +270,8 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void applySettings()
     {
-        // apply the settings
         settingsFunc.ApplySettings();
         settingsMenu.enabled = false;
-    }
-
-    private void quitScroll()
-    {
-        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
-        {
-            axisEnabled = false;
-            exitIndex++;
-            exitIndex %= 2;
-            noExit.color = Color.white;
-            yesExit.color = Color.white;
-            quitButtons[exitIndex].color = highlight;
-        }
-    }
-
-    private void quitButtonPress()
-    {
-        if (SimpleInput.GetButtonDown("Bump Kart"))
-        {
-            if (ReferenceEquals(quitButtons[exitIndex], noExit))
-            {
-                noQuitPress();
-            }
-            else if (ReferenceEquals(quitButtons[exitIndex], yesExit))
-            {
-                yesQuitPress();
-            }
-        }
-    }
-
-    private void noQuitPress()
-    {
-        quitMenu.enabled = false;
-    }
-
-    private void yesQuitPress()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
     }
 
     private void GoToNextMenu()
@@ -372,14 +286,10 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void colorSelectedButton()
     {
-        for (int i = 0; i < BUTTONSHEIGHT; i++)
+        for (int i = 0; i < NUMBEROFBUTTONS; i++)
         {
-            for (int j = 0; j < BUTTONSWIDTH; j++)
-            {
-                buttons[i, j].color = Color.white;
-            }
+            buttons[i].color = Color.gray;
         }
-
-        buttons[currentButtonX, currentButtonY].color = highlight;
+        buttons[currentButton].color = Color.white;
     }
 }
