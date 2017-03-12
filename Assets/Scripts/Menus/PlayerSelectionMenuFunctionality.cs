@@ -27,7 +27,13 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         "Magenta",
         "Green",
         "Yellow",
-        "Cyan"
+        "Cyan",
+        "Berry",
+        "Chocolate",
+        "Pink",
+        "Beige",
+        "Ice",
+        "Midnight Black"
     };
 
     private List<Color> kartColorList = new List<Color> {
@@ -37,7 +43,13 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         Color.magenta,
         Color.green,
         Color.yellow,
-        Color.cyan
+        Color.cyan,
+        new Color(0.44f, 0.12f, 0.16f, 1.0f),
+        new Color(0.24f, 0.11f, 0.06f, 1.0f),
+        new Color(1.00f, 0.41f, 0.71f, 1.0f),
+        new Color(0.87f, 0.82f, 0.65f, 1.0f),
+        new Color(0.65f, 0.95f, 0.95f, 1.0f),
+        new Color(0.00f, 0.01f, 0.09f, 1.0f)
     };
 
     public Text loading;
