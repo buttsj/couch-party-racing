@@ -1017,8 +1017,9 @@ GameObject:
   - component: {fileID: 333400273}
   - component: {fileID: 333400272}
   - component: {fileID: 333400271}
+  - component: {fileID: 333400276}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: shop_camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1092,6 +1093,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 7.5, y: 90, z: 0}
+--- !u!114 &333400276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 333400270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b1e1a0bbce43bd47a625a2184ec3d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &410077912
 GameObject:
   m_ObjectHideFlags: 0
@@ -9749,6 +9761,7 @@ MonoBehaviour:
   costText: {fileID: 1797577255}
   moreInfo: {fileID: 2003692463}
   purchaseMenu: {fileID: 1872679055}
+  shopcam: {fileID: 333400274}
   kart: {fileID: 1184928791}
   streetcar: {fileID: 1352229129}
   colorHolder: {fileID: 1827190989}

@@ -13,6 +13,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     public GameObject moreInfo;
     public GameObject purchaseMenu;
 
+    public Camera shopcam;
     public GameObject kart;
     public GameObject streetcar;
 
@@ -106,6 +107,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     public void ShowPurchase(int choice)
     {
+        shopcam.GetComponent<ChipShopCamera>().FocusIn();
         purchaseNum = choice;
         purchaseMenu.SetActive(true);
         rotateKart = true;
@@ -286,6 +288,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         }
         if (purcCheck)
         {
+            shopcam.GetComponent<ChipShopCamera>().FocusOut();
             purchaseMenu.SetActive(false);
             kart.SetActive(false);
             streetcar.SetActive(false);
@@ -305,6 +308,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     public void PurchaseCancelled()
     {
+        shopcam.GetComponent<ChipShopCamera>().FocusOut();
         purchaseMenu.SetActive(false);
         kart.SetActive(false);
         streetcar.SetActive(false);
