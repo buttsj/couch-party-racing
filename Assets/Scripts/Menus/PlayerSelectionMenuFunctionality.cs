@@ -17,7 +17,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text player3ColorText;
     public Text player4ColorText;
 
-    private const string COLOR = "Color: ";
+    private const string COLOR = "Color : ";
 
     private List<string> kartColorName = new List<string>
     {
@@ -136,8 +136,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         while (!fader.Faded)
             yield return null;
 
-        loading.GetComponent<Text>().enabled = true;
-        loading.transform.SetAsFirstSibling();
+        loading.enabled = true;
+        loading.transform.SetAsLastSibling();
 
         SimpleInput.ClearCurrentPlayerDevices();
 
