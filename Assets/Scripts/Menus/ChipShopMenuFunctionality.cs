@@ -12,7 +12,10 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     public Text costText;
     public GameObject moreInfo;
     public GameObject purchaseMenu;
+
     public GameObject kart;
+    public GameObject streetcar;
+
     public GameObject colorHolder;
     private WhiteFadeUniversal fader;
     private AudioSource source;
@@ -73,6 +76,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         if (rotateKart)
         {
             kart.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
+            streetcar.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
         }
     }
 
@@ -104,9 +108,12 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     {
         purchaseNum = choice;
         purchaseMenu.SetActive(true);
-        kart.SetActive(true);
         rotateKart = true;
         invalid.enabled = false;
+        kart.SetActive(false);
+        colorPicked = false;
+        kartPicked = false;
+        streetcar.SetActive(false);
         switch (choice)
         {
             case 1:
@@ -141,7 +148,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 break;
             case 7:
                 // kart 1
-                currentKart = "";
+                currentKart = "StreetCar";
+                streetcar.SetActive(true);
                 currentCost = 30;
                 kartPicked = true;
                 break;
@@ -172,12 +180,9 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         }
         if (colorPicked)
         {
+            kart.SetActive(true);
             GameObject btn = GameObject.Find(currentColor);
             kart.GetComponentInChildren<Renderer>().material.color = btn.GetComponent<Image>().color;
-        }
-        if (kartPicked)
-        {
-
         }
         costText.text = currentCost.ToString() + COST;
     }
@@ -242,6 +247,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 {
                     //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
                     purcCheck = true;
+                    streetcar.SetActive(false);
                     acct.GetComponent<AccountManager>().DeductChips(currentCost);
                 }
                 break;
@@ -282,6 +288,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         {
             purchaseMenu.SetActive(false);
             kart.SetActive(false);
+            streetcar.SetActive(false);
             rotateKart = false;
             refreshUnlocks = true;
             invalid.enabled = false;
@@ -300,8 +307,11 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     {
         purchaseMenu.SetActive(false);
         kart.SetActive(false);
+        streetcar.SetActive(false);
         rotateKart = false;
         invalid.enabled = false;
+        colorPicked = false;
+        kartPicked = false;
     }
 
     public void ResetEverything()
