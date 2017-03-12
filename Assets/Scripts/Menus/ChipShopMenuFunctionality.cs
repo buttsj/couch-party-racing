@@ -11,12 +11,15 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     public GameObject moreInfo;
     public GameObject purchaseMenu;
     public GameObject kart;
+    public Text invalid;
     private WhiteFadeUniversal fader;
 
     private string currentColor;
     private int purchaseNum;
     private Dictionary<string, int> unlocks;
     private bool refreshUnlocks;
+    private bool rotateKart;
+    private int currentCost;
 
     void Awake()
     {
@@ -34,6 +37,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         chips.text = acct.GetComponent<AccountManager>().CurrentChips.ToString();
         LoadUnlocks();
         refreshUnlocks = false;
+        rotateKart = false;
     }
 	
 	// Update is called once per frame
@@ -51,6 +55,11 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         {
             refreshUnlocks = false;
             LoadUnlocks();
+            chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
+        }
+        if (rotateKart)
+        {
+            kart.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
         }
     }
 
@@ -87,35 +96,47 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         purchaseNum = choice;
         purchaseMenu.SetActive(true);
         kart.SetActive(true);
+        rotateKart = true;
         switch (choice)
         {
             case 1:
                 currentColor = "Berry";
+                currentCost = 10;
                 break;
             case 2:
                 currentColor = "Chocolate";
+                currentCost = 10;
                 break;
             case 3:
                 currentColor = "Pink";
+                currentCost = 10;
                 break;
             case 4:
                 currentColor = "Beige";
+                currentCost = 10;
                 break;
             case 5:
                 currentColor = "Ice";
+                currentCost = 10;
                 break;
             case 6:
                 currentColor = "MidnightBlack";
+                currentCost = 10;
                 break;
             case 7:
+                currentCost = 30;
                 break;
             case 8:
+                currentCost = 30;
                 break;
             case 9:
+                currentCost = 30;
                 break;
             case 10:
+                currentCost = 50;
                 break;
             case 11:
+                currentCost = 50;
                 break;
         }
         GameObject btn = GameObject.Find(currentColor);
@@ -124,27 +145,58 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
 
     public void PurchaseMade()
     {
-        purchaseMenu.SetActive(false);
-        kart.SetActive(false);
+        GameObject acct = GameObject.Find("AccountManager");
+        int playerChips = acct.GetComponent<AccountManager>().CurrentChips;
+        bool purcCheck = false;
         switch (purchaseNum)
         {
             case 1:
-                PlayerPrefs.SetInt("Berry", 1);
+                if (playerChips >= currentCost)
+                {
+                    PlayerPrefs.SetInt("Berry", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 2:
-                PlayerPrefs.SetInt("Chocolate", 1);
+                if (playerChips >= currentCost)
+                {
+                    PlayerPrefs.SetInt("Chocolate", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 3:
-                PlayerPrefs.SetInt("Pink", 1);
+                if (playerChips >= currentCost)
+                {
+                    PlayerPrefs.SetInt("Pink", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 4:
-                PlayerPrefs.SetInt("Beige", 1);
+                if (playerChips >= currentCost)
+                {
+                    PlayerPrefs.SetInt("Beige", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 5:
-                PlayerPrefs.SetInt("Ice", 1);
+                if (playerChips >= currentCost)
+                {
+                    PlayerPrefs.SetInt("Ice", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 6:
-                PlayerPrefs.SetInt("MidnightBlack", 1);
+                if (playerChips >= currentCost)
+                {
+                    PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    purcCheck = true;
+                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
+                }
                 break;
             case 7:
                 break;
@@ -157,14 +209,27 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             case 11:
                 break;
         }
-        refreshUnlocks = true;
-        PlayerPrefs.Save();
+        if (purcCheck)
+        {
+            purchaseMenu.SetActive(false);
+            kart.SetActive(false);
+            rotateKart = false;
+            refreshUnlocks = true;
+            invalid.enabled = false;
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            invalid.enabled = true;
+        }
     }
 
     public void PurchaseCancelled()
     {
         purchaseMenu.SetActive(false);
         kart.SetActive(false);
+        rotateKart = false;
+        invalid.enabled = false;
     }
 
     private IEnumerator LeaveScene()
@@ -172,6 +237,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         fader.SceneSwitch();
         while (!fader.Faded)
             yield return null;
+        PlayerPrefs.Save();
         SceneManager.LoadScene(0);
     }
 }

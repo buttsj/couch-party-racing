@@ -43,7 +43,7 @@ public class AccountManager : MonoBehaviour {
 
     void Update()
     {
-        if (SimpleInput.GetButtonDown("Cancel"))
+        /*if (SimpleInput.GetButtonDown("Cancel"))
         {
             PlayerPrefs.SetInt("chips", 0);
             PlayerPrefs.SetInt("Berry", 0);
@@ -53,7 +53,7 @@ public class AccountManager : MonoBehaviour {
             PlayerPrefs.SetInt("Ice", 0);
             PlayerPrefs.SetInt("MidnightBlack", 0);
             PlayerPrefs.Save();
-        }
+        }*/
     }
 
     void LoadUnlocks()
@@ -77,9 +77,17 @@ public class AccountManager : MonoBehaviour {
         unlocks.Add("MidnightBlack", PlayerPrefs.GetInt("MidnightBlack"));
     }
 
+    public void DeductChips(int cost)
+    {
+        chips -= cost;
+        PlayerPrefs.SetInt("chips", chips);
+        PlayerPrefs.Save();
+    }
+
     void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("chips", chips); // save chips
+        PlayerPrefs.Save();
     }
 
 }
