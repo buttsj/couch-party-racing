@@ -17,7 +17,18 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text player3ColorText;
     public Text player4ColorText;
 
+    private int player1Kart;
+    private int player2Kart;
+    private int player3Kart;
+    private int player4Kart;
+
+    public Text player1KartText;
+    public Text player2KartText;
+    public Text player3KartText;
+    public Text player4KartText;
+
     private const string COLOR = "Color : ";
+    private const string KART = "Kart : ";
 
     private List<string> kartColorName = new List<string>
     {
@@ -49,6 +60,14 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {"Ice", new Color(0.65f, 0.95f, 0.95f, 1.0f)},
         {"MidnightBlack", new Color(0.00f, 0.01f, 0.09f, 1.0f)}
     };
+
+    private List<string> kartNames = new List<string>
+    {
+        "Default"
+    };
+
+    private List<GameObject> kartModels = new List<GameObject>
+    { };
 
     public Text loading;
 
@@ -106,6 +125,18 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         player4ColorText.text = COLOR + kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
 
+        player1Kart = 0;
+        player1KartText.text = KART + kartNames[player1Kart];
+
+        player2Kart = 0;
+        player2KartText.text = KART + kartNames[player2Kart];
+
+        player3Kart = 0;
+        player3KartText.text = KART + kartNames[player3Kart];
+
+        player4Kart = 0;
+        player4KartText.text = KART + kartNames[player4Kart];
+
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
         gamemodeName = sceneGenerator.GamemodeName;
 
@@ -131,6 +162,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         
         player4ColorText.text = COLOR + kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
+
+        player1KartText.text = KART + kartNames[player1Kart];
+        player2KartText.text = KART + kartNames[player2Kart];
+        player3KartText.text = KART + kartNames[player3Kart];
+        player4KartText.text = KART + kartNames[player4Kart];
 
         if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
             StartCoroutine(LoadScene());
