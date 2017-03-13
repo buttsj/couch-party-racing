@@ -28,12 +28,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         "Green",
         "Yellow",
         "Cyan",
-        "Berry",
-        "Chocolate",
-        "Pink",
-        "Beige",
-        "Ice",
-        "Midnight Black"
     };
 
     private List<Color> kartColorList = new List<Color> {
@@ -44,12 +38,16 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         Color.green,
         Color.yellow,
         Color.cyan,
-        new Color(0.44f, 0.12f, 0.16f, 1.0f),
-        new Color(0.24f, 0.11f, 0.06f, 1.0f),
-        new Color(1.00f, 0.41f, 0.71f, 1.0f),
-        new Color(0.87f, 0.82f, 0.65f, 1.0f),
-        new Color(0.65f, 0.95f, 0.95f, 1.0f),
-        new Color(0.00f, 0.01f, 0.09f, 1.0f)
+    };
+
+    private Dictionary<string, Color> rareColorDictionary = new Dictionary<string, Color>()
+    {
+        {"Berry", new Color(0.44f, 0.12f, 0.16f, 1.0f)},
+        {"Chocolate", new Color(0.24f, 0.11f, 0.06f, 1.0f)},
+        {"Pink", new Color(1.00f, 0.41f, 0.71f, 1.0f)},
+        {"Beige", new Color(0.87f, 0.82f, 0.65f, 1.0f)},
+        {"Ice", new Color(0.65f, 0.95f, 0.95f, 1.0f)},
+        {"MidnightBlack", new Color(0.00f, 0.01f, 0.09f, 1.0f)}
     };
 
     public Text loading;
@@ -80,6 +78,18 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     void Start() {
+        GameObject acct = GameObject.Find("AccountManager");
+        AccountManager mng = acct.GetComponent<AccountManager>();
+
+        foreach (KeyValuePair<string, int> pair in mng.GetUnlocks)
+        {
+            if (pair.Value == 1)
+            {
+                kartColorName.Add(pair.Key);
+                kartColorList.Add(rareColorDictionary[pair.Key]);
+            }
+        }
+
         player1Color = 0;
         player1ColorText.text = COLOR + kartColorName[player1Color];
         player1ColorText.color = kartColorList[player1Color];
