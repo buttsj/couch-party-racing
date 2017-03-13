@@ -81,7 +81,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         GameObject acct = GameObject.Find("AccountManager");
         AccountManager mng = acct.GetComponent<AccountManager>();
 
-        foreach (KeyValuePair<string, int> pair in mng.GetUnlocks)
+        foreach (KeyValuePair<string, int> pair in mng.GetColorUnlocks)
         {
             if (pair.Value == 1)
             {

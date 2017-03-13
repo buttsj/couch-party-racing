@@ -18,18 +18,21 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     public GameObject streetcar;
 
     public GameObject colorHolder;
+    public GameObject carHolder;
     private WhiteFadeUniversal fader;
     private AudioSource source;
     private AudioClip cash;
     private const string REGISTER = "Sounds/KartEffects/cash";
     private const string COST = " CHIPS";
-
-    private string currentKart;
+    
     private string currentColor;
     private int currentCost;
     private int purchaseNum;
-    private Dictionary<string, int> unlocks;
+
+    private Dictionary<string, int> colorUnlocks;
+    private Dictionary<string, int> carUnlocks;
     private bool refreshUnlocks;
+
     private bool rotateKart;
     private bool colorPicked;
     private bool kartPicked;
@@ -85,8 +88,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     {
         GameObject acct = GameObject.Find("AccountManager");
         acct.GetComponent<AccountManager>().RefreshUnlocks();
-        unlocks = acct.GetComponent<AccountManager>().GetUnlocks;
-        foreach (KeyValuePair<string, int> pair in unlocks)
+        colorUnlocks = acct.GetComponent<AccountManager>().GetColorUnlocks;
+        foreach (KeyValuePair<string, int> pair in colorUnlocks)
         {
             if (pair.Value == 0)
             {
@@ -97,11 +100,23 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 colorHolder.transform.FindChild(pair.Key).gameObject.SetActive(false);
             }
         }
+
+        carUnlocks = acct.GetComponent<AccountManager>().GetCarUnlocks;
+        foreach (KeyValuePair<string, int> pair in carUnlocks)
+        {
+            if (pair.Value == 0)
+            {
+                carHolder.transform.FindChild(pair.Key).gameObject.SetActive(true);
+            }
+            else if (pair.Value == 1)
+            {
+                carHolder.transform.FindChild(pair.Key).gameObject.SetActive(false);
+            }
+        }
     }
 
     public void MoreInfoButton()
     {
-        Debug.Log("checking more info");
         moreInfo.SetActive(true);
     }
 
@@ -150,32 +165,27 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 break;
             case 7:
                 // kart 1
-                currentKart = "StreetCar";
                 streetcar.SetActive(true);
                 currentCost = 30;
                 kartPicked = true;
                 break;
             case 8:
                 // kart 2
-                currentKart = "";
                 currentCost = 30;
                 kartPicked = true;
                 break;
             case 9:
                 // kart 3
-                currentKart = "";
                 currentCost = 30;
                 kartPicked = true;
                 break;
             case 10:
                 // kart 4
-                currentKart = "";
                 currentCost = 50;
                 kartPicked = true;
                 break;
             case 11:
                 // kart 5
-                currentKart = "";
                 currentCost = 50;
                 kartPicked = true;
                 break;
@@ -247,7 +257,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             case 7:
                 if (playerChips >= currentCost)
                 {
-                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    PlayerPrefs.SetInt("CityCar", 1); // purch unlocked
                     purcCheck = true;
                     streetcar.SetActive(false);
                     acct.GetComponent<AccountManager>().DeductChips(currentCost);
@@ -328,6 +338,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         PlayerPrefs.SetInt("Beige", 0);
         PlayerPrefs.SetInt("Ice", 0);
         PlayerPrefs.SetInt("MidnightBlack", 0);
+        PlayerPrefs.SetInt("CityCar", 0);
         PlayerPrefs.Save();
         refreshUnlocks = true;
     }

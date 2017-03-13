@@ -6,18 +6,20 @@ public class AccountManager : MonoBehaviour {
     private int chips;
     public int CurrentChips { get { return chips; } set { chips = value; } }
 
-    private Dictionary<string, int> unlocks = new Dictionary<string, int>();
-    public Dictionary<string, int> GetUnlocks { get { return unlocks; } }
+    private Dictionary<string, int> colorUnlocks = new Dictionary<string, int>();
+    public Dictionary<string, int> GetColorUnlocks { get { return colorUnlocks; } }
+
+    private Dictionary<string, int> carUnlocks = new Dictionary<string, int>();
+    public Dictionary<string, int> GetCarUnlocks { get { return carUnlocks; } }
 
     void Awake()
     {
         DontDestroyOnLoad(this);
     }
-
-    // Use this for initialization
+    
     void Start () {
-        // load account info
         if (PlayerPrefs.HasKey("chips")){
+            // load account info
             chips = PlayerPrefs.GetInt("chips");
             LoadUnlocks();
         }
@@ -26,50 +28,58 @@ public class AccountManager : MonoBehaviour {
             // new account, set PlayerPref
             chips = 0;
             PlayerPrefs.SetInt("chips", chips);
+
             PlayerPrefs.SetInt("Berry", 0);
             PlayerPrefs.SetInt("Chocolate", 0);
             PlayerPrefs.SetInt("Pink", 0);
             PlayerPrefs.SetInt("Beige", 0);
             PlayerPrefs.SetInt("Ice", 0);
             PlayerPrefs.SetInt("MidnightBlack", 0);
-            unlocks.Add("Berry", 0);
-            unlocks.Add("Chocolate", 0);
-            unlocks.Add("Pink", 0);
-            unlocks.Add("Beige", 0);
-            unlocks.Add("Ice", 0);
-            unlocks.Add("MidnightBlack", 0);
+            colorUnlocks.Add("Berry", 0);
+            colorUnlocks.Add("Chocolate", 0);
+            colorUnlocks.Add("Pink", 0);
+            colorUnlocks.Add("Beige", 0);
+            colorUnlocks.Add("Ice", 0);
+            colorUnlocks.Add("MidnightBlack", 0);
+
+            PlayerPrefs.SetInt("CityCar", 0);
+            carUnlocks.Add("CityCar", 0);
         }
 	}
 
-    void Update()
-    {
-    }
-
     void LoadUnlocks()
     {
-        unlocks.Add("Berry", PlayerPrefs.GetInt("Berry"));
-        unlocks.Add("Chocolate", PlayerPrefs.GetInt("Chocolate"));
-        unlocks.Add("Pink", PlayerPrefs.GetInt("Pink"));
-        unlocks.Add("Beige", PlayerPrefs.GetInt("Beige"));
-        unlocks.Add("Ice", PlayerPrefs.GetInt("Ice"));
-        unlocks.Add("MidnightBlack", PlayerPrefs.GetInt("MidnightBlack"));
+        colorUnlocks.Add("Berry", PlayerPrefs.GetInt("Berry"));
+        colorUnlocks.Add("Chocolate", PlayerPrefs.GetInt("Chocolate"));
+        colorUnlocks.Add("Pink", PlayerPrefs.GetInt("Pink"));
+        colorUnlocks.Add("Beige", PlayerPrefs.GetInt("Beige"));
+        colorUnlocks.Add("Ice", PlayerPrefs.GetInt("Ice"));
+        colorUnlocks.Add("MidnightBlack", PlayerPrefs.GetInt("MidnightBlack"));
+
+        carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
     }
 
     public void RefreshUnlocks()
     {
-        unlocks.Clear();
-        unlocks.Add("Berry", PlayerPrefs.GetInt("Berry"));
-        unlocks.Add("Chocolate", PlayerPrefs.GetInt("Chocolate"));
-        unlocks.Add("Pink", PlayerPrefs.GetInt("Pink"));
-        unlocks.Add("Beige", PlayerPrefs.GetInt("Beige"));
-        unlocks.Add("Ice", PlayerPrefs.GetInt("Ice"));
-        unlocks.Add("MidnightBlack", PlayerPrefs.GetInt("MidnightBlack"));
+        colorUnlocks.Clear();
+        colorUnlocks.Add("Berry", PlayerPrefs.GetInt("Berry"));
+        colorUnlocks.Add("Chocolate", PlayerPrefs.GetInt("Chocolate"));
+        colorUnlocks.Add("Pink", PlayerPrefs.GetInt("Pink"));
+        colorUnlocks.Add("Beige", PlayerPrefs.GetInt("Beige"));
+        colorUnlocks.Add("Ice", PlayerPrefs.GetInt("Ice"));
+        colorUnlocks.Add("MidnightBlack", PlayerPrefs.GetInt("MidnightBlack"));
+
+        carUnlocks.Clear();
+        carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
+
         chips = PlayerPrefs.GetInt("chips");
     }
 
     public void DeductChips(int cost)
     {
         chips -= cost;
+        if (chips < 0)
+            chips = 0;
         PlayerPrefs.SetInt("chips", chips);
         PlayerPrefs.Save();
     }
