@@ -43,7 +43,11 @@ public class AccountManager : MonoBehaviour {
             colorUnlocks.Add("MidnightBlack", 0);
 
             PlayerPrefs.SetInt("CityCar", 0);
+            PlayerPrefs.SetInt("IceCream", 0);
+            PlayerPrefs.SetInt("Taxi", 0);
             carUnlocks.Add("CityCar", 0);
+            carUnlocks.Add("IceCream", 0);
+            carUnlocks.Add("Taxi", 0);
         }
 	}
 
@@ -57,6 +61,8 @@ public class AccountManager : MonoBehaviour {
         colorUnlocks.Add("MidnightBlack", PlayerPrefs.GetInt("MidnightBlack"));
 
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
+        carUnlocks.Add("IceCream", PlayerPrefs.GetInt("IceCream"));
+        carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
     }
 
     public void RefreshUnlocks()
@@ -71,6 +77,8 @@ public class AccountManager : MonoBehaviour {
 
         carUnlocks.Clear();
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
+        carUnlocks.Add("IceCream", PlayerPrefs.GetInt("IceCream"));
+        carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
 
         chips = PlayerPrefs.GetInt("chips");
     }

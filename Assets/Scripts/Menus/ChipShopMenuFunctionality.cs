@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 public class ChipShopMenuFunctionality : MonoBehaviour {
 
@@ -16,6 +15,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     public Camera shopcam;
     public GameObject kart;
     public GameObject streetcar;
+    public GameObject taxi;
+    public GameObject icecream;
 
     public GameObject colorHolder;
     public GameObject carHolder;
@@ -81,6 +82,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         {
             kart.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
             streetcar.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
+            icecream.transform.Rotate(Vector3.forward, 10.0f * Time.deltaTime);
+            taxi.transform.Rotate(Vector3.forward, 10.0f * Time.deltaTime);
         }
     }
 
@@ -127,10 +130,12 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         purchaseMenu.SetActive(true);
         rotateKart = true;
         invalid.enabled = false;
-        kart.SetActive(false);
         colorPicked = false;
         kartPicked = false;
+        kart.SetActive(false);
         streetcar.SetActive(false);
+        icecream.SetActive(false);
+        taxi.SetActive(false);
         switch (choice)
         {
             case 1:
@@ -164,28 +169,22 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
                 colorPicked = true;
                 break;
             case 7:
-                // kart 1
                 streetcar.SetActive(true);
                 currentCost = 30;
                 kartPicked = true;
                 break;
             case 8:
-                // kart 2
+                icecream.SetActive(true);
                 currentCost = 30;
                 kartPicked = true;
                 break;
             case 9:
-                // kart 3
+                taxi.SetActive(true);
                 currentCost = 30;
                 kartPicked = true;
                 break;
             case 10:
-                // kart 4
-                currentCost = 50;
-                kartPicked = true;
-                break;
-            case 11:
-                // kart 5
+                // rare kart (costs alot)
                 currentCost = 50;
                 kartPicked = true;
                 break;
@@ -266,28 +265,22 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             case 8:
                 if (playerChips >= currentCost)
                 {
-                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    PlayerPrefs.SetInt("IceCream", 1); // purch unlocked
                     purcCheck = true;
+                    icecream.SetActive(false);
                     acct.GetComponent<AccountManager>().DeductChips(currentCost);
                 }
                 break;
             case 9:
                 if (playerChips >= currentCost)
                 {
-                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
+                    PlayerPrefs.SetInt("Taxi", 1); // purch unlocked
                     purcCheck = true;
+                    taxi.SetActive(false);
                     acct.GetComponent<AccountManager>().DeductChips(currentCost);
                 }
                 break;
             case 10:
-                if (playerChips >= currentCost)
-                {
-                    //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
-                    purcCheck = true;
-                    acct.GetComponent<AccountManager>().DeductChips(currentCost);
-                }
-                break;
-            case 11:
                 if (playerChips >= currentCost)
                 {
                     //PlayerPrefs.SetInt("MidnightBlack", 1); // purch unlocked
@@ -302,6 +295,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             purchaseMenu.SetActive(false);
             kart.SetActive(false);
             streetcar.SetActive(false);
+            icecream.SetActive(false);
+            taxi.SetActive(false);
             rotateKart = false;
             refreshUnlocks = true;
             invalid.enabled = false;
@@ -322,6 +317,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         purchaseMenu.SetActive(false);
         kart.SetActive(false);
         streetcar.SetActive(false);
+        icecream.SetActive(false);
+        taxi.SetActive(false);
         rotateKart = false;
         invalid.enabled = false;
         colorPicked = false;
@@ -339,6 +336,8 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         PlayerPrefs.SetInt("Ice", 0);
         PlayerPrefs.SetInt("MidnightBlack", 0);
         PlayerPrefs.SetInt("CityCar", 0);
+        PlayerPrefs.SetInt("IceCream", 0);
+        PlayerPrefs.SetInt("Taxi", 0);
         PlayerPrefs.Save();
         refreshUnlocks = true;
     }
