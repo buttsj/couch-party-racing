@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneGenerator : MonoBehaviour {
+
     private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
     private const string AI_KART_TOT_PATH = "Prefabs/Karts/TotAIKart";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
+    private const string CITY_CAR_PATH = "Prefabs/Karts/StreetCar";
+    private const string HEARSE_PATH = "Prefabs/Karts/HearseUpdated";
+    private const string TAXI_CAR_PATH = "Prefabs/Karts/TaxiUpdated";
+
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
     private const string SPUD_HUD_PATH = "Prefabs/UI Prefabs/SpudRun UI/";
@@ -27,13 +31,17 @@ public class SceneGenerator : MonoBehaviour {
     private List<Vector3> kartStartListTotShot = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, 140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140) };
     private List<Quaternion> kartStartRotationTotShot = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)),
         Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
-    //private List<Color> kartColorList = new List<Color> { Color.red, Color.magenta, Color.green, Color.yellow };
+
     private List<Color> kartColorList = new List<Color>();
     public Color KartColorizer { set { kartColorList.Add(value); } }
+
+    private List<string> playerKartList = new List<string>();
+    public string KartDesigner { set { playerKartList.Add(value); } }
 
     string[] teamColor = new string[]{ "red", "blue", "red", "blue" };
 
     public void ClearColors() { kartColorList.Clear(); }
+    public void ClearKarts() { playerKartList.Clear(); }
 
     void Awake() {
         DontDestroyOnLoad(this);
@@ -185,7 +193,22 @@ public class SceneGenerator : MonoBehaviour {
 
         if (GamemodeName != "TrackBuilder" && GamemodeName != "ChipShop") {
             for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-                GenerateKart(i, KART_PATH);
+                string kart = playerKartList[i];
+                switch (kart)
+                {
+                    case "Default":
+                        GenerateKart(i, KART_PATH);
+                        break;
+                    case "Taxi":
+                        GenerateKart(i, TAXI_CAR_PATH);
+                        break;
+                    case "Hearse":
+                        GenerateKart(i, HEARSE_PATH);
+                        break;
+                    case "CityCar":
+                        GenerateKart(i, CITY_CAR_PATH);
+                        break;
+                }
                 kartList[i].name = "Player " + (i + 1);
                 kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
             }

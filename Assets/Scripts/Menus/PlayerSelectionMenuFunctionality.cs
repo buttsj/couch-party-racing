@@ -66,9 +66,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         "Default"
     };
 
-    private List<GameObject> kartModels = new List<GameObject>
-    { };
-
     public Text loading;
 
     public const string READY = "Ready to Play!";
@@ -106,6 +103,14 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             {
                 kartColorName.Add(pair.Key);
                 kartColorList.Add(rareColorDictionary[pair.Key]);
+            }
+        }
+
+        foreach (KeyValuePair<string, int> pair in mng.GetCarUnlocks)
+        {
+            if (pair.Value == 1)
+            {
+                kartNames.Add(pair.Key);
             }
         }
 
@@ -204,14 +209,20 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         }
 
         sceneGenerator.ClearColors();
+        sceneGenerator.ClearKarts();
         sceneGenerator.KartColorizer = kartColorList[player1Color];
         sceneGenerator.KartColorizer = kartColorList[player2Color];
         sceneGenerator.KartColorizer = kartColorList[player3Color];
         sceneGenerator.KartColorizer = kartColorList[player4Color];
+        sceneGenerator.KartDesigner = kartNames[player1Kart];
+        sceneGenerator.KartDesigner = kartNames[player2Kart];
+        sceneGenerator.KartDesigner = kartNames[player3Kart];
+        sceneGenerator.KartDesigner = kartNames[player4Kart];
         sceneGenerator.LoadScene();
     }
 
     private void checkForReadyPlayers() {
+        // player 1
         if (SimpleInput.GetButtonDown("Bump Kart", 1))
         {
             player1Color += 1;
@@ -228,7 +239,14 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             player1ReadyText.text = UNREADY;
             startToContinueText.text = "";
         }
-
+        else if (SimpleInput.GetButtonDown("Boost", 1))
+        {
+            player1Kart += 1;
+            if (player1Kart >= kartNames.Count)
+                player1Kart = 0;
+        }
+        
+        // player 2
         if (SimpleInput.GetButtonDown("Bump Kart", 2))
         {
             player2Color += 1;
@@ -243,7 +261,14 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {
             player2ReadyText.text = UNREADY;
         }
+        else if (SimpleInput.GetButtonDown("Boost", 2))
+        {
+            player2Kart += 1;
+            if (player2Kart >= kartNames.Count)
+                player2Kart = 0;
+        }
 
+        // player 3
         if (SimpleInput.GetButtonDown("Bump Kart", 3))
         {
             player3Color += 1;
@@ -258,7 +283,14 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {
             player3ReadyText.text = UNREADY;
         }
+        else if (SimpleInput.GetButtonDown("Boost", 3))
+        {
+            player3Kart += 1;
+            if (player3Kart >= kartNames.Count)
+                player3Kart = 0;
+        }
 
+        // player 4
         if (SimpleInput.GetButtonDown("Bump Kart", 4))
         {
             player4Color += 1;
@@ -273,12 +305,17 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         {
             player4ReadyText.text = UNREADY;
         }
+        else if (SimpleInput.GetButtonDown("Boost", 4))
+        {
+            player4Kart += 1;
+            if (player4Kart >= kartNames.Count)
+                player4Kart = 0;
+        }
     }
 
 
     private int NumberOfReadyPlayers() {
         int count = 0;
-
         if (player1ReadyText.text == READY) {
             count++;
         }
@@ -294,7 +331,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (player4ReadyText.text == READY) {
             count++;
         }
-
         return count;
     }
 }
