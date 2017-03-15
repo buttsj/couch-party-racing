@@ -7,7 +7,7 @@ public class SceneGenerator : MonoBehaviour {
     private const string AI_KART_PATH = "Prefabs/Karts/AIKart";
     private const string AI_KART_TOT_PATH = "Prefabs/Karts/TotAIKart";
     private const string KART_PATH = "Prefabs/Karts/KartUpdated";
-    private const string CITY_CAR_PATH = "Prefabs/Karts/StreetCar";
+    private const string CITY_CAR_PATH = "Prefabs/Karts/CityCar";
     private const string HEARSE_PATH = "Prefabs/Karts/HearseUpdated";
     private const string TAXI_CAR_PATH = "Prefabs/Karts/TaxiUpdated";
 
