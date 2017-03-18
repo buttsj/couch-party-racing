@@ -17,6 +17,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
     public GameObject streetcar;
     public GameObject taxi;
     public GameObject hearse;
+    public GameObject fan;
 
     public GameObject colorHolder;
     public GameObject carHolder;
@@ -85,6 +86,7 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
             hearse.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
             taxi.transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
         }
+        fan.transform.Rotate(Vector3.up, 5.0f);
     }
 
     private void LoadUnlocks()
