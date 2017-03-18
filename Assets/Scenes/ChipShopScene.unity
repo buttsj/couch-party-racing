@@ -1127,7 +1127,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: cbc38a6efdc3c484581322f3d1d15b92, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3636,7 +3636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8831,16 +8831,16 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c858d64f4f22c6a4b8317bb61e5bda87, type: 3}
-    m_FontSize: 20
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 1
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: X
 --- !u!222 &1559835942
@@ -9445,9 +9445,9 @@ Cloth:
   m_UseTethers: 1
   m_UseGravity: 0
   m_Damping: 0
-  m_ExternalAcceleration: {x: -5, y: 0, z: -5}
-  m_RandomAcceleration: {x: 0, y: 0, z: 0}
-  m_WorldVelocityScale: 0.5
+  m_ExternalAcceleration: {x: -1, y: 0, z: -1}
+  m_RandomAcceleration: {x: -1, y: 0, z: -1}
+  m_WorldVelocityScale: -0.2
   m_WorldAccelerationScale: 0.5
   m_Friction: 0.5
   m_CollisionMassScale: 0
