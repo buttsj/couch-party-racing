@@ -7,11 +7,13 @@ public class TrackSaver : MonoBehaviour {
 
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string MINIMAP_NAME = "RaceModeMinimap";
-
+    
     private LevelGenerator levelGenerator;
+    private TrackToGridSpawner trackToGrid;
 
     void Start() {
         levelGenerator = new LevelGenerator(transform);
+        trackToGrid = new TrackToGridSpawner(gameObject);
     }
 
     public void Save(InputField userInputField) {
@@ -24,6 +26,12 @@ public class TrackSaver : MonoBehaviour {
     public void Load(InputField userInputField) {
         name = userInputField.text;
         levelGenerator.GenerateLevel(name + ".xml");
+        
+        trackToGrid.DisableColliders(gameObject);
+
+        foreach (Transform child in transform) {
+            trackToGrid.AddColliders(child.gameObject, child.gameObject);      
+        }
     }
 
     private void GenerateMinimap() {

@@ -26,16 +26,7 @@ public class TrackToGridSpawner {
 
             DisableColliders(spawnedTrackPiece);
 
-            foreach (var center in GetCenterPoints(trackPieceToConvert, CENTER_OFFSET, true)) {
-                spawnedTrackPiece.AddComponent<BoxCollider>().center = center;
-            }
-
-            // Set Size of Colliders
-            foreach (var collider in spawnedTrackPiece.GetComponentsInChildren<BoxCollider>()) {
-                if (collider.enabled) {
-                    collider.size = Vector3.one * TRACK_SCALE;
-                }
-            }
+            AddColliders(spawnedTrackPiece, trackPieceToConvert);
         }
     }
 
@@ -55,6 +46,19 @@ public class TrackToGridSpawner {
     public void DisableColliders(GameObject parent) {
         foreach (Collider collider in parent.GetComponentsInChildren<Collider>()) {
             collider.enabled = false;
+        }
+    }
+
+    public void AddColliders(GameObject spawnedTrackPiece, GameObject trackPieceToConvert) {
+        foreach (var center in GetCenterPoints(trackPieceToConvert, CENTER_OFFSET, true)) {
+            spawnedTrackPiece.AddComponent<BoxCollider>().center = center;
+        }
+
+        // Set Size of Colliders
+        foreach (var collider in spawnedTrackPiece.GetComponentsInChildren<BoxCollider>()) {
+            if (collider.enabled) {
+                collider.size = Vector3.one * TRACK_SCALE;
+            }
         }
     }
 
