@@ -50,7 +50,6 @@ public class Kart : MonoBehaviour
     private bool wasGrounded;
     private IKartAbility ability;
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
-
     private KartAudio kartAudio;
 
     public void KartApplause() { kartAudio.applauseSound(); }

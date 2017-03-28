@@ -15,6 +15,10 @@ public class ControlBindings {
         { "Reset Rotation",     NULL_CONTROL },
         { "Pause",              NULL_CONTROL },
         { "Bump Kart",          NULL_CONTROL },
+        { "Front Flip",          NULL_CONTROL },
+        { "Back Flip",          NULL_CONTROL },
+        { "Right Roll",          NULL_CONTROL },
+        { "Left Roll",          NULL_CONTROL },
         { "Boost",              NULL_CONTROL },
         { "Cancel",             NULL_CONTROL },
         { "Rotate",             NULL_CONTROL },
@@ -40,6 +44,10 @@ public class ControlBindings {
             bindings["Reset Rotation"] = new JoystickControl(XBOX.Back, joystickNumber);
             bindings["Pause"] = new JoystickControl(XBOX.Start, joystickNumber);
             bindings["Bump Kart"] = new JoystickControl(XBOX.A, joystickNumber);
+            bindings["Front Flip"] = new JoystickControl(XBOX.DPadY, XBOX.DPadY, true, joystickNumber);
+            bindings["Back Flip"] = new JoystickControl(XBOX.DPadY, XBOX.DPadY, false, joystickNumber);
+            bindings["Right Roll"] = new JoystickControl(XBOX.DPadX, XBOX.DPadX, true, joystickNumber);
+            bindings["Left Roll"] = new JoystickControl(XBOX.DPadX, XBOX.DPadX, false, joystickNumber);
             bindings["Boost"] = new JoystickControl(XBOX.B, joystickNumber);
             bindings["Cancel"] = new JoystickControl(XBOX.B, joystickNumber);
 
@@ -57,6 +65,10 @@ public class ControlBindings {
             bindings["Reset Rotation"] = new KeyboardControl(KeyCode.B);
             bindings["Pause"] = new KeyboardControl(KeyCode.Return);
             bindings["Bump Kart"] = new KeyboardControl(KeyCode.Space);
+            bindings["Front Flip"] = new KeyboardControl(KeyCode.F);
+            bindings["Back Flip"] = new KeyboardControl(KeyCode.G);
+            bindings["Right Roll"] = new KeyboardControl(KeyCode.C);
+            bindings["Left Roll"] = new KeyboardControl(KeyCode.V);
             bindings["Boost"] = new KeyboardControl(KeyCode.LeftShift);
             bindings["Cancel"] = new KeyboardControl(KeyCode.Escape);
             bindings["Rotate"] = new KeyboardControl(KeyCode.R);
@@ -78,6 +90,10 @@ public class ControlBindings {
             bindings["Reset Rotation"] = new KeyboardControl(KeyCode.End);
             bindings["Pause"] = new KeyboardControl(KeyCode.Home);
             bindings["Bump Kart"] = new KeyboardControl(KeyCode.Keypad0);
+            bindings["Front Flip"] = new KeyboardControl(KeyCode.Keypad8);
+            bindings["Back Flip"] = new KeyboardControl(KeyCode.Keypad5);
+            bindings["Left Roll"] = new KeyboardControl(KeyCode.Keypad4);
+            bindings["Right Roll"] = new KeyboardControl(KeyCode.Keypad6);
             bindings["Boost"] = new KeyboardControl(KeyCode.Keypad2);
             bindings["Cancel"] = new KeyboardControl(KeyCode.Backspace);
 

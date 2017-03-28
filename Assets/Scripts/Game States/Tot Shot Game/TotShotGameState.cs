@@ -21,6 +21,21 @@ public class TotShotGameState : IGameState {
     public void NonDamagedUpdate()
     {
         player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
+        if (SimpleInput.GetButtonDown("Back Flip", player.GetComponent<Kart>().PlayerNumber))
+        {
+            player.GetComponent<Kart>().PhysicsObject.BackFlip();
+        }
+        else if (SimpleInput.GetButtonDown("Front Flip", player.GetComponent<Kart>().PlayerNumber))
+        {
+            player.GetComponent<Kart>().PhysicsObject.FrontFlip();
+        }
+        else if (SimpleInput.GetButtonDown("Right Roll", player.GetComponent<Kart>().PlayerNumber)) {
+            player.GetComponent<Kart>().PhysicsObject.RightRoll();
+        }
+        else if (SimpleInput.GetButtonDown("Left Roll", player.GetComponent<Kart>().PlayerNumber))
+        {
+            player.GetComponent<Kart>().PhysicsObject.LeftRoll();
+        }
     }
 
     public void DamagedUpdate()

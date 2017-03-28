@@ -13,7 +13,7 @@ public class PlayerCamera : MonoBehaviour {
 	void Start() {
         offset = new Vector3(0, 10, 0);
         transform.position = player.position - followDistance * player.forward + offset;
-        transform.localEulerAngles = new Vector3(player.localEulerAngles.x, player.localEulerAngles.y, 0);
+        transform.localEulerAngles = new Vector3(player.localEulerAngles.x + 10, player.localEulerAngles.y, 0);
         fov = gameObject.GetComponent<Camera>().fieldOfView;
     }
 
@@ -21,14 +21,15 @@ public class PlayerCamera : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate() {
-        if (!player.gameObject.GetComponent<Kart>().IsDamaged)
+        if (!player.gameObject.GetComponent<Kart>().IsDamaged && !player.gameObject.GetComponent<Kart>().PhysicsObject.IsFlipping)
         {
-            transform.position = player.position - followDistance * player.forward + offset;
-            transform.localEulerAngles = new Vector3(player.localEulerAngles.x + 10, player.localEulerAngles.y, 0);
-            originalOrientation = player.forward;
+            Vector3 tempPosition = new Vector3(followDistance * player.forward.x, 0, followDistance * player.forward.z);
+            transform.position = player.position - followDistance * tempPosition.normalized + offset;
+            transform.localEulerAngles =  new Vector3(transform.localEulerAngles.x, player.localEulerAngles.y, 0);
+            originalOrientation = tempPosition;
         }
         else {
-            transform.position = player.position - followDistance * originalOrientation + offset;
+            transform.position = player.position - followDistance * originalOrientation.normalized + offset;
 
         }
       

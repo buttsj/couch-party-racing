@@ -30,7 +30,7 @@ public class TotShotManager : MonoBehaviour {
     {
         redScoreInt = 0;
         blueScoreInt = 0;
-        secondsRemain = 60;
+        secondsRemain = 180;
 
         time.text = secondsRemain.ToString("0.0");
 
@@ -125,14 +125,6 @@ public class TotShotManager : MonoBehaviour {
         if(secondsRemain <= 0)
         {
             secondsRemain = 0;
-            isOver = true;
-        }
-        else if(blueScoreInt >= 3)
-        {
-            isOver = true;
-        }
-        else if(redScoreInt >= 3)
-        {
             isOver = true;
         }
 
