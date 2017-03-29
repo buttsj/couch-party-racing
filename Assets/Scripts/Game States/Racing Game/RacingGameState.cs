@@ -58,11 +58,12 @@ public class RacingGameState : IGameState {
         {
             if (player.GetComponent<Kart>().Ability.IsUsing() && other.transform.name.Contains("AI"))
             {
-                other.gameObject.GetComponent<WaypointAI>().Damage();
+                other.GetComponent<WaypointAI>().Damage();
             }
-            else if (player.GetComponent<Kart>().Ability.IsUsing() && other.transform.name.Contains("Player"))
+            else if (player.GetComponent<Kart>().Ability.IsUsing() && other.transform.name.Contains("Player") && !other.GetComponent<Kart>().IsInvulnerable)
             {
-                other.gameObject.GetComponent<Kart>().IsDamaged = true;
+                other.GetComponent<Kart>().OriginalOrientation = new Vector3(other.transform.localEulerAngles.x, other.transform.localEulerAngles.y, other.transform.localEulerAngles.z);
+                other.GetComponent<Kart>().IsDamaged = true;
             }
         }
     }

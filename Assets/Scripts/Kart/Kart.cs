@@ -22,6 +22,7 @@ public class Kart : MonoBehaviour
 
     private bool damaged;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
+    public bool IsInvulnerable { get; set; }
     private bool isBoosting;
     public bool IsBoosting { get { return isBoosting; } }
     private float selfTimer;
@@ -154,7 +155,7 @@ public class Kart : MonoBehaviour
     {
         if (Time.timeScale > 0)
         {
-            gameObject.transform.Translate(0, 0.01f, 0);
+            gameObject.transform.Translate(0, 0.02f, 0);
         }
         if (physics.Power != 0)
         {
@@ -218,12 +219,12 @@ public class Kart : MonoBehaviour
         }
 
         gameState.OnTriggerEnter(other.gameObject);
-        if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
+        if (other.gameObject.name.Contains("FlameCircle") && damaged == false && !IsInvulnerable)
         {
             damaged = true;
             OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
-        if (other.gameObject.name.Contains("Oil") && damaged == false)
+        if (other.gameObject.name.Contains("Oil") && damaged == false && !IsInvulnerable)
         {
             if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
             {
@@ -232,7 +233,7 @@ public class Kart : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
-        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
+        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject) && !IsInvulnerable)
         {
             if (damaged == false)
             {
@@ -357,6 +358,14 @@ public class Kart : MonoBehaviour
         {
             ResetKart();
         }
+
+        if (IsInvulnerable) {
+            selfTimer += Time.deltaTime;
+            if (selfTimer >= 2f) {
+                IsInvulnerable = false;
+                selfTimer = 0;
+            }
+        }
     }
 
     void DamagedUpdate() {
@@ -379,6 +388,7 @@ public class Kart : MonoBehaviour
         {
             pow_particles.GetComponent<ParticleSystem>().Stop();
             damaged = false;
+            IsInvulnerable = true;
             selfTimer = 0;
             transform.localEulerAngles = OriginalOrientation;
             kartAudio.SpinOutPlayed = false;
