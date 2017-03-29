@@ -21,7 +21,7 @@ public class KartPhysics {
     public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
     public float PreJumpSpeed { get; set; }
     public float TurningSpeed { get; set; }
-    public bool IsFlipping { get { return Mathf.Abs(body.angularVelocity.x) > 1 || Mathf.Abs(body.angularVelocity.z) > 1; } }
+    public bool IsFlipping { get { return Mathf.Abs(body.angularVelocity.x) > 3 || Mathf.Abs(body.angularVelocity.z) > 3; } }
     public float BoostMax { get { return boostMax; } set { BoostMax = value; } }
 
     public KartPhysics(GameObject gameObject, float minSpeed, float maxSpeed, float boostMax) {

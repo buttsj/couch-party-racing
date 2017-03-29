@@ -34,6 +34,7 @@ public class RacingGameState : IGameState {
 	// Update is called once per frame
 	public void NonDamagedUpdate () {
         player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 2.25f;
+        HandleBump();
     }
 
 
@@ -67,4 +68,11 @@ public class RacingGameState : IGameState {
     }
 
     public void OnTriggerEnter(GameObject other) { }
+
+    void HandleBump() {
+        if(SimpleInput.GetButtonDown("Bump Kart", player.GetComponent<Kart>().PlayerNumber) && player.GetComponent<Kart>().IsGrounded())
+        {
+            player.GetComponent<Kart>().PhysicsObject.BumpKart();
+        }
+    }
 }

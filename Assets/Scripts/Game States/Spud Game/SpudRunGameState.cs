@@ -19,6 +19,7 @@ public class SpudRunGameState : IGameState {
 
     // Update is called once per frame
     public void NonDamagedUpdate() {
+        HandleBump();
         if (HoldingPotato)
         {
             SpudScore += Time.deltaTime;
@@ -94,6 +95,14 @@ public class SpudRunGameState : IGameState {
         if (other.name.Contains("Marble") && HoldingPotato)
         {
             ((SpudRunGameState)other.GetComponent<MarbleManager>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
+        }
+    }
+
+    void HandleBump()
+    {
+        if (SimpleInput.GetButtonDown("Bump Kart", player.GetComponent<Kart>().PlayerNumber) && player.GetComponent<Kart>().IsGrounded() && !HoldingPotato)
+        {
+            player.GetComponent<Kart>().PhysicsObject.BumpKart();
         }
     }
 }

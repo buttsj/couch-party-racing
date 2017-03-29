@@ -6,6 +6,8 @@ public class TotShotGameState : IGameState {
 
     public GameObject player;
     private string teamColor;
+    private int hopLimitCounter;
+    private const int HOPLIMITMAX = 2;
 
     public TotShotGameState(GameObject kart, string team)
     {
@@ -20,19 +22,20 @@ public class TotShotGameState : IGameState {
 
     public void NonDamagedUpdate()
     {
+        HandleBump();
         player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
-        if (SimpleInput.GetButtonDown("Back Flip", player.GetComponent<Kart>().PlayerNumber))
+        if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) < 0)
         {
             player.GetComponent<Kart>().PhysicsObject.BackFlip();
         }
-        else if (SimpleInput.GetButtonDown("Front Flip", player.GetComponent<Kart>().PlayerNumber))
+        else if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) > 0)
         {
             player.GetComponent<Kart>().PhysicsObject.FrontFlip();
         }
-        else if (SimpleInput.GetButtonDown("Right Roll", player.GetComponent<Kart>().PlayerNumber)) {
+        else if (SimpleInput.GetAxis("Roll", player.GetComponent<Kart>().PlayerNumber) > 0) {
             player.GetComponent<Kart>().PhysicsObject.RightRoll();
         }
-        else if (SimpleInput.GetButtonDown("Left Roll", player.GetComponent<Kart>().PlayerNumber))
+        else if (SimpleInput.GetAxis("Roll", player.GetComponent<Kart>().PlayerNumber) < 0)
         {
             player.GetComponent<Kart>().PhysicsObject.LeftRoll();
         }
@@ -63,5 +66,25 @@ public class TotShotGameState : IGameState {
     public string getTeam()
     {
         return teamColor;
+    }
+
+    void HandleBump() {
+
+        if (SimpleInput.GetButtonDown("Bump Kart", player.GetComponent<Kart>().PlayerNumber) && hopLimitCounter < HOPLIMITMAX)
+        {
+            if (hopLimitCounter == 0)
+            {
+                player.GetComponent<Kart>().PhysicsObject.TotJump1();
+            }
+            else
+            {
+                player.GetComponent<Kart>().PhysicsObject.TotJump2();
+            }
+            hopLimitCounter++;
+        }
+        else if (Physics.SphereCast(new Ray(player.transform.position, -player.transform.up), 1f, 1))
+        {
+            hopLimitCounter = 0;
+        }
     }
 }
