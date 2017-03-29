@@ -72,7 +72,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.white;
+        buttons[currentButton].color = Color.gray;
     }
 
     void Update()
@@ -288,8 +288,8 @@ public class MainMenuFunctionality : MonoBehaviour
     {
         for (int i = 0; i < NUMBEROFBUTTONS; i++)
         {
-            buttons[i].color = Color.gray;
+            buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.white;
+        buttons[currentButton].color = Color.gray;
     }
 }
