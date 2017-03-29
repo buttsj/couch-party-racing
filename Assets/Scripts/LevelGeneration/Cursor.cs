@@ -29,7 +29,7 @@ public class Cursor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        // Rotate
+        // Rotate Track
         if (SimpleInput.GetButtonDown("Rotate", 1)) {
             transform.Rotate(new Vector3(0, 90, 0));
         }
