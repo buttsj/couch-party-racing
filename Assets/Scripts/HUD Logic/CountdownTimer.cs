@@ -36,11 +36,11 @@ public class CountdownTimer : MonoBehaviour {
         else if (timer < 0 && timer > -2)
         {
             Time.timeScale = 1;
-            timerText.text = "Go!";
-            Destroy(gameObject);
+            timerText.text = "Go !";
         }
         else if (timer < -2){
             gameObject.GetComponent<Canvas>().enabled = false;
+            Destroy(gameObject);
         }
 		
 	}
