@@ -27,9 +27,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text player3KartText;
     public Text player4KartText;
 
-    private const string COLOR = "Color : ";
-    private const string KART = "Kart : ";
-
     private List<string> kartColorName = new List<string>
     {
         "Blue",
@@ -68,7 +65,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     public Text loading;
 
-    public const string READY = "Ready to Play!";
+    public const string READY = "Ready";
     public const string UNREADY = "Press Start";
 
     public Text player1ReadyText;
@@ -115,32 +112,32 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         }
 
         player1Color = 0;
-        player1ColorText.text = COLOR + kartColorName[player1Color];
+        player1ColorText.text = kartColorName[player1Color];
         player1ColorText.color = kartColorList[player1Color];
 
         player2Color = 1;
-        player2ColorText.text = COLOR + kartColorName[player2Color];
+        player2ColorText.text = kartColorName[player2Color];
         player2ColorText.color = kartColorList[player2Color];
 
         player3Color = 2;
-        player3ColorText.text = COLOR + kartColorName[player3Color];
+        player3ColorText.text = kartColorName[player3Color];
         player3ColorText.color = kartColorList[player3Color];
 
         player4Color = 3;
-        player4ColorText.text = COLOR + kartColorName[player4Color];
+        player4ColorText.text = kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
 
         player1Kart = 0;
-        player1KartText.text = KART + kartNames[player1Kart];
+        player1KartText.text = kartNames[player1Kart];
 
         player2Kart = 0;
-        player2KartText.text = KART + kartNames[player2Kart];
+        player2KartText.text = kartNames[player2Kart];
 
         player3Kart = 0;
-        player3KartText.text = KART + kartNames[player3Kart];
+        player3KartText.text = kartNames[player3Kart];
 
         player4Kart = 0;
-        player4KartText.text = KART + kartNames[player4Kart];
+        player4KartText.text = kartNames[player4Kart];
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
         gamemodeName = sceneGenerator.GamemodeName;
@@ -156,22 +153,22 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     void Update() {
-        player1ColorText.text = COLOR + kartColorName[player1Color];
+        player1ColorText.text = kartColorName[player1Color];
         player1ColorText.color = kartColorList[player1Color];
         
-        player2ColorText.text = COLOR + kartColorName[player2Color];
+        player2ColorText.text = kartColorName[player2Color];
         player2ColorText.color = kartColorList[player2Color];
         
-        player3ColorText.text = COLOR + kartColorName[player3Color];
+        player3ColorText.text = kartColorName[player3Color];
         player3ColorText.color = kartColorList[player3Color];
         
-        player4ColorText.text = COLOR + kartColorName[player4Color];
+        player4ColorText.text = kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
 
-        player1KartText.text = KART + kartNames[player1Kart];
-        player2KartText.text = KART + kartNames[player2Kart];
-        player3KartText.text = KART + kartNames[player3Kart];
-        player4KartText.text = KART + kartNames[player4Kart];
+        player1KartText.text = kartNames[player1Kart];
+        player2KartText.text = kartNames[player2Kart];
+        player3KartText.text = kartNames[player3Kart];
+        player4KartText.text = kartNames[player4Kart];
 
         if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
             StartCoroutine(LoadScene());
