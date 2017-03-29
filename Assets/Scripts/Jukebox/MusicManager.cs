@@ -200,7 +200,7 @@ public class MusicManager : MonoBehaviour
         playingColor.a += 1.0f;
         if (playingColor.a >= 1.0f)
             playingColor.a = 1.0f;
-        playing.material.color = playingColor;
+        playing.color = playingColor;
     }
 
     void DimDown()
@@ -212,6 +212,6 @@ public class MusicManager : MonoBehaviour
             playingColor.a = 0.5f;
             DimText = false;
         }
-        playing.material.color = playingColor;
+        playing.color = playingColor;
     }
 }
