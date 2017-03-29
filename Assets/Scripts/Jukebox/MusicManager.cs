@@ -196,7 +196,7 @@ public class MusicManager : MonoBehaviour
 
     void LightUp()
     {
-        Color playingColor = playing.material.color;
+        Color playingColor = playing.color;
         playingColor.a += 1.0f;
         if (playingColor.a >= 1.0f)
             playingColor.a = 1.0f;
@@ -205,7 +205,7 @@ public class MusicManager : MonoBehaviour
 
     void DimDown()
     {
-        Color playingColor = playing.material.color;
+        Color playingColor = playing.color;
         playingColor.a -= 1.0f;
         if (playingColor.a <= 0.5f)
         {
