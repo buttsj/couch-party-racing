@@ -62,8 +62,9 @@ public class SpudRunGameState : IGameState {
                 ((SpudRunGameState)other.GetComponent<Kart>().GameState).HoldingPotato = false;
                 GameObject.Find("Potato").GetComponent<SpudScript>().SpudHolder = null;
                 GameObject.Find("Potato").GetComponent<SpudScript>().IsTagged = false;
-                if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing())
-                { 
+                if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing() && !other.GetComponent<Kart>().IsInvulnerable)
+                {
+                    other.GetComponent<Kart>().OriginalOrientation = new Vector3(other.transform.localEulerAngles.x, other.transform.localEulerAngles.y, other.transform.localEulerAngles.z);
                     other.gameObject.GetComponent<Kart>().IsDamaged = true;
                     SpudScore += 5;
                 }
@@ -71,8 +72,9 @@ public class SpudRunGameState : IGameState {
                     SpudScore += 3;
                 }
             }
-            else if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing() && ((SpudRunGameState)other.GetComponent<Kart>().GameState).InvulnerableTimer < 0)
+            else if (player.GetComponent<Kart>().Ability.ToString() == "Spark" && player.GetComponent<Kart>().Ability.IsUsing() && ((SpudRunGameState)other.GetComponent<Kart>().GameState).InvulnerableTimer < 0 && !other.GetComponent<Kart>().IsInvulnerable)
             {
+                other.GetComponent<Kart>().OriginalOrientation = new Vector3(other.transform.localEulerAngles.x, other.transform.localEulerAngles.y, other.transform.localEulerAngles.z);
                 other.gameObject.GetComponent<Kart>().IsDamaged = true;
             }
 
