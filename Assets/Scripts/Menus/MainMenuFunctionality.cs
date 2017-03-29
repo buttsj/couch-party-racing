@@ -10,7 +10,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private WhiteFadeUniversal fader;
 
-    private const int NUMBEROFBUTTONS = 8;
+    private const int NUMBEROFBUTTONS = 7;
 
     public Canvas settingsMenu;
     public Text setApply;
@@ -22,7 +22,6 @@ public class MainMenuFunctionality : MonoBehaviour
     public Text trackBuilder;
     public Text spudRun;
     public Text totShot;
-    public Text deathRun;
     public Text store;
     public Text settings;
     public Text exit;
@@ -58,10 +57,9 @@ public class MainMenuFunctionality : MonoBehaviour
         buttons[1] = trackBuilder;
         buttons[2] = spudRun;
         buttons[3] = totShot;
-        buttons[4] = deathRun;
-        buttons[5] = store;
-        buttons[6] = settings;
-        buttons[7] = exit;
+        buttons[4] = store;
+        buttons[5] = settings;
+        buttons[6] = exit;
 
         currentButton = 0;
 
@@ -131,10 +129,6 @@ public class MainMenuFunctionality : MonoBehaviour
             {
                 StartCoroutine(trackBuilderPress());
             }
-            else if (ReferenceEquals(buttons[currentButton], deathRun))
-            {
-                StartCoroutine(deathRunPress());
-            }
             else if (ReferenceEquals(buttons[currentButton], totShot))
             {
                 StartCoroutine(playgroundPress());
@@ -178,17 +172,6 @@ public class MainMenuFunctionality : MonoBehaviour
         while (!fader.Faded)
             yield return null;
         GoToNextMenu();
-    }
-
-    private IEnumerator deathRunPress()
-    {
-        sceneGenerator.GamemodeName = "DeathRun";
-        sceneGenerator.SceneName = "DeathRunScene";
-        sceneGenerator.LevelName = null;
-        fader.SceneSwitch();
-        while (!fader.Faded)
-            yield return null;
-        //GoToNextMenu();
     }
 
     private IEnumerator playgroundPress()

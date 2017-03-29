@@ -29,7 +29,6 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     private bool axisEnabled;
 
-    private Color highlight;
     private string gameStateName;
 
     void Start () {
@@ -45,7 +44,6 @@ public class PauseMenuFunctionality : MonoBehaviour {
         transition = (AudioClip)Resources.Load(TRANSITION);
         source = GameObject.Find("Music Manager HUD").GetComponent<MusicManager>().source;
 
-        highlight = new Color(255, 255, 0);
         pauseMenu = pauseMenu.GetComponent<Canvas>();
 
         pauseMenu.enabled = false;
@@ -57,7 +55,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         buttons[1] = quitText;
 
         currentButton = 0;
-        resumeText.color = highlight;
+        resumeText.color = Color.gray;
 
         axisEnabled = true;
         //gameStateName = GameObject.Find("Player 1").GetComponent<Kart>().GameState.GetGameStateName();
@@ -73,7 +71,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             pauseMenu.enabled = true;
             Time.timeScale = 0;
-            resumeText.color = highlight;
+            resumeText.color = Color.gray;
         }
 
         scrollMenu();
@@ -154,7 +152,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = highlight;
+        buttons[currentButton].color = Color.gray;
     }
 
     private void PlaySound()
