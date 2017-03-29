@@ -8,6 +8,7 @@ public class TotShotGameState : IGameState {
     private string teamColor;
     private int hopLimitCounter;
     private const int HOPLIMITMAX = 2;
+    private bool dpadHeldDown;
 
     public TotShotGameState(GameObject kart, string team)
     {
@@ -24,21 +25,26 @@ public class TotShotGameState : IGameState {
     {
         HandleBump();
         player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
-        if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) < 0)
+        if (dpadHeldDown)
         {
-            player.GetComponent<Kart>().PhysicsObject.BackFlip();
+            if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) < 0)
+            {
+                player.GetComponent<Kart>().PhysicsObject.BackFlip();
+            }
+            else if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) > 0)
+            {
+                player.GetComponent<Kart>().PhysicsObject.FrontFlip();
+            }
+            else if (SimpleInput.GetAxis("Roll", player.GetComponent<Kart>().PlayerNumber) > 0)
+            {
+                player.GetComponent<Kart>().PhysicsObject.RightRoll();
+            }
+            else if (SimpleInput.GetAxis("Roll", player.GetComponent<Kart>().PlayerNumber) < 0)
+            {
+                player.GetComponent<Kart>().PhysicsObject.LeftRoll();
+            }
         }
-        else if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) > 0)
-        {
-            player.GetComponent<Kart>().PhysicsObject.FrontFlip();
-        }
-        else if (SimpleInput.GetAxis("Roll", player.GetComponent<Kart>().PlayerNumber) > 0) {
-            player.GetComponent<Kart>().PhysicsObject.RightRoll();
-        }
-        else if (SimpleInput.GetAxis("Roll", player.GetComponent<Kart>().PlayerNumber) < 0)
-        {
-            player.GetComponent<Kart>().PhysicsObject.LeftRoll();
-        }
+        dpadHeldDown = IsInputReset();
     }
 
     public void DamagedUpdate()
@@ -86,5 +92,10 @@ public class TotShotGameState : IGameState {
         {
             hopLimitCounter = 0;
         }
+    }
+
+    bool IsInputReset() {
+
+    return SimpleInput.GetAxis("Flip") == 0 && SimpleInput.GetAxis("Roll") == 0;
     }
 }
