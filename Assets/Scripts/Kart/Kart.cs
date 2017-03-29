@@ -21,6 +21,8 @@ public class Kart : MonoBehaviour
     private bool makeBoostSound;
 
     private bool damaged;
+    private bool destroyed;
+    private float destroyedAnimationTimer;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     public bool IsInvulnerable { get; set; }
     private bool isBoosting;
@@ -145,9 +147,21 @@ public class Kart : MonoBehaviour
         {
             NonDamagedUpdate();
         }
-        else
+        else if (damaged)
         {
             DamagedUpdate();
+        }
+
+        if (destroyed) {
+            destroyedAnimationTimer += Time.deltaTime;
+            if (destroyedAnimationTimer >= 1.5f) {
+                destroyed = false;
+                damaged = false;
+                transform.Find("ExplosionEffect").gameObject.SetActive(false);
+                destroyedAnimationTimer = 0;
+                ResetKart();
+                ToggleRenderers(true);
+            }
         }
     }
 
@@ -241,6 +255,13 @@ public class Kart : MonoBehaviour
                 OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
             }
             Destroy(other.gameObject);
+        }
+
+        if (other.tag == "DeathObject") {
+            ToggleRenderers(false);
+            transform.Find("ExplosionEffect").gameObject.SetActive(true);
+            destroyed = true;
+            damaged = true;
         }
     }
 
@@ -375,23 +396,25 @@ public class Kart : MonoBehaviour
             physics.EndBoost();
         }
         gameState.DamagedUpdate();
-
-        physics.Spin();
-
-        kartAudio.spinOutSound();
-        kartAudio.handleDamageGearingSounds();
-
-        pow_particles.GetComponent<ParticleSystem>().Play();
-
-        selfTimer = selfTimer + Time.deltaTime;
-        if (selfTimer >= 1.5f)
+        if (!destroyed)
         {
-            pow_particles.GetComponent<ParticleSystem>().Stop();
-            damaged = false;
-            IsInvulnerable = true;
-            selfTimer = 0;
-            transform.localEulerAngles = OriginalOrientation;
-            kartAudio.SpinOutPlayed = false;
+            physics.Spin();
+
+            kartAudio.spinOutSound();
+            kartAudio.handleDamageGearingSounds();
+
+            pow_particles.GetComponent<ParticleSystem>().Play();
+
+            selfTimer = selfTimer + Time.deltaTime;
+            if (selfTimer >= 1.5f)
+            {
+                pow_particles.GetComponent<ParticleSystem>().Stop();
+                damaged = false;
+                IsInvulnerable = true;
+                selfTimer = 0;
+                transform.localEulerAngles = OriginalOrientation;
+                kartAudio.SpinOutPlayed = false;
+            }
         }
     }
 
@@ -447,6 +470,14 @@ public class Kart : MonoBehaviour
         {
             makeBoostSound = true;
             GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(boostSound);
+        }
+    }
+
+    void ToggleRenderers(bool toggle) {
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in rs)
+        {
+            r.enabled = toggle;
         }
     }
 }
