@@ -15,6 +15,9 @@ public class MusicManager : MonoBehaviour
     public AudioSource source;
     public List<AudioClip> clips = new List<AudioClip>();
     public Text playing;
+    private bool BrightenText = false;
+    private bool DimText = false;
+    private float BrightTimer = 5.0f;
 
     [SerializeField]
     [HideInInspector]
@@ -147,6 +150,21 @@ public class MusicManager : MonoBehaviour
             }
             timer += Time.deltaTime;
             playing.text = scrollText;
+            if (BrightenText)
+            {
+                LightUp();
+                BrightTimer -= Time.deltaTime;
+                if (BrightTimer <= 0)
+                {
+                    BrightTimer = 5.0f;
+                    DimText = true;
+                    BrightenText = false;
+                }
+            }
+            if (DimText)
+            {
+                DimDown();
+            }
         }
 	}
 
@@ -155,9 +173,15 @@ public class MusicManager : MonoBehaviour
         if (clips.Count > 0)
         {
             if (Input.GetKeyDown(KeyCode.LeftBracket))
+            {
+                BrightenText = true;
                 Backward();
+            }
             if (Input.GetKeyDown(KeyCode.RightBracket))
+            {
+                BrightenText = true;
                 Forward();
+            }
         }
     }
 
@@ -168,5 +192,26 @@ public class MusicManager : MonoBehaviour
         currChar = 0;
         scrollText = scrollBasis.Substring(currChar, textUsing.Length);
         timer = 0.0f;
+    }
+
+    void LightUp()
+    {
+        Color playingColor = playing.color;
+        playingColor.a += 1.0f;
+        if (playingColor.a >= 1.0f)
+            playingColor.a = 1.0f;
+        playing.material.color = playingColor;
+    }
+
+    void DimDown()
+    {
+        Color playingColor = playing.color;
+        playingColor.a -= 1.0f;
+        if (playingColor.a <= 0.5f)
+        {
+            playingColor.a = 0.5f;
+            DimText = false;
+        }
+        playing.material.color = playingColor;
     }
 }
