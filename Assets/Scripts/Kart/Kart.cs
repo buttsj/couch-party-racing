@@ -112,6 +112,7 @@ public class Kart : MonoBehaviour
 
     void Update()
     {
+        
         if (SimpleInput.GetButtonDown("Use PowerUp", playerNumber))
         {
             switch (ability.ToString())
@@ -153,6 +154,10 @@ public class Kart : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Time.timeScale > 0)
+        {
+            gameObject.transform.Translate(0, 0.01f, 0);
+        }
         if (physics.Power != 0)
         {
             fLeftModel.transform.Rotate(Vector3.right * physics.Speed);

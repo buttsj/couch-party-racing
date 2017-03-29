@@ -59,6 +59,7 @@ public class KartPhysics {
         kart.transform.Rotate(Vector3.up, TurningSpeed * turnDirection);
     }
 
+
     public void ApplyForces() {
         body.AddRelativeForce(0f, 0f, power * speed);
     }

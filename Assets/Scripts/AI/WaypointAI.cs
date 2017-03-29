@@ -102,8 +102,11 @@ public class WaypointAI : MonoBehaviour {
     }
 
     void FixedUpdate() {
-
-        if(!isOnTrack() && canSkip && IsGrounded())
+        if (Time.timeScale > 0)
+        {
+            gameObject.transform.Translate(0, 0.01f, 0);
+        }
+        if (!isOnTrack() && canSkip && IsGrounded())
         {
             if(waypoints[currentTargetWaypoint].GetComponent<Checkpoint>() != null)
             {
