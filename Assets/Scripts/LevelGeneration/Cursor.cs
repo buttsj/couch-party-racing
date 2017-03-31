@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cursor : MonoBehaviour {
 
     public GameObject trackParent;
+    public Text trackText;
 
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string START_TRACK_NAME = "StartTrack";
@@ -85,7 +87,9 @@ public class Cursor : MonoBehaviour {
     }
 
     private void PrintTrackName() {
-        Debug.Log(trackList[trackIndex].name);
+        var name = trackList[trackIndex].name;
+
+        trackText.text = name.Remove(name.IndexOf("Track", System.StringComparison.CurrentCultureIgnoreCase));
     }
 
     private void NextTrackPiece() {
