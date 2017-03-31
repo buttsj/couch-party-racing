@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class CursorMovement : MonoBehaviour {
 
+    public Transform cursor;
+
     private const int TRACK_SCALE = 60;
+    private const int CAMERA_DISTANCE = 500;
+
     private bool canAcceptInput = false;
-
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -28,8 +26,8 @@ public class CursorMovement : MonoBehaviour {
             if (SimpleInput.GetAxis("Vertical", 1) > 0) {
                 transform.position += new Vector3(0, TRACK_SCALE, 0);
             }
-            if (SimpleInput.GetAxis("Vertical", 1) < 0) {
-                transform.position -= new Vector3(0, TRACK_SCALE, 0);
+            if (SimpleInput.GetAxis("Vertical", 1) < 0 && (cursor.position.y > 0 || Vector3.Distance(transform.position, cursor.position) > CAMERA_DISTANCE)) {
+                transform.position -= new Vector3(0, TRACK_SCALE, 0);           
             }
         }
 
