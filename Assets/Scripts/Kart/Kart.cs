@@ -169,7 +169,7 @@ public class Kart : MonoBehaviour
     {
         if (Time.timeScale > 0)
         {
-            gameObject.transform.Translate(0, 0.02f, 0);
+            gameObject.transform.Translate(0, 0.015f, 0);
         }
         if (physics.Power != 0)
         {

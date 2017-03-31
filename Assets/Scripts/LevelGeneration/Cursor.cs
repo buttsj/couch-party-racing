@@ -9,7 +9,8 @@ public class Cursor : MonoBehaviour {
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string START_TRACK_NAME = "StartTrack";
 
-    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "CrossTrack", "Minimap"};
+    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "crosstrack", "minimap", "pipe"};
+    private static readonly List<string> UNIQUE_TRACKS = new List<string>() { "starttrack"};
 
     private TrackToGridSpawner trackToGrid;
     private GameObject cursorTrackPiece;
@@ -29,7 +30,7 @@ public class Cursor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        // Rotate
+        // Rotate Track
         if (SimpleInput.GetButtonDown("Rotate", 1)) {
             transform.Rotate(new Vector3(0, 90, 0));
         }
@@ -37,6 +38,10 @@ public class Cursor : MonoBehaviour {
         // Spawn Track
         if (SimpleInput.GetButtonDown("Bump Kart", 1)) {
             trackToGrid.SpawnTrack(cursorTrackPiece);
+
+            if (IsUniquePiece(cursorTrackPiece.name)) {
+                SwapToNextValidTrack();
+            }
         }
 
         // Delete Track
@@ -46,15 +51,29 @@ public class Cursor : MonoBehaviour {
 
         // Switch Track
         if (SimpleInput.GetButtonDown("Next Track", 1)) {
-            NextTrackPiece();
-            SwapCurrentTrack();
-            PrintTrackName();
+            SwapToNextValidTrack();
         }
         if (SimpleInput.GetButtonDown("Previous Track", 1)) {
-            PreviousTrackPiece();
-            SwapCurrentTrack();
-            PrintTrackName();
+            SwapToPreviousValidTrack();
         }
+    }
+
+    private void SwapToNextValidTrack() {
+        do {
+            NextTrackPiece();
+        } while (UniquePieceAlreadyExists());
+
+        SwapCurrentTrack();
+        PrintTrackName();
+    }
+
+    private void SwapToPreviousValidTrack() {
+        do {
+            PreviousTrackPiece();
+        } while (UniquePieceAlreadyExists());
+
+        SwapCurrentTrack();
+        PrintTrackName();
     }
 
     private void SwapCurrentTrack() {
@@ -72,13 +91,32 @@ public class Cursor : MonoBehaviour {
     private void NextTrackPiece() {
         do {
             trackIndex = (++trackIndex) % trackList.Count;
-        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.ToLower().Contains(x)) != null);
     }
 
     private void PreviousTrackPiece() {
         do {
             trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
-        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.ToLower().Contains(x)) != null);
+    }
+
+    private bool IsUniquePiece(string pieceName) {
+        return UNIQUE_TRACKS.Find(x => pieceName.ToLower().Contains(x)) != null;
+    }
+
+    private bool UniquePieceAlreadyExists() {
+        bool doesUniquePieceExist = false;
+
+        if (IsUniquePiece(trackList[trackIndex].name)) {
+            foreach (Transform child in trackParent.transform) {
+                doesUniquePieceExist = IsUniquePiece(child.name);
+                if (doesUniquePieceExist) {
+                    break;
+                }
+            }
+        }
+
+        return doesUniquePieceExist;
     }
 
     private void SetToTrackPiece(string trackPieceName) {
