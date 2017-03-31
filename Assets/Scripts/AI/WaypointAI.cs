@@ -58,6 +58,8 @@ public class WaypointAI : MonoBehaviour {
     public int ResetWaypoint { get { return resetWaypoint; } set { resetWaypoint = value; } }
     public IKartAbility Ability { get { return ability; } set { ability = value; } }
     public float MAXBREAKTIME { set { breakTimerMax = value; } }
+    public KartPhysics PhysicsObject { get { return physics; } set { physics = value; } }
+    public bool IsBoosting { get { return isBoosting; } set { isBoosting = value; } }
 
     void Start() {
 
