@@ -9,7 +9,7 @@ public class Cursor : MonoBehaviour {
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string START_TRACK_NAME = "StartTrack";
 
-    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "CrossTrack", "Minimap"};
+    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "crosstrack", "minimap", "pipe"};
 
     private TrackToGridSpawner trackToGrid;
     private GameObject cursorTrackPiece;
@@ -72,13 +72,13 @@ public class Cursor : MonoBehaviour {
     private void NextTrackPiece() {
         do {
             trackIndex = (++trackIndex) % trackList.Count;
-        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.ToLower().Contains(x)) != null);
     }
 
     private void PreviousTrackPiece() {
         do {
             trackIndex = (--trackIndex + trackList.Count) % trackList.Count;
-        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.Contains(x)) != null);
+        } while (CANT_SPAWN_TRACKS.Find(x => trackList[trackIndex].name.ToLower().Contains(x)) != null);
     }
 
     private void SetToTrackPiece(string trackPieceName) {
