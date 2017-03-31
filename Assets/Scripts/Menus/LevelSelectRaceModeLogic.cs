@@ -61,7 +61,7 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
         }
         else
         {
-            customText.text = "<  Create some levels in the Track Builder!   >";
+            customText.text = "<  No Custom Levels Found   >";
         }
         
     }
@@ -77,6 +77,18 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
 
             scrollMenu();
             buttonPress();
+        }
+        else
+        {
+            GameObject background = GameObject.Find("Background");
+
+            foreach (Transform child in background.transform)
+            {
+                if(child.name != "Background")
+                {
+                    child.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
+                }
+            }
         }
 
 
@@ -98,9 +110,13 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
             }
             else if (ReferenceEquals(buttons[currentButton], livingRoomText))
             {
+                sceneGenerator.LevelName = "Living Room 1.xml";
+                StartCoroutine(Transition());
             }
             else if (ReferenceEquals(buttons[currentButton], bathRoomText))
             {
+                sceneGenerator.LevelName = "BathroomTrack.xml";
+                StartCoroutine(Transition());
             }
             else if (ReferenceEquals(buttons[currentButton], customText))
             {
@@ -182,9 +198,11 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
         DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath);
         FileInfo[] files = directoryInfo.GetFiles();
         List<string> levelList = new List<string>();
+        Debug.Log(Application.dataPath);
         for (int i = 0; i < files.Length; i++)
         {
-            if (files[i].Extension == ".xml")
+            if (files[i].Extension == ".xml" && files[i].Name.Length > 4 && files[i].Name != "BathroomTrack.xml"
+                && files[i].Name != "BedroomTrack.xml" && files[i].Name != "KitchenTrack1.xml" && files[i].Name != "Living Room 1.xml")
             {
                 levelList.Add(files[i].Name);
             }

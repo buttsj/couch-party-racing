@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 114275449787365912}
   - component: {fileID: 114975565484479556}
   - component: {fileID: 114242665690302512}
+  - component: {fileID: 114222843679042262}
   m_Layer: 5
   m_Name: RaceLevelSelectMenu
   m_TagString: Untagged
@@ -475,6 +476,17 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Bathroom
+--- !u!114 &114222843679042262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757263577656996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720f97a1e610a3647b551351f5eefebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114242665690302512
 MonoBehaviour:
   m_ObjectHideFlags: 1

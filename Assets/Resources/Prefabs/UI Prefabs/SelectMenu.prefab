@@ -552,6 +552,7 @@ GameObject:
   - component: {fileID: 114750006413401338}
   - component: {fileID: 114290778748490804}
   - component: {fileID: 114355259611573312}
+  - component: {fileID: 114612431921227494}
   m_Layer: 5
   m_Name: SelectMenu
   m_TagString: Untagged
@@ -1755,6 +1756,17 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Status
+--- !u!114 &114612431921227494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1959655570194086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720f97a1e610a3647b551351f5eefebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114642702408684658
 MonoBehaviour:
   m_ObjectHideFlags: 1

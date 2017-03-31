@@ -262,7 +262,24 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void GoToNextMenu()
     {
-        SceneManager.LoadScene("LevelSelectionMenu");
+        if(sceneGenerator.GamemodeName == "RaceMode")
+        {
+            SceneManager.LoadScene("LevelSelectionMenu");
+        }
+        else if(sceneGenerator.GamemodeName == "TrackBuilder")
+        {
+            SimpleInput.ClearCurrentPlayerDevices();
+            SimpleInput.MapPlayerToDevice(1);
+
+            Destroy(sceneGenerator.gameObject);
+
+            SceneManager.LoadScene("TrackBuilderScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("SelectionMenu");
+        }
+
     }
 
     private void GoToShop()
