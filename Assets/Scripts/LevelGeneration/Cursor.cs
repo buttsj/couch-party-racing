@@ -9,7 +9,7 @@ public class Cursor : MonoBehaviour {
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string START_TRACK_NAME = "StartTrack";
 
-    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "crosstrack", "minimap", "pipe"};
+    private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "crosstrack", "minimap"};
     private static readonly List<string> UNIQUE_TRACKS = new List<string>() { "starttrack"};
 
     private TrackToGridSpawner trackToGrid;
