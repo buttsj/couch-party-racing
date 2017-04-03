@@ -33,11 +33,18 @@ public class GoToPreviousScene : MonoBehaviour {
         pressed = true;
         source.Play();
         yield return new WaitWhile(() => source.isPlaying);
+
+        GameObject sceneGenerator = GameObject.Find("SceneGenerator");
         var prevScene = SceneManager.GetActiveScene().buildIndex - 1;
-        if (prevScene == 0)
-        {
-            Destroy(GameObject.Find("SceneGenerator"));
+
+        if (prevScene == 1 && sceneGenerator != null && sceneGenerator.GetComponent<SceneGenerator>().GamemodeName != "RaceMode") {
+            prevScene = 0;
         }
+
+        if (prevScene == 0) {
+            Destroy(sceneGenerator);
+        }
+
         SceneManager.LoadScene(prevScene);
     }
 }
