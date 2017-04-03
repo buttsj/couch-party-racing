@@ -109,6 +109,10 @@ public class Kart : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
+            ability = new Shield(gameObject, kartAudio);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
             damaged = true;
         }
     }
@@ -131,6 +135,9 @@ public class Kart : MonoBehaviour
                     ability.UseItem();
                     break;
                 case "Marble":
+                    ability.UseItem();
+                    break;
+                case "Shield":
                     ability.UseItem();
                     break;
             }
@@ -229,6 +236,10 @@ public class Kart : MonoBehaviour
             else if(powerup == "Marble")
             {
                 ability = new Marble(gameObject, kartAudio);
+            }
+            else if (powerup == "Shield")
+            {
+                ability = new Shield(gameObject, kartAudio);
             }
         }
 
