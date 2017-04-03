@@ -20,6 +20,7 @@ public class RacingEndGameMenu : MonoBehaviour {
     public Text player4Text;
     public Button exit;
     private bool raceOver;
+    private bool addedChips;
     public bool RaceOver { get { return raceOver; } }
     List<GameObject> kartList;
 
@@ -74,6 +75,13 @@ public class RacingEndGameMenu : MonoBehaviour {
             for (int i = playerList.Count; i < aiList.Count + playerList.Count; i++)
             {
                 playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
+            }
+            if (!addedChips && canvas.enabled)
+            {
+                PlayerPrefs.SetInt("chips", PlayerPrefs.GetInt("chips", 0) + 5);
+                PlayerPrefs.Save();
+                Debug.Log(PlayerPrefs.GetInt("chips"));
+                addedChips = true;
             }
         }
         else {

@@ -14,7 +14,7 @@ public class TotShotManager : MonoBehaviour {
     private int redScoreInt;
     private int blueScoreInt;
     private float secondsRemain;
-
+    private bool addedChips;
     private bool deadBall;
 
     private ParticleSystem explosion;
@@ -73,6 +73,13 @@ public class TotShotManager : MonoBehaviour {
             else
             {
                 winText.text = "Draw";
+            }
+
+            if (!addedChips && winText.enabled)
+            {
+                PlayerPrefs.SetInt("chips", PlayerPrefs.GetInt("chips", 0) + 5);
+                PlayerPrefs.Save();
+                addedChips = true;
             }
 
             if (SimpleInput.GetButtonDown("Cancel"))

@@ -19,6 +19,7 @@ public class SpudRunEndGameMenu : MonoBehaviour
     private bool raceOver;
     public bool RaceOver { get { return raceOver; } }
     GameObject potato;
+    private bool addedChips;
     // Use this for initialization
     public void Start()
     {
@@ -51,6 +52,11 @@ public class SpudRunEndGameMenu : MonoBehaviour
                 {
                     playerTexts[i].text = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore.ToString("F2");
                 }
+            if (!addedChips && canvas.enabled) {
+                PlayerPrefs.SetInt("chips", PlayerPrefs.GetInt("chips", 0) + 5);
+                PlayerPrefs.Save();
+                addedChips = true;
+            }
           
         }
 
