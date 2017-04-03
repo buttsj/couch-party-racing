@@ -8,6 +8,7 @@ public class CountdownTimer : MonoBehaviour {
     private WhiteFadeUniversal fader;
     public Text timerText;
     private float timer;
+    private bool timescaleSet;
 
     void Awake()
     {
@@ -35,8 +36,12 @@ public class CountdownTimer : MonoBehaviour {
         }
         else if (timer < 0 && timer > -2)
         {
-            Time.timeScale = 1;
-            timerText.text = "Go !";
+            if (!timescaleSet)
+            {
+                Time.timeScale = 1;
+                timerText.text = "Go !";
+                timescaleSet = true;
+            }
         }
         else if (timer < -2){
             gameObject.GetComponent<Canvas>().enabled = false;
