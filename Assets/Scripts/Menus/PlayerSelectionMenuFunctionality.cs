@@ -76,7 +76,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text startToContinueText;
 
     private SceneGenerator sceneGenerator;
-    private string gamemodeName;
 
     void Awake()
     {
@@ -140,7 +139,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         player4KartText.text = kartNames[player4Kart];
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-        gamemodeName = sceneGenerator.GamemodeName;
 
         player1ReadyText.text = UNREADY;
         player2ReadyText.text = UNREADY;
@@ -170,7 +168,9 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         player3KartText.text = kartNames[player3Kart];
         player4KartText.text = kartNames[player4Kart];
 
-        if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
+        if (sceneGenerator.GamemodeName == "RaceMode" && SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
+            StartCoroutine(LoadScene());
+        } else if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY) && NumberOfReadyPlayers() > 1) {
             StartCoroutine(LoadScene());
         } else {
             checkForReadyPlayers();
@@ -229,7 +229,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         else if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == UNREADY))
         {
             player1ReadyText.text = READY;
-            startToContinueText.text = "Press Start to Continue!";
+            //startToContinueText.text = "Press Start to Continue!";
         }
         else if ((SimpleInput.GetButtonDown("Boost", 1) && !SimpleInput.GetButtonDown("Pause", 1)) && (player1ReadyText.text == READY))
         {
@@ -307,6 +307,13 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             player4Kart += 1;
             if (player4Kart >= kartNames.Count)
                 player4Kart = 0;
+        }
+
+        // Ready to start
+        if (sceneGenerator.GamemodeName == "RaceMode" && player1ReadyText.text == READY) {
+            startToContinueText.text = "Press Start to Continue!";
+        } else if (player1ReadyText.text == READY && NumberOfReadyPlayers() > 1) {
+            startToContinueText.text = "Press Start to Continue!";
         }
     }
 

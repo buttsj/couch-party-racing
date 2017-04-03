@@ -192,7 +192,6 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     private void FadeOut()
     {
-        Debug.Log(alpha);
         alpha += fadeSpeed * Time.deltaTime;
         alpha = Mathf.Clamp01(alpha);
         Color col = img.color;
@@ -202,6 +201,11 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             FadeOutBool = false;
         }
+    }
+
+    public bool isPaused()
+    {
+        return pauseMenu.enabled;
     }
 
 }
