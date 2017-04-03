@@ -7,9 +7,9 @@ public static class SimpleInput {
     // Temporary collection. Will be replaced with Unity PlayerPref lookup.
     private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme> {
         new ControlScheme("Keyboard1"),
-        new ControlScheme("Xbox", 1),
         new ControlScheme("Keyboard2"),
-        new ControlScheme("Keyboard2")
+        new ControlScheme("Xbox", 1),
+        new ControlScheme("Xbox", 2)
     };
 
     private static List<ControlScheme> playerSchemes = new List<ControlScheme>(storedPrefSchemes);
@@ -217,6 +217,32 @@ public static class SimpleInput {
     /// Binds the player preferenced devices to their default player.
     /// </summary>
     public static void MapPlayersToDefaultPref() {
+        if (!PlayerPrefs.HasKey("Player 1 Controls")) {
+            PlayerPrefs.SetString("Player 1 Controls", "Keyboard1");
+            PlayerPrefs.SetString("Player 2 Controls", "Keyboard2");
+            PlayerPrefs.SetString("Player 3 Controls", "Xbox");
+            PlayerPrefs.SetString("Player 4 Controls", "Xbox");
+        }
+
+        ClearCurrentPlayerDevices();
+
+        LoadPrefsControlSchemes();
+
         playerSchemes = storedPrefSchemes.ToList();
+    }
+
+    private static void LoadPrefsControlSchemes() {
+        int currentJoystick = 1;
+
+        for (int i = 1; i <= NumberOfPlayers; i++) {
+            string prefValue = PlayerPrefs.GetString("Player " + i + " Controls");
+
+            if (prefValue.Contains("Keyboard")) {
+                storedPrefSchemes.Add(new ControlScheme(prefValue));
+            } else {
+                storedPrefSchemes.Add(new ControlScheme(prefValue, currentJoystick));
+                currentJoystick++;
+            }
+        }
     }
 }
