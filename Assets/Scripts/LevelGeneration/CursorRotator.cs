@@ -7,13 +7,7 @@ public class CursorRotator : MonoBehaviour {
     public Transform rotateAroundObject;
 
     private bool canAcceptInput = false;
-    //private List<float> rotationAngleList = new List<Vector3>() { new Vector3(90, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 90, 0), new Vector3(0, 270, 0)};
     private int rotationAngleIndex = 0;
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,8 +17,10 @@ public class CursorRotator : MonoBehaviour {
             switch (rotationAngleIndex) {
                 case 0:
                     transform.RotateAround(rotateAroundObject.position, new Vector3(1, 0, 0), -angle);
+                    transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
                     break;
                 case 4:
+                    transform.position = new Vector3(transform.position.x, transform.position.y - 5, transform.position.z);
                     transform.RotateAround(rotateAroundObject.position, new Vector3(0, 1, 0), angle);
                     transform.RotateAround(rotateAroundObject.position, new Vector3(1, 0, 0), angle);
                     break;
