@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 public class AccountManager : MonoBehaviour {
+
+    private static bool isAlreadyInitialized = false;
     
     private int chips;
     public int CurrentChips { get { return chips; } set { chips = value; } }
@@ -14,10 +16,16 @@ public class AccountManager : MonoBehaviour {
 
     void Awake()
     {
+        if(isAlreadyInitialized) {
+            Destroy(gameObject);
+        }
+
         DontDestroyOnLoad(this);
     }
     
     void Start () {
+        isAlreadyInitialized = true;
+
         if (PlayerPrefs.HasKey("chips")){
             // load account info
             chips = PlayerPrefs.GetInt("chips");
