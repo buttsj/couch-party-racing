@@ -77,7 +77,7 @@ public class TotShotManager : MonoBehaviour {
 
             if (!addedChips && winText.enabled)
             {
-                PlayerPrefs.SetInt("chips", PlayerPrefs.GetInt("chips", 0) + 5);
+                GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
             }

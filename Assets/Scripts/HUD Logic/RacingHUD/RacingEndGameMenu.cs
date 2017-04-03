@@ -78,9 +78,8 @@ public class RacingEndGameMenu : MonoBehaviour {
             }
             if (!addedChips && canvas.enabled)
             {
-                PlayerPrefs.SetInt("chips", PlayerPrefs.GetInt("chips", 0) + 5);
+                GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
-                Debug.Log(PlayerPrefs.GetInt("chips"));
                 addedChips = true;
             }
         }
@@ -97,11 +96,6 @@ public class RacingEndGameMenu : MonoBehaviour {
             {
                 if (((RacingGameState)player.GetComponent<Kart>().GameState).LapNumber < 4)
                 {
-                    finished = false;
-                }
-            }
-            else if (player.GetComponent<WaypointAI>() != null) {
-                if (((RacingGameState)player.GetComponent<WaypointAI>().GameState).LapNumber < 4) {
                     finished = false;
                 }
             }
