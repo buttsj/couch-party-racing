@@ -60,15 +60,20 @@ public class Kart : MonoBehaviour
     private int hopLimitCounter;
     private const int HOPLIMITMAX = 2;
 
+    private PauseMenuFunctionality pause;
+
     void Awake()
     {
         maxSpeed = 250f;
         minSpeed = 150f;
         physics = new KartPhysics(this.gameObject, minSpeed, maxSpeed, 300f);
+
     }
 
     void Start()
     {
+        pause = GameObject.FindWithTag("PauseMenu").GetComponent<PauseMenuFunctionality>();
+
         boostSound = Resources.Load<AudioClip>("Sounds/KartEffects/Boosting");
         makeBoostSound = false;
         damaged = false;
@@ -115,95 +120,104 @@ public class Kart : MonoBehaviour
 
     void Update()
     {
-        
-        if (SimpleInput.GetButtonDown("Use PowerUp", playerNumber))
+        if (!pause.isPaused())
         {
-            switch (ability.ToString())
+            if (SimpleInput.GetButtonDown("Use PowerUp", playerNumber))
             {
-                case "Oil":
-                    if (IsGrounded())
+                switch (ability.ToString())
+                {
+                    case "Oil":
+                        if (IsGrounded())
+                            ability.UseItem();
+                        break;
+                    case "Spark":
                         ability.UseItem();
-                    break;
-                case "Spark":
-                    ability.UseItem();
-                    break;
-                case "Boost":
-                    ability.UseItem();
-                    break;
-                case "Marble":
-                    ability.UseItem();
-                    break;
+                        break;
+                    case "Boost":
+                        ability.UseItem();
+                        break;
+                    case "Marble":
+                        ability.UseItem();
+                        break;
+                }
             }
-        }
 
-        if (ability.IsUsed())
-        {
-            ability = new NullItem(gameObject); // item is completely used
-        }
-        ability.Update();
-        DebugMenu(); // check for Debug Commands
+            if (ability.IsUsed())
+            {
+                ability = new NullItem(gameObject); // item is completely used
+            }
+            ability.Update();
+            DebugMenu(); // check for Debug Commands
 
-        if (!damaged)
-        {
-            NonDamagedUpdate();
-        }
-        else if (damaged)
-        {
-            DamagedUpdate();
-        }
+            if (!damaged)
+            {
+                NonDamagedUpdate();
+            }
+            else if (damaged)
+            {
+                DamagedUpdate();
+            }
 
-        if (destroyed) {
-            destroyedAnimationTimer += Time.deltaTime;
-            if (destroyedAnimationTimer >= 1.5f) {
-                destroyed = false;
-                damaged = false;
-                transform.Find("ExplosionEffect").gameObject.SetActive(false);
-                destroyedAnimationTimer = 0;
-                ResetKart();
-                ToggleRenderers(true);
+            if (destroyed)
+            {
+                destroyedAnimationTimer += Time.deltaTime;
+                if (destroyedAnimationTimer >= 1.5f)
+                {
+                    destroyed = false;
+                    damaged = false;
+                    transform.Find("ExplosionEffect").gameObject.SetActive(false);
+                    destroyedAnimationTimer = 0;
+                    ResetKart();
+                    ToggleRenderers(true);
+                }
             }
         }
     }
 
     void FixedUpdate()
     {
-        if (Time.timeScale > 0)
+        if (!pause.isPaused())
         {
-            gameObject.transform.Translate(0, 0.018f, 0, Space.Self);
-        }
-        if (physics.Power != 0)
-        {
-            fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
-            fRightModel.transform.Rotate(Vector3.right * physics.Speed);
-            rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
-            rRightModel.transform.Rotate(Vector3.right * physics.Speed);
-
-            if (!IsOnTrack() && IsRacingGameState)
+            if (Time.timeScale > 0)
             {
-                physics.MaxSpeed = 175;
+                gameObject.transform.Translate(0, 0.018f, 0, Space.Self);
             }
-            else
+            if (physics.Power != 0)
             {
-                physics.MaxSpeed = maxSpeed;
-            }
+                fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
+                fRightModel.transform.Rotate(Vector3.right * physics.Speed);
+                rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
+                rRightModel.transform.Rotate(Vector3.right * physics.Speed);
 
-            if (IsGrounded())
-            {
-                if (!wasGrounded) {
-                    physics.Speed = physics.PreJumpSpeed;
-                    wasGrounded = true;
-                    physics.ApplyLandingForces();
+                if (!IsOnTrack() && IsRacingGameState)
+                {
+                    physics.MaxSpeed = 175;
                 }
-                physics.ApplyForces();
-            }
-            else {
-                physics.PreJumpSpeed = physics.Speed;
-                wasGrounded = false;
-            }
+                else
+                {
+                    physics.MaxSpeed = maxSpeed;
+                }
 
+                if (IsGrounded())
+                {
+                    if (!wasGrounded)
+                    {
+                        physics.Speed = physics.PreJumpSpeed;
+                        wasGrounded = true;
+                        physics.ApplyLandingForces();
+                    }
+                    physics.ApplyForces();
+                }
+                else
+                {
+                    physics.PreJumpSpeed = physics.Speed;
+                    wasGrounded = false;
+                }
+
+            }
+            physics.RotateKart(turnPower);
+            RotateTires();
         }
-        physics.RotateKart(turnPower);
-        RotateTires();
         
     }
 
