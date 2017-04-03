@@ -257,11 +257,11 @@ public class Kart : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.tag == "DeathObject") {
+        if (other.tag == "DeathObject") {   
             ToggleRenderers(false);
             transform.Find("ExplosionEffect").gameObject.SetActive(true);
             destroyed = true;
-            damaged = true;
+            damaged = true; 
         }
     }
 

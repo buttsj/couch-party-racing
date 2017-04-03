@@ -15,12 +15,15 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private AudioSource source;
     private bool pressed;
 
-    private const int NUMBEROFBUTTONS = 2;
+    private const int NUMBEROFBUTTONS = 3;
 
     public Canvas pauseMenu;
 
     public Text resumeText;
+    public Text controlsText;
     public Text quitText;
+
+    public Image controlsImage;
 
     private float defaultTimeScale;
 
@@ -30,6 +33,8 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private bool axisEnabled;
 
     private string gameStateName;
+
+    private bool controlView;
 
     void Start () {
 
@@ -52,13 +57,15 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
         buttons = new Text[NUMBEROFBUTTONS];
         buttons[0] = resumeText;
-        buttons[1] = quitText;
+        buttons[1] = controlsText;
+        buttons[2] = quitText;
 
         currentButton = 0;
         resumeText.color = Color.gray;
 
         axisEnabled = true;
-        //gameStateName = GameObject.Find("Player 1").GetComponent<Kart>().GameState.GetGameStateName();
+        controlView = false;
+        controlsImage.enabled = false;
     }
 	
 	void Update () {
@@ -70,13 +77,23 @@ public class PauseMenuFunctionality : MonoBehaviour {
         if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
         {
             pauseMenu.enabled = true;
-            Time.timeScale = 0;
+            Time.timeScale = 0f;
             resumeText.color = Color.gray;
         }
 
-        scrollMenu();
-
-        buttonPress();
+        if (!controlView)
+        {
+            scrollMenu();
+            buttonPress();
+        }
+        else
+        {
+            if (SimpleInput.GetAnyButtonDown())
+            {
+                controlView = false;
+                controlsImage.enabled = false;
+            }
+        }
 
     }
 
@@ -87,6 +104,10 @@ public class PauseMenuFunctionality : MonoBehaviour {
             if(ReferenceEquals(buttons[currentButton], resumeText))
             {
                 resumePress();
+            }
+            else if (ReferenceEquals(buttons[currentButton], controlsText))
+            {
+                controlsPress();
             }
             else if(ReferenceEquals(buttons[currentButton], quitText))
             {
@@ -104,45 +125,52 @@ public class PauseMenuFunctionality : MonoBehaviour {
         Time.timeScale = defaultTimeScale;
     }
 
+    private void controlsPress()
+    {
+        controlView = true;
+        controlsImage.enabled = true;
+    }
+
     private IEnumerator quitPress()
     {
         PlaySound();
         transform.GetChild(0).gameObject.SetActive(false);
         Time.timeScale = defaultTimeScale;
         yield return new WaitWhile(() => source.isPlaying);
-        //pauseMenu.enabled = false;
         SceneManager.LoadScene("MainMenu");
     }
 
     private void scrollMenu()
     {
+
         if (pauseMenu.enabled)
         {
-            if((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+            if (SimpleInput.GetAxis("Vertical", 1) == 0 && SimpleInput.GetAxis("Horizontal", 1) == 0)
+            {
+                axisEnabled = true;
+            }
+
+            if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
             {
                 axisEnabled = false;
                 currentButton++;
-                if(currentButton >= NUMBEROFBUTTONS)
+                if (currentButton >= NUMBEROFBUTTONS)
                 {
                     currentButton = 0;
                 }
                 colorSelectedButton();
             }
-            else if((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+            else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
             {
                 axisEnabled = false;
                 currentButton--;
-                if(currentButton < 0)
+                if (currentButton < 0)
                 {
                     currentButton = NUMBEROFBUTTONS - 1;
                 }
                 colorSelectedButton();
             }
 
-            if(SimpleInput.GetAxis("Vertical", 1) == 0)
-            {
-                axisEnabled = true;
-            }
         }
     }
 
