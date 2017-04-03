@@ -61,7 +61,7 @@ public class KartPhysics {
 
 
     public void ApplyForces() {
-        body.AddRelativeForce(0f, 0f, power * speed);
+        body.AddRelativeForce(0f, 1f, power * speed);
     }
 
     public void ApplyLandingForces() {
@@ -69,7 +69,7 @@ public class KartPhysics {
     }
 
     public void BumpKart() {
-        body.AddRelativeForce(0, 1000, 0);
+        body.AddRelativeForce(0, 2000, 0);
     }
 
     public void TotJump1()
