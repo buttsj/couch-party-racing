@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 
 public static class SimpleInput {
-    // Temporary collection. Will be replaced with Unity PlayerPref lookup.
     private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme> {
         new ControlScheme("Keyboard1"),
         new ControlScheme("Keyboard2"),
@@ -222,6 +221,7 @@ public static class SimpleInput {
             PlayerPrefs.SetString("Player 2 Controls", "Keyboard2");
             PlayerPrefs.SetString("Player 3 Controls", "Xbox");
             PlayerPrefs.SetString("Player 4 Controls", "Xbox");
+            PlayerPrefs.Save();
         }
 
         ClearCurrentPlayerDevices();
