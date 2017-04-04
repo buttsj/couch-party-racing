@@ -474,14 +474,15 @@ public class Kart : MonoBehaviour
         }
     }
 
-    void UpdateBoost(bool totShotMode) {
+    void UpdateBoost(bool isTotshotMode) {
         if (SimpleInput.GetButton("Boost", playerNumber))
         {
             if (boost > 0)
             {
                 isBoosting = true;
                 physics.StartBoost();
-                if (totShotMode) {
+                if (isTotshotMode)
+                {
                     physics.RocketBoost();
                 }
                 BoostNoise();

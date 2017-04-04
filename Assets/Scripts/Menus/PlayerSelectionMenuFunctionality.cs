@@ -311,9 +311,9 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
         // Ready to start
         if (sceneGenerator.GamemodeName == "RaceMode" && player1ReadyText.text == READY) {
-            startToContinueText.text = "Press Start to Continue!";
+            startToContinueText.text = "Press Start to Continue";
         } else if (player1ReadyText.text == READY && NumberOfReadyPlayers() > 1) {
-            startToContinueText.text = "Press Start to Continue!";
+            startToContinueText.text = "Press Start to Continue";
         }
     }
 

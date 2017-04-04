@@ -53,7 +53,7 @@ public class SpudRunEndGameMenu : MonoBehaviour
                     playerTexts[i].text = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore.ToString("F2");
                 }
             if (!addedChips && canvas.enabled) {
-                PlayerPrefs.SetInt("chips", PlayerPrefs.GetInt("chips", 0) + 5);
+                GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
             }
