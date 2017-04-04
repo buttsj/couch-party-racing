@@ -139,27 +139,14 @@ public class Kart : MonoBehaviour
                         break;
                     case "Boost":
                         ability.UseItem();
-<<<<<<< HEAD
-                    break;
-                case "Spark":
-                    ability.UseItem();
-                    break;
-                case "Boost":
-                    ability.UseItem();
-                    break;
-                case "Marble":
-                    ability.UseItem();
-                    break;
-                case "Shield":
-                    ability.UseItem();
-                    break;
-=======
                         break;
                     case "Marble":
                         ability.UseItem();
                         break;
+                    case "Shield":
+                        ability.UseItem();
+                        break;
                 }
->>>>>>> origin/master
             }
 
             if (ability.IsUsed())
@@ -238,7 +225,7 @@ public class Kart : MonoBehaviour
             physics.RotateKart(turnPower);
             RotateTires();
         }
-        
+
     }
 
 
@@ -260,7 +247,7 @@ public class Kart : MonoBehaviour
             {
                 ability = new Spark(gameObject, kartAudio);
             }
-            else if(powerup == "Marble")
+            else if (powerup == "Marble")
             {
                 ability = new Marble(gameObject, kartAudio);
             }
@@ -295,20 +282,21 @@ public class Kart : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.tag == "DeathObject") {   
+        if (other.tag == "DeathObject")
+        {
             ToggleRenderers(false);
             transform.Find("ExplosionEffect").gameObject.SetActive(true);
             destroyed = true;
-            damaged = true; 
+            damaged = true;
         }
     }
 
     void OnCollisionEnter(Collision other)
     {
-        
+
 
         gameState.OnCollisionEnter(other.gameObject);
-        
+
     }
 
     void OnTriggerStay(Collider other)
@@ -418,16 +406,19 @@ public class Kart : MonoBehaviour
             ResetKart();
         }
 
-        if (IsInvulnerable) {
+        if (IsInvulnerable)
+        {
             selfTimer += Time.deltaTime;
-            if (selfTimer >= 2f) {
+            if (selfTimer >= 2f)
+            {
                 IsInvulnerable = false;
                 selfTimer = 0;
             }
         }
     }
 
-    void DamagedUpdate() {
+    void DamagedUpdate()
+    {
         if (isBoosting)
         {
             isBoosting = false;
@@ -456,7 +447,8 @@ public class Kart : MonoBehaviour
         }
     }
 
-    void UpdateMovement() {
+    void UpdateMovement()
+    {
         if (SimpleInput.GetButton("Accelerate", playerNumber))
         {
             physics.Accelerate();
@@ -474,7 +466,8 @@ public class Kart : MonoBehaviour
         }
     }
 
-    void UpdateBoost(bool isTotshotMode) {
+    void UpdateBoost(bool isTotshotMode)
+    {
         if (SimpleInput.GetButton("Boost", playerNumber))
         {
             if (boost > 0)
@@ -512,7 +505,8 @@ public class Kart : MonoBehaviour
         }
     }
 
-    void ToggleRenderers(bool toggle) {
+    void ToggleRenderers(bool toggle)
+    {
         Renderer[] rs = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in rs)
         {
