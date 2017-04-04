@@ -6,9 +6,9 @@ using UnityEngine;
 public static class SimpleInput {
     private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme> {
         new ControlScheme("Keyboard1"),
-        new ControlScheme("Keyboard2"),
         new ControlScheme("Xbox", 1),
-        new ControlScheme("Xbox", 2)
+        new ControlScheme("Xbox", 2),
+        new ControlScheme("Xbox", 3)
     };
 
     private static List<ControlScheme> playerSchemes = new List<ControlScheme>(storedPrefSchemes);
@@ -218,7 +218,7 @@ public static class SimpleInput {
     public static void MapPlayersToDefaultPref() {
         if (!PlayerPrefs.HasKey("Player 1 Controls")) {
             PlayerPrefs.SetString("Player 1 Controls", "Keyboard1");
-            PlayerPrefs.SetString("Player 2 Controls", "Keyboard2");
+            PlayerPrefs.SetString("Player 2 Controls", "Xbox");
             PlayerPrefs.SetString("Player 3 Controls", "Xbox");
             PlayerPrefs.SetString("Player 4 Controls", "Xbox");
             PlayerPrefs.Save();
