@@ -7,10 +7,10 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
     private WhiteFadeUniversal fader;
 
-    private int player1Color;
-    private int player2Color;
-    private int player3Color;
-    private int player4Color;
+    private int player1Color = -1;
+    private int player2Color = 0;
+    private int player3Color = 1;
+    private int player4Color = 2;
 
     public Text player1ColorText;
     public Text player2ColorText;
@@ -93,6 +93,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         GameObject acct = GameObject.Find("AccountManager");
         AccountManager mng = acct.GetComponent<AccountManager>();
 
+        sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+
         foreach (KeyValuePair<string, int> pair in mng.GetColorUnlocks)
         {
             if (pair.Value == 1)
@@ -110,19 +112,19 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             }
         }
 
-        player1Color = 0;
+        player1Color = IncrementKartColor(player1Color);
         player1ColorText.text = kartColorName[player1Color];
         player1ColorText.color = kartColorList[player1Color];
 
-        player2Color = 1;
+        player2Color = IncrementKartColor(player2Color);
         player2ColorText.text = kartColorName[player2Color];
         player2ColorText.color = kartColorList[player2Color];
 
-        player3Color = 2;
+        player3Color = IncrementKartColor(player3Color);
         player3ColorText.text = kartColorName[player3Color];
         player3ColorText.color = kartColorList[player3Color];
 
-        player4Color = 3;
+        player4Color = IncrementKartColor(player4Color);
         player4ColorText.text = kartColorName[player4Color];
         player4ColorText.color = kartColorList[player4Color];
 
@@ -137,8 +139,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
 
         player4Kart = 0;
         player4KartText.text = kartNames[player4Kart];
-
-        sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
 
         player1ReadyText.text = UNREADY;
         player2ReadyText.text = UNREADY;
@@ -222,9 +222,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         // player 1
         if (SimpleInput.GetButtonDown("Bump Kart", 1))
         {
-            player1Color += 1;
-            if (player1Color >= kartColorList.Count)
-                player1Color = 0;
+            player1Color = IncrementKartColor(player1Color);
         }
         else if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == UNREADY))
         {
@@ -246,9 +244,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         // player 2
         if (SimpleInput.GetButtonDown("Bump Kart", 2))
         {
-            player2Color += 1;
-            if (player2Color >= kartColorList.Count)
-                player2Color = 0;
+            player2Color = IncrementKartColor(player2Color);
         }
         else if (SimpleInput.GetButtonDown("Pause", 2) && (player2ReadyText.text == UNREADY))
         {
@@ -268,9 +264,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         // player 3
         if (SimpleInput.GetButtonDown("Bump Kart", 3))
         {
-            player3Color += 1;
-            if (player3Color >= kartColorList.Count)
-                player3Color = 0;
+            player3Color = IncrementKartColor(player3Color);
         }
         else if (SimpleInput.GetButtonDown("Pause", 3) && (player3ReadyText.text == UNREADY))
         {
@@ -290,9 +284,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         // player 4
         if (SimpleInput.GetButtonDown("Bump Kart", 4))
         {
-            player4Color += 1;
-            if (player4Color >= kartColorList.Count)
-                player4Color = 0;
+            player4Color = IncrementKartColor(player4Color);
         }
         else if (SimpleInput.GetButtonDown("Pause", 4) && (player4ReadyText.text == UNREADY))
         {
@@ -315,6 +307,18 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         } else if (player1ReadyText.text == READY && NumberOfReadyPlayers() > 1) {
             startToContinueText.text = "Press Start to Continue";
         }
+    }
+
+    private int IncrementKartColor(int playerColor) {
+        do {
+            playerColor += 1;
+            if (playerColor >= kartColorList.Count) {
+                playerColor = 0;
+            }
+            Debug.Log(kartColorList[playerColor].ToString());
+        } while (sceneGenerator.GamemodeName == "TotShot" && kartColorList[playerColor] != Color.blue && kartColorList[playerColor] != Color.red);
+
+        return playerColor;
     }
 
 
