@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KartPhysics {
+public class KartPhysics : MonoBehaviour{
     GameObject kart;
     Rigidbody body;
     private float minSpeed;
@@ -56,30 +56,46 @@ public class KartPhysics {
     }
 
     public void RotateKart(float turnDirection) {
-        kart.transform.Rotate(Vector3.up, TurningSpeed * turnDirection);
+        if (Time.timeScale != 0)
+        {
+            kart.transform.Rotate(Vector3.up, TurningSpeed * turnDirection);
+        }
     }
 
 
     public void ApplyForces() {
-        body.AddRelativeForce(0f, 1f, power * speed);
+        if (Time.timeScale != 0)
+        {
+            body.AddRelativeForce(0f, 1f, power * speed);
+        }
     }
 
     public void ApplyLandingForces() {
-        body.AddRelativeForce(0f, 0f, 4*power * speed);
+        if (Time.timeScale != 0)
+        {
+            body.AddRelativeForce(0f, 0f, 4 * power * speed);
+        }
     }
 
     public void BumpKart() {
-        body.AddRelativeForce(0, 2000, 0);
+        if (Time.timeScale != 0)
+        {
+            body.AddRelativeForce(0, 2000, 0);
+        }
     }
 
     public void TotJump1()
     {
-        body.AddRelativeForce(0, 2000, 0);
+        if (Time.timeScale != 0)
+        {
+            body.AddRelativeForce(0, 2000, 0);
+        }
     }
 
     public void TotJump2()
     {
-        body.AddRelativeForce(0, 3000, 0);
+        if(Time.timeScale != 0)
+            body.AddRelativeForce(0, 3000, 0);
     }
 
 
@@ -109,7 +125,8 @@ public class KartPhysics {
     }
 
     public void RocketBoost() {
-        body.AddRelativeForce(0f, 0f, 250);
+        if(Time.timeScale != 0)
+            body.AddRelativeForce(0f, 0f, 250);
     }
 
     public void EndBoost() {
@@ -122,25 +139,37 @@ public class KartPhysics {
     }
 
     public void BackFlip() {
-        body.AddForceAtPosition(flipForce*Vector3.up, kart.transform.position + 2*kart.transform.forward);
-        body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.forward);
+        if (Time.timeScale != 0)
+        {
+            body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.forward);
+            body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.forward);
+        }
     }
 
     public void FrontFlip()
     {
-        body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.forward);
-        body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.forward);
+        if (Time.timeScale != 0)
+        {
+            body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.forward);
+            body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.forward);
+        }
     }
 
     public void RightRoll() {
-        body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.right);
-        body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.right);
+        if (Time.timeScale != 0)
+        {
+            body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.right);
+            body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.right);
+        }
     }
 
     public void LeftRoll()
     {
-        body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.right);
-        body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.right);
+        if (Time.timeScale != 0)
+        {
+            body.AddForceAtPosition(flipForce * Vector3.up, kart.transform.position + 2 * kart.transform.right);
+            body.AddForceAtPosition(-flipForce * Vector3.up, kart.transform.position - 2 * kart.transform.right);
+        }
     }
 
 }

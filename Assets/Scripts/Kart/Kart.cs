@@ -124,8 +124,7 @@ public class Kart : MonoBehaviour
 
     void Update()
     {
-        if (!pause.isPaused())
-        {
+        
             if (SimpleInput.GetButtonDown("Use PowerUp", playerNumber))
             {
                 switch (ability.ToString())
@@ -178,13 +177,12 @@ public class Kart : MonoBehaviour
                     ToggleRenderers(true);
                 }
             }
-        }
+        
     }
 
     void FixedUpdate()
     {
-        if (!pause.isPaused())
-        {
+      
             if (Time.timeScale > 0)
             {
                 gameObject.transform.Translate(0, 0.018f, 0);
@@ -224,7 +222,7 @@ public class Kart : MonoBehaviour
             }
             physics.RotateKart(turnPower);
             RotateTires();
-        }
+        
 
     }
 

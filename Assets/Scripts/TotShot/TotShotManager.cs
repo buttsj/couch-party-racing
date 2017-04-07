@@ -25,6 +25,9 @@ public class TotShotManager : MonoBehaviour {
     public int RedScore { get { return redScoreInt; } set { redScoreInt = value; } }
     public int BlueScore { get { return blueScoreInt; } set { blueScoreInt = value; } }
     public bool DeadBall { get { return deadBall; } set { deadBall = value;} }
+    private List<Vector3> kartStartList = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, 140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140) };
+    private List<Quaternion> kartStartRotation = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)),
+        Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
 
     void Start()
     {
@@ -42,7 +45,7 @@ public class TotShotManager : MonoBehaviour {
         explosion = Instantiate(Resources.Load<ParticleSystem>("Prefabs/TotExplosionParticles"), new Vector3(0.0f, 5.0f, 0.0f), Quaternion.Euler(Vector3.zero));
         tot.GetComponent<TotScript>().manager = gameObject;
         tot.GetComponent<TotScript>().explosion = explosion;
-
+        GetInitialLocationAndRotation();
         winText = GameObject.Find("WinText").GetComponent<Text>();
         winText.enabled = false;
         startToContinueText = GameObject.Find("PressStartText").GetComponent<Text>();
@@ -118,6 +121,8 @@ public class TotShotManager : MonoBehaviour {
             tot.GetComponent<TotScript>().manager = gameObject;
             tot.GetComponent<TotScript>().explosion = explosion;
             respawnDelayTimer = 0;
+            ResetKarts();
+            GameObject.Find("CountdownTimer(Clone)").GetComponent<CountdownTimer>().ResetTimer();
             deadBall = false;
         }
         else
@@ -136,6 +141,60 @@ public class TotShotManager : MonoBehaviour {
         }
 
         return isOver;
+    }
+
+    private void ResetKarts() {
+        foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Player")) {
+            if (kart.name.Contains("1"))
+            {
+                kart.transform.position = kartStartList[0];
+                kart.transform.rotation = kartStartRotation[0];
+            }
+            else if (kart.name.Contains("2")) {
+                kart.transform.position = kartStartList[1];
+                kart.transform.rotation = kartStartRotation[1];
+            }
+            else if (kart.name.Contains("3"))
+            {
+                kart.transform.position = kartStartList[2];
+                kart.transform.rotation = kartStartRotation[2];
+            }
+            else if (kart.name.Contains("4"))
+            {
+                kart.transform.position = kartStartList[3];
+                kart.transform.rotation = kartStartRotation[3];
+            }
+            kart.GetComponent<Rigidbody>().isKinematic = true;
+            kart.GetComponent<Rigidbody>().isKinematic = false;
+        }
+    }
+
+    private void GetInitialLocationAndRotation() {
+        foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (kart.name.Contains("1"))
+            {
+                kartStartList[0] = kart.transform.position;
+                kartStartRotation[0] = kart.transform.rotation;
+                
+            }
+            else if (kart.name.Contains("2"))
+            {
+                kartStartList[1] = kart.transform.position;
+                kartStartRotation[1] = kart.transform.rotation;
+            }
+            else if (kart.name.Contains("3"))
+            {
+                kartStartList[2] = kart.transform.position;
+                kartStartRotation[2] = kart.transform.rotation;
+            }
+            else if (kart.name.Contains("4"))
+            {
+                kartStartList[3] = kart.transform.position;
+                kartStartRotation[3] = kart.transform.rotation;
+            }
+            
+        }
     }
 
 }
