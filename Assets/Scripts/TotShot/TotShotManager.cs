@@ -16,11 +16,11 @@ public class TotShotManager : MonoBehaviour {
     private float secondsRemain;
     private bool addedChips;
     private bool deadBall;
-
+    private bool destroyedKarts;
     private ParticleSystem explosion;
 
     private float respawnDelayTimer;
-    private const float RESPAWN_DELAY = 3.0f;
+    private const float RESPAWN_DELAY = 3f;
 
     public int RedScore { get { return redScoreInt; } set { redScoreInt = value; } }
     public int BlueScore { get { return blueScoreInt; } set { blueScoreInt = value; } }
@@ -36,7 +36,7 @@ public class TotShotManager : MonoBehaviour {
         secondsRemain = 180;
 
         time.text = secondsRemain.ToString("0.0");
-
+        destroyedKarts = false;
         deadBall = false;
 
         respawnDelayTimer = 0.0f;
@@ -94,6 +94,7 @@ public class TotShotManager : MonoBehaviour {
         {
             if (DeadBall)
             {
+                
                 resetBall();
             }
 
@@ -117,13 +118,24 @@ public class TotShotManager : MonoBehaviour {
     {
         if (respawnDelayTimer >= RESPAWN_DELAY)
         {
-            GameObject tot = Instantiate(Resources.Load<GameObject>("Prefabs/Tot"), new Vector3(0.0f, 5.0f, 0.0f), Quaternion.Euler(Vector3.zero));
-            tot.GetComponent<TotScript>().manager = gameObject;
-            tot.GetComponent<TotScript>().explosion = explosion;
-            respawnDelayTimer = 0;
-            ResetKarts();
-            GameObject.Find("CountdownTimer(Clone)").GetComponent<CountdownTimer>().ResetTimer();
-            deadBall = false;
+            if (!destroyedKarts)
+            {
+                DestroyKarts();
+            }
+            else
+            {
+                if (!AllKartsDestroyed())
+                {
+                    GameObject tot = Instantiate(Resources.Load<GameObject>("Prefabs/Tot"), new Vector3(0.0f, 5.0f, 0.0f), Quaternion.Euler(Vector3.zero));
+                    tot.GetComponent<TotScript>().manager = gameObject;
+                    tot.GetComponent<TotScript>().explosion = explosion;
+                    respawnDelayTimer = 0;
+                    ResetKarts();
+                    deadBall = false;
+                    GameObject.Find("CountdownTimer(Clone)").GetComponent<CountdownTimer>().ResetTimer();
+
+                }
+            }
         }
         else
         {
@@ -166,7 +178,8 @@ public class TotShotManager : MonoBehaviour {
             }
             kart.GetComponent<Rigidbody>().isKinematic = true;
             kart.GetComponent<Rigidbody>().isKinematic = false;
-        }
+         }
+        destroyedKarts = false;
     }
 
     private void GetInitialLocationAndRotation() {
@@ -195,6 +208,30 @@ public class TotShotManager : MonoBehaviour {
             }
             
         }
+    }
+
+    void DestroyKarts() {
+        if (!destroyedKarts)
+        {
+            foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                kart.GetComponent<Kart>().Destroyed = true;
+                kart.GetComponent<Kart>().ToggleRenderers(false);
+                kart.GetComponent<Kart>().transform.Find("ExplosionEffect").gameObject.SetActive(true);
+            }
+        }
+        destroyedKarts = true;
+    }
+
+    bool AllKartsDestroyed() {
+        bool allDestroyed = true;
+        foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (!kart.GetComponent<Kart>().Destroyed) {
+                allDestroyed = false;
+            }
+        }
+        return allDestroyed;
     }
 
 }

@@ -24,7 +24,7 @@ public class TotShotGameState : IGameState {
     public void NonDamagedUpdate()
     {
         HandleBump();
-        player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 3.5f;
+        player.GetComponent<Kart>().PhysicsObject.TurningSpeed = 4f;
         if (dpadHeldDown)
         {
             if (SimpleInput.GetAxis("Flip", player.GetComponent<Kart>().PlayerNumber) < 0)

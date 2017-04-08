@@ -21,7 +21,7 @@ public class Kart : MonoBehaviour
     private bool makeBoostSound;
 
     private bool damaged;
-    private bool destroyed;
+    public bool Destroyed { get; set; }
     private float destroyedAnimationTimer;
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     public bool IsInvulnerable { get; set; }
@@ -164,12 +164,12 @@ public class Kart : MonoBehaviour
                 DamagedUpdate();
             }
 
-            if (destroyed)
+            if (Destroyed)
             {
                 destroyedAnimationTimer += Time.deltaTime;
                 if (destroyedAnimationTimer >= 1.5f)
                 {
-                    destroyed = false;
+                    Destroyed = false;
                     damaged = false;
                     transform.Find("ExplosionEffect").gameObject.SetActive(false);
                     destroyedAnimationTimer = 0;
@@ -284,7 +284,7 @@ public class Kart : MonoBehaviour
         {
             ToggleRenderers(false);
             transform.Find("ExplosionEffect").gameObject.SetActive(true);
-            destroyed = true;
+            Destroyed = true;
             damaged = true;
         }
     }
@@ -423,7 +423,7 @@ public class Kart : MonoBehaviour
             physics.EndBoost();
         }
         gameState.DamagedUpdate();
-        if (!destroyed)
+        if (!Destroyed)
         {
             physics.Spin();
 
@@ -503,7 +503,7 @@ public class Kart : MonoBehaviour
         }
     }
 
-    void ToggleRenderers(bool toggle)
+    public void ToggleRenderers(bool toggle)
     {
         Renderer[] rs = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in rs)
