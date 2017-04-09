@@ -45,7 +45,6 @@ public class CountdownTimer : MonoBehaviour {
         }
         else if (timer < -2){
             gameObject.GetComponent<Canvas>().enabled = false;
-            Destroy(gameObject);
         }
 		
 	}
@@ -55,5 +54,6 @@ public class CountdownTimer : MonoBehaviour {
         timer = 3f;
         timerText.text = timer.ToString("F2");
         gameObject.GetComponent<Canvas>().enabled = true;
+        timescaleSet = false;
     }
 }
