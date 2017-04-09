@@ -188,25 +188,30 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         loading.transform.SetAsLastSibling();
 
         SimpleInput.ClearCurrentPlayerDevices();
+        sceneGenerator.ReadyPlayerIndexes.Clear();
+        sceneGenerator.ClearColors();
+        sceneGenerator.ClearKarts();
 
         if (player1ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(1);
+            sceneGenerator.ReadyPlayerIndexes.Add(0);
         }
 
         if (player2ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(2);
+            sceneGenerator.ReadyPlayerIndexes.Add(1);
         }
 
         if (player3ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(3);
+            sceneGenerator.ReadyPlayerIndexes.Add(2);
         }
 
         if (player4ReadyText.text == READY) {
             SimpleInput.MapPlayerToDevice(4);
+            sceneGenerator.ReadyPlayerIndexes.Add(3);
         }
 
-        sceneGenerator.ClearColors();
-        sceneGenerator.ClearKarts();
         sceneGenerator.KartColorizer = kartColorList[player1Color];
         sceneGenerator.KartColorizer = kartColorList[player2Color];
         sceneGenerator.KartColorizer = kartColorList[player3Color];
@@ -315,7 +320,6 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (playerColor >= kartColorList.Count) {
                 playerColor = 0;
             }
-            Debug.Log(kartColorList[playerColor].ToString());
         } while (sceneGenerator.GamemodeName == "TotShot" && kartColorList[playerColor] != Color.blue && kartColorList[playerColor] != Color.red);
 
         return playerColor;

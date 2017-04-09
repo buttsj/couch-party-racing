@@ -23,6 +23,7 @@ public class SceneGenerator : MonoBehaviour {
     public string LevelName { get; set; }
     public string SceneName { get; set; }
     public string GamemodeName { get; set; }
+    public List<int> ReadyPlayerIndexes { get; set;}
 
 
     private LevelGenerator levelGenerator;
@@ -40,13 +41,12 @@ public class SceneGenerator : MonoBehaviour {
     private List<string> playerKartList = new List<string>();
     public string KartDesigner { set { playerKartList.Add(value); } }
 
-    string[] teamColor = new string[]{ "red", "blue", "red", "blue" };
-
     public void ClearColors() { kartColorList.Clear(); }
     public void ClearKarts() { playerKartList.Clear(); }
 
     void Awake() {
         DontDestroyOnLoad(this);
+        ReadyPlayerIndexes = new List<int>();
     }
     
     void Update() {
@@ -165,26 +165,43 @@ public class SceneGenerator : MonoBehaviour {
         Quaternion startAngle;
         if (GamemodeName == "TotShot")
         {
-            startPos = startObj.transform.position + kartStartListTotShot[kartNumber];
-            startAngle = kartStartRotationTotShot[kartNumber];
+            startPos = startObj.transform.position + kartStartListTotShot[ReadyPlayerIndexes[kartNumber]];
+            startAngle = kartStartRotationTotShot[ReadyPlayerIndexes[kartNumber]];
             kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
-            if(teamColor[kartNumber] == "red")
-            {
-                kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = Color.red;
-            }
-            else
-            {
-                kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = Color.blue;
-            }
+            kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[ReadyPlayerIndexes[kartNumber]];
+
         }
         else
         {
+            int readyPlayerAdustedKartNumber;
+            if (kartNumber < SimpleInput.NumberOfPlayers) {
+                readyPlayerAdustedKartNumber = ReadyPlayerIndexes[kartNumber];
+            } else {
+                do {
+                    readyPlayerAdustedKartNumber = Random.Range(0, kartColorList.Count);
+
+                } while (!IsUniqueColor(kartColorList[readyPlayerAdustedKartNumber]));
+            }
+
             startPos = kartStartListRaceMode[kartNumber];
             startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
             kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
-            kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[kartNumber];
+            kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[readyPlayerAdustedKartNumber];
         }
 
+    }
+
+    private bool IsUniqueColor (Color color) {
+        bool isUnique = false;
+
+        foreach (var kart in kartList) {
+            isUnique = kart.GetComponentInChildren<Renderer>().material.color != color;
+            if (!isUnique) {
+                break;
+            }
+        }
+
+        return isUnique;
     }
 
     private void GenerateAI() {
@@ -192,9 +209,7 @@ public class SceneGenerator : MonoBehaviour {
             for (int i = kartList.Count; i < MAX_PLAYERS; i++) {
                 GenerateKart(i, AI_KART_PATH);
                 kartList[i].name = "AI" + (i + 1);
-                if (GamemodeName == "RaceMode") {
-                    kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
-                }
+                kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
             }
             WaypointSetter.SetWaypoints();
         }
@@ -206,7 +221,7 @@ public class SceneGenerator : MonoBehaviour {
 
         if (GamemodeName != "TrackBuilder" && GamemodeName != "ChipShop") {
             for (int i = 0; i < SimpleInput.NumberOfPlayers; i++) {
-                string kart = playerKartList[i];
+                string kart = playerKartList[ReadyPlayerIndexes[i]];
                 switch (kart)
                 {
                     case "Default":
@@ -245,7 +260,9 @@ public class SceneGenerator : MonoBehaviour {
             case "TotShot":
                 for (int i = 0; i < SimpleInput.NumberOfPlayers; i++)
                 {
-                    kartList[i].GetComponent<Kart>().GameState = new TotShotGameState(kartList[i], teamColor[i]);
+                    string teamColorString = kartList[i].GetComponentInChildren<Renderer>().material.color == Color.red ? "red" : "blue";
+
+                    kartList[i].GetComponent<Kart>().GameState = new TotShotGameState(kartList[i], teamColorString);
                     kartList[i].GetComponent<Kart>().IsRacingGameState = false;
                     kartList[i].GetComponent<Kart>().IsTotShotGameState = true;
                 }
