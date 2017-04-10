@@ -333,6 +333,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
             if (playerColor == player3Color) numberOfSameColor++;
             if (playerColor == player4Color) numberOfSameColor++;
 
+            if (numberOfSameColor >= 3) {
                 playerColor = originalColor;
             }
         }
