@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 
 public class RecordingCamera : MonoBehaviour {
-    
-    public GameObject leftwheel;
-    public GameObject rightwheel;
-    public GameObject backlwheel;
-    public GameObject backrwheel;
 
+    public GameObject camParent;
     public GameObject kart;
     public GameObject cam1;
     public GameObject cam2;
-    public GameObject cam3;
     public GameObject rotCam;
 
     private float timer;
@@ -26,10 +21,7 @@ public class RecordingCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        leftwheel.transform.Rotate(Vector3.right, 100.0f);
-        rightwheel.transform.Rotate(Vector3.right, 100.0f);
-        backlwheel.transform.Rotate(Vector3.right, 100.0f);
-        backrwheel.transform.Rotate(Vector3.right, 100.0f);
+        camParent.transform.position = kart.transform.position;
 
         if (gameObject.name == "RotatingCamera")
         {
@@ -50,12 +42,6 @@ public class RecordingCamera : MonoBehaviour {
         if (angle > 200.0f && angle < 205.0f)
         {
             cam2.SetActive(true);
-            gameObject.SetActive(false);
-        }
-
-        if (angle > 300.0f && angle < 305.0f)
-        {
-            cam3.SetActive(true);
             gameObject.SetActive(false);
         }
 
