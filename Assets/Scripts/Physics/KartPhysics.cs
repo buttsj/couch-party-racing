@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KartPhysics : MonoBehaviour{
+public class KartPhysics {
     GameObject kart;
     Rigidbody body;
     private float minSpeed;
