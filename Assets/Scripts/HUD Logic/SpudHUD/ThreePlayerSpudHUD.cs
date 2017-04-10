@@ -19,12 +19,15 @@ public class ThreePlayerSpudHUD: MonoBehaviour
     public Image spark1;
     public Image oil1;
     public Image boostImg1;
+    public Image shield1;
     public Image spark2;
     public Image oil2;
     public Image boostImg2;
+    public Image shield2;
     public Image spark3;
     public Image oil3;
     public Image boostImg3;
+    public Image shield3;
     public Image marble1;
     public Image marble2;
     public Image marble3;
@@ -119,6 +122,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil1.enabled = false;
                     boostImg1.enabled = true;
                     marble1.enabled = false;
+                    shield1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
@@ -126,6 +130,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil2.enabled = false;
                     boostImg2.enabled = true;
                     marble2.enabled = false;
+                    shield2.enabled = false;
                 }
                 else
                 {
@@ -133,6 +138,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil3.enabled = false;
                     boostImg3.enabled = true;
                     marble3.enabled = false;
+                    shield3.enabled = false;
                 }
                 break;
             case "Spark":
@@ -142,6 +148,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil1.enabled = false;
                     boostImg1.enabled = false;
                     marble1.enabled = false;
+                    shield1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
@@ -149,6 +156,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil2.enabled = false;
                     boostImg2.enabled = false;
                     marble2.enabled = false;
+                    shield2.enabled = false;
                 }
                 else
                 {
@@ -156,6 +164,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     oil3.enabled = false;
                     boostImg3.enabled = false;
                     marble3.enabled = false;
+                    shield3.enabled = false;
                 }
                 break;
             case "Oil":
@@ -165,6 +174,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark1.enabled = false;
                     boostImg1.enabled = false;
                     marble1.enabled = false;
+                    shield1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
@@ -172,6 +182,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark2.enabled = false;
                     boostImg2.enabled = false;
                     marble2.enabled = false;
+                    shield2.enabled = false;
                 }
                 else
                 {
@@ -179,6 +190,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark3.enabled = false;
                     boostImg3.enabled = false;
                     marble3.enabled = false;
+                    shield3.enabled = false;
                 }
                 break;
             case "Marble":
@@ -188,6 +200,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark1.enabled = false;
                     boostImg1.enabled = false;
                     marble1.enabled = true;
+                    shield1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
@@ -195,6 +208,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark2.enabled = false;
                     boostImg2.enabled = false;
                     marble2.enabled = true;
+                    shield2.enabled = false;
                 }
                 else
                 {
@@ -202,6 +216,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark3.enabled = false;
                     boostImg3.enabled = false;
                     marble3.enabled = true;
+                    shield3.enabled = false;
                 }
                 break;
 
@@ -212,6 +227,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark1.enabled = false;
                     boostImg1.enabled = false;
                     marble1.enabled = false;
+                    shield1.enabled = false;
                 }
                 else if (playerNumber == 2)
                 {
@@ -219,6 +235,7 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark2.enabled = false;
                     boostImg2.enabled = false;
                     marble2.enabled = false;
+                    shield2.enabled = false;
                 }
                 else
                 {
@@ -226,6 +243,34 @@ public class ThreePlayerSpudHUD: MonoBehaviour
                     spark3.enabled = false;
                     boostImg3.enabled = false;
                     marble3.enabled = false;
+                    shield3.enabled = false;
+                }
+                break;
+
+            case "Shield":
+                if (playerNumber == 1)
+                {
+                    oil1.enabled = false;
+                    spark1.enabled = false;
+                    boostImg1.enabled = false;
+                    marble1.enabled = false;
+                    shield1.enabled = true;
+                }
+                else if (playerNumber == 2)
+                {
+                    oil2.enabled = false;
+                    spark2.enabled = false;
+                    boostImg2.enabled = false;
+                    marble2.enabled = false;
+                    shield2.enabled = true;
+                }
+                else
+                {
+                    oil3.enabled = false;
+                    spark3.enabled = false;
+                    boostImg3.enabled = false;
+                    marble3.enabled = false;
+                    shield3.enabled = true;
                 }
                 break;
         }
