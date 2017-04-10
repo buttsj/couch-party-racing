@@ -16,6 +16,7 @@ public class Kart : MonoBehaviour
 
     public GameObject green_arrow;
     public GameObject pow_particles;
+    public GameObject shield_particle;
 
     private AudioClip boostSound;
     private bool makeBoostSound;
@@ -177,7 +178,6 @@ public class Kart : MonoBehaviour
                     ToggleRenderers(true);
                 }
             }
-        
     }
 
     void FixedUpdate()
@@ -505,10 +505,10 @@ public class Kart : MonoBehaviour
 
     public void ToggleRenderers(bool toggle)
     {
-        Renderer[] rs = GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in rs)
-        {
-            r.enabled = toggle;
+        foreach (Renderer r in GetComponentsInChildren<Renderer>()) {
+            if (r.transform.GetComponent<ParticleSystem>() == null) {
+                r.enabled = toggle;
+            }
         }
     }
 }

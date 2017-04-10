@@ -315,12 +315,28 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     }
 
     private int IncrementKartColor(int playerColor) {
+        int originalColor = playerColor;
+
         do {
             playerColor += 1;
             if (playerColor >= kartColorList.Count) {
                 playerColor = 0;
             }
         } while (sceneGenerator.GamemodeName == "TotShot" && kartColorList[playerColor] != Color.blue && kartColorList[playerColor] != Color.red);
+
+        // Disallow All Karts on Same Team
+        if (sceneGenerator.GamemodeName == "TotShot") {
+            int numberOfSameColor = 0;
+
+            if (playerColor == player1Color) numberOfSameColor++;
+            if (playerColor == player2Color) numberOfSameColor++;
+            if (playerColor == player3Color) numberOfSameColor++;
+            if (playerColor == player4Color) numberOfSameColor++;
+
+            if (numberOfSameColor >= 3) {
+                playerColor = originalColor;
+            }
+        }
 
         return playerColor;
     }
