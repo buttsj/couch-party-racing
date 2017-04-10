@@ -11,11 +11,9 @@ public class Shield : IKartAbility {
     private float timer;
     private Color flash;
     private Color normal;
-    private bool switcher;
 
     public Shield(GameObject incomingOwner, KartAudio audio)
     {
-        switcher = true;
         owner = incomingOwner;
         timer = 0.0f;
         destroy = false;
@@ -44,18 +42,13 @@ public class Shield : IKartAbility {
     {
         if (timer < 10.0f && used)
         {
-            if (switcher)
-                owner.GetComponentInChildren<Renderer>().material.color = flash;
-            else
-                owner.GetComponentInChildren<Renderer>().material.color = normal;
-
-            switcher = !switcher;
+            owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Play();
             owner.GetComponent<Kart>().IsInvulnerable = true;
             timer += Time.deltaTime;
         }
         else if (timer > 10.0f && used)
         {
-            owner.GetComponentInChildren<Renderer>().material.color = normal;
+            owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Stop();
             owner.GetComponent<Kart>().IsInvulnerable = false;
             destroy = true;
         }

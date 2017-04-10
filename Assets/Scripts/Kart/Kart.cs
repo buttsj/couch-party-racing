@@ -16,6 +16,7 @@ public class Kart : MonoBehaviour
 
     public GameObject green_arrow;
     public GameObject pow_particles;
+    public GameObject shield_particle;
 
     private AudioClip boostSound;
     private bool makeBoostSound;
@@ -177,7 +178,6 @@ public class Kart : MonoBehaviour
                     ToggleRenderers(true);
                 }
             }
-        
     }
 
     void FixedUpdate()
