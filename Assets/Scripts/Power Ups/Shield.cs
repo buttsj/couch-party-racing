@@ -40,16 +40,15 @@ public class Shield : IKartAbility {
 
     public void Update()
     {
-        if (timer < 10.0f && used)
+        if (timer < 5.0f && used)
         {
             owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Play();
             owner.GetComponent<Kart>().IsInvulnerable = true;
             timer += Time.deltaTime;
         }
-        else if (timer > 10.0f && used)
+        else if (timer > 5.0f && used)
         {
             owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Stop();
-            owner.GetComponent<Kart>().IsInvulnerable = false;
             destroy = true;
         }
     }
