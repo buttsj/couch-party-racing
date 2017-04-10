@@ -12,6 +12,7 @@ public class HUDManager : MonoBehaviour {
     public Image oil;
     public Image boostImg;
     public Image marble;
+    public Image shield;
     private List<GameObject> aiList;
     public Text boostText;
     public Text lapText;
@@ -144,30 +145,42 @@ public class HUDManager : MonoBehaviour {
                 oil.enabled = false;
                 boostImg.enabled = true;
                 marble.enabled = false;
+                shield.enabled = false;
                 break;
             case "Spark":
                 spark.enabled = true;
                 oil.enabled = false;
                 boostImg.enabled = false;
                 marble.enabled = false;
+                shield.enabled = false;
                 break;
             case "Oil":
                 oil.enabled = true;
                 spark.enabled = false;
                 boostImg.enabled = false;
                 marble.enabled = false;
+                shield.enabled = false;
                 break;
             case "Marble":
                 oil.enabled = false;
                 spark.enabled = false;
                 boostImg.enabled = false;
                 marble.enabled = true;
+                shield.enabled = false;
                 break;
             case "Null":
                 oil.enabled = false;
                 spark.enabled = false;
                 boostImg.enabled = false;
                 marble.enabled = false;
+                shield.enabled = false;
+                break;
+            case "Shield":
+                oil.enabled = false;
+                spark.enabled = false;
+                boostImg.enabled = false;
+                marble.enabled = false;
+                shield.enabled = true;
                 break;
         }
     }

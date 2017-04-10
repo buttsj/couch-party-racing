@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour {
     
-    public enum Type { Boost, Oil, Spark, Marble }
+    public enum Type { Boost, Oil, Spark, Marble, Shield }
     private AudioClip powerUpGet;
 
     void Start () {
@@ -14,7 +14,7 @@ public class PowerUp : MonoBehaviour {
     public Type DeterminePowerup(KartAudio audio)
     {
         Type ret;
-        int num = Random.Range(1, 5);
+        int num = Random.Range(1, 6);
         switch (num)
         {
             case 1:
@@ -29,13 +29,14 @@ public class PowerUp : MonoBehaviour {
             case 4:
                 ret = Type.Marble;
                 break;
+            case 5:
+                ret = Type.Shield;
+                break;
             default:
                 ret = Type.Boost; // this won't happen
                 break;
         }
-
         audio.playOneOff(powerUpGet);
-
         return ret;
     }
 
