@@ -31,9 +31,6 @@ public class SceneGenerator : MonoBehaviour {
 
     private List<GameObject> kartList;
     private List<Vector3> kartStartListRaceMode = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
-    private List<Vector3> kartStartListTotShot = new List<Vector3>() { new Vector3(-30, 1, -140), new Vector3(30, 1, 140), new Vector3(30, 1, -140), new Vector3(-30, 1, 140) };
-    private List<Quaternion> kartStartRotationTotShot = new List<Quaternion>() { Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)),
-        Quaternion.Euler(new Vector3(0f, 0f, 0f)), Quaternion.Euler(new Vector3(0f, 180f, 0f)) };
 
     private List<Color> kartColorList = new List<Color>();
     public Color KartColorizer { set { kartColorList.Add(value); } }
@@ -165,10 +162,34 @@ public class SceneGenerator : MonoBehaviour {
         Quaternion startAngle;
         if (GamemodeName == "TotShot")
         {
-            startPos = startObj.transform.position + kartStartListTotShot[ReadyPlayerIndexes[kartNumber]];
-            startAngle = kartStartRotationTotShot[ReadyPlayerIndexes[kartNumber]];
+            Color teamColor = kartColorList[ReadyPlayerIndexes[kartNumber]];
+            Quaternion teamOrientation = Quaternion.identity;
+            Vector3 teamStartPosition = Vector3.zero;
+
+            List<Vector3> redSpawnList = new List<Vector3>() { new Vector3(-45, 1, -140), new Vector3(45, 1, -140), new Vector3(0, 1, -140) };
+            List<Vector3> blueSpawnList = new List<Vector3>() { new Vector3(-45, 1, 140), new Vector3(45, 1, 140), new Vector3(0, 1, 140) };
+
+            
+
+            int numberOfRedKarts = 0;
+            for (int i = kartNumber; i >= 0; i--) {
+                if (kartColorList[ReadyPlayerIndexes[i]] == Color.red) {
+                    numberOfRedKarts++;
+                }
+            }
+
+            if (teamColor == Color.red) {
+                teamStartPosition = redSpawnList[numberOfRedKarts - 1];
+                teamOrientation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            } else if (teamColor == Color.blue) {
+                teamStartPosition = blueSpawnList[kartNumber - numberOfRedKarts];
+                teamOrientation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+
+            startPos = startObj.transform.position + teamStartPosition;
+            startAngle = teamOrientation;
             kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
-            kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[ReadyPlayerIndexes[kartNumber]];
+            kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = teamColor;
 
         }
         else
