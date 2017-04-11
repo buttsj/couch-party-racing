@@ -15,9 +15,6 @@ public class MusicManager : MonoBehaviour
     public AudioSource source;
     public List<AudioClip> clips = new List<AudioClip>();
     public Text playing;
-    private bool BrightenText = false;
-    private bool DimText = false;
-    private float BrightTimer = 5.0f;
 
     [SerializeField]
     [HideInInspector]
@@ -32,8 +29,11 @@ public class MusicManager : MonoBehaviour
     private List<string> validExtensions = new List<string> { ".ogg", ".wav" }; // Don't forget the "." i.e. "ogg" won't work - cause Path.GetExtension(filePath) will return .ext, not just ext.
     private string absolutePath = "./"; // relative path to where the app is running - change this to "./music" in your case
 
+    private float dimTimer;
+
     void Start()
     {
+        dimTimer = 0.0f;
         //being able to test in unity
         if (Application.isEditor) absolutePath = "Assets/Resources/Sounds/";
 
@@ -149,22 +149,8 @@ public class MusicManager : MonoBehaviour
                 scrollText = scrollBasis.Substring(currChar, textUsing.Length);
             }
             timer += Time.deltaTime;
+            dimTimer += Time.deltaTime;
             playing.text = scrollText;
-            if (BrightenText)
-            {
-                LightUp();
-                BrightTimer -= Time.deltaTime;
-                if (BrightTimer <= 0)
-                {
-                    BrightTimer = 5.0f;
-                    DimText = true;
-                    BrightenText = false;
-                }
-            }
-            if (DimText)
-            {
-                DimDown();
-            }
         }
 	}
 
@@ -174,13 +160,19 @@ public class MusicManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftBracket))
             {
-                BrightenText = true;
                 Backward();
+                playing.CrossFadeAlpha(1.0f, 0.5f, true);
+                dimTimer = 0.0f;
             }
             if (Input.GetKeyDown(KeyCode.RightBracket))
             {
-                BrightenText = true;
                 Forward();
+                playing.CrossFadeAlpha(1.0f, 0.5f, true);
+                dimTimer = 0.0f;
+            }
+            if (dimTimer >= 10.0f)
+            {
+                playing.CrossFadeAlpha(0.5f, 0.5f, true);
             }
         }
     }
@@ -192,26 +184,5 @@ public class MusicManager : MonoBehaviour
         currChar = 0;
         scrollText = scrollBasis.Substring(currChar, textUsing.Length);
         timer = 0.0f;
-    }
-
-    void LightUp()
-    {
-        Color playingColor = playing.color;
-        playingColor.a += 1.0f;
-        if (playingColor.a >= 1.0f)
-            playingColor.a = 1.0f;
-        playing.color = playingColor;
-    }
-
-    void DimDown()
-    {
-        Color playingColor = playing.color;
-        playingColor.a -= 1.0f;
-        if (playingColor.a <= 0.5f)
-        {
-            playingColor.a = 0.5f;
-            DimText = false;
-        }
-        playing.color = playingColor;
     }
 }
