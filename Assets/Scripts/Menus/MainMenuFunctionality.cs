@@ -5,26 +5,21 @@ using System.Collections;
 
 public class MainMenuFunctionality : MonoBehaviour
 {
-
-    private SettingsMenuFunctionality settingsFunc;
-
     private WhiteFadeUniversal fader;
 
-    private const int NUMBEROFBUTTONS = 7;
-
-    public Canvas settingsMenu;
-    public Text setApply;
-    public Text setCancel;
-    private Text[] settingsButtons;
-    private int settingsIndex;
+    private const int NUMBEROFBUTTONS = 8;
 
     public Text race;
     public Text trackBuilder;
     public Text spudRun;
     public Text totShot;
+    public Text couchParty;
     public Text store;
     public Text settings;
     public Text exit;
+    public Text mainmenuText;
+
+    private float fadeoutTimer;
 
     private SceneGenerator sceneGenerator;
 
@@ -32,6 +27,8 @@ public class MainMenuFunctionality : MonoBehaviour
     private int currentButton;
 
     private bool axisEnabled;
+
+    public GameObject settingsMenu;
 
     void Awake()
     {
@@ -48,32 +45,26 @@ public class MainMenuFunctionality : MonoBehaviour
 
     void Start()
     {
-        settingsFunc = settingsMenu.GetComponent<SettingsMenuFunctionality>();
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
 
-        settingsMenu = settingsMenu.GetComponent<Canvas>();
-        settingsMenu.enabled = false;
+        settingsMenu.SetActive(false);
 
         buttons = new Text[NUMBEROFBUTTONS];
         buttons[0] = race;
         buttons[1] = trackBuilder;
         buttons[2] = spudRun;
         buttons[3] = totShot;
-        buttons[4] = store;
-        buttons[5] = settings;
-        buttons[6] = exit;
+        buttons[4] = couchParty;
+        buttons[5] = store;
+        buttons[6] = settings;
+        buttons[7] = exit;
 
         currentButton = 0;
 
-        settingsButtons = new Text[2];
-        settingsButtons[0] = setApply;
-        settingsButtons[1] = setCancel;
-        settingsIndex = 0;
-
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
     }
 
     void Update()
@@ -83,23 +74,29 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = true;
         }
 
-        if (!settingsMenu.enabled)
-        {
             scrollMenu();
             buttonPress();
-        }
-        else if (settingsMenu.enabled)
+        fadeoutTimer += Time.deltaTime;
+        if (fadeoutTimer >= 10.0f)
         {
-            settingsScroll();
-            settingsButtonPress();
+            foreach (Text button in buttons)
+            {
+                button.CrossFadeAlpha(0f, 0.5f, true);
+    }
+            mainmenuText.CrossFadeAlpha(0f, 0.5f, true);
         }
-
     }
 
     private void scrollMenu()
     {
         if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
+            fadeoutTimer = 0.0f;
+            foreach (Text button in buttons)
+            {
+                button.CrossFadeAlpha(1f, 0.5f, true);
+            }
+            mainmenuText.CrossFadeAlpha(1f, 0.5f, true);
             axisEnabled = false;
             currentButton++;
             if (currentButton >= NUMBEROFBUTTONS)
@@ -110,6 +107,12 @@ public class MainMenuFunctionality : MonoBehaviour
         }
         else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
+            fadeoutTimer = 0.0f;
+            foreach (Text button in buttons)
+            {
+                button.CrossFadeAlpha(1f, 0.5f, true);
+            }
+            mainmenuText.CrossFadeAlpha(1f, 0.5f, true);
             axisEnabled = false;
             currentButton--;
             if (currentButton < 0)
@@ -201,7 +204,8 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void settingsPress()
     {
-        settingsMenu.enabled = true;
+        settingsMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     private void exitPress()
@@ -219,45 +223,6 @@ public class MainMenuFunctionality : MonoBehaviour
         while (!fader.Faded)
             yield return null;
         GoToShop();
-    }
-
-    private void settingsScroll()
-    {
-        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
-        {
-            axisEnabled = false;
-            settingsIndex++;
-            settingsIndex %= 2;
-            setApply.color = Color.gray;
-            setCancel.color = Color.gray;
-            settingsButtons[settingsIndex].color = Color.white;
-        }
-    }
-
-    private void settingsButtonPress()
-    {
-        if (SimpleInput.GetButtonDown("Bump Kart"))
-        {
-            if (ReferenceEquals(settingsButtons[settingsIndex], setCancel))
-            {
-                cancelSettings();
-            }
-            else if (ReferenceEquals(settingsButtons[settingsIndex], setApply))
-            {
-                applySettings();
-            }
-        }
-    }
-
-    private void cancelSettings()
-    {
-        settingsMenu.enabled = false;
-    }
-
-    private void applySettings()
-    {
-        settingsFunc.ApplySettings();
-        settingsMenu.enabled = false;
     }
 
     private void GoToNextMenu()
@@ -293,6 +258,6 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
     }
 }
