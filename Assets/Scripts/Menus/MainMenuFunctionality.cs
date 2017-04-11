@@ -5,18 +5,9 @@ using System.Collections;
 
 public class MainMenuFunctionality : MonoBehaviour
 {
-
-    private SettingsMenuFunctionality settingsFunc;
-
     private WhiteFadeUniversal fader;
 
     private const int NUMBEROFBUTTONS = 7;
-
-    public Canvas settingsMenu;
-    public Text setApply;
-    public Text setCancel;
-    private Text[] settingsButtons;
-    private int settingsIndex;
 
     public Text race;
     public Text trackBuilder;
@@ -33,6 +24,8 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private bool axisEnabled;
 
+    public GameObject settingsMenu;
+
     void Awake()
     {
         GameObject fadeObject = new GameObject();
@@ -48,12 +41,10 @@ public class MainMenuFunctionality : MonoBehaviour
 
     void Start()
     {
-        settingsFunc = settingsMenu.GetComponent<SettingsMenuFunctionality>();
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
 
-        settingsMenu = settingsMenu.GetComponent<Canvas>();
-        settingsMenu.enabled = false;
+        settingsMenu.SetActive(false);
 
         buttons = new Text[NUMBEROFBUTTONS];
         buttons[0] = race;
@@ -65,11 +56,6 @@ public class MainMenuFunctionality : MonoBehaviour
         buttons[6] = exit;
 
         currentButton = 0;
-
-        settingsButtons = new Text[2];
-        settingsButtons[0] = setApply;
-        settingsButtons[1] = setCancel;
-        settingsIndex = 0;
 
         axisEnabled = true;
 
@@ -83,16 +69,8 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = true;
         }
 
-        if (!settingsMenu.enabled)
-        {
-            scrollMenu();
-            buttonPress();
-        }
-        else if (settingsMenu.enabled)
-        {
-            settingsScroll();
-            settingsButtonPress();
-        }
+        scrollMenu();
+        buttonPress();
 
     }
 
@@ -201,7 +179,8 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void settingsPress()
     {
-        settingsMenu.enabled = true;
+        settingsMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     private void exitPress()
@@ -219,45 +198,6 @@ public class MainMenuFunctionality : MonoBehaviour
         while (!fader.Faded)
             yield return null;
         GoToShop();
-    }
-
-    private void settingsScroll()
-    {
-        if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled)
-        {
-            axisEnabled = false;
-            settingsIndex++;
-            settingsIndex %= 2;
-            setApply.color = Color.gray;
-            setCancel.color = Color.gray;
-            settingsButtons[settingsIndex].color = Color.white;
-        }
-    }
-
-    private void settingsButtonPress()
-    {
-        if (SimpleInput.GetButtonDown("Bump Kart"))
-        {
-            if (ReferenceEquals(settingsButtons[settingsIndex], setCancel))
-            {
-                cancelSettings();
-            }
-            else if (ReferenceEquals(settingsButtons[settingsIndex], setApply))
-            {
-                applySettings();
-            }
-        }
-    }
-
-    private void cancelSettings()
-    {
-        settingsMenu.enabled = false;
-    }
-
-    private void applySettings()
-    {
-        settingsFunc.ApplySettings();
-        settingsMenu.enabled = false;
     }
 
     private void GoToNextMenu()
