@@ -175,6 +175,9 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         } else if (sceneGenerator.GamemodeName == "RaceMode" && SimpleInput.GetButtonDown("Reverse") && (player1ReadyText.text == READY))
         {
             sceneGenerator.Spectator = true;
+            player2ReadyText.text = UNREADY;
+            player3ReadyText.text = UNREADY;
+            player4ReadyText.text = UNREADY;
             StartCoroutine(LoadScene());
         } else {
             checkForReadyPlayers();
