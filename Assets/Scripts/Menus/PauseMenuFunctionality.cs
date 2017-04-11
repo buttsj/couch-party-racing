@@ -61,7 +61,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         buttons[2] = quitText;
 
         currentButton = 0;
-        resumeText.color = Color.gray;
+        resumeText.color = Color.cyan;
 
         axisEnabled = true;
         controlView = false;
@@ -78,7 +78,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             pauseMenu.enabled = true;
             Time.timeScale = 0f;
-            resumeText.color = Color.gray;
+            resumeText.color = Color.cyan;
         }
 
         if (!controlView)
@@ -180,7 +180,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
     }
 
     private void PlaySound()

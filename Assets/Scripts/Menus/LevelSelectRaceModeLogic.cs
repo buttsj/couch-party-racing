@@ -51,7 +51,7 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
 
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
 
         fetchLevelList();
         currentCustomIndex = 0;
@@ -190,7 +190,7 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
     }
 
     private void fetchLevelList()

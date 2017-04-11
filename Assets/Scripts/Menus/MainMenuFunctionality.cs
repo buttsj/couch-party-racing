@@ -64,7 +64,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.yellow;
+        buttons[currentButton].color = Color.cyan;
     }
 
     void Update()
@@ -258,6 +258,6 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.yellow;
+        buttons[currentButton].color = Color.cyan;
     }
 }

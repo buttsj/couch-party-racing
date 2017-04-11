@@ -77,7 +77,7 @@ public class SettingsMenuLogic : MonoBehaviour {
 
         updateUIToPreferences();
 
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
     }
 	
 	void Update () {
@@ -93,7 +93,7 @@ public class SettingsMenuLogic : MonoBehaviour {
     {
         if(SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled && currentButton == 0)
         {
-            volumeLeft.color = Color.gray;
+            volumeLeft.color = Color.cyan;
             volumePercentage -= 0.01f;
             if(volumePercentage < 0.0f)
             {
@@ -103,7 +103,7 @@ public class SettingsMenuLogic : MonoBehaviour {
         }
         else if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled && currentButton == 0)
         {
-            volumeRight.color = Color.gray;
+            volumeRight.color = Color.cyan;
             volumePercentage += 0.01f;
             if (volumePercentage > 1.0f)
             {
@@ -115,13 +115,13 @@ public class SettingsMenuLogic : MonoBehaviour {
         {
             axisEnabled = false;
             toggles[currentButton - 1] = !toggles[currentButton - 1];
-            buttons[currentButton].transform.GetChild(0).GetComponent<Text>().color = Color.gray;
+            buttons[currentButton].transform.GetChild(0).GetComponent<Text>().color = Color.cyan;
         }
         else if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             toggles[currentButton - 1] = !toggles[currentButton - 1];
-            buttons[currentButton].transform.GetChild(1).GetComponent<Text>().color = Color.gray;
+            buttons[currentButton].transform.GetChild(1).GetComponent<Text>().color = Color.cyan;
         }
         else if(SimpleInput.GetAxis("Horizontal", 1) != 0 && axisEnabled && currentButton == NUMBER_OF_SELECTION_OPTIONS - 1)
         {
@@ -180,7 +180,7 @@ public class SettingsMenuLogic : MonoBehaviour {
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.cyan;
     }
 
     private void resetAxis()
