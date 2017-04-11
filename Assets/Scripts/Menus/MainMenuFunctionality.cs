@@ -7,15 +7,19 @@ public class MainMenuFunctionality : MonoBehaviour
 {
     private WhiteFadeUniversal fader;
 
-    private const int NUMBEROFBUTTONS = 7;
+    private const int NUMBEROFBUTTONS = 8;
 
     public Text race;
     public Text trackBuilder;
     public Text spudRun;
     public Text totShot;
+    public Text couchParty;
     public Text store;
     public Text settings;
     public Text exit;
+    public Text mainmenuText;
+
+    private float fadeoutTimer;
 
     private SceneGenerator sceneGenerator;
 
@@ -51,15 +55,16 @@ public class MainMenuFunctionality : MonoBehaviour
         buttons[1] = trackBuilder;
         buttons[2] = spudRun;
         buttons[3] = totShot;
-        buttons[4] = store;
-        buttons[5] = settings;
-        buttons[6] = exit;
+        buttons[4] = couchParty;
+        buttons[5] = store;
+        buttons[6] = settings;
+        buttons[7] = exit;
 
         currentButton = 0;
 
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.yellow;
     }
 
     void Update()
@@ -69,15 +74,29 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = true;
         }
 
-        scrollMenu();
-        buttonPress();
-
+            scrollMenu();
+            buttonPress();
+        fadeoutTimer += Time.deltaTime;
+        if (fadeoutTimer >= 10.0f)
+        {
+            foreach (Text button in buttons)
+            {
+                button.CrossFadeAlpha(0f, 0.5f, true);
+    }
+            mainmenuText.CrossFadeAlpha(0f, 0.5f, true);
+        }
     }
 
     private void scrollMenu()
     {
         if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
+            fadeoutTimer = 0.0f;
+            foreach (Text button in buttons)
+            {
+                button.CrossFadeAlpha(1f, 0.5f, true);
+            }
+            mainmenuText.CrossFadeAlpha(1f, 0.5f, true);
             axisEnabled = false;
             currentButton++;
             if (currentButton >= NUMBEROFBUTTONS)
@@ -88,6 +107,12 @@ public class MainMenuFunctionality : MonoBehaviour
         }
         else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
+            fadeoutTimer = 0.0f;
+            foreach (Text button in buttons)
+            {
+                button.CrossFadeAlpha(1f, 0.5f, true);
+            }
+            mainmenuText.CrossFadeAlpha(1f, 0.5f, true);
             axisEnabled = false;
             currentButton--;
             if (currentButton < 0)
@@ -233,6 +258,6 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.gray;
+        buttons[currentButton].color = Color.yellow;
     }
 }
