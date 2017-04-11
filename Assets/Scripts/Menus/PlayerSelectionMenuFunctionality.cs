@@ -94,7 +94,7 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         AccountManager mng = acct.GetComponent<AccountManager>();
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-
+        sceneGenerator.Spectator = false;
         foreach (KeyValuePair<string, int> pair in mng.GetColorUnlocks)
         {
             if (pair.Value == 1)
@@ -171,6 +171,10 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         if (sceneGenerator.GamemodeName == "RaceMode" && SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY)) {
             StartCoroutine(LoadScene());
         } else if (SimpleInput.GetButtonDown("Pause", 1) && (player1ReadyText.text == READY) && NumberOfReadyPlayers() > 1) {
+            StartCoroutine(LoadScene());
+        } else if (sceneGenerator.GamemodeName == "RaceMode" && SimpleInput.GetButtonDown("Reverse") && (player1ReadyText.text == READY))
+        {
+            sceneGenerator.Spectator = true;
             StartCoroutine(LoadScene());
         } else {
             checkForReadyPlayers();
