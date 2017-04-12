@@ -27,6 +27,8 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
     public Text player3KartText;
     public Text player4KartText;
 
+    public Text moreInfo;
+
     private List<string> kartColorName = new List<string>
     {
         "Blue",
@@ -148,6 +150,11 @@ public class PlayerSelectionMenuFunctionality : MonoBehaviour {
         startToContinueText.text = "";
 
         SimpleInput.MapPlayersToDefaultPref();
+
+        if (sceneGenerator.GamemodeName != "RaceMode")
+        {
+            moreInfo.text = "Space or A  --- Change color\nShift or B --- Change kart";
+        }
     }
 
     void Update() {
