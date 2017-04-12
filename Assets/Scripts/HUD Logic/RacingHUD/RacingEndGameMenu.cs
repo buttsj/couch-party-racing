@@ -13,12 +13,19 @@ public class RacingEndGameMenu : MonoBehaviour {
     List<GameObject> playerList;
     List<GameObject> aiList;
     List<Text> playerTexts;
-    public Canvas canvas;
+    public GameObject playerTimeCanvas;
+    public GameObject playerPlaceCanvas;
+    public Canvas raceEndMenuCanvas;
     public Text player1Text;
     public Text player2Text;
     public Text player3Text;
     public Text player4Text;
+    public Text firstPlaceText;
+    public Text secondPlaceText;
+    public Text thirdPlaceText;
+    public Text fourthPlaceText;
     public Button exit;
+    public Button nextScreen;
     private bool raceOver;
     private bool addedChips;
     public bool RaceOver { get { return raceOver; } }
@@ -40,9 +47,11 @@ public class RacingEndGameMenu : MonoBehaviour {
     public void Start () {
         playerTexts = new List<Text>();
         playerList = new List<GameObject>();
-        canvas = canvas.GetComponent<Canvas>();
+        raceEndMenuCanvas.enabled = false;
+        playerTimeCanvas.SetActive(false);
+        playerPlaceCanvas.SetActive(false);
         exit = exit.GetComponent<Button>();
-        canvas.enabled = false;
+        nextScreen = nextScreen.GetComponent<Button>();
         playerList = new List<GameObject>();
         aiList = new List<GameObject>();
         kartList = new List<GameObject>();
@@ -66,8 +75,12 @@ public class RacingEndGameMenu : MonoBehaviour {
         {
             DetermineRacePositions();
             raceOver = true;
-            canvas.enabled = true;
-            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+            raceEndMenuCanvas.enabled = true;
+            if (!playerPlaceCanvas.activeInHierarchy)
+            {
+                playerTimeCanvas.SetActive(true);
+            }
+            EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("NextScreen"));
             for (int i = 0; i < playerList.Count; i++)
             {
                 playerTexts[i].text = playerList[i].GetComponent<Kart>().TimeText;
@@ -76,11 +89,16 @@ public class RacingEndGameMenu : MonoBehaviour {
             {
                 playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
             }
-            if (!addedChips && canvas.enabled)
+            SetPlaceText();
+            if (!addedChips && raceEndMenuCanvas.enabled)
             {
                 GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
+            }
+
+            if (playerPlaceCanvas.activeInHierarchy) {
+                EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
             }
         }
         else {
@@ -88,6 +106,45 @@ public class RacingEndGameMenu : MonoBehaviour {
         }
 	}
 
+    void SetPlaceText() {
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            switch (((RacingGameState)playerList[i].GetComponent<Kart>().GameState).Place)
+            {
+                case 1:
+                    firstPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+                case 2:
+                    secondPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+                case 3:
+                    thirdPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+                case 4:
+                    thirdPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+            }
+        }
+
+        for (int i = playerList.Count; i < playerList.Count + aiList.Count; i++) {
+            switch (((RacingGameState)aiList[i - playerList.Count].GetComponent<WaypointAI>().GameState).Place) {
+                case 1:
+                    firstPlaceText.text = "Player " + (i+1).ToString();
+                    break;
+                case 2:
+                    secondPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+                case 3:
+                    thirdPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+                case 4:
+                    fourthPlaceText.text = "Player " + (i + 1).ToString();
+                    break;
+            }
+        }
+
+        
+    }
     bool AllKartsFinishedRace() {
         bool finished = true;
 
@@ -104,9 +161,14 @@ public class RacingEndGameMenu : MonoBehaviour {
         return finished;
     }
 
+    public void nextScreenPress() {
+        playerTimeCanvas.SetActive(false);
+        playerPlaceCanvas.SetActive(true);
+    }
+
     public void exitPress()
     {
-        canvas.enabled = false;
+        playerTimeCanvas.SetActive(false);
         StartCoroutine(leaveScene());
     }
 

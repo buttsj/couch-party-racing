@@ -41,6 +41,11 @@ public class GoToPreviousScene : MonoBehaviour {
             prevScene = 0;
         }
 
+        if (sceneGenerator != null && sceneGenerator.GetComponent<SceneGenerator>().GamemodeName != "TotShot")
+        {
+            prevScene = 0;
+        }
+
         if (prevScene == 0) {
             Destroy(sceneGenerator);
         }

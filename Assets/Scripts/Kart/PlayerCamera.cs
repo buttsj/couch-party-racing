@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCamera : MonoBehaviour {
 
@@ -9,8 +9,11 @@ public class PlayerCamera : MonoBehaviour {
     private Vector3 originalOrientation;
     private Vector3 offset;
     float fov;
-
+    public bool Spectate = false;
     private bool isHuman;
+
+    public GameObject[] players;
+    private int index = 0;
 
 	void Start() {
         offset = new Vector3(0, 10, 0);
@@ -21,6 +24,15 @@ public class PlayerCamera : MonoBehaviour {
         if(player.gameObject.GetComponent<Kart>() != null)
         {
             isHuman = true;
+        }
+
+        if (Spectate)
+        {
+            Text text = FindObjectsOfType<Canvas>()[0].gameObject.AddComponent<Text>();
+            text.text = "Press Space  / Bump Kart to quit\nPress E  / Use Item to switch perspective";
+            Font NFSFont = Resources.Load<Font>("Fonts/NFS_by_JLTV");
+            text.font = NFSFont;
+            text.material = NFSFont.material;
         }
     }
 
@@ -82,6 +94,20 @@ public class PlayerCamera : MonoBehaviour {
                 if (gameObject.GetComponent<Camera>().fieldOfView > 60)
                 {
                     gameObject.GetComponent<Camera>().fieldOfView--;
+                }
+            }
+            if (Spectate)
+            {
+                if (SimpleInput.GetButtonDown("Use PowerUp"))
+                {
+                    index = index + 1;
+                    if (index >= 4)
+                        index = 0;
+                    player = players[index].transform;
+                }
+                if (SimpleInput.GetButtonDown("Bump Kart"))
+                {
+                    SceneManager.LoadScene(0);
                 }
             }
         }
