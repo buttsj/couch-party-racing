@@ -31,6 +31,8 @@ public class RacingEndGameMenu : MonoBehaviour {
     public bool RaceOver { get { return raceOver; } }
     List<GameObject> kartList;
 
+    private SceneGenerator sceneGenerator;
+
     void Awake()
     {
         // fade in/out initializer
@@ -98,7 +100,13 @@ public class RacingEndGameMenu : MonoBehaviour {
             }
 
             if (playerPlaceCanvas.activeInHierarchy) {
-                EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+                if (CouchPartyManager.IsCouchPartyMode)
+                {
+                    EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("NextGameMode"));
+                }
+                else {
+                    EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+                }
             }
         }
         else {
@@ -172,12 +180,29 @@ public class RacingEndGameMenu : MonoBehaviour {
         StartCoroutine(leaveScene());
     }
 
+    public void nextGameModePress() {
+        playerTimeCanvas.SetActive(false);
+        StartCoroutine(LoadNextGameMode());
+    }
+
     public IEnumerator leaveScene()
     {
         fader.SceneSwitch();
         while (!fader.Faded)
             yield return null;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public IEnumerator LoadNextGameMode() {
+        sceneGenerator = Instantiate(Resources.Load<GameObject>("Prefabs/SceneGenerator"), Vector3.zero, Quaternion.Euler(Vector3.zero)).GetComponent<SceneGenerator>();
+        sceneGenerator.GamemodeName = "SpudRun";
+        sceneGenerator.SceneName = "SpudRunScene";
+        sceneGenerator.LevelName = null;
+        sceneGenerator.name = "SceneGenerator";
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+        SceneManager.LoadScene("SelectionMenu");
     }
 
     void LoadPlayers() {
