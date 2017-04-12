@@ -34,6 +34,8 @@ public class SceneGenerator : MonoBehaviour
     private List<GameObject> kartList;
     private List<Vector3> kartStartListRaceMode = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
 
+    private GameObject singlePlayerCamera;
+
     private List<Color> kartColorList = new List<Color>();
     public Color KartColorizer { set { kartColorList.Add(value); } }
 
@@ -53,37 +55,23 @@ public class SceneGenerator : MonoBehaviour
     {
         if (IsLoaded() && !Spectator)
         {
-            Debug.Log("level procedure");
             GenerateLevel();
-            Debug.Log("players procedure");
             GeneratePlayers();
-            Debug.Log("cameras procedure");
             GenerateCameras();
-            Debug.Log("ai procedure");
             GenerateAI();
-            Debug.Log("hud procedure");
             GenerateHUD();
-            Debug.Log("minimap procedure");
             GenerateMinimap();
-            Debug.Log("destroying generator procedure");
             DestroyGenerator();
         }
         else if (IsLoaded() && Spectator)
         {
-            Debug.Log("level procedure");
             GenerateLevel();
-            Debug.Log("players procedure");
             GenerateSpectator();
             //GeneratePlayers();
-            Debug.Log("cameras procedure");
             GenerateCameras();
-            Debug.Log("ai procedure");
             GenerateAI();
-            Debug.Log("hud procedure");
             //GenerateHUD();
-            Debug.Log("minimap procedure");
             GenerateMinimap();
-            Debug.Log("destroying generator procedure");
             DestroyGenerator();
         }
     }
@@ -250,18 +238,10 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            int readyPlayerAdustedKartNumber;
+            int readyPlayerAdustedKartNumber = kartNumber;
             if (kartNumber < SimpleInput.NumberOfPlayers)
             {
                 readyPlayerAdustedKartNumber = ReadyPlayerIndexes[kartNumber];
-            }
-            else
-            {
-                do
-                {
-                    readyPlayerAdustedKartNumber = Random.Range(0, kartColorList.Count);
-
-                } while (!IsUniqueColor(kartColorList[readyPlayerAdustedKartNumber]));
             }
 
             startPos = kartStartListRaceMode[kartNumber];
@@ -275,6 +255,7 @@ public class SceneGenerator : MonoBehaviour
     private bool IsUniqueColor(Color color)
     {
         bool isUnique = false;
+        int count = 0;
 
         foreach (var kart in kartList)
         {
@@ -283,6 +264,10 @@ public class SceneGenerator : MonoBehaviour
             {
                 break;
             }
+
+            /*if (kart.GetComponentInChildren<Renderer>().material.color != color) {
+                count
+            }*/
         }
 
         return isUnique;
@@ -299,6 +284,10 @@ public class SceneGenerator : MonoBehaviour
                 kartList[i].GetComponent<WaypointAI>().GameState = new RacingGameState(kartList[i]);
             }
             WaypointSetter.SetWaypoints();
+            if (Spectator)
+            {
+                singlePlayerCamera.GetComponent<PlayerCamera>().players = kartList.ToArray();
+            }
         }
 
     }
@@ -388,7 +377,7 @@ public class SceneGenerator : MonoBehaviour
         switch (SimpleInput.NumberOfPlayers)
         {
             case 1:
-                CreateCamera("Camera (Player 1)", FULL_SCREEN, 1);
+                singlePlayerCamera = CreateCamera("Camera (Player 1)", FULL_SCREEN, 1);
                 break;
             case 2:
                 CreateCamera("Camera (Player 1)", TOP_HALF, 1);
@@ -422,6 +411,8 @@ public class SceneGenerator : MonoBehaviour
             camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
             camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
             camera.AddComponent<AudioListener>();
+            if (Spectator)
+                camera.GetComponent<PlayerCamera>().Spectate = true;
         }
 
         camera.SetActive(true);
@@ -449,8 +440,6 @@ public class SceneGenerator : MonoBehaviour
                 camera.GetComponent<Camera>().cullingMask ^= (1 << 9);
                 break;
         }
-
-
         return camera;
     }
 
