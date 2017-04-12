@@ -250,18 +250,10 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            int readyPlayerAdustedKartNumber;
+            int readyPlayerAdustedKartNumber = kartNumber;
             if (kartNumber < SimpleInput.NumberOfPlayers)
             {
                 readyPlayerAdustedKartNumber = ReadyPlayerIndexes[kartNumber];
-            }
-            else
-            {
-                do
-                {
-                    readyPlayerAdustedKartNumber = Random.Range(0, kartColorList.Count);
-
-                } while (!IsUniqueColor(kartColorList[readyPlayerAdustedKartNumber]));
             }
 
             startPos = kartStartListRaceMode[kartNumber];
@@ -275,6 +267,7 @@ public class SceneGenerator : MonoBehaviour
     private bool IsUniqueColor(Color color)
     {
         bool isUnique = false;
+        int count = 0;
 
         foreach (var kart in kartList)
         {
@@ -283,6 +276,10 @@ public class SceneGenerator : MonoBehaviour
             {
                 break;
             }
+
+            /*if (kart.GetComponentInChildren<Renderer>().material.color != color) {
+                count
+            }*/
         }
 
         return isUnique;
