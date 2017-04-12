@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCamera : MonoBehaviour {
 
@@ -9,7 +9,7 @@ public class PlayerCamera : MonoBehaviour {
     private Vector3 originalOrientation;
     private Vector3 offset;
     float fov;
-
+    public bool Spectate = false;
     private bool isHuman;
 
 	void Start() {
@@ -21,6 +21,15 @@ public class PlayerCamera : MonoBehaviour {
         if(player.gameObject.GetComponent<Kart>() != null)
         {
             isHuman = true;
+        }
+
+        if (Spectate)
+        {
+            Text text = FindObjectsOfType<Canvas>()[0].gameObject.AddComponent<Text>();
+            text.text = "Press Space/Bump Kart to quit";
+            Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+            text.font = ArialFont;
+            text.material = ArialFont.material;
         }
     }
 
@@ -82,6 +91,13 @@ public class PlayerCamera : MonoBehaviour {
                 if (gameObject.GetComponent<Camera>().fieldOfView > 60)
                 {
                     gameObject.GetComponent<Camera>().fieldOfView--;
+                }
+            }
+            if (Spectate)
+            {
+                if (SimpleInput.GetButtonDown("Bump Kart"))
+                {
+                    SceneManager.LoadScene(0);
                 }
             }
         }

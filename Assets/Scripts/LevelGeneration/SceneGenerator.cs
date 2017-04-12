@@ -53,37 +53,23 @@ public class SceneGenerator : MonoBehaviour
     {
         if (IsLoaded() && !Spectator)
         {
-            Debug.Log("level procedure");
             GenerateLevel();
-            Debug.Log("players procedure");
             GeneratePlayers();
-            Debug.Log("cameras procedure");
             GenerateCameras();
-            Debug.Log("ai procedure");
             GenerateAI();
-            Debug.Log("hud procedure");
             GenerateHUD();
-            Debug.Log("minimap procedure");
             GenerateMinimap();
-            Debug.Log("destroying generator procedure");
             DestroyGenerator();
         }
         else if (IsLoaded() && Spectator)
         {
-            Debug.Log("level procedure");
             GenerateLevel();
-            Debug.Log("players procedure");
             GenerateSpectator();
             //GeneratePlayers();
-            Debug.Log("cameras procedure");
             GenerateCameras();
-            Debug.Log("ai procedure");
             GenerateAI();
-            Debug.Log("hud procedure");
             //GenerateHUD();
-            Debug.Log("minimap procedure");
             GenerateMinimap();
-            Debug.Log("destroying generator procedure");
             DestroyGenerator();
         }
     }
@@ -419,6 +405,8 @@ public class SceneGenerator : MonoBehaviour
             camera.AddComponent<PlayerCamera>().player = kartList[playerNumber - 1].transform;
             camera.GetComponent<PlayerCamera>().followDistance = CAMERA_FOLLOW_DISTANCE;
             camera.AddComponent<AudioListener>();
+            if (Spectator)
+                camera.GetComponent<PlayerCamera>().Spectate = true;
         }
 
         camera.SetActive(true);
