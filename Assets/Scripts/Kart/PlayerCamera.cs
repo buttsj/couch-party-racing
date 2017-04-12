@@ -12,6 +12,9 @@ public class PlayerCamera : MonoBehaviour {
     public bool Spectate = false;
     private bool isHuman;
 
+    public GameObject[] players;
+    private int index = 0;
+
 	void Start() {
         offset = new Vector3(0, 10, 0);
         transform.position = player.position - followDistance * player.forward + offset;
@@ -26,7 +29,7 @@ public class PlayerCamera : MonoBehaviour {
         if (Spectate)
         {
             Text text = FindObjectsOfType<Canvas>()[0].gameObject.AddComponent<Text>();
-            text.text = "Press Space/Bump Kart to quit";
+            text.text = "Press Space/Bump Kart to quit\nPress E/Use Item to switch perspective";
             Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
             text.font = ArialFont;
             text.material = ArialFont.material;
@@ -95,6 +98,13 @@ public class PlayerCamera : MonoBehaviour {
             }
             if (Spectate)
             {
+                if (SimpleInput.GetButtonDown("Use PowerUp"))
+                {
+                    index = index + 1;
+                    if (index >= 4)
+                        index = 0;
+                    player = players[index].transform;
+                }
                 if (SimpleInput.GetButtonDown("Bump Kart"))
                 {
                     SceneManager.LoadScene(0);
