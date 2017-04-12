@@ -29,10 +29,10 @@ public class PlayerCamera : MonoBehaviour {
         if (Spectate)
         {
             Text text = FindObjectsOfType<Canvas>()[0].gameObject.AddComponent<Text>();
-            text.text = "Press Space/Bump Kart to quit\nPress E/Use Item to switch perspective";
-            Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-            text.font = ArialFont;
-            text.material = ArialFont.material;
+            text.text = "Press Space  / Bump Kart to quit\nPress E  / Use Item to switch perspective";
+            Font NFSFont = Resources.Load<Font>("Fonts/NFS_by_JLTV");
+            text.font = NFSFont;
+            text.material = NFSFont.material;
         }
     }
 

@@ -253,7 +253,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
             Destroy(sceneGenerator.gameObject);
 
-            SceneManager.LoadScene("TrackBuilderScene");
+            SceneManager.LoadScene("BuilderSelect");
         }
         else
         {
