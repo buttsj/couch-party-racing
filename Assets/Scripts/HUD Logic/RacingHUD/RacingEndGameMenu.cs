@@ -31,6 +31,8 @@ public class RacingEndGameMenu : MonoBehaviour {
     public bool RaceOver { get { return raceOver; } }
     List<GameObject> kartList;
 
+    private SceneGenerator sceneGenerator;
+
     void Awake()
     {
         // fade in/out initializer
@@ -95,10 +97,19 @@ public class RacingEndGameMenu : MonoBehaviour {
                 GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
+                if (CouchPartyManager.IsCouchPartyMode) {
+                    AddCouchPartyPoints();
+                }
             }
 
             if (playerPlaceCanvas.activeInHierarchy) {
-                EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+                if (CouchPartyManager.IsCouchPartyMode)
+                {
+                    EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("NextGameMode"));
+                }
+                else {
+                    EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+                }
             }
         }
         else {
@@ -172,12 +183,29 @@ public class RacingEndGameMenu : MonoBehaviour {
         StartCoroutine(leaveScene());
     }
 
+    public void nextGameModePress() {
+        playerTimeCanvas.SetActive(false);
+        StartCoroutine(LoadNextGameMode());
+    }
+
     public IEnumerator leaveScene()
     {
         fader.SceneSwitch();
         while (!fader.Faded)
             yield return null;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public IEnumerator LoadNextGameMode() {
+        sceneGenerator = Instantiate(Resources.Load<GameObject>("Prefabs/SceneGenerator"), Vector3.zero, Quaternion.Euler(Vector3.zero)).GetComponent<SceneGenerator>();
+        sceneGenerator.GamemodeName = "SpudRun";
+        sceneGenerator.SceneName = "SpudRunScene";
+        sceneGenerator.LevelName = null;
+        sceneGenerator.name = "SceneGenerator";
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+        SceneManager.LoadScene("SelectionMenu");
     }
 
     void LoadPlayers() {
@@ -223,6 +251,26 @@ public class RacingEndGameMenu : MonoBehaviour {
                 ((RacingGameState)kartList[i].GetComponent<WaypointAI>().GameState).Place = position;
         }
 
+    }
+
+    void AddCouchPartyPoints() {
+        foreach (GameObject kart in playerList) {
+            if (kart.name.Contains("1"))
+            {
+                CouchPartyManager.PlayerOneScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("2")) {
+                CouchPartyManager.PlayerTwoScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("3"))
+            {
+                CouchPartyManager.PlayerThreeScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("4"))
+            {
+                CouchPartyManager.PlayerThreeScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+        }
     }
 
 }

@@ -11,6 +11,7 @@ public class SceneGenerator : MonoBehaviour
     private const string CITY_CAR_PATH = "Prefabs/Karts/CityCar";
     private const string HEARSE_PATH = "Prefabs/Karts/HearseUpdated";
     private const string TAXI_CAR_PATH = "Prefabs/Karts/TaxiUpdated";
+    private const string RARE_KART_PATH = "Prefabs/Karts/RareUpdated";
 
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
@@ -325,6 +326,9 @@ public class SceneGenerator : MonoBehaviour
                     case "CityCar":
                         GenerateKart(i, CITY_CAR_PATH);
                         break;
+                    case "RareKart":
+                        GenerateKart(i, RARE_KART_PATH);
+                        break;
                 }
                 kartList[i].name = "Player " + (i + 1);
                 kartList[i].GetComponent<Kart>().PlayerNumber = i + 1;
@@ -480,7 +484,13 @@ public class SceneGenerator : MonoBehaviour
                 hud.GetComponent<FourPlayerHUDManager>().kart4 = kartList[3];
                 break;
         }
-        Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "RacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        if (CouchPartyManager.IsCouchPartyMode)
+        {
+            Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "CouchPartyRacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        }
+        else {
+            Instantiate(Resources.Load<GameObject>(RACING_HUD_PATH + "RacingEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        }
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "CountdownTimer"), Vector3.zero, Quaternion.Euler(Vector3.zero));
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
     }
@@ -512,7 +522,14 @@ public class SceneGenerator : MonoBehaviour
                 hud.GetComponent<FourPlayerSpudHUD>().potato = GameObject.Find("Potato");
                 break;
         }
-        Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        if (CouchPartyManager.IsCouchPartyMode)
+        {
+            Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "CouchPartySpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        }else
+        {
+            Instantiate(Resources.Load<GameObject>(SPUD_HUD_PATH + "SpudRunEndMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
+        }
+
         Instantiate(Resources.Load<GameObject>(UI_PREFAB_PATH + "PauseMenu"), Vector3.zero, Quaternion.Euler(Vector3.zero));
 
     }

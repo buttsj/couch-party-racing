@@ -211,6 +211,22 @@ public static class SimpleInput {
     /// Binds the player preferenced devices to their default player.
     /// </summary>
     public static void MapPlayersToDefaultPref() {
+        if (!PlayerPrefs.HasKey("Player 1 Controls")) {
+            PlayerPrefs.SetString("Player 1 Controls", "Keyboard1");
+            PlayerPrefs.SetString("Player 2 Controls", "Xbox");
+            PlayerPrefs.SetString("Player 3 Controls", "Playstation4");
+            PlayerPrefs.SetString("Player 4 Controls", "Playstation4");
+            PlayerPrefs.Save();
+        }
+
+        if (!PlayerPrefs.HasKey("Player 1 Controls")) {
+            PlayerPrefs.SetString("Player 1 Controls", "Keyboard1");
+            PlayerPrefs.SetString("Player 2 Controls", "Xbox");
+            PlayerPrefs.SetString("Player 3 Controls", "Xbox");
+            PlayerPrefs.SetString("Player 4 Controls", "Xbox");
+            PlayerPrefs.Save();
+        }
+
         ClearCurrentPlayerDevices();
 
         LoadPrefsControlSchemes();

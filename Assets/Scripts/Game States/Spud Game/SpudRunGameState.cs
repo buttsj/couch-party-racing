@@ -8,6 +8,7 @@ public class SpudRunGameState : IGameState {
     public GameObject player;
     public float SpudScore { get; set; }
     public float InvulnerableTimer { get; set; }
+    public int Place { get; set; }
 
     public SpudRunGameState(GameObject kart) {
         player = kart;

@@ -36,6 +36,10 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     private bool controlView;
 
+    private bool delayInput;
+
+    private string sceneName;
+
     void Start () {
 
         img = gameObject.AddComponent<Image>();
@@ -66,6 +70,8 @@ public class PauseMenuFunctionality : MonoBehaviour {
         axisEnabled = true;
         controlView = false;
         controlsImage.enabled = false;
+
+        applySceneSpecifics();
     }
 	
 	void Update () {
@@ -73,6 +79,8 @@ public class PauseMenuFunctionality : MonoBehaviour {
         {
             FadeOut();
         }
+
+        delayInputOnUnPause();
 
         if (SimpleInput.GetButtonDown("Pause", 1) && !pauseMenu.enabled)
         {
@@ -112,16 +120,20 @@ public class PauseMenuFunctionality : MonoBehaviour {
             else if(ReferenceEquals(buttons[currentButton], quitText))
             {
                 FadeOutBool = true;
+                if(sceneName == "TrackBuilderScene")
+                {
+                    saveCustomTrack();
+                }
                 StartCoroutine(quitPress());
             }
-                
         }
     }
 
     private void resumePress()
     {
         source.PlayOneShot(transition);
-        pauseMenu.enabled = false;
+        delayInput = true;
+        
         Time.timeScale = defaultTimeScale;
     }
 
@@ -142,7 +154,6 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     private void scrollMenu()
     {
-
         if (pauseMenu.enabled)
         {
             if (SimpleInput.GetAxis("Vertical", 1) == 0 && SimpleInput.GetAxis("Horizontal", 1) == 0)
@@ -183,6 +194,15 @@ public class PauseMenuFunctionality : MonoBehaviour {
         buttons[currentButton].color = Color.cyan;
     }
 
+    private void delayInputOnUnPause()
+    {
+        if (delayInput)
+        {
+            delayInput = false;
+            pauseMenu.enabled = false;
+        }
+    }
+
     private void PlaySound()
     {
         source.clip = transition;
@@ -206,6 +226,21 @@ public class PauseMenuFunctionality : MonoBehaviour {
     public bool isPaused()
     {
         return pauseMenu.enabled;
+    }
+
+    private void applySceneSpecifics()
+    {
+        sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName == "TrackBuilderScene")
+        {
+            quitText.text = "Save and Exit";
+        }
+    }
+
+    private void saveCustomTrack()
+    {
+        Debug.Log("Saved Track");
     }
 
 }

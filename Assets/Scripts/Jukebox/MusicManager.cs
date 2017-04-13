@@ -31,7 +31,7 @@ public class MusicManager : MonoBehaviour
 
     private float dimTimer;
 
-    void Start()
+    void Awake()
     {
         dimTimer = 0.0f;
         //being able to test in unity
