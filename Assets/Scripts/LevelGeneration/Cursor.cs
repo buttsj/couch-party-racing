@@ -19,7 +19,8 @@ public class Cursor : MonoBehaviour {
     private List<GameObject> trackList;
     private int trackIndex = 0;
 
-	// Use this for initialization
+    private PauseMenuFunctionality pauseMenu;
+
 	void Start () {
         trackList = new List<GameObject>(Resources.LoadAll<GameObject>(TRACK_DIR));
 
@@ -28,35 +29,46 @@ public class Cursor : MonoBehaviour {
         SetToTrackPiece(START_TRACK_NAME);
         SwapCurrentTrack();
         PrintTrackName();
+
+        pauseMenu = GameObject.Find("PauseMenu").GetComponent<PauseMenuFunctionality>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        // Rotate Track
-        if (SimpleInput.GetButtonDown("Rotate", 1)) {
-            transform.Rotate(new Vector3(0, 90, 0));
-        }
 
-        // Spawn Track
-        if (SimpleInput.GetButtonDown("Bump Kart", 1)) {
-            trackToGrid.SpawnTrack(cursorTrackPiece);
+        if(!pauseMenu.isPaused())
+        {
+            // Rotate Track
+            if (SimpleInput.GetButtonDown("Rotate", 1))
+            {
+                transform.Rotate(new Vector3(0, 90, 0));
+            }
 
-            if (IsUniquePiece(cursorTrackPiece.name)) {
+            // Spawn Track
+            if (SimpleInput.GetButtonDown("Bump Kart", 1))
+            {
+                trackToGrid.SpawnTrack(cursorTrackPiece);
+
+                if (IsUniquePiece(cursorTrackPiece.name))
+                {
+                    SwapToNextValidTrack();
+                }
+            }
+
+            // Delete Track
+            if (SimpleInput.GetButtonDown("Delete Track", 1))
+            {
+                trackToGrid.DeleteTrack(cursorTrackPiece, trackList);
+            }
+
+            // Switch Track
+            if (SimpleInput.GetButtonDown("Next Track", 1))
+            {
                 SwapToNextValidTrack();
             }
-        }
-
-        // Delete Track
-        if (SimpleInput.GetButtonDown("Delete Track", 1)) {
-            trackToGrid.DeleteTrack(cursorTrackPiece, trackList);
-        }
-
-        // Switch Track
-        if (SimpleInput.GetButtonDown("Next Track", 1)) {
-            SwapToNextValidTrack();
-        }
-        if (SimpleInput.GetButtonDown("Previous Track", 1)) {
-            SwapToPreviousValidTrack();
+            if (SimpleInput.GetButtonDown("Previous Track", 1))
+            {
+                SwapToPreviousValidTrack();
+            }
         }
     }
 
