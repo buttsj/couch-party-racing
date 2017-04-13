@@ -97,6 +97,9 @@ public class RacingEndGameMenu : MonoBehaviour {
                 GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
+                if (CouchPartyManager.IsCouchPartyMode) {
+                    AddCouchPartyPoints();
+                }
             }
 
             if (playerPlaceCanvas.activeInHierarchy) {
@@ -248,6 +251,26 @@ public class RacingEndGameMenu : MonoBehaviour {
                 ((RacingGameState)kartList[i].GetComponent<WaypointAI>().GameState).Place = position;
         }
 
+    }
+
+    void AddCouchPartyPoints() {
+        foreach (GameObject kart in playerList) {
+            if (kart.name.Contains("1"))
+            {
+                CouchPartyManager.PlayerOneScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("2")) {
+                CouchPartyManager.PlayerTwoScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("3"))
+            {
+                CouchPartyManager.PlayerThreeScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("4"))
+            {
+                CouchPartyManager.PlayerThreeScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+        }
     }
 
 }

@@ -17,6 +17,7 @@ public class TotShotManager : MonoBehaviour {
     private bool addedChips;
     private bool deadBall;
     private bool destroyedKarts;
+    private string winningTeam;
     private ParticleSystem explosion;
 
     private float respawnDelayTimer;
@@ -67,15 +68,18 @@ public class TotShotManager : MonoBehaviour {
             {
                 winText.text = "Blue Team Wins!";
                 winText.color = Color.blue;
+                winningTeam = "blue";
             }
             else if(redScoreInt > blueScoreInt)
             {
                 winText.text = "Red Team Wins!";
                 winText.color = Color.red;
+                winningTeam = "red";
             }
             else
             {
                 winText.text = "Draw";
+                winningTeam = "draw";
             }
 
             if (!addedChips && winText.enabled)
@@ -83,6 +87,9 @@ public class TotShotManager : MonoBehaviour {
                 GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
+                if (CouchPartyManager.IsCouchPartyMode) {
+                    AddCouchPartyPoints(winningTeam);
+                }
             }
 
             if (SimpleInput.GetButtonDown("Cancel"))
@@ -246,6 +253,106 @@ public class TotShotManager : MonoBehaviour {
             }
         }
         return allDestroyed;
+    }
+
+    void AddCouchPartyPoints(string winningTeam) {
+        List<GameObject> blueKarts = new List<GameObject>();
+        List<GameObject> redKarts = new List<GameObject>();
+        foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Player")) {
+            if (((TotShotGameState)kart.GetComponent<Kart>().GameState).getTeam() == "blue")
+            {
+                blueKarts.Add(kart);
+            }
+            else if (((TotShotGameState)kart.GetComponent<Kart>().GameState).getTeam() == "red") {
+                redKarts.Add(kart);
+            }
+        }
+
+        if (winningTeam == "blue")
+        {
+            foreach (GameObject kart in blueKarts)
+            {
+                if (kart.name.Contains("1"))
+                {
+                    CouchPartyManager.PlayerOneScore += 2;
+                }
+                else if (kart.name.Contains("2"))
+                {
+                    CouchPartyManager.PlayerTwoScore += 2;
+                }
+                else if (kart.name.Contains("3"))
+                {
+                    CouchPartyManager.PlayerThreeScore += 2;
+                }
+                else if (kart.name.Contains("4"))
+                {
+                    CouchPartyManager.PlayerFourScore += 2;
+                }
+            }
+        }
+        else if (winningTeam == "red")
+        {
+            foreach (GameObject kart in redKarts)
+            {
+                if (kart.name.Contains("1"))
+                {
+                    CouchPartyManager.PlayerOneScore += 2;
+                }
+                else if (kart.name.Contains("2"))
+                {
+                    CouchPartyManager.PlayerTwoScore += 2;
+                }
+                else if (kart.name.Contains("3"))
+                {
+                    CouchPartyManager.PlayerThreeScore += 2;
+                }
+                else if (kart.name.Contains("4"))
+                {
+                    CouchPartyManager.PlayerFourScore += 2;
+                }
+            }
+        }
+        else {
+            foreach (GameObject kart in redKarts)
+            {
+                if (kart.name.Contains("1"))
+                {
+                    CouchPartyManager.PlayerOneScore += 1;
+                }
+                else if (kart.name.Contains("2"))
+                {
+                    CouchPartyManager.PlayerTwoScore += 1;
+                }
+                else if (kart.name.Contains("3"))
+                {
+                    CouchPartyManager.PlayerThreeScore += 1;
+                }
+                else if (kart.name.Contains("4"))
+                {
+                    CouchPartyManager.PlayerFourScore += 1;
+                }
+            }
+            foreach (GameObject kart in blueKarts)
+            {
+                if (kart.name.Contains("1"))
+                {
+                    CouchPartyManager.PlayerOneScore += 1;
+                }
+                else if (kart.name.Contains("2"))
+                {
+                    CouchPartyManager.PlayerTwoScore += 1;
+                }
+                else if (kart.name.Contains("3"))
+                {
+                    CouchPartyManager.PlayerThreeScore += 1;
+                }
+                else if (kart.name.Contains("4"))
+                {
+                    CouchPartyManager.PlayerFourScore += 1;
+                }
+            }
+        }
+
     }
 
 }

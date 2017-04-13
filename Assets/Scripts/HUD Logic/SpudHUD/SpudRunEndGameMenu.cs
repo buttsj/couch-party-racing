@@ -69,14 +69,20 @@ public class SpudRunEndGameMenu : MonoBehaviour
             else {
                 EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
             }
+
                 for (int i = 0; i < playerList.Count; i++)
                 {
                     playerTexts[i].text = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore.ToString("F2");
                 }
+
+            DetermineKartRank();
             if (!addedChips && canvas.enabled) {
                 GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
                 PlayerPrefs.Save();
                 addedChips = true;
+                if (CouchPartyManager.IsCouchPartyMode) {
+                    AddCouchPartyPoints();
+                }
             }
           
         }
@@ -124,6 +130,59 @@ public class SpudRunEndGameMenu : MonoBehaviour
         }
     }
 
-   
+    void DetermineKartRank()
+    {
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            int position = 1;
+
+            float score = 0;
+            if (playerList[i].GetComponent<Kart>() != null)
+            {
+                score = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore;
+            }
+            
+            foreach (GameObject kart in playerList)
+            {
+                if (kart.GetComponent<Kart>() != null)
+                {
+                    if (((SpudRunGameState)kart.GetComponent<Kart>().GameState).SpudScore > score)
+                    {
+                        position++;
+                    }
+                }
+                
+            }
+            if (playerList[i].GetComponent<Kart>() != null)
+                ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).Place = position;
+            
+        }
+
+    }
+
+    void AddCouchPartyPoints()
+    {
+        foreach (GameObject kart in playerList)
+        {
+            if (kart.name.Contains("1"))
+            {
+                CouchPartyManager.PlayerOneScore += 5 - ((SpudRunGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("2"))
+            {
+                CouchPartyManager.PlayerTwoScore += 5 - ((SpudRunGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("3"))
+            {
+                CouchPartyManager.PlayerThreeScore += 5 - ((SpudRunGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+            else if (kart.name.Contains("4"))
+            {
+                CouchPartyManager.PlayerThreeScore += 5 - ((SpudRunGameState)kart.GetComponent<Kart>().GameState).Place;
+            }
+        }
+    }
+
+
 
 }
