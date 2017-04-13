@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 public class LevelSelectionMenuFunctionality : MonoBehaviour {
    
@@ -16,17 +11,11 @@ public class LevelSelectionMenuFunctionality : MonoBehaviour {
 
     void Start() {
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-
         DetermineLevelMenu();
-    }
-
-    void Update() {
-
     }
 
     private void DetermineLevelMenu() {
         var gamemodeName = sceneGenerator.GamemodeName;
-
         switch (gamemodeName) {
             case "RaceMode":
                 RaceMode.SetActive(true);
