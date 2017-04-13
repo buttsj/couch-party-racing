@@ -49,7 +49,8 @@ public class MainMenuFunctionality : MonoBehaviour
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
 
         settingsMenu.SetActive(false);
-
+        CouchPartyManager.IsCouchPartyMode = false;
+        CouchPartyManager.ResetScores();
         buttons = new Text[NUMBEROFBUTTONS];
         buttons[0] = race;
         buttons[1] = trackBuilder;
@@ -143,6 +144,9 @@ public class MainMenuFunctionality : MonoBehaviour
             {
                 StartCoroutine(spudRunPress());
             }
+            else if (ReferenceEquals(buttons[currentButton], couchParty)) {
+                StartCoroutine(couchPartyPress());
+            }
             else if (ReferenceEquals(buttons[currentButton], settings))
             {
                 settingsPress();
@@ -174,6 +178,17 @@ public class MainMenuFunctionality : MonoBehaviour
         sceneGenerator.GamemodeName = "TrackBuilder";
         sceneGenerator.SceneName = "TrackBuilderScene";
         sceneGenerator.LevelName = null;
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+        GoToNextMenu();
+    }
+
+    private IEnumerator couchPartyPress() {
+        sceneGenerator.GamemodeName = "RaceMode";
+        sceneGenerator.SceneName = "HomeScene";
+        sceneGenerator.LevelName = null;
+        CouchPartyManager.IsCouchPartyMode = true;
         fader.SceneSwitch();
         while (!fader.Faded)
             yield return null;

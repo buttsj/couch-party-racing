@@ -111,7 +111,10 @@ public class Kart : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             // increase lap count
-            ((RacingGameState)gameState).LapNumber++;
+            if (IsRacingGameState)
+            {
+                ((RacingGameState)gameState).LapNumber++;
+            }
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {

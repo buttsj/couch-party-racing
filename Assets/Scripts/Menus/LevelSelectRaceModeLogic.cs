@@ -86,12 +86,10 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
             {
                 if(child.name != "Background")
                 {
-                    child.transform.Translate(Vector3.left * 800.0f * Time.deltaTime);
+                    child.transform.Translate(Vector3.left * 1000.0f * Time.deltaTime);
                 }
             }
         }
-
-
     }
 
     private void buttonPress()

@@ -96,6 +96,10 @@ public class SpudScript : MonoBehaviour {
             invulnTimer = invulnTimer + Time.deltaTime;
             transform.Rotate(Vector3.up, 2.0f);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            timer = 0;
+        }
 	}
 
     void ResetRound()

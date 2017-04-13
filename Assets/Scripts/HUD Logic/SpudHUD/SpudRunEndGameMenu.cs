@@ -8,6 +8,7 @@ using System.Linq;
 
 public class SpudRunEndGameMenu : MonoBehaviour
 {
+    private WhiteFadeUniversal fader;
     List<GameObject> playerList;
     List<Text> playerTexts;
     public Canvas canvas;
@@ -20,6 +21,20 @@ public class SpudRunEndGameMenu : MonoBehaviour
     public bool RaceOver { get { return raceOver; } }
     GameObject potato;
     private bool addedChips;
+    private SceneGenerator sceneGenerator;
+
+    void Awake()
+    {
+        // fade in/out initializer
+        GameObject fadeObject = new GameObject();
+        fadeObject.name = "Fader";
+        fadeObject.transform.SetParent(transform);
+        fadeObject.SetActive(true);
+        fader = fadeObject.AddComponent<WhiteFadeUniversal>();
+        fader.BeginExitScene("Music Manager HUD");
+        //
+    }
+
     // Use this for initialization
     public void Start()
     {
@@ -47,7 +62,13 @@ public class SpudRunEndGameMenu : MonoBehaviour
         else if (potato.GetComponent<SpudScript>().GameOver)
         {
                 canvas.enabled = true;
+            if (CouchPartyManager.IsCouchPartyMode)
+            {
+                EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("NextGameMode"));
+            }
+            else {
                 EventSystem.current.GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("ExitToMainMenu"));
+            }
                 for (int i = 0; i < playerList.Count; i++)
                 {
                     playerTexts[i].text = ((SpudRunGameState)playerList[i].GetComponent<Kart>().GameState).SpudScore.ToString("F2");
@@ -66,6 +87,32 @@ public class SpudRunEndGameMenu : MonoBehaviour
     {
         canvas.enabled = false;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void nextGameModePress()
+    {
+        StartCoroutine(LoadNextGameMode());
+    }
+
+    public IEnumerator leaveScene()
+    {
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public IEnumerator LoadNextGameMode()
+    {
+        sceneGenerator = Instantiate(Resources.Load<GameObject>("Prefabs/SceneGenerator"), Vector3.zero, Quaternion.Euler(Vector3.zero)).GetComponent<SceneGenerator>();
+        sceneGenerator.GamemodeName = "TotShot";
+        sceneGenerator.SceneName = "TotShotScene";
+        sceneGenerator.LevelName = null;
+        sceneGenerator.name = "SceneGenerator";
+        fader.SceneSwitch();
+        while (!fader.Faded)
+            yield return null;
+        SceneManager.LoadScene("SelectionMenu");
     }
 
     void LoadPlayers()

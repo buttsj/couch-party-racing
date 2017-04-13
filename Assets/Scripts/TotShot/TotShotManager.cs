@@ -87,8 +87,18 @@ public class TotShotManager : MonoBehaviour {
 
             if (SimpleInput.GetButtonDown("Cancel"))
             {
-                SceneManager.LoadScene("MainMenu");
+                Debug.Log("Cancel Pressed");
+                if (CouchPartyManager.IsCouchPartyMode)
+                {
+                    Debug.Log("IsCouchPartyMode");
+                    SceneManager.LoadScene("CouchPartyEndScene");
+                }
+                else
+                {
+                    SceneManager.LoadScene("MainMenu");
+                }
             }
+           
         }
         else
         {
@@ -100,6 +110,10 @@ public class TotShotManager : MonoBehaviour {
 
             secondsRemain -= Time.deltaTime;
                 
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            secondsRemain -= 60;
         }
 
     }
