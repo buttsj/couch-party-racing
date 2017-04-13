@@ -5,11 +5,13 @@
 
 Check out our team blog for progress and info about our game: https://u.osu.edu/couchpotatogaming/
 
+A playable version of the game is hosted at Itch.io: https://awildjackles.itch.io/couch-party-racing
+
 ## Prerequisites
 
 Download Unity: https://unity3d.com/get-unity/download
 
-## Installing
+## Installing via Unity
 
 Windows:
 ```sh
@@ -32,8 +34,23 @@ Connor Swick [Github](https://github.com/connor-swick)
 
 ## Release History
 
+* Timebox #6
+	* Work in-progress
+* Timebox #5
+	* Revamped track builder
+	* Polished Tot Shot
+	* Chip Shop (in-game store)
+	* Re-designed game GUI/theme
+* Timebox #4
+	* Track builder implemented
+	* Initial implementation of Tot Shot (kart soccer)
+	* Scene transitions (fade to white + sound)
+	* Kart color picker
 * Timebox #3
-	* Work in progress
+	* Revamped AI
+	* New tracks/game assets
+	* Cleaned up Race Mode
+	* Initial implementation of Spud Run (capture the flag)
 * Timebox #2
 	* Kart Physics
 	* Input Manager
