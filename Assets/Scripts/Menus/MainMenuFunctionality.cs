@@ -19,6 +19,13 @@ public class MainMenuFunctionality : MonoBehaviour
     public Text exit;
     public Text mainmenuText;
 
+    public Image raceModeInfo;
+    public Image trackModeInfo;
+    public Image spudModeInfo;
+    public Image totModeInfo;
+    public Image couchModeInfo;
+    public Image storeModeInfo;
+
     private float fadeoutTimer;
 
     private SceneGenerator sceneGenerator;
@@ -47,7 +54,12 @@ public class MainMenuFunctionality : MonoBehaviour
     {
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-
+        raceModeInfo.gameObject.SetActive(false);
+        trackModeInfo.gameObject.SetActive(false);
+        spudModeInfo.gameObject.SetActive(false);
+        totModeInfo.gameObject.SetActive(false);
+        couchModeInfo.gameObject.SetActive(false);
+        storeModeInfo.gameObject.SetActive(false);
         settingsMenu.SetActive(false);
         CouchPartyManager.IsCouchPartyMode = false;
         CouchPartyManager.ResetScores();
@@ -75,15 +87,15 @@ public class MainMenuFunctionality : MonoBehaviour
             axisEnabled = true;
         }
 
-            scrollMenu();
-            buttonPress();
+        scrollMenu();
+        buttonPress();
         fadeoutTimer += Time.deltaTime;
         if (fadeoutTimer >= 10.0f)
         {
             foreach (Text button in buttons)
             {
                 button.CrossFadeAlpha(0f, 0.5f, true);
-    }
+            }
             mainmenuText.CrossFadeAlpha(0f, 0.5f, true);
         }
     }
@@ -144,7 +156,8 @@ public class MainMenuFunctionality : MonoBehaviour
             {
                 StartCoroutine(spudRunPress());
             }
-            else if (ReferenceEquals(buttons[currentButton], couchParty)) {
+            else if (ReferenceEquals(buttons[currentButton], couchParty))
+            {
                 StartCoroutine(couchPartyPress());
             }
             else if (ReferenceEquals(buttons[currentButton], settings))
@@ -184,7 +197,8 @@ public class MainMenuFunctionality : MonoBehaviour
         GoToNextMenu();
     }
 
-    private IEnumerator couchPartyPress() {
+    private IEnumerator couchPartyPress()
+    {
         sceneGenerator.GamemodeName = "RaceMode";
         sceneGenerator.SceneName = "HomeScene";
         sceneGenerator.LevelName = null;
@@ -225,11 +239,11 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void exitPress()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
 
     private IEnumerator storePress()
@@ -242,11 +256,11 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void GoToNextMenu()
     {
-        if(sceneGenerator.GamemodeName == "RaceMode")
+        if (sceneGenerator.GamemodeName == "RaceMode")
         {
             SceneManager.LoadScene("LevelSelectionMenu");
         }
-        else if(sceneGenerator.GamemodeName == "TrackBuilder")
+        else if (sceneGenerator.GamemodeName == "TrackBuilder")
         {
             SimpleInput.ClearCurrentPlayerDevices();
             SimpleInput.MapPlayerToDevice(1);
