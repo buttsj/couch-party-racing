@@ -255,7 +255,6 @@ public class SceneGenerator : MonoBehaviour
     private bool IsUniqueColor(Color color)
     {
         bool isUnique = false;
-        int count = 0;
 
         foreach (var kart in kartList)
         {

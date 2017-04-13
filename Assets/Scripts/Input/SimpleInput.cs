@@ -4,12 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public static class SimpleInput {
-    private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme> {
-        new ControlScheme("Keyboard1"),
-        new ControlScheme("Keyboard2"),
-        new ControlScheme("Keyboard2"),
-        new ControlScheme("Xbox", 1)
-    };
+    private static List<ControlScheme> storedPrefSchemes = new List<ControlScheme>();
 
     private static List<ControlScheme> playerSchemes = new List<ControlScheme>(storedPrefSchemes);
 
@@ -216,29 +211,33 @@ public static class SimpleInput {
     /// Binds the player preferenced devices to their default player.
     /// </summary>
     public static void MapPlayersToDefaultPref() {
-        if (!PlayerPrefs.HasKey("Player 1 Controls")) {
-            PlayerPrefs.SetString("Player 1 Controls", "Keyboard1");
-            PlayerPrefs.SetString("Player 2 Controls", "Xbox");
-            PlayerPrefs.SetString("Player 3 Controls", "Xbox");
-            PlayerPrefs.SetString("Player 4 Controls", "Xbox");
-            PlayerPrefs.Save();
-        }
-
         ClearCurrentPlayerDevices();
 
         LoadPrefsControlSchemes();
+
+        Debug.Log(storedPrefSchemes.Count);
 
         playerSchemes = storedPrefSchemes.ToList();
     }
 
     private static void LoadPrefsControlSchemes() {
+        int storedPlayerNumber = 0;
         int currentJoystick = 1;
+        int currentKeyboard = 1;
 
-        for (int i = 1; i <= NumberOfPlayers; i++) {
+        for (int i = 1; PlayerPrefs.HasKey("Player " + i + " Controls"); i++) {
+            storedPlayerNumber++;
+        }
+        storedPrefSchemes.Clear();
+
+        for (int i = 1; i <= storedPlayerNumber; i++) {
             string prefValue = PlayerPrefs.GetString("Player " + i + " Controls");
 
+            Debug.Log("LoadPrefs: " + prefValue);
+
             if (prefValue.Contains("Keyboard")) {
-                storedPrefSchemes.Add(new ControlScheme(prefValue));
+                storedPrefSchemes.Add(new ControlScheme(prefValue + currentKeyboard));
+                currentKeyboard = 2; // Set to 2 due to only two Keyboard mappings
             } else {
                 storedPrefSchemes.Add(new ControlScheme(prefValue, currentJoystick));
                 currentJoystick++;

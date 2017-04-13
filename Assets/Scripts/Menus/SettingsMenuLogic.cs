@@ -45,7 +45,7 @@ public class SettingsMenuLogic : MonoBehaviour {
     public Text p4Left;
     public Text p4Right;
 
-    void Start () {
+    void Awake () {
 
         buttons = new Text[NUMBER_OF_SELECTION_OPTIONS];
 
@@ -62,20 +62,58 @@ public class SettingsMenuLogic : MonoBehaviour {
 
         axisEnabled = true;
 
-        //Temporary preferences
-        volumePercentage = 1.0f;
-
         toggles = new bool[6];
-        toggles[0] = true; //fullScreenEnabled
-        toggles[1] = false; //vSyncEnabled
-        toggles[2] = false; //p1PadEnabled
-        toggles[3] = true; //p2PadEnabled
-        toggles[4] = true; //p3PadEnabled
-        toggles[5] = true; //p4PadEnabled
 
-        //End temp
+        // Set Default Settings
+        if (!PlayerPrefs.HasKey("Settings: Volume")) {
+            // Audio
+            volumePercentage = AudioListener.volume;
+            PlayerPrefs.SetFloat("Settings: Volume", volumePercentage);
+
+            // Fullscreen
+            toggles[0] = Screen.fullScreen;
+            PlayerPrefs.SetInt("Settings: Fullscreen", toggles[0] ? 1 : 0);
+
+            // VSync
+            toggles[1] = QualitySettings.vSyncCount != 0;
+            PlayerPrefs.SetInt("Settings: VSync", toggles[1] ? 1 : 0);
+
+            // Player 1 Device
+            toggles[2] = false;
+            PlayerPrefs.SetString("Player 1 Controls", "Keyboard");
+
+            // Player 2 Device
+            toggles[3] = true;
+            PlayerPrefs.SetString("Player 2 Controls", "Xbox");
+
+            // Player 3 Device
+            toggles[4] = true;
+            PlayerPrefs.SetString("Player 3 Controls", "Xbox");
+
+            // Player 4 Device
+            toggles[5] = true;
+            PlayerPrefs.SetString("Player 4 Controls", "Xbox");
+
+            PlayerPrefs.Save();
+        } else {
+            // Retrieve Saved Prefs
+            volumePercentage = PlayerPrefs.GetFloat("Settings: Volume");
+            AudioListener.volume = volumePercentage;
+
+            toggles[0] = PlayerPrefs.GetInt("Settings: Fullscreen") != 0;
+            Screen.fullScreen = toggles[0];
+
+            toggles[1] = PlayerPrefs.GetInt("Settings: VSync") != 0;
+            QualitySettings.vSyncCount = toggles[1] ? 1 : 0;
+
+            toggles[2] = PlayerPrefs.GetString("Player 1 Controls") != "Keyboard";
+            toggles[3] = PlayerPrefs.GetString("Player 2 Controls") != "Keyboard";
+            toggles[4] = PlayerPrefs.GetString("Player 3 Controls") != "Keyboard";
+            toggles[5] = PlayerPrefs.GetString("Player 4 Controls") != "Keyboard";
+        }
 
         updateUIToPreferences();
+        SimpleInput.MapPlayersToDefaultPref();
 
         buttons[currentButton].color = Color.cyan;
     }
@@ -91,7 +129,7 @@ public class SettingsMenuLogic : MonoBehaviour {
 
     private void scrollMenu()
     {
-        if(SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled && currentButton == 0)
+        if(SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton == 0)
         {
             volumeLeft.color = Color.cyan;
             volumePercentage -= 0.01f;
@@ -101,7 +139,7 @@ public class SettingsMenuLogic : MonoBehaviour {
             }
 
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled && currentButton == 0)
+        else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton == 0)
         {
             volumeRight.color = Color.cyan;
             volumePercentage += 0.01f;
@@ -111,19 +149,19 @@ public class SettingsMenuLogic : MonoBehaviour {
             }
 
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             toggles[currentButton - 1] = !toggles[currentButton - 1];
             buttons[currentButton].transform.GetChild(0).GetComponent<Text>().color = Color.cyan;
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
+        else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             toggles[currentButton - 1] = !toggles[currentButton - 1];
             buttons[currentButton].transform.GetChild(1).GetComponent<Text>().color = Color.cyan;
         }
-        else if(SimpleInput.GetAxis("Horizontal", 1) != 0 && axisEnabled && currentButton == NUMBER_OF_SELECTION_OPTIONS - 1)
+        else if(SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled && currentButton == NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             buttons[currentButton].color = Color.white;
@@ -137,7 +175,7 @@ public class SettingsMenuLogic : MonoBehaviour {
             }
             colorSelectedButton();
         }
-        else if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+        else if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
             axisEnabled = false;
             currentButton++;
@@ -147,7 +185,7 @@ public class SettingsMenuLogic : MonoBehaviour {
             }
             colorSelectedButton();
         }
-        else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+        else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
             axisEnabled = false;
             currentButton--;
@@ -267,12 +305,36 @@ public class SettingsMenuLogic : MonoBehaviour {
 
     private void applyChanges()
     {
+        // Audio
+        PlayerPrefs.SetFloat("Settings: Volume", volumePercentage);
         AudioListener.volume = volumePercentage;
+
+        // Fullscreen
+        PlayerPrefs.SetInt("Settings: Fullscreen", toggles[0] ? 1 : 0);
         Screen.fullScreen = toggles[0]; //Sets fullscreen to the bool associated with fullscreen
 
-        //Add additional settings logic here
+        // VSync
+        PlayerPrefs.SetInt("Settings: VSync", toggles[1] ? 1 : 0);
+        QualitySettings.vSyncCount = toggles[1] ? 1 : 0;
 
-        //End of additional logic
+        // Player 1 Device
+        PlayerPrefs.SetString("Player 1 Controls", toggles[2] ? "Xbox" : "Keyboard");
+        Debug.Log("Player 1: " + (toggles[2] ? "Xbox" : "Keyboard"));
+
+        // Player 2 Device
+        PlayerPrefs.SetString("Player 2 Controls", toggles[3] ? "Xbox" : "Keyboard");
+        Debug.Log("Player 2: " + (toggles[3] ? "Xbox" : "Keyboard"));
+
+        // Player 3 Device
+        PlayerPrefs.SetString("Player 3 Controls", toggles[4] ? "Xbox" : "Keyboard");
+        Debug.Log("Player 3: " + (toggles[4] ? "Xbox" : "Keyboard"));
+
+        // Player 4 Device
+        PlayerPrefs.SetString("Player 4 Controls", toggles[5] ? "Xbox" : "Keyboard");
+        Debug.Log("Player 4: " + (toggles[5] ? "Xbox" : "Keyboard"));
+
+        PlayerPrefs.Save();
+        SimpleInput.MapPlayersToDefaultPref();
 
         exitSettings();
     }
