@@ -53,9 +53,11 @@ public class AccountManager : MonoBehaviour {
             PlayerPrefs.SetInt("CityCar", 0);
             PlayerPrefs.SetInt("Hearse", 0);
             PlayerPrefs.SetInt("Taxi", 0);
+            PlayerPrefs.SetInt("RareKart", 0);
             carUnlocks.Add("CityCar", 0);
             carUnlocks.Add("Hearse", 0);
             carUnlocks.Add("Taxi", 0);
+            carUnlocks.Add("RareKart", 0);
         }
 	}
 
@@ -71,6 +73,7 @@ public class AccountManager : MonoBehaviour {
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
         carUnlocks.Add("Hearse", PlayerPrefs.GetInt("Hearse"));
         carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
+        carUnlocks.Add("RareKart", PlayerPrefs.GetInt("RareKart"));
     }
 
     public void RefreshUnlocks()
@@ -87,6 +90,7 @@ public class AccountManager : MonoBehaviour {
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
         carUnlocks.Add("Hearse", PlayerPrefs.GetInt("Hearse"));
         carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
+        carUnlocks.Add("RareKart", PlayerPrefs.GetInt("RareKart"));
 
         chips = PlayerPrefs.GetInt("chips");
     }
