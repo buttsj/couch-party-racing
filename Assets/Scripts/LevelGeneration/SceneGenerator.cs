@@ -11,7 +11,7 @@ public class SceneGenerator : MonoBehaviour
     private const string CITY_CAR_PATH = "Prefabs/Karts/CityCar";
     private const string HEARSE_PATH = "Prefabs/Karts/HearseUpdated";
     private const string TAXI_CAR_PATH = "Prefabs/Karts/TaxiUpdated";
-    private const string RARE_KART_PATH = "Prefabs/Karts/RareUpdated";
+    private const string MUSCLE_CAR_PATH = "Prefabs/Karts/RareUpdated";
 
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
@@ -326,8 +326,8 @@ public class SceneGenerator : MonoBehaviour
                     case "CityCar":
                         GenerateKart(i, CITY_CAR_PATH);
                         break;
-                    case "RareKart":
-                        GenerateKart(i, RARE_KART_PATH);
+                    case "Muscle":
+                        GenerateKart(i, MUSCLE_CAR_PATH);
                         break;
                 }
                 kartList[i].name = "Player " + (i + 1);
