@@ -13,12 +13,31 @@ public class AccountManager : MonoBehaviour {
     private Dictionary<string, int> carUnlocks = new Dictionary<string, int>();
     public Dictionary<string, int> GetCarUnlocks { get { return carUnlocks; } }
 
+    private List<Color> cursorColorList = new List<Color> {
+        Color.cyan,
+        Color.gray,
+        Color.red,
+        Color.magenta,
+        Color.green,
+        Color.yellow,
+        Color.blue,
+    };
+
+    private List<string> cursorColorNames = new List<string>
+    {
+        "Cyan", "Gray", "Red", "Magenta", "Green", "Yellow", "Blue"
+    };
+
+    public Color getCurrColor { get { return cursorColorList[cursor]; } }
+    public string getColorName { get { return cursorColorNames[cursor]; } }
+    public int CursorSelection { get { return cursor; } set { cursor = value; } }
+    private int cursor;
+
     void Awake()
     {
         if(isAlreadyInitialized) {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(this);
     }
     
@@ -28,6 +47,7 @@ public class AccountManager : MonoBehaviour {
         if (PlayerPrefs.HasKey("chips")){
             // load account info
             LoadUnlocks();
+            cursor = PlayerPrefs.GetInt("cursor");
         }
         else
         {
@@ -56,6 +76,7 @@ public class AccountManager : MonoBehaviour {
             carUnlocks.Add("Taxi", 0);
             carUnlocks.Add("Muscle", 0);
         }
+        Debug.Log("cursor is " + cursorColorNames[cursor]);
 	}
 
     void LoadUnlocks()
@@ -117,17 +138,20 @@ public class AccountManager : MonoBehaviour {
         int chips = PlayerPrefs.GetInt("chips", 0);
         bool validPurchase = (chips >= cost);
         if (validPurchase)
-        {
+    {
+        PlayerPrefs.SetInt("chips", chips); // save chips
+        PlayerPrefs.SetInt("cursor", cursor); // save cursor color
+        PlayerPrefs.SetInt("chips", chips); // save chips
             chips -= cost;
             PlayerPrefs.SetInt(item, 1);
             if (chips < 0)
                 chips = 0;
             PlayerPrefs.SetInt("chips", chips);
-            PlayerPrefs.Save();
-        }
+        PlayerPrefs.Save();
+    }
 
         return validPurchase;
-    }
+}
 
     public void ResetEverything()
     {
