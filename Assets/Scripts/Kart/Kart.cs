@@ -159,7 +159,7 @@ public class Kart : MonoBehaviour
             ability.Update();
             DebugMenu(); // check for Debug Commands
 
-            if (!damaged)
+            if (!damaged && !Destroyed)
             {
                 NonDamagedUpdate();
             }
@@ -190,8 +190,11 @@ public class Kart : MonoBehaviour
             {
                 gameObject.transform.Translate(0, 0.018f, 0);
             }
+
+        if (!Destroyed) { 
             if (physics.Power != 0)
             {
+            
                 fLeftModel.transform.Rotate(Vector3.right * physics.Speed);
                 fRightModel.transform.Rotate(Vector3.right * physics.Speed);
                 rLeftModel.transform.Rotate(Vector3.right * physics.Speed);
@@ -221,10 +224,12 @@ public class Kart : MonoBehaviour
                     physics.PreJumpSpeed = physics.Speed;
                     wasGrounded = false;
                 }
+            
 
             }
             physics.RotateKart(turnPower);
             RotateTires();
+        }
         
 
     }
