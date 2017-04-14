@@ -14,12 +14,31 @@ public class AccountManager : MonoBehaviour {
     private Dictionary<string, int> carUnlocks = new Dictionary<string, int>();
     public Dictionary<string, int> GetCarUnlocks { get { return carUnlocks; } }
 
+    private List<Color> cursorColorList = new List<Color> {
+        Color.cyan,
+        Color.gray,
+        Color.red,
+        Color.magenta,
+        Color.green,
+        Color.yellow,
+        Color.blue,
+    };
+
+    private List<string> cursorColorNames = new List<string>
+    {
+        "Cyan", "Gray", "Red", "Magenta", "Green", "Yellow", "Blue"
+    };
+
+    public Color getCurrColor { get { return cursorColorList[cursor]; } }
+    public string getColorName { get { return cursorColorNames[cursor]; } }
+    public int CursorSelection { get { return cursor; } set { cursor = value; } }
+    private int cursor;
+
     void Awake()
     {
         if(isAlreadyInitialized) {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(this);
     }
     
@@ -30,12 +49,14 @@ public class AccountManager : MonoBehaviour {
             // load account info
             chips = PlayerPrefs.GetInt("chips");
             LoadUnlocks();
+            cursor = PlayerPrefs.GetInt("cursor");
         }
         else
         {
             // new account, set PlayerPref
             chips = 0;
             PlayerPrefs.SetInt("chips", chips);
+            PlayerPrefs.SetInt("cursor", 0);
 
             PlayerPrefs.SetInt("Berry", 0);
             PlayerPrefs.SetInt("Chocolate", 0);
@@ -59,6 +80,7 @@ public class AccountManager : MonoBehaviour {
             carUnlocks.Add("Taxi", 0);
             carUnlocks.Add("RareKart", 0);
         }
+        Debug.Log("cursor is " + cursorColorNames[cursor]);
 	}
 
     void LoadUnlocks()
@@ -107,6 +129,7 @@ public class AccountManager : MonoBehaviour {
     void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("chips", chips); // save chips
+        PlayerPrefs.SetInt("cursor", cursor); // save cursor color
         PlayerPrefs.Save();
     }
 

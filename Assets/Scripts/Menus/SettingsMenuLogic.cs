@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsMenuLogic : MonoBehaviour {
+public class SettingsMenuLogic : MonoBehaviour
+{
 
     public GameObject mainMenu;
+    private GameObject accountMng;
 
-    private const int NUMBER_OF_SELECTION_OPTIONS = 8;
+    private const int NUMBER_OF_SELECTION_OPTIONS = 10;
 
     public Text volumePercentageText;
 
@@ -45,7 +45,16 @@ public class SettingsMenuLogic : MonoBehaviour {
     public Text p4Left;
     public Text p4Right;
 
-    void Awake () {
+    public Text resetUnlocks;
+    public Text cursorToggleText;
+    public Text cursorLeft;
+    public Text cursorRight;
+    public int cursorColor;
+    public int[] possibleCursors;
+
+    void Awake()
+    {
+        accountMng = GameObject.Find("AccountManager");
 
         buttons = new Text[NUMBER_OF_SELECTION_OPTIONS];
 
@@ -56,7 +65,9 @@ public class SettingsMenuLogic : MonoBehaviour {
         buttons[4] = p2ToggleText;
         buttons[5] = p3ToggleText;
         buttons[6] = p4ToggleText;
-        buttons[7] = saveText;
+        buttons[7] = cursorToggleText; // cursor
+        buttons[8] = resetUnlocks; // reset everything button
+        buttons[9] = saveText;
 
         currentButton = 0;
 
@@ -64,8 +75,12 @@ public class SettingsMenuLogic : MonoBehaviour {
 
         toggles = new bool[6];
 
+        possibleCursors = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+
+
         // Set Default Settings
-        if (!PlayerPrefs.HasKey("Settings: Volume")) {
+        if (!PlayerPrefs.HasKey("Settings: Volume"))
+        {
             // Audio
             volumePercentage = AudioListener.volume;
             PlayerPrefs.SetFloat("Settings: Volume", volumePercentage);
@@ -94,8 +109,13 @@ public class SettingsMenuLogic : MonoBehaviour {
             toggles[5] = true;
             PlayerPrefs.SetString("Player 4 Controls", "Xbox");
 
+            // Cursor color
+            cursorColor = accountMng.GetComponent<AccountManager>().CursorSelection;
+
             PlayerPrefs.Save();
-        } else {
+        }
+        else
+        {
             // Retrieve Saved Prefs
             volumePercentage = PlayerPrefs.GetFloat("Settings: Volume");
             AudioListener.volume = volumePercentage;
@@ -110,30 +130,35 @@ public class SettingsMenuLogic : MonoBehaviour {
             toggles[3] = PlayerPrefs.GetString("Player 2 Controls") != "Keyboard";
             toggles[4] = PlayerPrefs.GetString("Player 3 Controls") != "Keyboard";
             toggles[5] = PlayerPrefs.GetString("Player 4 Controls") != "Keyboard";
+
+            cursorColor = accountMng.GetComponent<AccountManager>().CursorSelection;
         }
 
         updateUIToPreferences();
         SimpleInput.MapPlayersToDefaultPref();
 
-        buttons[currentButton].color = Color.cyan;
+        //buttons[currentButton].color = Color.cyan;
+        buttons[currentButton].color = accountMng.GetComponent<AccountManager>().getCurrColor;
     }
-	
-	void Update () {
 
-            resetAxis();
-            scrollMenu();
-            updateUIToPreferences();
-            buttonPress();
-
+    void Update()
+    {
+        buttons[currentButton].color = accountMng.GetComponent<AccountManager>().getCurrColor;
+        cursorToggleText.text = accountMng.GetComponent<AccountManager>().getColorName;
+        resetAxis();
+        scrollMenu();
+        updateUIToPreferences();
+        buttonPress();
     }
 
     private void scrollMenu()
     {
-        if(SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton == 0)
+        if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton == 0)
         {
-            volumeLeft.color = Color.cyan;
+            //volumeLeft.color = Color.cyan;
+            volumeLeft.color = accountMng.GetComponent<AccountManager>().getCurrColor;
             volumePercentage -= 0.01f;
-            if(volumePercentage < 0.0f)
+            if (volumePercentage < 0.0f)
             {
                 volumePercentage = 0.0f;
             }
@@ -141,7 +166,8 @@ public class SettingsMenuLogic : MonoBehaviour {
         }
         else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton == 0)
         {
-            volumeRight.color = Color.cyan;
+            //volumeRight.color = Color.cyan;
+            volumeRight.color = accountMng.GetComponent<AccountManager>().getCurrColor;
             volumePercentage += 0.01f;
             if (volumePercentage > 1.0f)
             {
@@ -149,19 +175,55 @@ public class SettingsMenuLogic : MonoBehaviour {
             }
 
         }
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton == 7)
+        {
+            axisEnabled = false;
+            // shift color slider
+            cursorColor--;
+            if (cursorColor < 0)
+                cursorColor = 6;
+            accountMng.GetComponent<AccountManager>().CursorSelection = cursorColor;
+            buttons[currentButton].color = accountMng.GetComponent<AccountManager>().getCurrColor;
+            cursorLeft.color = accountMng.GetComponent<AccountManager>().getCurrColor;
+            cursorToggleText.text = accountMng.GetComponent<AccountManager>().getColorName;
+            PlayerPrefs.Save();
+        }
+        else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton == 7)
+        {
+            axisEnabled = false;
+            // shift color slider
+            cursorColor++;
+            if (cursorColor > 6)
+                cursorColor = 0;
+            accountMng.GetComponent<AccountManager>().CursorSelection = cursorColor;
+            buttons[currentButton].color = accountMng.GetComponent<AccountManager>().getCurrColor;
+            cursorRight.color = accountMng.GetComponent<AccountManager>().getCurrColor;
+            cursorToggleText.text = accountMng.GetComponent<AccountManager>().getColorName;
+            PlayerPrefs.Save();
+        }
+        else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton == 8)
+        {
+            // do nothing
+        }
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton == 8)
+        {
+            // do nothing
+        }
         else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             toggles[currentButton - 1] = !toggles[currentButton - 1];
-            buttons[currentButton].transform.GetChild(0).GetComponent<Text>().color = Color.cyan;
+            //buttons[currentButton].transform.GetChild(0).GetComponent<Text>().color = Color.cyan;
+            buttons[currentButton].transform.GetChild(0).GetComponent<Text>().color = accountMng.GetComponent<AccountManager>().getCurrColor;
         }
         else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             toggles[currentButton - 1] = !toggles[currentButton - 1];
-            buttons[currentButton].transform.GetChild(1).GetComponent<Text>().color = Color.cyan;
+            //buttons[currentButton].transform.GetChild(1).GetComponent<Text>().color = Color.cyan;
+            buttons[currentButton].transform.GetChild(1).GetComponent<Text>().color = accountMng.GetComponent<AccountManager>().getCurrColor;
         }
-        else if(SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled && currentButton == NUMBER_OF_SELECTION_OPTIONS - 1)
+        else if (SimpleInput.GetAxis("Horizontal") != 0 && axisEnabled && currentButton == NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
             buttons[currentButton].color = Color.white;
@@ -218,7 +280,8 @@ public class SettingsMenuLogic : MonoBehaviour {
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.cyan;
+        //buttons[currentButton].color = Color.cyan;
+        buttons[currentButton].color = accountMng.GetComponent<AccountManager>().getCurrColor;
     }
 
     private void resetAxis()
@@ -226,7 +289,6 @@ public class SettingsMenuLogic : MonoBehaviour {
         if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
-
             volumeLeft.color = Color.white;
             volumeRight.color = Color.white;
             fullScreenLeft.color = Color.white;
@@ -241,6 +303,8 @@ public class SettingsMenuLogic : MonoBehaviour {
             p3Right.color = Color.white;
             p4Left.color = Color.white;
             p4Right.color = Color.white;
+            cursorLeft.color = Color.white;
+            cursorRight.color = Color.white;
         }
     }
 

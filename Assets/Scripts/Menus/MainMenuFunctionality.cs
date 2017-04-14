@@ -6,6 +6,7 @@ using System.Collections;
 public class MainMenuFunctionality : MonoBehaviour
 {
     private WhiteFadeUniversal fader;
+    private GameObject acctManager;
 
     private const int NUMBEROFBUTTONS = 8;
 
@@ -79,11 +80,13 @@ public class MainMenuFunctionality : MonoBehaviour
 
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.cyan;
+        //buttons[currentButton].color = Color.cyan;
+        acctManager = GameObject.Find("AccountManager");
     }
 
     void Update()
     {
+        buttons[currentButton].color = acctManager.GetComponent<AccountManager>().getCurrColor;
         if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
@@ -423,6 +426,7 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.cyan;
+        //buttons[currentButton].color = Color.cyan;
+        buttons[currentButton].color = acctManager.GetComponent<AccountManager>().getCurrColor;
     }
 }
