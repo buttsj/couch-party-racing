@@ -24,6 +24,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
     public Text quitText;
 
     public Image controlsImage;
+    public GameObject trackParent;
 
     private float defaultTimeScale;
 
@@ -39,6 +40,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private bool delayInput;
 
     private string sceneName;
+
 
     void Start () {
 
@@ -240,7 +242,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     private void saveCustomTrack()
     {
-        Debug.Log("Saved Track");
+        trackParent.GetComponent<TrackSaver>().Save(trackParent.name);
     }
 
 }
