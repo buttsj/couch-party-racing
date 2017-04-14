@@ -5,8 +5,7 @@ public class AccountManager : MonoBehaviour {
 
     private static bool isAlreadyInitialized = false;
     
-    private int chips;
-    public int CurrentChips { get { return chips; } set { chips = value; } }
+    public int CurrentChips { get { return PlayerPrefs.GetInt("chips", 0); ; } set { PlayerPrefs.SetInt("chips", value); PlayerPrefs.Save(); } }
 
     private Dictionary<string, int> colorUnlocks = new Dictionary<string, int>();
     public Dictionary<string, int> GetColorUnlocks { get { return colorUnlocks; } }
@@ -28,14 +27,12 @@ public class AccountManager : MonoBehaviour {
 
         if (PlayerPrefs.HasKey("chips")){
             // load account info
-            chips = PlayerPrefs.GetInt("chips");
             LoadUnlocks();
         }
         else
         {
             // new account, set PlayerPref
-            chips = 0;
-            PlayerPrefs.SetInt("chips", chips);
+            PlayerPrefs.SetInt("chips", 0);
 
             PlayerPrefs.SetInt("Berry", 0);
             PlayerPrefs.SetInt("Chocolate", 0);
@@ -53,11 +50,11 @@ public class AccountManager : MonoBehaviour {
             PlayerPrefs.SetInt("CityCar", 0);
             PlayerPrefs.SetInt("Hearse", 0);
             PlayerPrefs.SetInt("Taxi", 0);
-            PlayerPrefs.SetInt("RareKart", 0);
+            PlayerPrefs.SetInt("Muscle", 0);
             carUnlocks.Add("CityCar", 0);
             carUnlocks.Add("Hearse", 0);
             carUnlocks.Add("Taxi", 0);
-            carUnlocks.Add("RareKart", 0);
+            carUnlocks.Add("Muscle", 0);
         }
 	}
 
@@ -73,7 +70,7 @@ public class AccountManager : MonoBehaviour {
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
         carUnlocks.Add("Hearse", PlayerPrefs.GetInt("Hearse"));
         carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
-        carUnlocks.Add("RareKart", PlayerPrefs.GetInt("RareKart"));
+        carUnlocks.Add("Muscle", PlayerPrefs.GetInt("Muscle"));
     }
 
     public void RefreshUnlocks()
@@ -90,13 +87,13 @@ public class AccountManager : MonoBehaviour {
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
         carUnlocks.Add("Hearse", PlayerPrefs.GetInt("Hearse"));
         carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
-        carUnlocks.Add("RareKart", PlayerPrefs.GetInt("RareKart"));
+        carUnlocks.Add("Muscle", PlayerPrefs.GetInt("Muscle"));
 
-        chips = PlayerPrefs.GetInt("chips");
     }
 
     public void DeductChips(int cost)
     {
+        int chips = PlayerPrefs.GetInt("chips", 0);
         chips -= cost;
         if (chips < 0)
             chips = 0;
@@ -104,9 +101,49 @@ public class AccountManager : MonoBehaviour {
         PlayerPrefs.Save();
     }
 
-    void OnApplicationQuit()
+    public bool unlockStatus(string storeItem)
     {
-        PlayerPrefs.SetInt("chips", chips); // save chips
+        bool unlockStatus = false;
+        if(PlayerPrefs.GetInt(storeItem, 0) > 0)
+        {
+            unlockStatus = true;
+        }
+
+        return unlockStatus;
+    }
+
+    public bool purchaseItem(int cost, string item)
+    {
+        int chips = PlayerPrefs.GetInt("chips", 0);
+        bool validPurchase = (chips >= cost);
+        if (validPurchase)
+        {
+            chips -= cost;
+            PlayerPrefs.SetInt(item, 1);
+            if (chips < 0)
+                chips = 0;
+            PlayerPrefs.SetInt("chips", chips);
+            PlayerPrefs.Save();
+        }
+
+        return validPurchase;
+    }
+
+    public void ResetEverything()
+    {
+        // Debug way to reset the cash shop items
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("chips", 0);
+        PlayerPrefs.SetInt("Berry", 0);
+        PlayerPrefs.SetInt("Chocolate", 0);
+        PlayerPrefs.SetInt("Pink", 0);
+        PlayerPrefs.SetInt("Beige", 0);
+        PlayerPrefs.SetInt("Ice", 0);
+        PlayerPrefs.SetInt("MidnightBlack", 0);
+        PlayerPrefs.SetInt("CityCar", 0);
+        PlayerPrefs.SetInt("Hearse", 0);
+        PlayerPrefs.SetInt("RareKart", 0);
+        PlayerPrefs.SetInt("Taxi", 0);
         PlayerPrefs.Save();
     }
 
