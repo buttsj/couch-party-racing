@@ -8,21 +8,24 @@ using UnityEngine.UI;
 public class LevelSelectRaceModeLogic : MonoBehaviour {
 
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
+
+    public Sprite kitchenSprite;
+    public Sprite bedRoomSprite;
+    public Sprite bathRoomSprite;
+    public Sprite livingRoomSprite;
+
+    public Sprite customSprite;
+
     private AudioClip transition;
     private AudioSource source;
     private bool pressed;
 
-    public Text kitchenText;
-    public Text bedRoomText;
-    public Text livingRoomText;
-    public Text bathRoomText;
-    public Text customText;
+    public Text levelText;
+    public Image levelImage;
+    public Text leftSelectionCursor;
+    public Text rightSelectionCursor;
 
     private const int NUMBEROFBUTTONS = 5;
-
-    private Text[] buttons;
-    private int currentButton;
-    private int previousButton;
 
     private bool axisEnabled;
 
@@ -30,6 +33,8 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
     private int currentCustomIndex;
 
     private SceneGenerator sceneGenerator;
+
+    private AccountManager account;
 
     void Start () {
 
@@ -39,31 +44,17 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
 
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
 
-        buttons = new Text[NUMBEROFBUTTONS];
-        buttons[0] = kitchenText;
-        buttons[1] = bedRoomText;
-        buttons[2] = livingRoomText;
-        buttons[3] = bathRoomText;
-        buttons[4] = customText;
-
-        currentButton = 0;
-        previousButton = 0;
-
         axisEnabled = true;
-
-        buttons[currentButton].color = Color.cyan;
 
         fetchLevelList();
         currentCustomIndex = 0;
-        if(levels.Length > 0)
-        {
-            customText.text = "<  " + levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4) + "   >";
-        }
-        else
-        {
-            customText.text = "<  No Custom Levels Found   >";
-        }
-        
+
+        account = GameObject.Find("AccountManager").GetComponent<AccountManager>();
+
+        levelText.text = levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4);
+        levelText.color = account.getCurrColor;
+
+        setTrackImage();
     }
 	
 	void Update () {
@@ -73,6 +64,8 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
             if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
             {
                 axisEnabled = true;
+                leftSelectionCursor.color = Color.white;
+                rightSelectionCursor.color = Color.white;
             }
 
             scrollMenu();
@@ -94,59 +87,17 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
 
     private void buttonPress()
     {
-        if (SimpleInput.GetButtonDown("Bump Kart"))
+        if (SimpleInput.GetButtonDown("Pause") || SimpleInput.GetButtonDown("Bump Kart"))
         {
-            if (ReferenceEquals(buttons[currentButton], kitchenText))
-            {
-                sceneGenerator.LevelName = "KitchenTrack1.xml";
-                StartCoroutine(Transition());
-            }
-            else if (ReferenceEquals(buttons[currentButton], bedRoomText))
-            {
-                sceneGenerator.LevelName = "BedroomTrack.xml";
-                StartCoroutine(Transition());
-            }
-            else if (ReferenceEquals(buttons[currentButton], livingRoomText))
-            {
-                sceneGenerator.LevelName = "Living Room 1.xml";
-                StartCoroutine(Transition());
-            }
-            else if (ReferenceEquals(buttons[currentButton], bathRoomText))
-            {
-                sceneGenerator.LevelName = "BathroomTrack.xml";
-                StartCoroutine(Transition());
-            }
-            else if (ReferenceEquals(buttons[currentButton], customText))
-            {
-                sceneGenerator.LevelName = levels[currentCustomIndex];
-                StartCoroutine(Transition());
-            }
+            sceneGenerator.LevelName = levels[currentCustomIndex];
+            StartCoroutine(Transition());
         }
+
     }
 
     private void scrollMenu()
     {
-        if ((SimpleInput.GetAxis("Horizontal", 1) > 0 && (currentButton != NUMBEROFBUTTONS - 1) && axisEnabled))
-        {
-            axisEnabled = false;
-            currentButton++;
-            if (currentButton >= NUMBEROFBUTTONS - 1)
-            {
-                currentButton = 0;
-            }
-            colorSelectedButton();
-        }
-        else if ((SimpleInput.GetAxis("Horizontal", 1) < 0 && (currentButton != NUMBEROFBUTTONS - 1) && axisEnabled))
-        {
-            axisEnabled = false;
-            currentButton--;
-            if (currentButton < 0)
-            {
-                currentButton = NUMBEROFBUTTONS - 2;
-            }
-            colorSelectedButton();
-        }
-        else if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled && levels.Length > 0)
+        if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled)
         {
             axisEnabled = false;
             currentCustomIndex++;
@@ -154,9 +105,13 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
             {
                 currentCustomIndex = 0;
             }
-            customText.text = "<  " + levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4) + "   >";
+            levelText.text = levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4);
+
+            rightSelectionCursor.color = account.getCurrColor;
+
+            setTrackImage();
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled && levels.Length > 0)
+        else if (SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled)
         {
             axisEnabled = false;
             currentCustomIndex--;
@@ -164,31 +119,12 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
             {
                 currentCustomIndex = levels.Length - 1;
             }
-            customText.text = "<  " + levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4) + "   >";
-        }
-        else if(((SimpleInput.GetAxis("Vertical", 1) != 0) || SimpleInput.GetButtonDown("Reverse") || SimpleInput.GetButtonDown("Accelerate")) && axisEnabled && levels.Length > 0)
-        {
-            axisEnabled = false;
-            if(currentButton == NUMBEROFBUTTONS - 1)
-            {
-                currentButton = previousButton;
-            }
-            else
-            {
-                previousButton = currentButton;
-                currentButton = NUMBEROFBUTTONS - 1;
-            }
-            colorSelectedButton();
-        }
-    }
+            levelText.text = levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4);
 
-    private void colorSelectedButton()
-    {
-        for (int i = 0; i < NUMBEROFBUTTONS; i++)
-        {
-            buttons[i].color = Color.white;
+            leftSelectionCursor.color = account.getCurrColor;
+
+            setTrackImage();
         }
-        buttons[currentButton].color = Color.cyan;
     }
 
     private void fetchLevelList()
@@ -196,7 +132,12 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
         DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath);
         FileInfo[] files = directoryInfo.GetFiles();
         List<string> levelList = new List<string>();
-        Debug.Log(Application.dataPath);
+
+        levelList.Add("KitchenTrack1.xml");
+        levelList.Add("BedroomTrack.xml");
+        levelList.Add("BathroomTrack.xml");
+        levelList.Add("Living Room 1.xml");
+
         for (int i = 0; i < files.Length; i++)
         {
             if (files[i].Extension == ".xml" && files[i].Name.Length > 4 && files[i].Name != "BathroomTrack.xml"
@@ -205,8 +146,31 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
                 levelList.Add(files[i].Name);
             }
         }
-
         levels = levelList.ToArray();
+    }
+
+    private void setTrackImage()
+    {
+        if(currentCustomIndex == 0)
+        {
+            levelImage.sprite = kitchenSprite;
+        }
+        else if (currentCustomIndex == 1)
+        {
+            levelImage.sprite = bedRoomSprite;
+        }
+        else if (currentCustomIndex == 2)
+        {
+            levelImage.sprite = bathRoomSprite;
+        }
+        else if (currentCustomIndex == 3)
+        {
+            levelImage.sprite = livingRoomSprite;
+        }
+        else
+        {
+            levelImage.sprite = customSprite;
+        }
     }
 
     private void GoToNextMenu()
