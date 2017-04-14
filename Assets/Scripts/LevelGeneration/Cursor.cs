@@ -8,8 +8,11 @@ public class Cursor : MonoBehaviour {
     public GameObject trackParent;
     public Text trackText;
 
+    private const string TRACK_UI_DIR = "Prefabs/UI Prefabs/TrackBuilder UI/";
     private const string TRACK_DIR = "Prefabs/TrackPrefabs/";
     private const string START_TRACK_NAME = "StartTrack";
+    private const string EMPTY_TRACK_NAME = "EmptyTrack";
+    private const string DEATH_TRACK_NAME = "DeathCubePrefab";
 
     private static readonly List<string> CANT_SPAWN_TRACKS = new List<string>() { "crosstrack", "minimap"};
     private static readonly List<string> UNIQUE_TRACKS = new List<string>() { "starttrack"};
@@ -27,7 +30,6 @@ public class Cursor : MonoBehaviour {
         trackToGrid = new TrackToGridSpawner(trackParent);
 
         SetToTrackPiece(START_TRACK_NAME);
-        SwapCurrentTrack();
         PrintTrackName();
 
         pauseMenu = GameObject.Find("PauseMenu").GetComponent<PauseMenuFunctionality>();
@@ -46,7 +48,9 @@ public class Cursor : MonoBehaviour {
             // Spawn Track
             if (SimpleInput.GetButtonDown("Bump Kart", 1))
             {
-                trackToGrid.SpawnTrack(cursorTrackPiece);
+                if (!UniquePieceAlreadyExists()) {
+                    trackToGrid.SpawnTrack(cursorTrackPiece);
+                }
 
                 if (IsUniquePiece(cursorTrackPiece.name))
                 {
@@ -94,6 +98,13 @@ public class Cursor : MonoBehaviour {
         Destroy(cursorTrackPiece);
         cursorTrackPiece = Instantiate(trackList[trackIndex], transform.position, transform.rotation, transform);
         cursorTrackPiece.name = trackList[trackIndex].name;
+
+        // Add UI to spawnedTrackPiece
+        if (cursorTrackPiece.name == EMPTY_TRACK_NAME) {
+            Instantiate(Resources.Load<GameObject>(TRACK_UI_DIR + EMPTY_TRACK_NAME), cursorTrackPiece.transform, false);
+        } else if (cursorTrackPiece.name == DEATH_TRACK_NAME) {
+            Instantiate(Resources.Load<GameObject>(TRACK_UI_DIR + DEATH_TRACK_NAME), cursorTrackPiece.transform, false);
+        }
 
         trackToGrid.DisableColliders(cursorTrackPiece);
     }
@@ -146,5 +157,7 @@ public class Cursor : MonoBehaviour {
         while(trackPieceName != trackList[trackIndex].name) {
             NextTrackPiece();
         }
+
+        SwapCurrentTrack();
     }
 }
