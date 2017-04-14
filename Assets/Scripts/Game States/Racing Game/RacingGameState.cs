@@ -41,7 +41,7 @@ public class RacingGameState : IGameState {
     public void DamagedUpdate() { }
 
     public void ResetKart() {
-        player.transform.localEulerAngles = playerCheckpointRotation;
+        player.transform.localEulerAngles = new Vector3(0, playerCheckpointRotation.y, 0);
         player.transform.position = playerCheckpointPosition + 2 * Vector3.up;
     }
 

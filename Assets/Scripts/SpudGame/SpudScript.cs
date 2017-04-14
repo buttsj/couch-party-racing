@@ -10,7 +10,7 @@ public class SpudScript : MonoBehaviour {
     private GameObject holder;
     private float invulnTimer;
 
-    private const float SPUD_MAX_TIME = 60f;
+    private const float SPUD_MAX_TIME = 45f;
 
     public float TimeRemaining { get { return timer; } set { timer = value; } }
     public bool IsTagged { get { return tagged; } set { tagged = value; } }
@@ -26,7 +26,7 @@ public class SpudScript : MonoBehaviour {
     private Quaternion spawnRot;
 
     private List<Vector3> spawnLocations = new List<Vector3>() { new Vector3(0, 65, 0), new Vector3(0, 5, 0), new Vector3(147, 65, 211) , new Vector3(-210, 65, 0)
-, new Vector3(-183, 65, 184), new Vector3(188, 65, 184), new Vector3(0, 65, 118), new Vector3(0, 65, -210), new Vector3(189, 65, -180), new Vector3(350, 5, -365), new Vector3(350, 5, 327), new Vector3(-323, 5, 327), new Vector3(-323, 5, -344)};
+, new Vector3(-183, 65, 184), new Vector3(188, 65, 184), new Vector3(0, 65, 118), new Vector3(0, 65, -210), new Vector3(189, 65, -180), new Vector3(350, 5, -365), new Vector3(350, 5, 327), new Vector3(-323, 5, 327), new Vector3(-323, 5, -344), new Vector3(0, 125, 0)};
     public bool RoundOver { get; set; }
     private int roundCount;
     public int RoundCount { get { return roundCount; } }
@@ -114,8 +114,7 @@ public class SpudScript : MonoBehaviour {
         }
         newRoundText.text = "Round over. Find the Spud !";
         newRound = true;
-        transform.position = spawnLocations[Random.Range(0, spawnLocations.Count - 1)];
-        transform.rotation = spawnRot;
+        SpudRespawn();
     }
 
     void EndRound() {
@@ -128,5 +127,10 @@ public class SpudScript : MonoBehaviour {
         transform.position = spawnPos;
         transform.rotation = spawnRot;
 
+    }
+
+    public void SpudRespawn() {
+        transform.position = spawnLocations[Random.Range(0, spawnLocations.Count - 1)];
+        transform.rotation = spawnRot;
     }
 }

@@ -33,8 +33,8 @@ public class SceneGenerator : MonoBehaviour
     private GameObject startObj;
 
     private List<GameObject> kartList;
-    private List<Vector3> kartStartListRaceMode = new List<Vector3>() { new Vector3(-55, 1, 15), new Vector3(-55, 1, 45), new Vector3(-25, 1, 15), new Vector3(-25, 1, 45) };
-
+    private List<Vector3> kartStartListRaceMode = new List<Vector3>() { new Vector3(-55, 122, -57), new Vector3(42, 122, 40), new Vector3(42, 122, -50), new Vector3(-52, 122, 42) };
+    private List<Vector3> kartStartRotationSpudRun = new List<Vector3>() { new Vector3(0, 45, 0), new Vector3(0, 225, 0), new Vector3(0, -45, 0), new Vector3(0, -225, 0) };
     private GameObject singlePlayerCamera;
 
     private List<Color> kartColorList = new List<Color>();
@@ -246,7 +246,13 @@ public class SceneGenerator : MonoBehaviour
             }
 
             startPos = kartStartListRaceMode[kartNumber];
-            startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
+            if (GamemodeName == "RaceMode")
+            {
+                startAngle = Quaternion.Euler(startObj.transform.rotation.eulerAngles + new Vector3(0f, 90f, 0f));
+            }
+            else {
+                startAngle = Quaternion.Euler(kartStartRotationSpudRun[kartNumber]);
+            }
             kartList.Add(Instantiate(Resources.Load<GameObject>(destination), startPos, startAngle));
             kartList[kartNumber].GetComponentInChildren<Renderer>().material.color = kartColorList[readyPlayerAdustedKartNumber];
         }

@@ -173,12 +173,14 @@ public class Kart : MonoBehaviour
                 destroyedAnimationTimer += Time.deltaTime;
                 if (destroyedAnimationTimer >= 1.5f)
                 {
-                    Destroyed = false;
-                    damaged = false;
+                    
+                    
                     transform.Find("ExplosionEffect").gameObject.SetActive(false);
                     destroyedAnimationTimer = 0;
                     ResetKart();
                     ToggleRenderers(true);
+                    damaged = false;
+                    Destroyed = false;
                 }
             }
     }

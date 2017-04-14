@@ -9,9 +9,13 @@ public class SpudRunGameState : IGameState {
     public float SpudScore { get; set; }
     public float InvulnerableTimer { get; set; }
     public int Place { get; set; }
+    private Vector3 spawnPosition;
+    private Vector3 spawnOrientation;
 
     public SpudRunGameState(GameObject kart) {
         player = kart;
+        spawnPosition = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+        spawnOrientation = new Vector3(player.transform.localEulerAngles.x, player.transform.localEulerAngles.y, player.transform.localEulerAngles.z);
     }
     // Use this for initialization
     public void Start () {
@@ -43,12 +47,23 @@ public class SpudRunGameState : IGameState {
             HoldingPotato = false;
             GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudHolder = null;
             GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
+            if (player.GetComponent<Kart>().Destroyed) {
+                GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudRespawn();
+                SpudScore -= 3;
+            }
         }
     }
 
     public void ResetKart()
     {
-        player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);
+        if (!player.GetComponent<Kart>().Destroyed)
+        {
+            player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);
+        }
+        else {
+            player.transform.position = spawnPosition;
+            player.transform.localEulerAngles = spawnOrientation;
+        }
     }
 
     public string GetGameStateName() {
