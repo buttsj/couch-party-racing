@@ -108,6 +108,7 @@ public class MainMenuFunctionality : MonoBehaviour
                 button.CrossFadeAlpha(0f, 0.5f, true);
             }
             mainmenuText.CrossFadeAlpha(0f, 0.5f, true);
+            fadeoutTimer = 11.0f; // prevent this float from increasing forever
         }
     }
 
@@ -438,9 +439,7 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             SimpleInput.ClearCurrentPlayerDevices();
             SimpleInput.MapPlayerToDevice(1);
-
-            Destroy(sceneGenerator.gameObject);
-
+            
             SceneManager.LoadScene("BuilderSelect");
         }
         else

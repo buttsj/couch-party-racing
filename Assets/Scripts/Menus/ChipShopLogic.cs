@@ -9,10 +9,12 @@ public class ChipShopLogic : MonoBehaviour {
     private const int NUMBER_OF_SELECTION_OPTIONS = 5;
     private const int NUMBER_OF_COLOR_OPTIONS = 6;
 
-    private const string PURCHASE_AVAILABLE = "Purchase ?";
-    private const string PURCHASE_UNAVAILABLE = "Already Owned !";
-    private const string PURCHASED = "Purchased !";
-    private const string INVALID_FUNDS = "Invalid Funds !";
+    private const string PURCHASE_AVAILABLE = "Purchase  ?";
+    private const string PURCHASE_UNAVAILABLE = "Already Owned  !";
+    private const string PURCHASED = "Purchased  !";
+    private const string INVALID_FUNDS = "Invalid Funds  !";
+
+    private const string REGISTER_SOUND = "Sounds/KartEffects/cash";
 
     private Text[] buttons;
     private int currentButton;
@@ -50,6 +52,8 @@ public class ChipShopLogic : MonoBehaviour {
     private int colorCost;
 
     private ChipShopCamera chipCamera;
+    private AudioSource source;
+    private AudioClip cash;
 
     void Start () {
 
@@ -82,6 +86,9 @@ public class ChipShopLogic : MonoBehaviour {
 
         account = GameObject.Find("AccountManager").GetComponent<AccountManager>();
         currentChipsText.text = account.CurrentChips.ToString();
+
+        source = GameObject.Find("Sound").GetComponent<AudioSource>();
+        cash = (AudioClip)Resources.Load(REGISTER_SOUND);
     }
 	
 	void Update () {
@@ -360,6 +367,7 @@ public class ChipShopLogic : MonoBehaviour {
             {
                 purchaseStatusText.text = PURCHASED;
                 purchaseStatusText.color = Color.blue;
+                source.PlayOneShot(cash);
             }
             else
             {

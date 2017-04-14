@@ -45,11 +45,13 @@ public class WaypointAI : MonoBehaviour {
     private IKartAbility ability;
     private float powerUpTimer;
     private float powerUpTimeLimit;
+    private float destroyedAnimationTimer;
 
     private KartAudio kartAudio;
 
     private bool canSkip;
 
+    public bool Destroyed { get; set; }
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
     public float Boost { get { return boost; } set { boost = value; } }
     public IGameState GameState { get { return gameState; } set { gameState = value; } }
@@ -103,6 +105,22 @@ public class WaypointAI : MonoBehaviour {
         powerUpTimeLimit = Random.Range(3, 13);
     }
 
+    void Update()
+    {
+        if (Destroyed)
+        {
+            destroyedAnimationTimer += Time.deltaTime;
+            if (destroyedAnimationTimer >= 1.5f)
+            {
+                Destroyed = false;
+                damaged = false;
+                transform.Find("ExplosionEffect").gameObject.SetActive(false);
+                destroyedAnimationTimer = 0;
+                immediateReset();
+                ToggleRenderers(true);
+            }
+        }
+    }
     void FixedUpdate() {
         if (Time.timeScale > 0)
         {
@@ -192,6 +210,13 @@ public class WaypointAI : MonoBehaviour {
                 originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
             }
             Destroy(other.gameObject);
+        }
+        if (other.tag == "DeathObject")
+        {
+            ToggleRenderers(false);
+            transform.Find("ExplosionEffect").gameObject.SetActive(true);
+            Destroyed = true;
+            damaged = true;
         }
 
     }
@@ -333,6 +358,12 @@ public class WaypointAI : MonoBehaviour {
             currentTargetWaypoint = resetWaypoint;
             resetTimer = 0.0f;
         }
+    }
+
+    private void immediateReset()
+    {
+        gameState.ResetKart();
+        currentTargetWaypoint = resetWaypoint;
     }
 
     private void handlePowerup()
@@ -480,5 +511,16 @@ public class WaypointAI : MonoBehaviour {
         }
 
         return onTrack;
+    }
+
+    public void ToggleRenderers(bool toggle)
+    {
+        foreach (Renderer r in GetComponentsInChildren<Renderer>())
+        {
+            if (r.transform.GetComponent<ParticleSystem>() == null)
+            {
+                r.enabled = toggle;
+            }
+        }
     }
 }

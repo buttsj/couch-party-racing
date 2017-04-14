@@ -21,6 +21,4 @@ public static class CouchPartyManager  {
         PlayerThreeScore = 0;
         PlayerFourScore = 0;
     }
-
-
 }
