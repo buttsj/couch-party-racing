@@ -272,6 +272,11 @@ public class SettingsMenuLogic : MonoBehaviour
                 exitSettings();
             }
         }
+        else if (SimpleInput.GetButtonDown("Bump Kart") && buttons[currentButton].text.ToLower() == "reset unlocks")
+        {
+            accountMng.GetComponent<AccountManager>().ResetEverything();
+            accountMng.GetComponent<AccountManager>().RefreshUnlocks();
+        }
     }
 
     private void colorSelectedButton()

@@ -106,11 +106,7 @@ public class ChipShopLogic : MonoBehaviour {
             account.CurrentChips += 30;
             currentChipsText.text = account.CurrentChips.ToString();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            account.ResetEverything();
-            currentChipsText.text = account.CurrentChips.ToString();
-        }
+
     }
 
     private void colorSelectedButton()
