@@ -29,8 +29,11 @@ public class BuilderSelectLogic : MonoBehaviour {
     private int keyRow;
     private int keyColumn;
 
-    void Start () {
+    private SceneGenerator sceneGenerator;
 
+    void Start () {
+        sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
+        
         initKeyboard();
 
         buttons = new Text[NUMBER_OF_SELECTION_OPTIONS];
@@ -270,12 +273,22 @@ public class BuilderSelectLogic : MonoBehaviour {
 
     private void handleExistingLevelLoad()
     {
-        SceneManager.LoadScene("TrackBuilderScene");
+        sceneGenerator.LevelName = convertTextToFiles(loadLevelButton.text);
+        Debug.Log(sceneGenerator.LevelName);
+        sceneGenerator.LoadScene();
     }
 
     private void handleNewLevelLoad()
     {
-        SceneManager.LoadScene("TrackBuilderScene");
+        sceneGenerator.LevelName = convertTextToFiles(loadLevelButton.text);
+        sceneGenerator.LoadScene();
+    }
+
+    private string convertTextToFiles(string text) {
+        char[] charsToTrim = { '<', ' ', '>' }; 
+        string fileName = text.Trim(charsToTrim) + ".xml";
+
+        return fileName;
     }
 
 }

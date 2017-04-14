@@ -19,6 +19,7 @@ public class SceneGenerator : MonoBehaviour
     private const string TOT_HUD_PATH = "Prefabs/UI Prefabs/TotShot UI/";
 
     private const string SPAWN_POINT_NAME = "SpawnPoint";
+    private const string USER_TRACK_NAME = "UserTrack";
     private const int CAMERA_FOLLOW_DISTANCE = 25;
     private const int MAX_PLAYERS = 4;
 
@@ -54,14 +55,17 @@ public class SceneGenerator : MonoBehaviour
 
     void Update()
     {
-        if (IsLoaded() && !Spectator)
-        {
+        if (IsLoaded() && !Spectator) {
             GenerateLevel();
-            GeneratePlayers();
-            GenerateCameras();
-            GenerateAI();
-            GenerateHUD();
-            GenerateMinimap();
+
+            if (GamemodeName != "TrackBuilder") {  
+                GeneratePlayers();
+                GenerateCameras();
+                GenerateAI();
+                GenerateHUD();
+                GenerateMinimap();
+            }
+
             DestroyGenerator();
         }
         else if (IsLoaded() && Spectator)
@@ -103,9 +107,24 @@ public class SceneGenerator : MonoBehaviour
     {
         if (LevelName != null)
         {
-            GameObject track = new GameObject(LevelName);
-            levelGenerator = new LevelGenerator(track.transform);
+            GameObject trackParent = GameObject.Find(USER_TRACK_NAME);
+            if (GamemodeName == "TrackBuilder" && trackParent != null) {
+                trackParent.name = LevelName;
+            } else {
+                trackParent = new GameObject(LevelName);
+            }
+
+            levelGenerator = new LevelGenerator(trackParent.transform);
             startObj = levelGenerator.GenerateLevel(LevelName);
+
+            if (GamemodeName == "TrackBuilder") {
+                TrackToGridSpawner trackToGrid = new TrackToGridSpawner(trackParent);
+                trackToGrid.DisableColliders(trackParent);
+
+                foreach (Transform child in trackParent.transform) {
+                    trackToGrid.AddColliders(child.gameObject, child.gameObject);
+                }
+            }
 
             kartStartListRaceMode.Clear();
             RetrieveStartPositions();

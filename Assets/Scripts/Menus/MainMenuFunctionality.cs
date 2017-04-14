@@ -439,9 +439,7 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             SimpleInput.ClearCurrentPlayerDevices();
             SimpleInput.MapPlayerToDevice(1);
-
-            Destroy(sceneGenerator.gameObject);
-
+            
             SceneManager.LoadScene("BuilderSelect");
         }
         else
