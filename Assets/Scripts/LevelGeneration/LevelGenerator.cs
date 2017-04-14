@@ -16,17 +16,20 @@ public class LevelGenerator {
     }
 
     public GameObject GenerateLevel(string levelName) {
-        tileCollection = TileContainer.Load(Path.Combine(Application.dataPath, levelName));
         GameObject startingObj = new GameObject();
+        var path = Path.Combine(Application.dataPath, levelName);
 
-        foreach (var item in tileCollection.tileList) {
-            Debug.Log("Generating " + item.Name);
-            item.Instantiate(TRACK_DIR, transform);
-            if(item.Name == START_TRACK_NAME) {
-                startingObj = item.prefab;
+        if (File.Exists(path)) {
+            tileCollection = TileContainer.Load(path);
+
+            foreach (var item in tileCollection.tileList) {
+                Debug.Log("Generating " + item.Name);
+                item.Instantiate(TRACK_DIR, transform);
+                if (item.Name == START_TRACK_NAME) {
+                    startingObj = item.prefab;
+                }
             }
         }
-
         return startingObj;
     }
 

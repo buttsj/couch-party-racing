@@ -274,13 +274,12 @@ public class BuilderSelectLogic : MonoBehaviour {
     private void handleExistingLevelLoad()
     {
         sceneGenerator.LevelName = convertTextToFiles(loadLevelButton.text);
-        Debug.Log(sceneGenerator.LevelName);
         sceneGenerator.LoadScene();
     }
 
     private void handleNewLevelLoad()
     {
-        sceneGenerator.LevelName = convertTextToFiles(loadLevelButton.text);
+        sceneGenerator.LevelName = convertTextToFiles(customLevelText.text);
         sceneGenerator.LoadScene();
     }
 
