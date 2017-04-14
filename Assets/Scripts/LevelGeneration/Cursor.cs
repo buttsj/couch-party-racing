@@ -100,8 +100,15 @@ public class Cursor : MonoBehaviour {
 
     private void PrintTrackName() {
         var name = trackList[trackIndex].name;
+        var stringCase = System.StringComparison.CurrentCultureIgnoreCase;
 
-        trackText.text = name.Remove(name.IndexOf("Track", System.StringComparison.CurrentCultureIgnoreCase));
+        if (name.EndsWith("Track", stringCase)) {
+            name = name.Remove(name.IndexOf("Track", stringCase));
+        } else if (name.EndsWith("Prefab", stringCase)) {
+            name = name.Remove(name.IndexOf("Prefab", stringCase));
+        }
+
+        trackText.text = name;
     }
 
     private void NextTrackPiece() {

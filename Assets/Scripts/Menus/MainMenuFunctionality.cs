@@ -6,6 +6,7 @@ using System.Collections;
 public class MainMenuFunctionality : MonoBehaviour
 {
     private WhiteFadeUniversal fader;
+    private GameObject acctManager;
 
     private const int NUMBEROFBUTTONS = 8;
 
@@ -53,7 +54,6 @@ public class MainMenuFunctionality : MonoBehaviour
 
     void Start()
     {
-
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
         raceModeInfo.gameObject.SetActive(false);
         trackModeInfo.gameObject.SetActive(false);
@@ -79,11 +79,13 @@ public class MainMenuFunctionality : MonoBehaviour
 
         axisEnabled = true;
 
-        buttons[currentButton].color = Color.cyan;
+        //buttons[currentButton].color = Color.cyan;
+        acctManager = GameObject.Find("AccountManager");
     }
 
     void Update()
     {
+        buttons[currentButton].color = acctManager.GetComponent<AccountManager>().getCurrColor;
         if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
@@ -128,31 +130,42 @@ public class MainMenuFunctionality : MonoBehaviour
             colorSelectedButton();
             if (infoOn)
             {
+                raceModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 raceModeInfo.gameObject.SetActive(false);
+                trackModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 trackModeInfo.gameObject.SetActive(false);
+                spudModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 spudModeInfo.gameObject.SetActive(false);
+                totModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 totModeInfo.gameObject.SetActive(false);
+                couchModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 couchModeInfo.gameObject.SetActive(false);
+                storeModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 storeModeInfo.gameObject.SetActive(false);
                 if (ReferenceEquals(buttons[currentButton], race))
                 {
                     raceModeInfo.gameObject.SetActive(true);
+                    raceModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], trackBuilder))
                 {
                     trackModeInfo.gameObject.SetActive(true);
+                    trackModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], totShot))
                 {
                     totModeInfo.gameObject.SetActive(true);
+                    totModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], spudRun))
                 {
                     spudModeInfo.gameObject.SetActive(true);
+                    spudModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], couchParty))
                 {
                     couchModeInfo.gameObject.SetActive(true);
+                    couchModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], settings))
                 {
@@ -165,6 +178,7 @@ public class MainMenuFunctionality : MonoBehaviour
                 else if (ReferenceEquals(buttons[currentButton], store))
                 {
                     storeModeInfo.gameObject.SetActive(true);
+                    storeModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
             }
         }
@@ -185,31 +199,42 @@ public class MainMenuFunctionality : MonoBehaviour
             colorSelectedButton();
             if (infoOn)
             {
+                raceModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 raceModeInfo.gameObject.SetActive(false);
+                trackModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 trackModeInfo.gameObject.SetActive(false);
+                spudModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 spudModeInfo.gameObject.SetActive(false);
+                totModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 totModeInfo.gameObject.SetActive(false);
+                couchModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 couchModeInfo.gameObject.SetActive(false);
+                storeModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 storeModeInfo.gameObject.SetActive(false);
                 if (ReferenceEquals(buttons[currentButton], race))
                 {
                     raceModeInfo.gameObject.SetActive(true);
+                    raceModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], trackBuilder))
                 {
                     trackModeInfo.gameObject.SetActive(true);
+                    trackModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], totShot))
                 {
                     totModeInfo.gameObject.SetActive(true);
+                    totModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], spudRun))
                 {
                     spudModeInfo.gameObject.SetActive(true);
+                    spudModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], couchParty))
                 {
                     couchModeInfo.gameObject.SetActive(true);
+                    couchModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
                 else if (ReferenceEquals(buttons[currentButton], settings))
                 {
@@ -222,6 +247,7 @@ public class MainMenuFunctionality : MonoBehaviour
                 else if (ReferenceEquals(buttons[currentButton], store))
                 {
                     storeModeInfo.gameObject.SetActive(true);
+                    storeModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
                 }
             }
         }
@@ -235,22 +261,27 @@ public class MainMenuFunctionality : MonoBehaviour
             if (ReferenceEquals(buttons[currentButton], race))
             {
                 raceModeInfo.gameObject.SetActive(true);
+                raceModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], trackBuilder))
             {
                 trackModeInfo.gameObject.SetActive(true);
+                trackModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], totShot))
             {
                 totModeInfo.gameObject.SetActive(true);
+                totModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], spudRun))
             {
                 spudModeInfo.gameObject.SetActive(true);
+                spudModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], couchParty))
             {
                 couchModeInfo.gameObject.SetActive(true);
+                couchModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], settings))
             {
@@ -263,14 +294,21 @@ public class MainMenuFunctionality : MonoBehaviour
             else if (ReferenceEquals(buttons[currentButton], store))
             {
                 storeModeInfo.gameObject.SetActive(true);
+                storeModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             if (!infoOn)
             {
+                raceModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 raceModeInfo.gameObject.SetActive(false);
+                trackModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 trackModeInfo.gameObject.SetActive(false);
+                spudModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 spudModeInfo.gameObject.SetActive(false);
+                totModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 totModeInfo.gameObject.SetActive(false);
+                couchModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 couchModeInfo.gameObject.SetActive(false);
+                storeModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
                 storeModeInfo.gameObject.SetActive(false);
             }
         }
@@ -423,6 +461,7 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             buttons[i].color = Color.white;
         }
-        buttons[currentButton].color = Color.cyan;
+        //buttons[currentButton].color = Color.cyan;
+        buttons[currentButton].color = acctManager.GetComponent<AccountManager>().getCurrColor;
     }
 }

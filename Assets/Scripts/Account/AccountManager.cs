@@ -5,8 +5,7 @@ public class AccountManager : MonoBehaviour {
 
     private static bool isAlreadyInitialized = false;
     
-    private int chips;
-    public int CurrentChips { get { return chips; } set { chips = value; } }
+    public int CurrentChips { get { return PlayerPrefs.GetInt("chips", 0); ; } set { PlayerPrefs.SetInt("chips", value); PlayerPrefs.Save(); } }
 
     private Dictionary<string, int> colorUnlocks = new Dictionary<string, int>();
     public Dictionary<string, int> GetColorUnlocks { get { return colorUnlocks; } }
@@ -14,12 +13,31 @@ public class AccountManager : MonoBehaviour {
     private Dictionary<string, int> carUnlocks = new Dictionary<string, int>();
     public Dictionary<string, int> GetCarUnlocks { get { return carUnlocks; } }
 
+    private List<Color> cursorColorList = new List<Color> {
+        Color.cyan,
+        Color.gray,
+        Color.red,
+        Color.magenta,
+        Color.green,
+        Color.yellow,
+        Color.blue,
+    };
+
+    private List<string> cursorColorNames = new List<string>
+    {
+        "Cyan", "Gray", "Red", "Magenta", "Green", "Yellow", "Blue"
+    };
+
+    public Color getCurrColor { get { return cursorColorList[cursor]; } }
+    public string getColorName { get { return cursorColorNames[cursor]; } }
+    public int CursorSelection { get { return cursor; } set { cursor = value; } }
+    private int cursor;
+
     void Awake()
     {
         if(isAlreadyInitialized) {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(this);
     }
     
@@ -28,14 +46,13 @@ public class AccountManager : MonoBehaviour {
 
         if (PlayerPrefs.HasKey("chips")){
             // load account info
-            chips = PlayerPrefs.GetInt("chips");
             LoadUnlocks();
+            cursor = PlayerPrefs.GetInt("cursor");
         }
         else
         {
             // new account, set PlayerPref
-            chips = 0;
-            PlayerPrefs.SetInt("chips", chips);
+            PlayerPrefs.SetInt("chips", 0);
 
             PlayerPrefs.SetInt("Berry", 0);
             PlayerPrefs.SetInt("Chocolate", 0);
@@ -53,12 +70,13 @@ public class AccountManager : MonoBehaviour {
             PlayerPrefs.SetInt("CityCar", 0);
             PlayerPrefs.SetInt("Hearse", 0);
             PlayerPrefs.SetInt("Taxi", 0);
-            PlayerPrefs.SetInt("RareKart", 0);
+            PlayerPrefs.SetInt("Muscle", 0);
             carUnlocks.Add("CityCar", 0);
             carUnlocks.Add("Hearse", 0);
             carUnlocks.Add("Taxi", 0);
-            carUnlocks.Add("RareKart", 0);
+            carUnlocks.Add("Muscle", 0);
         }
+        Debug.Log("cursor is " + cursorColorNames[cursor]);
 	}
 
     void LoadUnlocks()
@@ -73,7 +91,7 @@ public class AccountManager : MonoBehaviour {
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
         carUnlocks.Add("Hearse", PlayerPrefs.GetInt("Hearse"));
         carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
-        carUnlocks.Add("RareKart", PlayerPrefs.GetInt("RareKart"));
+        carUnlocks.Add("Muscle", PlayerPrefs.GetInt("Muscle"));
     }
 
     public void RefreshUnlocks()
@@ -90,13 +108,13 @@ public class AccountManager : MonoBehaviour {
         carUnlocks.Add("CityCar", PlayerPrefs.GetInt("CityCar"));
         carUnlocks.Add("Hearse", PlayerPrefs.GetInt("Hearse"));
         carUnlocks.Add("Taxi", PlayerPrefs.GetInt("Taxi"));
-        carUnlocks.Add("RareKart", PlayerPrefs.GetInt("RareKart"));
+        carUnlocks.Add("Muscle", PlayerPrefs.GetInt("Muscle"));
 
-        chips = PlayerPrefs.GetInt("chips");
     }
 
     public void DeductChips(int cost)
     {
+        int chips = PlayerPrefs.GetInt("chips", 0);
         chips -= cost;
         if (chips < 0)
             chips = 0;
@@ -104,9 +122,52 @@ public class AccountManager : MonoBehaviour {
         PlayerPrefs.Save();
     }
 
-    void OnApplicationQuit()
+    public bool unlockStatus(string storeItem)
+    {
+        bool unlockStatus = false;
+        if(PlayerPrefs.GetInt(storeItem, 0) > 0)
+        {
+            unlockStatus = true;
+        }
+
+        return unlockStatus;
+    }
+
+    public bool purchaseItem(int cost, string item)
+    {
+        int chips = PlayerPrefs.GetInt("chips", 0);
+        bool validPurchase = (chips >= cost);
+        if (validPurchase)
     {
         PlayerPrefs.SetInt("chips", chips); // save chips
+        PlayerPrefs.SetInt("cursor", cursor); // save cursor color
+        PlayerPrefs.SetInt("chips", chips); // save chips
+            chips -= cost;
+            PlayerPrefs.SetInt(item, 1);
+            if (chips < 0)
+                chips = 0;
+            PlayerPrefs.SetInt("chips", chips);
+        PlayerPrefs.Save();
+    }
+
+        return validPurchase;
+}
+
+    public void ResetEverything()
+    {
+        // Debug way to reset the cash shop items
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("chips", 0);
+        PlayerPrefs.SetInt("Berry", 0);
+        PlayerPrefs.SetInt("Chocolate", 0);
+        PlayerPrefs.SetInt("Pink", 0);
+        PlayerPrefs.SetInt("Beige", 0);
+        PlayerPrefs.SetInt("Ice", 0);
+        PlayerPrefs.SetInt("MidnightBlack", 0);
+        PlayerPrefs.SetInt("CityCar", 0);
+        PlayerPrefs.SetInt("Hearse", 0);
+        PlayerPrefs.SetInt("RareKart", 0);
+        PlayerPrefs.SetInt("Taxi", 0);
         PlayerPrefs.Save();
     }
 
