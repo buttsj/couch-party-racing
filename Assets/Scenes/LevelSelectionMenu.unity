@@ -304,6 +304,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e4f57e5d2e4f204a97f4c1df9c08f93, type: 2}
   m_IsPrefabParent: 0
+--- !u!223 &204549316 stripped
+Canvas:
+  m_PrefabParentObject: {fileID: 223858486480272370, guid: 2e4f57e5d2e4f204a97f4c1df9c08f93,
+    type: 2}
+  m_PrefabInternal: {fileID: 204549315}
 --- !u!1 &441312889
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,13 +389,26 @@ GameObject:
   - component: {fileID: 556678066}
   - component: {fileID: 556678065}
   - component: {fileID: 556678064}
+  - component: {fileID: 556678062}
   m_Layer: 5
   m_Name: CouchPartyInfoCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
+--- !u!114 &556678062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 556678061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 264739c9f511c0141a61ffbe3cca01c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelSel: {fileID: 204549316}
 --- !u!114 &556678064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,7 +670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -200}
+  m_AnchoredPosition: {x: 0, y: -220}
   m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1217808570
@@ -907,7 +925,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -110}
   m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1401077138
@@ -1037,7 +1055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 110}
   m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1611227233
