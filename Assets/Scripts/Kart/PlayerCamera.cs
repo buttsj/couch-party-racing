@@ -24,6 +24,9 @@ public class PlayerCamera : MonoBehaviour {
         if(player.gameObject.GetComponent<Kart>() != null)
         {
             isHuman = true;
+            if (player.gameObject.GetComponent<Kart>().IsTotShotGameState) {
+                gameObject.GetComponent<Camera>().fieldOfView = 70;
+            }
         }
 
         if (Spectate)
@@ -34,6 +37,7 @@ public class PlayerCamera : MonoBehaviour {
             text.font = NFSFont;
             text.material = NFSFont.material;
         }
+
     }
 
     void LateUpdate() {
@@ -61,9 +65,18 @@ public class PlayerCamera : MonoBehaviour {
             }
             else
             {
-                if (gameObject.GetComponent<Camera>().fieldOfView > 60)
+                int minFov;
+                if (player.gameObject.GetComponent<Kart>().IsTotShotGameState)
                 {
-                    gameObject.GetComponent<Camera>().fieldOfView--;
+                    minFov = 70;
+                }
+                else {
+                    minFov = 60;
+                }
+
+                if (gameObject.GetComponent<Camera>().fieldOfView > minFov)
+                {
+                        gameObject.GetComponent<Camera>().fieldOfView--;
                 }
             }
         }
