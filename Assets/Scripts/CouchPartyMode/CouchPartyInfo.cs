@@ -20,7 +20,7 @@ public class CouchPartyInfo : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (SimpleInput.GetButtonDown("Bump Kart"))
+		if (SimpleInput.GetAnyButtonDown())
         {
             levelSel.gameObject.SetActive(true);
             gameObject.SetActive(false);
