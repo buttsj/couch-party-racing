@@ -126,6 +126,8 @@ public class Cursor : MonoBehaviour {
             name = name.Remove(name.IndexOf("Prefab", stringCase));
         }
 
+        name = "<  " + name + "   >";
+
         trackText.text = name;
     }
 
