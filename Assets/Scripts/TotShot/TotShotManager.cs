@@ -312,47 +312,7 @@ public class TotShotManager : MonoBehaviour {
                 }
             }
         }
-        else {
-            foreach (GameObject kart in redKarts)
-            {
-                if (kart.name.Contains("1"))
-                {
-                    CouchPartyManager.PlayerOneScore += 1;
-                }
-                else if (kart.name.Contains("2"))
-                {
-                    CouchPartyManager.PlayerTwoScore += 1;
-                }
-                else if (kart.name.Contains("3"))
-                {
-                    CouchPartyManager.PlayerThreeScore += 1;
-                }
-                else if (kart.name.Contains("4"))
-                {
-                    CouchPartyManager.PlayerFourScore += 1;
-                }
-            }
-            foreach (GameObject kart in blueKarts)
-            {
-                if (kart.name.Contains("1"))
-                {
-                    CouchPartyManager.PlayerOneScore += 1;
-                }
-                else if (kart.name.Contains("2"))
-                {
-                    CouchPartyManager.PlayerTwoScore += 1;
-                }
-                else if (kart.name.Contains("3"))
-                {
-                    CouchPartyManager.PlayerThreeScore += 1;
-                }
-                else if (kart.name.Contains("4"))
-                {
-                    CouchPartyManager.PlayerFourScore += 1;
-                }
-            }
-        }
-
+        
     }
 
 }
