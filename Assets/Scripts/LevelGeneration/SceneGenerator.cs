@@ -118,6 +118,8 @@ public class SceneGenerator : MonoBehaviour
             startObj = levelGenerator.GenerateLevel(LevelName);
 
             if (GamemodeName == "TrackBuilder") {
+                Destroy(trackParent.GetComponentInChildren<Camera>().gameObject); 
+
                 TrackToGridSpawner trackToGrid = new TrackToGridSpawner(trackParent);
                 trackToGrid.DisableColliders(trackParent);
 
