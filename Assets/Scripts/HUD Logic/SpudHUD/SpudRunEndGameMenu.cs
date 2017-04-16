@@ -118,7 +118,7 @@ public class SpudRunEndGameMenu : MonoBehaviour
         fader.SceneSwitch();
         while (!fader.Faded)
             yield return null;
-        SceneManager.LoadScene("SelectionMenu");
+        SceneManager.LoadScene("CouchPartyEndScene");
     }
 
     void LoadPlayers()

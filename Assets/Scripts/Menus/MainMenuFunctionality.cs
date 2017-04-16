@@ -64,6 +64,7 @@ public class MainMenuFunctionality : MonoBehaviour
         infoOn = false;
         settingsMenu.SetActive(false);
         CouchPartyManager.IsCouchPartyMode = false;
+        CouchPartyManager.IsLastRound = false;
         CouchPartyManager.ResetScores();
         buttons = new Text[NUMBEROFBUTTONS];
         buttons[0] = race;

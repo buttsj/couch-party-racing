@@ -98,6 +98,7 @@ public class TotShotManager : MonoBehaviour {
                 if (CouchPartyManager.IsCouchPartyMode)
                 {
                     Debug.Log("IsCouchPartyMode");
+                    CouchPartyManager.IsLastRound = true;
                     SceneManager.LoadScene("CouchPartyEndScene");
                 }
                 else

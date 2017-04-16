@@ -15,6 +15,8 @@ public static class CouchPartyManager  {
 
     public static int PlayerFourScore { get; set; }
 
+    public static bool IsLastRound { get; set; }
+
     public static void ResetScores() {
         PlayerOneScore = 0;
         PlayerTwoScore = 0;

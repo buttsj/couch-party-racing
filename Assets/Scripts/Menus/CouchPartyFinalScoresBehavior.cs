@@ -13,7 +13,6 @@ public class CouchPartyFinalScoresBehavior : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
 	}
 	
 	// Update is called once per frame
@@ -25,7 +24,13 @@ public class CouchPartyFinalScoresBehavior : MonoBehaviour {
 
         if (SimpleInput.GetButtonDown("Pause")) {
             Debug.Log("Hop pressed");
-            SceneManager.LoadScene("MainMenu");
+            if (CouchPartyManager.IsLastRound)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            else {
+                SceneManager.LoadScene("SelectionMenu");
+            }
         }
 	}
 }
