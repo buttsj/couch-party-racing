@@ -29,8 +29,8 @@ public class Oil : IKartAbility {
         {
             used = true;
             oil = Resources.Load("Prefabs/Powerups/Oil");
-            Vector3 oilPos = new Vector3(owner.transform.position.x, owner.transform.position.y - 1, owner.transform.position.z);
-            oilObj = (GameObject)Object.Instantiate(oil, oilPos, Quaternion.Euler(new Vector3(-90, 0, 0)));
+            Vector3 oilPos = owner.transform.position - owner.transform.forward - owner.transform.up;
+            oilObj = (GameObject)Object.Instantiate(oil, oilPos, Quaternion.Euler(new Vector3(owner.transform.eulerAngles.x - 90f, owner.transform.eulerAngles.y, owner.transform.eulerAngles.z)));
             ownerAudio.playOneOff(oilUse);
             destroy = true;
         }
