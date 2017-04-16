@@ -26,7 +26,6 @@ public class MainMenuFunctionality : MonoBehaviour
     public Image totModeInfo;
     public Image couchModeInfo;
     public Image storeModeInfo;
-    private bool infoOn;
 
     private float fadeoutTimer;
 
@@ -55,13 +54,14 @@ public class MainMenuFunctionality : MonoBehaviour
     void Start()
     {
         sceneGenerator = GameObject.Find("SceneGenerator").GetComponent<SceneGenerator>();
-        raceModeInfo.gameObject.SetActive(false);
+
+        raceModeInfo.gameObject.SetActive(true);
         trackModeInfo.gameObject.SetActive(false);
         spudModeInfo.gameObject.SetActive(false);
         totModeInfo.gameObject.SetActive(false);
         couchModeInfo.gameObject.SetActive(false);
         storeModeInfo.gameObject.SetActive(false);
-        infoOn = false;
+
         settingsMenu.SetActive(false);
         CouchPartyManager.IsCouchPartyMode = false;
         CouchPartyManager.IsLastRound = false;
@@ -97,7 +97,6 @@ public class MainMenuFunctionality : MonoBehaviour
         fadeoutTimer += Time.deltaTime;
         if (fadeoutTimer >= 10.0f)
         {
-            infoOn = false;
             raceModeInfo.gameObject.SetActive(false);
             trackModeInfo.gameObject.SetActive(false);
             spudModeInfo.gameObject.SetActive(false);
@@ -130,59 +129,46 @@ public class MainMenuFunctionality : MonoBehaviour
                 currentButton = 0;
             }
             colorSelectedButton();
-            if (infoOn)
+
+            raceModeInfo.gameObject.SetActive(false);
+            trackModeInfo.gameObject.SetActive(false);
+            totModeInfo.gameObject.SetActive(false);
+            spudModeInfo.gameObject.SetActive(false);
+            couchModeInfo.gameObject.SetActive(false);
+            storeModeInfo.gameObject.SetActive(false);
+            if (ReferenceEquals(buttons[currentButton], race))
             {
-                raceModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                raceModeInfo.gameObject.SetActive(false);
-                trackModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                trackModeInfo.gameObject.SetActive(false);
-                spudModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                spudModeInfo.gameObject.SetActive(false);
-                totModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                totModeInfo.gameObject.SetActive(false);
-                couchModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                couchModeInfo.gameObject.SetActive(false);
-                storeModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                storeModeInfo.gameObject.SetActive(false);
-                if (ReferenceEquals(buttons[currentButton], race))
-                {
-                    raceModeInfo.gameObject.SetActive(true);
-                    raceModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], trackBuilder))
-                {
-                    trackModeInfo.gameObject.SetActive(true);
-                    trackModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], totShot))
-                {
-                    totModeInfo.gameObject.SetActive(true);
-                    totModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], spudRun))
-                {
-                    spudModeInfo.gameObject.SetActive(true);
-                    spudModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], couchParty))
-                {
-                    couchModeInfo.gameObject.SetActive(true);
-                    couchModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], settings))
-                {
-                    // do nothing
-                }
-                else if (ReferenceEquals(buttons[currentButton], exit))
-                {
-                    // do nothing
-                }
-                else if (ReferenceEquals(buttons[currentButton], store))
-                {
-                    storeModeInfo.gameObject.SetActive(true);
-                    storeModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
+                raceModeInfo.gameObject.SetActive(true);
             }
+            else if (ReferenceEquals(buttons[currentButton], trackBuilder))
+            {
+                trackModeInfo.gameObject.SetActive(true);
+            }
+            else if (ReferenceEquals(buttons[currentButton], totShot))
+            {
+                totModeInfo.gameObject.SetActive(true);
+            }
+            else if (ReferenceEquals(buttons[currentButton], spudRun))
+            {
+                spudModeInfo.gameObject.SetActive(true);
+            }
+            else if (ReferenceEquals(buttons[currentButton], couchParty))
+            {
+                couchModeInfo.gameObject.SetActive(true);
+            }
+            else if (ReferenceEquals(buttons[currentButton], settings))
+            {
+                // do nothing
+            }
+            else if (ReferenceEquals(buttons[currentButton], exit))
+            {
+                // do nothing
+            }
+            else if (ReferenceEquals(buttons[currentButton], store))
+            {
+                storeModeInfo.gameObject.SetActive(true);
+            }
+
         }
         else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
@@ -199,91 +185,32 @@ public class MainMenuFunctionality : MonoBehaviour
                 currentButton = NUMBEROFBUTTONS - 1;
             }
             colorSelectedButton();
-            if (infoOn)
-            {
-                raceModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                raceModeInfo.gameObject.SetActive(false);
-                trackModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                trackModeInfo.gameObject.SetActive(false);
-                spudModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                spudModeInfo.gameObject.SetActive(false);
-                totModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                totModeInfo.gameObject.SetActive(false);
-                couchModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                couchModeInfo.gameObject.SetActive(false);
-                storeModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                storeModeInfo.gameObject.SetActive(false);
-                if (ReferenceEquals(buttons[currentButton], race))
-                {
-                    raceModeInfo.gameObject.SetActive(true);
-                    raceModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], trackBuilder))
-                {
-                    trackModeInfo.gameObject.SetActive(true);
-                    trackModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], totShot))
-                {
-                    totModeInfo.gameObject.SetActive(true);
-                    totModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], spudRun))
-                {
-                    spudModeInfo.gameObject.SetActive(true);
-                    spudModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], couchParty))
-                {
-                    couchModeInfo.gameObject.SetActive(true);
-                    couchModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-                else if (ReferenceEquals(buttons[currentButton], settings))
-                {
-                    // do nothing
-                }
-                else if (ReferenceEquals(buttons[currentButton], exit))
-                {
-                    // do nothing
-                }
-                else if (ReferenceEquals(buttons[currentButton], store))
-                {
-                    storeModeInfo.gameObject.SetActive(true);
-                    storeModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-                }
-            }
-        }
-    }
 
-    private void buttonPress()
-    {
-        if (SimpleInput.GetButtonDown("Use PowerUp"))
-        {
-            infoOn = !infoOn;
+            raceModeInfo.gameObject.SetActive(false);
+            trackModeInfo.gameObject.SetActive(false);
+            totModeInfo.gameObject.SetActive(false);
+            spudModeInfo.gameObject.SetActive(false);
+            couchModeInfo.gameObject.SetActive(false);
+            storeModeInfo.gameObject.SetActive(false);
             if (ReferenceEquals(buttons[currentButton], race))
             {
                 raceModeInfo.gameObject.SetActive(true);
-                raceModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], trackBuilder))
             {
                 trackModeInfo.gameObject.SetActive(true);
-                trackModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], totShot))
             {
                 totModeInfo.gameObject.SetActive(true);
-                totModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], spudRun))
             {
                 spudModeInfo.gameObject.SetActive(true);
-                spudModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], couchParty))
             {
                 couchModeInfo.gameObject.SetActive(true);
-                couchModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
             }
             else if (ReferenceEquals(buttons[currentButton], settings))
             {
@@ -296,24 +223,12 @@ public class MainMenuFunctionality : MonoBehaviour
             else if (ReferenceEquals(buttons[currentButton], store))
             {
                 storeModeInfo.gameObject.SetActive(true);
-                storeModeInfo.CrossFadeAlpha(1.0f, 0.5f, true);
-            }
-            if (!infoOn)
-            {
-                raceModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                raceModeInfo.gameObject.SetActive(false);
-                trackModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                trackModeInfo.gameObject.SetActive(false);
-                spudModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                spudModeInfo.gameObject.SetActive(false);
-                totModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                totModeInfo.gameObject.SetActive(false);
-                couchModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                couchModeInfo.gameObject.SetActive(false);
-                storeModeInfo.CrossFadeAlpha(0.0f, 0.5f, true);
-                storeModeInfo.gameObject.SetActive(false);
             }
         }
+    }
+
+    private void buttonPress()
+    {
         if (SimpleInput.GetButtonDown("Bump Kart"))
         {
             if (ReferenceEquals(buttons[currentButton], race))
@@ -440,7 +355,7 @@ public class MainMenuFunctionality : MonoBehaviour
         {
             SimpleInput.ClearCurrentPlayerDevices();
             SimpleInput.MapPlayerToDevice(1);
-            
+
             SceneManager.LoadScene("BuilderSelect");
         }
         else
