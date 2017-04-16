@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PauseMenuFunctionality : MonoBehaviour {
 
@@ -14,21 +15,20 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private AudioClip transition;
     private AudioSource source;
     private bool pressed;
-
-    private const int NUMBEROFBUTTONS = 3;
-
+    
     public Canvas pauseMenu;
 
     public Text resumeText;
     public Text controlsText;
     public Text quitText;
+    public Text quitWithoutSavingText;
 
     public Image controlsImage;
     public GameObject trackParent;
 
     private float defaultTimeScale;
 
-    private Text[] buttons;
+    private List<Text> buttons;
     private int currentButton;
 
     private bool axisEnabled;
@@ -61,10 +61,10 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
         defaultTimeScale = Time.timeScale;
 
-        buttons = new Text[NUMBEROFBUTTONS];
-        buttons[0] = resumeText;
-        buttons[1] = controlsText;
-        buttons[2] = quitText;
+        buttons = new List<Text>();
+        buttons.Add(resumeText);
+        buttons.Add(controlsText);
+        buttons.Add(quitText);
 
         currentButton = 0;
         resumeText.color = Color.cyan;
@@ -127,6 +127,9 @@ public class PauseMenuFunctionality : MonoBehaviour {
                     saveCustomTrack();
                 }
                 StartCoroutine(quitPress());
+            } else if(ReferenceEquals(buttons[currentButton], quitWithoutSavingText)) {
+                FadeOutBool = true;
+                StartCoroutine(quitPress());
             }
         }
     }
@@ -167,7 +170,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
             {
                 axisEnabled = false;
                 currentButton++;
-                if (currentButton >= NUMBEROFBUTTONS)
+                if (currentButton >= buttons.Count)
                 {
                     currentButton = 0;
                 }
@@ -179,7 +182,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
                 currentButton--;
                 if (currentButton < 0)
                 {
-                    currentButton = NUMBEROFBUTTONS - 1;
+                    currentButton = buttons.Count - 1;
                 }
                 colorSelectedButton();
             }
@@ -189,7 +192,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
     private void colorSelectedButton()
     {
-        for(int i = 0; i < NUMBEROFBUTTONS; i++)
+        for(int i = 0; i < buttons.Count; i++)
         {
             buttons[i].color = Color.white;
         }
@@ -237,6 +240,9 @@ public class PauseMenuFunctionality : MonoBehaviour {
         if (sceneName == "TrackBuilderScene")
         {
             quitText.text = "Save and Exit";
+            buttons.Add(quitWithoutSavingText);
+        } else {
+            quitWithoutSavingText.enabled = false;
         }
     }
 
