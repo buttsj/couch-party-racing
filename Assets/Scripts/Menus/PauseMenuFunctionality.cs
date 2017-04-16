@@ -12,6 +12,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private bool FadeOutBool;
 
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
+    private const string START_TRACK_NAME = "StartTrack";
     private AudioClip transition;
     private AudioSource source;
     private bool pressed;
@@ -121,12 +122,16 @@ public class PauseMenuFunctionality : MonoBehaviour {
             }
             else if(ReferenceEquals(buttons[currentButton], quitText))
             {
-                FadeOutBool = true;
-                if(sceneName == "TrackBuilderScene")
+                if(sceneName == "TrackBuilderScene" && DoesStartTrackExist())
                 {
+                    FadeOutBool = true;
                     saveCustomTrack();
+                    StartCoroutine(quitPress());
+                } else if(sceneName != "TrackBuilderScene") {
+                    FadeOutBool = true;
+                    StartCoroutine(quitPress());
                 }
-                StartCoroutine(quitPress());
+
             } else if(ReferenceEquals(buttons[currentButton], quitWithoutSavingText)) {
                 FadeOutBool = true;
                 StartCoroutine(quitPress());
@@ -249,6 +254,20 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private void saveCustomTrack()
     {
         trackParent.GetComponent<TrackSaver>().Save(trackParent.name);
+    }
+
+
+    public bool DoesStartTrackExist() {
+        bool doesStartTrackExist = false;
+
+        foreach (Transform child in trackParent.transform) {
+            doesStartTrackExist = child.name == START_TRACK_NAME;
+            if (doesStartTrackExist) {
+                break;
+            }
+        }
+
+        return doesStartTrackExist;
     }
 
 }

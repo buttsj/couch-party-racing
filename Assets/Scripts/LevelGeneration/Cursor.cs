@@ -30,7 +30,6 @@ public class Cursor : MonoBehaviour {
         trackToGrid = new TrackToGridSpawner(trackParent);
 
         SetToTrackPiece(START_TRACK_NAME);
-        PrintTrackName();
 
         pauseMenu = GameObject.Find("PauseMenu").GetComponent<PauseMenuFunctionality>();
 	}
@@ -81,8 +80,12 @@ public class Cursor : MonoBehaviour {
             NextTrackPiece();
         } while (UniquePieceAlreadyExists());
 
-        SwapCurrentTrack();
-        PrintTrackName();
+        if (!DoesStartTrackExist()) {
+            SetToTrackPiece(START_TRACK_NAME);
+        } else {
+            SwapCurrentTrack();
+            PrintTrackName();
+        }
     }
 
     private void SwapToPreviousValidTrack() {
@@ -90,8 +93,12 @@ public class Cursor : MonoBehaviour {
             PreviousTrackPiece();
         } while (UniquePieceAlreadyExists());
 
-        SwapCurrentTrack();
-        PrintTrackName();
+        if (!DoesStartTrackExist()) {
+            SetToTrackPiece(START_TRACK_NAME);
+        } else {
+            SwapCurrentTrack();
+            PrintTrackName();
+        }
     }
 
     private void SwapCurrentTrack() {
@@ -159,5 +166,19 @@ public class Cursor : MonoBehaviour {
         }
 
         SwapCurrentTrack();
+        PrintTrackName();
+    }
+
+    private bool DoesStartTrackExist() {
+        bool doesStartTrackExist = false;
+
+        foreach (Transform child in trackParent.transform) {
+            doesStartTrackExist = child.name == START_TRACK_NAME;
+            if (doesStartTrackExist) {
+                break;
+            }
+        }
+
+        return doesStartTrackExist;
     }
 }
