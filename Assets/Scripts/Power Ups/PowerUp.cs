@@ -15,9 +15,6 @@ public class PowerUp : MonoBehaviour {
     {
         Type ret;
         int num = Random.Range(1, 6);
-
-        num = 5;
-
         switch (num)
         {
             case 1:
