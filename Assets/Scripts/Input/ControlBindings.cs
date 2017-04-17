@@ -15,8 +15,8 @@ public class ControlBindings {
         { "Reset Rotation",     NULL_CONTROL },
         { "Pause",              NULL_CONTROL },
         { "Bump Kart",          NULL_CONTROL },
-        { "Flip",          NULL_CONTROL },
-        { "Roll",          NULL_CONTROL },
+        { "Flip",               NULL_CONTROL },
+        { "Roll",               NULL_CONTROL },
         { "Boost",              NULL_CONTROL },
         { "Cancel",             NULL_CONTROL },
         { "Rotate",             NULL_CONTROL },
@@ -45,7 +45,11 @@ public class ControlBindings {
             bindings["Flip"] = new JoystickControl(XBOX.DPadY, joystickNumber);
             bindings["Roll"] = new JoystickControl(XBOX.DPadX, joystickNumber);
             bindings["Boost"] = new JoystickControl(XBOX.B, joystickNumber);
-            bindings["Cancel"] = new JoystickControl(XBOX.B, joystickNumber);
+            bindings["Cancel"] = new JoystickControl(XBOX.Back, joystickNumber);
+            bindings["Rotate"] = new JoystickControl(XBOX.Y, joystickNumber);
+            bindings["Next Track"] = new JoystickControl(XBOX.B, joystickNumber);
+            bindings["Previous Track"] = new JoystickControl(XBOX.X, joystickNumber);
+            bindings["Delete Track"] = new JoystickControl(XBOX.Back, joystickNumber);
 
             return bindings;
         }
@@ -58,11 +62,11 @@ public class ControlBindings {
             bindings["Accelerate"] = new KeyboardControl(KeyCode.W);
             bindings["Reverse"] = new KeyboardControl(KeyCode.S);
             bindings["Use PowerUp"] = new KeyboardControl(KeyCode.E);
-            bindings["Reset Rotation"] = new KeyboardControl(KeyCode.B);
+            bindings["Reset Rotation"] = new KeyboardControl(KeyCode.R);
             bindings["Pause"] = new KeyboardControl(KeyCode.Return);
             bindings["Bump Kart"] = new KeyboardControl(KeyCode.Space);
-            bindings["Flip"] = new KeyboardControl(KeyCode.G, KeyCode.F);
-            bindings["Roll"] = new KeyboardControl(KeyCode.V, KeyCode.C);
+            bindings["Flip"] = new KeyboardControl(KeyCode.Q, KeyCode.E);
+            bindings["Roll"] = new KeyboardControl(KeyCode.Z, KeyCode.C); ;
             bindings["Boost"] = new KeyboardControl(KeyCode.LeftShift);
             bindings["Cancel"] = new KeyboardControl(KeyCode.Escape);
             bindings["Rotate"] = new KeyboardControl(KeyCode.R);
@@ -76,17 +80,17 @@ public class ControlBindings {
 
     public Dictionary<string, IControl> Keyboard2 {
         get {
-            bindings["Horizontal"] = new KeyboardControl(KeyCode.LeftArrow, KeyCode.RightArrow);
-            bindings["Vertical"] = new KeyboardControl(KeyCode.PageDown, KeyCode.PageUp);
-            bindings["Accelerate"] = new KeyboardControl(KeyCode.UpArrow);
-            bindings["Reverse"] = new KeyboardControl(KeyCode.DownArrow);
-            bindings["Use PowerUp"] = new KeyboardControl(KeyCode.Keypad1);
-            bindings["Reset Rotation"] = new KeyboardControl(KeyCode.End);
-            bindings["Pause"] = new KeyboardControl(KeyCode.Home);
-            bindings["Bump Kart"] = new KeyboardControl(KeyCode.Keypad0);
-            bindings["Flip"] = new KeyboardControl(KeyCode.Keypad5, KeyCode.Keypad8);
-            bindings["Roll"] = new KeyboardControl(KeyCode.Keypad4, KeyCode.Keypad6);
-            bindings["Boost"] = new KeyboardControl(KeyCode.Keypad2);
+            bindings["Horizontal"] = new KeyboardControl(KeyCode.J, KeyCode.L);
+            bindings["Vertical"] = new KeyboardControl(KeyCode.M, KeyCode.U);
+            bindings["Accelerate"] = new KeyboardControl(KeyCode.I);
+            bindings["Reverse"] = new KeyboardControl(KeyCode.K);
+            bindings["Use PowerUp"] = new KeyboardControl(KeyCode.O);
+            bindings["Reset Rotation"] = new KeyboardControl(KeyCode.P);
+            bindings["Pause"] = new KeyboardControl(KeyCode.KeypadEnter);
+            bindings["Bump Kart"] = new KeyboardControl(KeyCode.RightControl);
+            bindings["Flip"] = new KeyboardControl(KeyCode.U, KeyCode.O);
+            bindings["Roll"] = new KeyboardControl(KeyCode.M, KeyCode.Period);
+            bindings["Boost"] = new KeyboardControl(KeyCode.B);
             bindings["Cancel"] = new KeyboardControl(KeyCode.Backspace);
 
             return bindings;
