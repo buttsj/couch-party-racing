@@ -26,7 +26,7 @@ public class TrackSaver : MonoBehaviour {
 
     private void GenerateMinimap() {
         var average = AverageTrackPosition();
-        var height = MaxTrackPosition() + 120f;
+        var height = MaxTrackPosition() + 200f;
         Vector3 position = new Vector3(average.x, height, average.z);
 
         var minimap = Instantiate(Resources.Load<GameObject>(TRACK_DIR + MINIMAP_NAME), transform);
