@@ -177,6 +177,7 @@ public class Kart : MonoBehaviour
                     
                     transform.Find("ExplosionEffect").gameObject.SetActive(false);
                     destroyedAnimationTimer = 0;
+                    gameObject.GetComponent<Rigidbody>().isKinematic = false;
                     ResetKart();
                     ToggleRenderers(true);
                     damaged = false;
@@ -296,6 +297,7 @@ public class Kart : MonoBehaviour
             transform.Find("ExplosionEffect").gameObject.SetActive(true);
             Destroyed = true;
             damaged = true;
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 
