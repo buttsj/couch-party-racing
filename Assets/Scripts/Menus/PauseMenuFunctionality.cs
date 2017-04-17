@@ -11,6 +11,10 @@ public class PauseMenuFunctionality : MonoBehaviour {
     private float fadeSpeed = 1f;
     private bool FadeOutBool;
 
+    public Sprite standardControls;
+    public Sprite totShotControls;
+    public Sprite levelBuilderControls;
+
     private const string TRANSITION = "Sounds/KartEffects/screen_transition";
     private const string START_TRACK_NAME = "StartTrack";
     private AudioClip transition;
@@ -244,10 +248,20 @@ public class PauseMenuFunctionality : MonoBehaviour {
 
         if (sceneName == "TrackBuilderScene")
         {
+            controlsImage.sprite = levelBuilderControls;
             quitText.text = "Save and Exit";
             buttons.Add(quitWithoutSavingText);
         } else {
             quitWithoutSavingText.enabled = false;
+            if(sceneName == "TotShotScene")
+            {
+                controlsImage.sprite = totShotControls;
+            }
+            else
+            {
+                controlsImage.sprite = standardControls;
+            }
+            
         }
     }
 
