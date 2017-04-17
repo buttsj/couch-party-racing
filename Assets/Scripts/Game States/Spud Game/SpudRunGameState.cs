@@ -49,7 +49,6 @@ public class SpudRunGameState : IGameState {
             GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().IsTagged = false;
             if (player.GetComponent<Kart>().Destroyed) {
                 GameObject.FindGameObjectWithTag("Potato").GetComponent<SpudScript>().SpudRespawn();
-                SpudScore -= 3;
             }
         }
     }
@@ -113,6 +112,10 @@ public class SpudRunGameState : IGameState {
         if (other.name.Contains("Marble") && HoldingPotato)
         {
             ((SpudRunGameState)other.GetComponent<MarbleManager>().Owner.GetComponent<Kart>().GameState).SpudScore += 2;
+        }
+
+        if (other.gameObject.CompareTag("DeathObject")) {
+            SpudScore -= 3;
         }
     }
 
