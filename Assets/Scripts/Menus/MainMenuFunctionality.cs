@@ -114,7 +114,7 @@ public class MainMenuFunctionality : MonoBehaviour
 
     private void scrollMenu()
     {
-        if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+        if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
             fadeoutTimer = 0.0f;
             foreach (Text button in buttons)
@@ -170,7 +170,7 @@ public class MainMenuFunctionality : MonoBehaviour
             }
 
         }
-        else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+        else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
             fadeoutTimer = 0.0f;
             foreach (Text button in buttons)
