@@ -178,7 +178,7 @@ public class SpudRunEndGameMenu : MonoBehaviour
             }
             else if (kart.name.Contains("4"))
             {
-                CouchPartyManager.PlayerThreeScore += 5 - ((SpudRunGameState)kart.GetComponent<Kart>().GameState).Place;
+                CouchPartyManager.PlayerFourScore += 5 - ((SpudRunGameState)kart.GetComponent<Kart>().GameState).Place;
             }
         }
     }

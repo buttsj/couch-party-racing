@@ -268,7 +268,7 @@ public class RacingEndGameMenu : MonoBehaviour {
             }
             else if (kart.name.Contains("4"))
             {
-                CouchPartyManager.PlayerThreeScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
+                CouchPartyManager.PlayerFourScore += 5 - ((RacingGameState)kart.GetComponent<Kart>().GameState).Place;
             }
         }
     }
