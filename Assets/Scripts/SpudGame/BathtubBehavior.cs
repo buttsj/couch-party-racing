@@ -13,6 +13,7 @@ public class BathtubBehavior : MonoBehaviour {
     float maxTubTimer;
     public AudioClip tornadoSiren;
     public AudioSource tubAudio;
+    private bool sirenPlayed;
 
     // Use this for initialization
     void Start () {
@@ -40,7 +41,11 @@ public class BathtubBehavior : MonoBehaviour {
             if (TubTimer > maxTubTimer - 5 && TubTimer < maxTubTimer)
             {
                 waterRaisingText.text = "Water rising ! Get to high ground !";
-                tubAudio.PlayOneShot(tornadoSiren);
+                if (sirenPlayed == false)
+                {
+                    tubAudio.PlayOneShot(tornadoSiren);
+                    sirenPlayed = true;
+                }
             }
 
             if (TubTimer > maxTubTimer)
@@ -50,6 +55,7 @@ public class BathtubBehavior : MonoBehaviour {
                     raising = true;
                 }
                 waterRaisingText.text = "";
+                sirenPlayed = false;
             }
 
             if (raising)
