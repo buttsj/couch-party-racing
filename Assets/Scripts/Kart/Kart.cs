@@ -19,6 +19,7 @@ public class Kart : MonoBehaviour
     public GameObject shield_particle;
 
     private AudioClip boostSound;
+    private AudioClip explosionSound;
     private bool makeBoostSound;
 
     private bool damaged;
@@ -27,6 +28,7 @@ public class Kart : MonoBehaviour
     public bool IsDamaged { get { return damaged; } set { damaged = value; } }
     public bool IsInvulnerable { get; set; }
     private bool isBoosting;
+    private bool explosionPlayed;
     public bool IsBoosting { get { return isBoosting; } }
     private float selfTimer;
 
@@ -76,6 +78,7 @@ public class Kart : MonoBehaviour
         pause = GameObject.FindWithTag("PauseMenu").GetComponent<PauseMenuFunctionality>();
 
         boostSound = Resources.Load<AudioClip>("Sounds/KartEffects/Boosting");
+        explosionSound = Resources.Load<AudioClip>("Sounds/KartEffects/explosion");
         makeBoostSound = false;
         damaged = false;
         isBoosting = false;
@@ -83,6 +86,7 @@ public class Kart : MonoBehaviour
         boost = 100.0f;
         selfTimer = 0;
         ability = new NullItem(gameObject);
+        explosionPlayed = false;
 
         kartAudio = new KartAudio(gameObject, physics, maxSpeed, minSpeed);
 
@@ -171,10 +175,12 @@ public class Kart : MonoBehaviour
             if (Destroyed)
             {
                 destroyedAnimationTimer += Time.deltaTime;
+                if (!explosionPlayed) {
+                    GameObject.Find("Music Manager HUD").GetComponent<AudioSource>().PlayOneShot(explosionSound);
+                    explosionPlayed = true;
+                }
                 if (destroyedAnimationTimer >= 1.5f)
                 {
-                    
-                    
                     transform.Find("ExplosionEffect").gameObject.SetActive(false);
                     destroyedAnimationTimer = 0;
                     gameObject.GetComponent<Rigidbody>().isKinematic = false;
@@ -182,7 +188,8 @@ public class Kart : MonoBehaviour
                     ToggleRenderers(true);
                     damaged = false;
                     Destroyed = false;
-                }
+                    explosionPlayed = false;
+                }   
             }
     }
 
