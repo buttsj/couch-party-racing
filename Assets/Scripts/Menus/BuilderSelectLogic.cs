@@ -100,7 +100,7 @@ public class BuilderSelectLogic : MonoBehaviour {
 
     private void scrollMenu()
     {
-        if(SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled && ReferenceEquals(buttons[currentButton], loadLevelButton))
+        if(SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && ReferenceEquals(buttons[currentButton], loadLevelButton))
         {
             axisEnabled = false;
             currentCustomIndex++;
@@ -112,7 +112,7 @@ public class BuilderSelectLogic : MonoBehaviour {
 
             loadLevelButton.text = "<  " + levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4) + "   >";
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled && ReferenceEquals(buttons[currentButton], loadLevelButton))
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && ReferenceEquals(buttons[currentButton], loadLevelButton))
         {
             axisEnabled = false;
             currentCustomIndex--;
@@ -122,7 +122,7 @@ public class BuilderSelectLogic : MonoBehaviour {
             }
             loadLevelButton.text = "<  " + levels[currentCustomIndex].Substring(0, levels[currentCustomIndex].Length - 4) + "   >";
         }
-        else if((SimpleInput.GetAxis("Vertical", 1) != 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse") || SimpleInput.GetButtonDown("Accelerate"))
+        else if((SimpleInput.GetAxis("Vertical") != 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse") || SimpleInput.GetButtonDown("Accelerate"))
         {
             axisEnabled = false;
 
@@ -172,7 +172,7 @@ public class BuilderSelectLogic : MonoBehaviour {
 
     private void scrollKeyboard()
     {
-        if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled)
+        if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled)
         {
             axisEnabled = false;
             keyColumn++;
@@ -182,7 +182,7 @@ public class BuilderSelectLogic : MonoBehaviour {
             }
             colorSelectedKey();
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled)
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled)
         {
             axisEnabled = false;
             keyColumn--;
@@ -192,7 +192,7 @@ public class BuilderSelectLogic : MonoBehaviour {
             }
             colorSelectedKey();
         }
-        else if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+        else if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
         {
             axisEnabled = false;
             keyRow++;
@@ -202,7 +202,7 @@ public class BuilderSelectLogic : MonoBehaviour {
             }
             colorSelectedKey();
         }
-        else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+        else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
         {
             axisEnabled = false;
             keyRow--;
