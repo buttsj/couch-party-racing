@@ -50,6 +50,9 @@ public class WaypointAI : MonoBehaviour {
     private float destroyedAnimationTimer;
 
     private KartAudio kartAudio;
+    public AudioClip explosionSound;
+    public AudioSource explosionAudio;
+    private bool soundPlayed;
 
     private bool canSkip;
 
@@ -71,6 +74,10 @@ public class WaypointAI : MonoBehaviour {
     public bool IsInvulnerable { get { return isInvulnerable; } set { isInvulnerable = value; } }
 
     void Start() {
+
+        explosionSound = Resources.Load<AudioClip>("Sounds/KartEffects/explosion");
+        explosionAudio = GetComponent<AudioSource>();
+        soundPlayed = false;
 
         isInvulnerable = false;
 
@@ -132,14 +139,19 @@ public class WaypointAI : MonoBehaviour {
         if (Destroyed)
         {
             destroyedAnimationTimer += Time.deltaTime;
+            if (soundPlayed == false)
+            {
+                explosionAudio.PlayOneShot(explosionSound);
+                soundPlayed = true;
+            }
             if (destroyedAnimationTimer >= 1.5f)
             {
-                Destroyed = false;
-                damaged = false;
                 transform.Find("ExplosionEffect").gameObject.SetActive(false);
                 destroyedAnimationTimer = 0;
                 immediateReset();
                 ToggleRenderers(true);
+                Destroyed = false;
+                soundPlayed = false;
             }
         }
     }
@@ -162,7 +174,7 @@ public class WaypointAI : MonoBehaviour {
             canSkip = false;
         }
 
-        if (!damaged)
+        if (!damaged && !Destroyed)
         {
             resetTimer = resetTimer + Time.deltaTime;
             handleAIMovement();
@@ -172,7 +184,9 @@ public class WaypointAI : MonoBehaviour {
         }
         else
         {
-            handleDamage();
+            if (!Destroyed) {
+                handleDamage();
+            }
         }
 
         if (isBoosting && boost > 0.0f)
@@ -224,12 +238,15 @@ public class WaypointAI : MonoBehaviour {
                 Destroy(other.gameObject);
             }
         }
-        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject) && !isInvulnerable)
+        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
         {
-            if (damaged == false)
+            if (!isInvulnerable)
             {
-                damaged = true;
-                originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                if (damaged == false)
+                {
+                    damaged = true;
+                    originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                }
             }
             Destroy(other.gameObject);
         }
@@ -238,7 +255,6 @@ public class WaypointAI : MonoBehaviour {
             ToggleRenderers(false);
             transform.Find("ExplosionEffect").gameObject.SetActive(true);
             Destroyed = true;
-            damaged = true;
         }
 
     }

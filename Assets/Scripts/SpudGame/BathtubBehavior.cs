@@ -11,8 +11,8 @@ public class BathtubBehavior : MonoBehaviour {
     public Text waterRaisingText;
     public GameObject potato;
     float maxTubTimer;
-    public AudioClip tornadoSiren;
-    public AudioSource tubAudio;
+    private AudioClip tornadoSiren;
+    private AudioSource tubAudio;
     private bool sirenPlayed;
 
     // Use this for initialization
