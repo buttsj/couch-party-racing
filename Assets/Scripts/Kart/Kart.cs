@@ -288,12 +288,15 @@ public class Kart : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
-        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject) && !IsInvulnerable)
+        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
         {
-            if (damaged == false)
+            if (!IsInvulnerable)
             {
-                damaged = true;
-                OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                if (damaged == false)
+                {
+                    damaged = true;
+                    OriginalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                }
             }
             Destroy(other.gameObject);
         }
