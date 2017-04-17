@@ -17,7 +17,7 @@ public class OilManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer = timer + Time.deltaTime;
-        if (invulnTime < 3.0f)
+        if (invulnTime < 0.1f)
         {
             invulnTime += Time.deltaTime;
         }
@@ -25,7 +25,7 @@ public class OilManager : MonoBehaviour {
         {
             invuln = false;
         }
-        if (timer > 500.0f)
+        if (timer > 45.0f)
         {
             Destroy(gameObject); // this item has lasted too long, clean up
         }

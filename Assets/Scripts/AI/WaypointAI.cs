@@ -26,6 +26,8 @@ public class WaypointAI : MonoBehaviour {
     public GameObject fLParent;
     public GameObject fRParent;
 
+    public GameObject shield_particle;
+
     private string timeText;
     private IGameState gameState;
 
@@ -51,6 +53,10 @@ public class WaypointAI : MonoBehaviour {
 
     private bool canSkip;
 
+    private bool justLaidPowerup;
+
+    private bool isInvulnerable;
+
     public bool Destroyed { get; set; }
     public int CurrentTargetWaypoint { get { return currentTargetWaypoint; } set { currentTargetWaypoint = value; } }
     public float Boost { get { return boost; } set { boost = value; } }
@@ -62,15 +68,18 @@ public class WaypointAI : MonoBehaviour {
     public float MAXBREAKTIME { set { breakTimerMax = value; } }
     public KartPhysics PhysicsObject { get { return physics; } set { physics = value; } }
     public bool IsBoosting { get { return isBoosting; } set { isBoosting = value; } }
+    public bool IsInvulnerable { get { return isInvulnerable; } set { isInvulnerable = value; } }
 
     void Start() {
+
+        isInvulnerable = false;
 
         resetTimer = 0.0f;
         breakTimer = 0.0f;
         breakTimerMax = MAXBREAKTIMER;
         selfTimer = 0.0f;
         currentTargetWaypoint = 0;
-        selectedLane = 0;
+
         laneCounter = 0;
         laneCounterMax = Random.Range(4, 11);
 
@@ -103,6 +112,19 @@ public class WaypointAI : MonoBehaviour {
 
         powerUpTimer = 0.0f;
         powerUpTimeLimit = Random.Range(3, 13);
+
+        float closestLaneDistance = Vector3.Distance(transform.position, waypoints[currentTargetWaypoint].transform.GetChild(0).transform.position);
+        selectedLane = 0;
+        for(int i = 1; i < 3; i++)
+        {
+            if(Vector3.Distance(transform.position, waypoints[currentTargetWaypoint].transform.GetChild(i).transform.position) < closestLaneDistance)
+            {
+                closestLaneDistance = Vector3.Distance(transform.position, waypoints[currentTargetWaypoint].transform.GetChild(i).transform.position);
+                selectedLane = i;
+            }
+        }
+
+        justLaidPowerup = false;
     }
 
     void Update()
@@ -160,6 +182,11 @@ public class WaypointAI : MonoBehaviour {
 
     }
 
+    private void LateUpdate()
+    {
+        justLaidPowerup = false;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Power Up") && ability.ToString() == "Null")
@@ -170,12 +197,10 @@ public class WaypointAI : MonoBehaviour {
             {
                 ability = new Boost(gameObject, kartAudio);
             }
-            /*
             else if (powerup == "Oil")
             {
                 ability = new Oil(gameObject, kartAudio);
             }
-            */
             else if (powerup == "Spark")
             {
                 ability = new Spark(gameObject, kartAudio);
@@ -184,16 +209,13 @@ public class WaypointAI : MonoBehaviour {
             {
                 ability = new Marble(gameObject, kartAudio);
             }
+            else if (powerup == "Shield")
+            {
+                ability = new Shield(gameObject, kartAudio);
+            }
         }
 
-        /*
-        if (other.gameObject.name.Contains("FlameCircle") && damaged == false)
-        {
-            damaged = true;
-            originalOrientation = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
-        }
-        */
-        if (other.gameObject.name.Contains("Oil") && damaged == false)
+        if (other.gameObject.name.Contains("Oil") && damaged == false && !justLaidPowerup && !isInvulnerable)
         {
             if (!other.gameObject.GetComponent<OilManager>().Invulnerable)
             {
@@ -202,7 +224,7 @@ public class WaypointAI : MonoBehaviour {
                 Destroy(other.gameObject);
             }
         }
-        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject))
+        if (other.gameObject.name.Contains("Marble") && other.gameObject.GetComponent<MarbleManager>().validTarget(gameObject) && !isInvulnerable)
         {
             if (damaged == false)
             {
@@ -225,11 +247,11 @@ public class WaypointAI : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player") && ability.ToString() == "Spark")
         {
-            if (ability.IsUsing() && other.transform.name.Contains("AI"))
+            if (ability.IsUsing() && other.transform.name.Contains("AI") && !other.gameObject.GetComponent<WaypointAI>().IsInvulnerable)
             {
                 other.gameObject.GetComponent<WaypointAI>().Damage();
             }
-            else if (ability.IsUsing() && other.transform.name.Contains("Player"))
+            else if (ability.IsUsing() && other.transform.name.Contains("Player") && !other.gameObject.GetComponent<Kart>().IsInvulnerable)
             {
                 other.gameObject.GetComponent<Kart>().IsDamaged = true;
             }
@@ -238,21 +260,10 @@ public class WaypointAI : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        /*
-        if (other.gameObject.name.Contains("Conveyor"))
-        {
-            if (other.gameObject.GetComponent<ConveyorScript>().direction)
-                physics.SlowZone(other.gameObject);
-            else
-                physics.FastZone(other.gameObject);
-        }
-        */
-
         if (other.gameObject.name.Contains("BoostPlate"))
         {
             physics.BoostPlate(other.gameObject);
         }
-
     }
 
     private void handleWheelAnimation()
@@ -374,9 +385,10 @@ public class WaypointAI : MonoBehaviour {
         }
         else if(ability.ToString() == "Oil")
         {
-            if(powerUpTimer >= powerUpTimeLimit)
+            if(powerUpTimer >= powerUpTimeLimit && IsGrounded())
             {
                 ability.UseItem();
+                justLaidPowerup = true;
                 powerUpTimeLimit = Random.Range(3, 13);
             }
             else
@@ -397,6 +409,18 @@ public class WaypointAI : MonoBehaviour {
             }
         }
         else if (ability.ToString() == "Marble")
+        {
+            if (powerUpTimer >= powerUpTimeLimit)
+            {
+                ability.UseItem();
+                powerUpTimeLimit = Random.Range(3, 13);
+            }
+            else
+            {
+                powerUpTimer = powerUpTimer + Time.deltaTime;
+            }
+        }
+        else if (ability.ToString() == "Shield")
         {
             if (powerUpTimer >= powerUpTimeLimit)
             {

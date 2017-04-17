@@ -40,16 +40,34 @@ public class Shield : IKartAbility {
 
     public void Update()
     {
-        if (timer < 5.0f && used)
+        if(owner.GetComponent<Kart>() != null)
         {
-            owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Play();
-            owner.GetComponent<Kart>().IsInvulnerable = true;
-            timer += Time.deltaTime;
+            if (timer < 5.0f && used)
+            {
+                owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Play();
+                owner.GetComponent<Kart>().IsInvulnerable = true;
+                timer += Time.deltaTime;
+            }
+            else if (timer > 5.0f && used)
+            {
+                owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Stop();
+                destroy = true;
+            }
         }
-        else if (timer > 5.0f && used)
+        else if(owner.GetComponent<WaypointAI>() != null)
         {
-            owner.GetComponent<Kart>().shield_particle.GetComponent<ParticleSystem>().Stop();
-            destroy = true;
+            if (timer < 5.0f && used)
+            {
+                owner.GetComponent<WaypointAI>().shield_particle.GetComponent<ParticleSystem>().Play();
+                owner.GetComponent<WaypointAI>().IsInvulnerable = true;
+                timer += Time.deltaTime;
+            }
+            else if (timer > 5.0f && used)
+            {
+                owner.GetComponent<WaypointAI>().shield_particle.GetComponent<ParticleSystem>().Stop();
+                owner.GetComponent<WaypointAI>().IsInvulnerable = false;
+                destroy = true;
+            }
         }
     }
 
