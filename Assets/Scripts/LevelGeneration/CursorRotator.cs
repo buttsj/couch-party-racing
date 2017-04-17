@@ -11,7 +11,7 @@ public class CursorRotator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (canAcceptInput && SimpleInput.GetAxis("Flip", 1) < 0) {
+        if (canAcceptInput && SimpleInput.GetAxis("Flip", 1) > 0) {
             float angle = 90f;
             Debug.Log(rotationAngleIndex);
             switch (rotationAngleIndex) {
