@@ -11,12 +11,16 @@ public class BathtubBehavior : MonoBehaviour {
     public Text waterRaisingText;
     public GameObject potato;
     float maxTubTimer;
+    public AudioClip tornadoSiren;
+    public AudioSource tubAudio;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         TubTimer = 0;
         raising = false;
-	}
+        tornadoSiren = Resources.Load<AudioClip>("Sounds/Tornado_Siren-SoundBible");
+        tubAudio = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void Update() {
@@ -36,6 +40,7 @@ public class BathtubBehavior : MonoBehaviour {
             if (TubTimer > maxTubTimer - 5 && TubTimer < maxTubTimer)
             {
                 waterRaisingText.text = "Water rising ! Get to high ground !";
+                tubAudio.PlayOneShot(tornadoSiren);
             }
 
             if (TubTimer > maxTubTimer)
