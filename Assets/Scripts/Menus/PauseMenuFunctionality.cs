@@ -166,12 +166,12 @@ public class PauseMenuFunctionality : MonoBehaviour {
     {
         if (pauseMenu.enabled)
         {
-            if (SimpleInput.GetAxis("Vertical", 1) == 0 && SimpleInput.GetAxis("Horizontal", 1) == 0)
+            if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
             {
                 axisEnabled = true;
             }
 
-            if ((SimpleInput.GetAxis("Vertical", 1) < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
+            if ((SimpleInput.GetAxis("Vertical") < 0 && axisEnabled) || SimpleInput.GetButtonDown("Reverse"))
             {
                 axisEnabled = false;
                 currentButton++;
@@ -181,7 +181,7 @@ public class PauseMenuFunctionality : MonoBehaviour {
                 }
                 colorSelectedButton();
             }
-            else if ((SimpleInput.GetAxis("Vertical", 1) > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
+            else if ((SimpleInput.GetAxis("Vertical") > 0 && axisEnabled) || SimpleInput.GetButtonDown("Accelerate"))
             {
                 axisEnabled = false;
                 currentButton--;

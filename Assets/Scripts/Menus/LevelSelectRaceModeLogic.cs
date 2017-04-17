@@ -97,7 +97,7 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
 
     private void scrollMenu()
     {
-        if (SimpleInput.GetAxis("Horizontal", 1) > 0 && axisEnabled)
+        if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled)
         {
             axisEnabled = false;
             currentCustomIndex++;
@@ -111,7 +111,7 @@ public class LevelSelectRaceModeLogic : MonoBehaviour {
 
             setTrackImage();
         }
-        else if (SimpleInput.GetAxis("Horizontal", 1) < 0 && axisEnabled)
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled)
         {
             axisEnabled = false;
             currentCustomIndex--;
