@@ -14,12 +14,15 @@ public class SceneGenerator : MonoBehaviour
     private const string MUSCLE_CAR_PATH = "Prefabs/Karts/RareUpdated";
 
     private const string UI_PREFAB_PATH = "Prefabs/UI Prefabs/";
+    private const string TRACK_UI_DIR = "Prefabs/UI Prefabs/TrackBuilder UI/";
     private const string RACING_HUD_PATH = "Prefabs/UI Prefabs/Racing UI/";
     private const string SPUD_HUD_PATH = "Prefabs/UI Prefabs/SpudRun UI/";
     private const string TOT_HUD_PATH = "Prefabs/UI Prefabs/TotShot UI/";
 
     private const string SPAWN_POINT_NAME = "SpawnPoint";
     private const string USER_TRACK_NAME = "UserTrack";
+    private const string EMPTY_TRACK_NAME = "EmptyTrack";
+    private const string DEATH_TRACK_NAME = "DeathCubePrefab";
     private const int CAMERA_FOLLOW_DISTANCE = 25;
     private const int MAX_PLAYERS = 4;
 
@@ -128,6 +131,13 @@ public class SceneGenerator : MonoBehaviour
 
                 foreach (Transform child in trackParent.transform) {
                     trackToGrid.AddColliders(child.gameObject, child.gameObject);
+
+                    // Add UI to spawnedTrackPiece
+                    if (child.name == EMPTY_TRACK_NAME) {
+                        Instantiate(Resources.Load<GameObject>(TRACK_UI_DIR + EMPTY_TRACK_NAME), child, false);
+                    } else if (child.name == DEATH_TRACK_NAME) {
+                        Instantiate(Resources.Load<GameObject>(TRACK_UI_DIR + DEATH_TRACK_NAME), child, false);
+                    }
                 }
             }
 
