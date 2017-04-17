@@ -238,7 +238,6 @@ public class WaypointAI : MonoBehaviour {
             ToggleRenderers(false);
             transform.Find("ExplosionEffect").gameObject.SetActive(true);
             Destroyed = true;
-            damaged = true;
         }
 
     }
