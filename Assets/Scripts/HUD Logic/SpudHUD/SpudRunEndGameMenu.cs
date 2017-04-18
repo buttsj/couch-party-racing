@@ -21,6 +21,7 @@ public class SpudRunEndGameMenu : MonoBehaviour
     public bool RaceOver { get { return raceOver; } }
     GameObject potato;
     private bool addedChips;
+    private bool nextGameModePressed;
     private SceneGenerator sceneGenerator;
 
     void Awake()
@@ -97,7 +98,11 @@ public class SpudRunEndGameMenu : MonoBehaviour
 
     public void nextGameModePress()
     {
-        StartCoroutine(LoadNextGameMode());
+        if (!nextGameModePressed)
+        {
+            nextGameModePressed = true;
+            StartCoroutine(LoadNextGameMode());
+        }
     }
 
     public IEnumerator leaveScene()

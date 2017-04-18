@@ -28,6 +28,7 @@ public class RacingEndGameMenu : MonoBehaviour {
     public Button nextScreen;
     private bool raceOver;
     private bool addedChips;
+    private bool nextGameModePressed;
     public bool RaceOver { get { return raceOver; } }
     List<GameObject> kartList;
 
@@ -184,8 +185,13 @@ public class RacingEndGameMenu : MonoBehaviour {
     }
 
     public void nextGameModePress() {
-        playerTimeCanvas.SetActive(false);
-        StartCoroutine(LoadNextGameMode());
+        if (!nextGameModePressed)
+        {
+            nextGameModePressed = true;
+            playerTimeCanvas.SetActive(false);
+            StartCoroutine(LoadNextGameMode());
+            
+        }
     }
 
     public IEnumerator leaveScene()
