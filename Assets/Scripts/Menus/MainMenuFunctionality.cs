@@ -46,7 +46,7 @@ public class MainMenuFunctionality : MonoBehaviour
         fadeObject.SetActive(true);
         fader = fadeObject.AddComponent<WhiteFadeUniversal>();
         fader.BeginNewScene("Sound");
-
+        Time.timeScale = 1f;
         WaypointSetter.SetWaypoints();
         GameObject.Find("AIKart").GetComponent<WaypointAI>().GameState = new RacingGameState(GameObject.Find("AIKart"));
     }
