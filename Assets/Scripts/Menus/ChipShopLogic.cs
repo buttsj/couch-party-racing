@@ -90,30 +90,16 @@ public class ChipShopLogic : MonoBehaviour {
         source = GameObject.Find("Sound").GetComponent<AudioSource>();
         cash = (AudioClip)Resources.Load(REGISTER_SOUND);
     }
-	
-	void Update () {
 
+    void Update()
+    {
         if (SimpleInput.GetAxis("Vertical") == 0 && SimpleInput.GetAxis("Horizontal") == 0)
         {
             axisEnabled = true;
         }
-
-        debugOptions();
-
         scrollMenu();
         buttonPress();
         rotateSelection();
-
-    }
-
-    private void debugOptions()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            account.CurrentChips += 30;
-            currentChipsText.text = account.CurrentChips.ToString();
-        }
-
     }
 
     private void colorSelectedButton()

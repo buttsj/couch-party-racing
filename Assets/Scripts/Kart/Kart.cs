@@ -93,46 +93,8 @@ public class Kart : MonoBehaviour
         hopLimitCounter = 0;
     }
 
-    void DebugMenu()
-    {
-        // our debug commands
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ability = new Boost(gameObject, kartAudio);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ability = new Oil(gameObject, kartAudio);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ability = new Spark(gameObject, kartAudio);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            ability = new Marble(gameObject, kartAudio);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            // increase lap count
-            if (IsRacingGameState)
-            {
-                ((RacingGameState)gameState).LapNumber++;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            ability = new Shield(gameObject, kartAudio);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            damaged = true;
-        }
-    }
-
     void Update()
     {
-        
             if (SimpleInput.GetButtonDown("Use PowerUp", playerNumber))
             {
                 switch (ability.ToString())
@@ -161,7 +123,6 @@ public class Kart : MonoBehaviour
                 ability = new NullItem(gameObject); // item is completely used
             }
             ability.Update();
-            DebugMenu(); // check for Debug Commands
 
             if (!damaged && !Destroyed)
             {

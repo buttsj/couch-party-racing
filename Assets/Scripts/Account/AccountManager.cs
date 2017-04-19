@@ -149,13 +149,11 @@ public class AccountManager : MonoBehaviour {
             PlayerPrefs.SetInt("chips", chips);
         PlayerPrefs.Save();
     }
-
         return validPurchase;
 }
 
     public void ResetEverything()
     {
-        // Debug way to reset the cash shop items
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetInt("chips", 0);
         PlayerPrefs.SetInt("Berry", 0);

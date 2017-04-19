@@ -69,11 +69,6 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         {
             StartCoroutine(LeaveScene());
         }
-        if (SimpleInput.GetButtonDown("Bump Kart"))
-        {
-            GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips++;
-            chips.text = GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips.ToString();
-        }
         if (refreshUnlocks == true)
         {
             refreshUnlocks = false;
@@ -332,25 +327,6 @@ public class ChipShopMenuFunctionality : MonoBehaviour {
         invalid.enabled = false;
         colorPicked = false;
         kartPicked = false;
-    }
-
-    public void ResetEverything()
-    {
-        // Debug way to reset the cash shop items
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("chips", 0);
-        PlayerPrefs.SetInt("Berry", 0);
-        PlayerPrefs.SetInt("Chocolate", 0);
-        PlayerPrefs.SetInt("Pink", 0);
-        PlayerPrefs.SetInt("Beige", 0);
-        PlayerPrefs.SetInt("Ice", 0);
-        PlayerPrefs.SetInt("MidnightBlack", 0);
-        PlayerPrefs.SetInt("CityCar", 0);
-        PlayerPrefs.SetInt("Hearse", 0);
-        PlayerPrefs.SetInt("RareKart", 0);
-        PlayerPrefs.SetInt("Taxi", 0);
-        PlayerPrefs.Save();
-        refreshUnlocks = true;
     }
 
     private IEnumerator LeaveScene()

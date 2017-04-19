@@ -14,11 +14,6 @@ public class ChipShopCamera : MonoBehaviour {
         zoomedIn = new Vector3(-10f, 2f, 3.5f);
         camPanDuration = .3f;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void FocusIn()
     {
