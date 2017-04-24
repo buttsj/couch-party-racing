@@ -29,6 +29,7 @@ public class RacingEndGameMenu : MonoBehaviour {
     private bool raceOver;
     private bool addedChips;
     private bool nextGameModePressed;
+    private bool placeSet;
     public bool RaceOver { get { return raceOver; } }
     List<GameObject> kartList;
 
@@ -61,7 +62,7 @@ public class RacingEndGameMenu : MonoBehaviour {
         LoadPlayers();
         kartList.AddRange(playerList);
         kartList.AddRange(aiList);
-
+        placeSet = false;
         playerTexts.Add(player1Text);
         playerTexts.Add(player2Text);
         playerTexts.Add(player3Text);
@@ -92,7 +93,10 @@ public class RacingEndGameMenu : MonoBehaviour {
             {
                 playerTexts[i].text = aiList[i - playerList.Count].GetComponent<WaypointAI>().TimeText;
             }
-            SetPlaceText();
+            if (!placeSet)
+            {
+                SetPlaceText();
+            }
             if (!addedChips && raceEndMenuCanvas.enabled)
             {
                 GameObject.Find("AccountManager").GetComponent<AccountManager>().CurrentChips += 5;
@@ -155,7 +159,7 @@ public class RacingEndGameMenu : MonoBehaviour {
             }
         }
 
-        
+        placeSet = true;
     }
     bool AllKartsFinishedRace() {
         bool finished = true;
