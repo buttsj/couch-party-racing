@@ -137,6 +137,10 @@ public class BuilderSelectLogic : MonoBehaviour {
     {
         if (SimpleInput.GetButtonDown("Cancel"))
         {
+            var sceneGenerator = GameObject.Find("SceneGenerator");
+            if (sceneGenerator != null) {
+                Destroy(sceneGenerator);
+            }
             SceneManager.LoadScene(0);
         }
         else if (SimpleInput.GetButtonDown("Bump Kart") && ReferenceEquals(buttons[currentButton], newLevelButton))

@@ -264,7 +264,14 @@ public class ChipShopLogic : MonoBehaviour {
         if(SimpleInput.GetButtonDown("Cancel") || SimpleInput.GetButtonDown("Boost"))
         {
             account.RefreshUnlocks();
+
+            var sceneGenerator = GameObject.Find("SceneGenerator");
+            if (sceneGenerator != null) {
+                Destroy(sceneGenerator);
+            }
+
             SceneManager.LoadScene(0);
+            
         }
         else if (ReferenceEquals(buttons[currentButton], colorText) && SimpleInput.GetButtonDown("Bump Kart"))
         {
