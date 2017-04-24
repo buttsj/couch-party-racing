@@ -133,7 +133,7 @@ public class RacingEndGameMenu : MonoBehaviour {
                     thirdPlaceText.text = "Player " + (i + 1).ToString();
                     break;
                 case 4:
-                    thirdPlaceText.text = "Player " + (i + 1).ToString();
+                    fourthPlaceText.text = "Player " + (i + 1).ToString();
                     break;
             }
         }
