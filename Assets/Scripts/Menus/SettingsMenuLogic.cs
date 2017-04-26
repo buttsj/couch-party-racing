@@ -7,10 +7,11 @@ public class SettingsMenuLogic : MonoBehaviour
     public GameObject mainMenu;
     private GameObject accountMng;
 
-    private const int NUMBER_OF_SELECTION_OPTIONS = 10;
+    private const int NUMBER_OF_SELECTION_OPTIONS = 11;
+
+    public Canvas credits;
 
     public Text volumePercentageText;
-
     public Text fullScreenToggleText;
     public Text vSyncToggleText;
     public Text p1ToggleText;
@@ -19,6 +20,7 @@ public class SettingsMenuLogic : MonoBehaviour
     public Text p4ToggleText;
     public Text saveText;
     public Text discardText;
+    public Text creditsText;
 
     private Text[] buttons;
 
@@ -67,7 +69,8 @@ public class SettingsMenuLogic : MonoBehaviour
         buttons[6] = p4ToggleText;
         buttons[7] = cursorToggleText; // cursor
         buttons[8] = resetUnlocks; // reset everything button
-        buttons[9] = saveText;
+        buttons[9] = creditsText; // show credits scroll
+        buttons[10] = saveText;
 
         currentButton = 0;
 
@@ -209,6 +212,14 @@ public class SettingsMenuLogic : MonoBehaviour
         {
             // do nothing
         }
+        else if (SimpleInput.GetAxis("Horizontal") > 0 && axisEnabled && currentButton == 9)
+        {
+            // do nothing
+        }
+        else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton == 9)
+        {
+            // do nothing
+        }
         else if (SimpleInput.GetAxis("Horizontal") < 0 && axisEnabled && currentButton > 0 && currentButton < NUMBER_OF_SELECTION_OPTIONS - 1)
         {
             axisEnabled = false;
@@ -276,6 +287,11 @@ public class SettingsMenuLogic : MonoBehaviour
         {
             accountMng.GetComponent<AccountManager>().ResetEverything();
             accountMng.GetComponent<AccountManager>().RefreshUnlocks();
+        }
+        else if (SimpleInput.GetButtonDown("Bump Kart") && buttons[currentButton].text.ToLower() == "credits")
+        {
+            // roll the credits
+            credits.gameObject.SetActive(true);
         }
     }
 
