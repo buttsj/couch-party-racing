@@ -237,9 +237,11 @@ public class TotShotManager : MonoBehaviour {
         {
             foreach (GameObject kart in GameObject.FindGameObjectsWithTag("Player"))
             {
-                kart.GetComponent<Kart>().Destroyed = true;
-                kart.GetComponent<Kart>().ToggleRenderers(false);
-                kart.GetComponent<Kart>().transform.Find("ExplosionEffect").gameObject.SetActive(true);
+                
+                    kart.GetComponent<Kart>().Destroyed = true;
+                    kart.GetComponent<Kart>().ToggleRenderers(false);
+                    kart.GetComponent<Kart>().transform.Find("ExplosionEffect").gameObject.SetActive(true);
+                
             }
         }
         destroyedKarts = true;
