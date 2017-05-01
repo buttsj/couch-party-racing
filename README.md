@@ -42,23 +42,23 @@ Connor Swick [Github](https://github.com/connor-swick)
 	* Cleaner main menu UI
 	* Settings menu implemented
 	* Game trailer released (https://www.youtube.com/watch?v=NQkP5Il3Wc0)
-* Timebox #5
+* Timebox #5 (Demo: https://www.youtube.com/watch?v=MSSLZBbQoqA)
 	* Revamped track builder
 	* Tot Shot overhaul
 	* Chip Shop (in-game store)
 	* Re-designed game UI/theme
-* Timebox #4
+* Timebox #4 (Demo: https://www.youtube.com/watch?v=sSrvZxdL7OE)
 	* Track Builder
 	* Initial implementation of Tot Shot
 	* Scene transitions
 	* Kart color selector
-* Timebox #3
+* Timebox #3 (Demo: https://www.youtube.com/watch?v=JOKToVds7_I)
 	* Revamped AI
 	* New tracks
 	* Sound effects
 	* Polished race mode
 	* Initial implementation of Spud Run
-* Timebox #2
+* Timebox #2 (Demo: https://www.youtube.com/watch?v=se7A6-ropvc)
 	* Kart Physics
 	* Input Manager
 	* AI Karts
