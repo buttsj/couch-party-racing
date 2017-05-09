@@ -1,10 +1,6 @@
 # couch-party-racing
 > Party kart racer, inspired by Mario Kart and Hot Wheels, created for Ohio State CSE 5912 Capstone course.
 
-## Getting Started
-
-Check out our team blog for progress and info about our game: https://u.osu.edu/couchpotatogaming/
-
 ## Official Game Download
 
 Itch.io game page: https://awildjackles.itch.io/couch-party-racing
